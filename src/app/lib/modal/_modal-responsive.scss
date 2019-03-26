@@ -1,0 +1,9 @@
+@import '../core/style/responsive-utils';
+
+@include media-breakpoint-down(sm) {
+  .is-modal {
+    &__content {
+      width: 91vw;
+    }
+  }
+}

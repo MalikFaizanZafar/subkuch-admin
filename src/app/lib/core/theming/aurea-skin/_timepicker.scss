@@ -1,0 +1,33 @@
+.is-timepicker {
+  &__ui {
+    background-color: $au-black;
+  }
+
+  &__ui-arrow {
+    background-color: rgba(#fff, .15);
+
+    &::before {
+      border-bottom-color: #fff;
+    }
+
+    &:active {
+      &::before {
+        border-bottom-color: $au-red;
+      }
+    }
+  }
+
+  &__ui-time {
+    color: #fff;
+  }
+
+  &__ui-meridian {
+    color: #fff;
+
+    &--selected {
+      color: #fff;
+      border-color: $au-red;
+      background: $au-red;
+    }
+  }
+}

@@ -1,0 +1,295 @@
+@import '../core/theming/palette';
+@import '../core/style/variables';
+@import '../core/mixins/color-functions';
+
+$is-button-border-radius: 6px;
+$is-button-height: 34px;
+$is-large-btton-height: 38px;
+$is-small-btton-height: 30px;
+$is-large-btton-font-size: 1em;
+$is-small-btton-font-size: .775em;
+$is-large-btton-padding: 0 26px;
+$is-small-btton-padding: 0 18px;
+$is-button-font-size: .875em;
+$is-button-padding: 0 22px;
+$is-button-box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .26), 0 1px 3px 0 rgba(0, 0, 0, 0);
+$is-button-ease: background ease .3s;
+$transiton-on-hover: background-color ease-in-out .3s, color ease-in-out .1s;
+
+.is-button,
+a[is-button],
+button[is-button] {
+  box-sizing: border-box;
+  cursor: pointer;
+  font-family: $is-font-family;
+  font-size: $is-button-font-size;
+  font-weight: 600;
+  text-align: center;
+  white-space: nowrap;
+  text-decoration: none;
+  display: inline-block;
+  position: relative;
+  border-radius: $is-button-border-radius;
+  height: $is-button-height;
+  border: none;
+  padding: $is-button-padding;
+  box-shadow: $is-button-box-shadow;
+  transition: all ease .2s;
+  background-color: $is-blue;
+  color: #fff;
+
+  &:hover {
+    box-shadow: 0 1px 4px 0 rgba(0, 0, 0, .37);
+
+    &::before {
+      background-color: rgba(255, 255, 255, .2);
+    }
+  }
+
+  &::before {
+    content: '';
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    pointer-events: none;
+    top: 0;
+    left: 0;
+    border-radius: $is-button-border-radius;
+    transition: $is-button-ease;
+    background: transparent;
+  }
+
+  &:active {
+    outline: none;
+    box-shadow: none;
+
+    &::before {
+      background-color: rgba(0, 0, 0, .15);
+    }
+  }
+
+  &[disabled] {
+    pointer-events: none;
+    opacity: .4;
+    box-shadow: none;
+  }
+
+  &.is-button--large {
+    height: $is-large-btton-height;
+    font-size: $is-large-btton-font-size;
+    padding: $is-large-btton-padding;
+  }
+
+  &.is-button--small {
+    height: $is-small-btton-height;
+    font-size: $is-small-btton-font-size;
+    padding: $is-small-btton-padding;
+  }
+
+  &.is-button--block {
+    display: block;
+  }
+
+  &.is-button--full {
+    width: 100%;
+    min-width: 120px;
+  }
+
+  &.is-button--clear {
+    background: #fff;
+    box-shadow: none;
+    color: map-get($is-dark, 3);
+
+    &:hover {
+      background-color: rgba(map-get($is-dark, 5), .07);
+    }
+  }
+
+  &.is-button--bordered {
+    background: #fff;
+    box-shadow: none;
+    border: 1px solid map-get($is-dark, 3);
+    color: map-get($is-dark, 3);
+
+    &:hover {
+      box-shadow: 0 1px 4px 0 rgba(0, 0, 0, .37);
+    }
+  }
+
+  &.is-button--white {
+    background: linear-gradient(to top, map-get($is-light, 2), map-get($is-light, 1));
+    color: map-get($is-dark, 3);
+    box-shadow: $is-button-box-shadow, inset 0 0 6px 1px rgba(0, 0, 0, 0);
+
+    &:hover {
+      box-shadow: 0 0 6px 1px rgba(0, 0, 0, .15), 0 1px 3px 0 rgba(0, 0, 0, .23);
+    }
+
+    &::before {
+      opacity: 1;
+      background: linear-gradient(to top, map-get($is-light, 2), map-get($is-light, 1));
+      transition: box-shadow ease .2s;
+    }
+
+    &:active {
+      box-shadow: none;
+
+      &::before {
+        box-shadow: inset 0 0 6px 1px rgba(0, 0, 0, .2);
+      }
+    }
+
+    .is-button-loader {
+      border-top: .2em solid rgba(0, 0, 0, .2);
+      border-right: .2em solid rgba(0, 0, 0, .2);
+      border-bottom: .2em solid rgba(0, 0, 0, .2);
+      border-left: .2em solid map-get($is-dark, 3);
+    }
+
+    &.is-button--loading {
+      background: map-get($is-light, 3);
+      box-shadow: none;
+    }
+  }
+
+  &.is-button--loading {
+    pointer-events: none;
+    box-shadow: none;
+
+    &::before {
+      background-color: rgba(255, 255, 255, .4);
+    }
+
+    .is-button__content {
+      margin-left: 21px;
+    }
+
+    .is-button-loader {
+      visibility: visible;
+      opacity: 1;
+      left: 14px;
+    }
+  }
+
+  &.is-button--loader-after {
+    .is-button-loader {
+      left: inherit;
+      right: 20px;
+    }
+
+    &.is-button--loading {
+      .is-button__content {
+        margin-right: 21px;
+        margin-left: 0;
+      }
+    }
+  }
+}
+
+.is-button__content {
+  position: relative;
+  display: inline-block;
+  transition: all ease .2s;
+}
+
+// https://projects.lukehaas.me/css-loaders/
+
+.is-button-loader,
+.is-button-loader::after {
+  border-radius: 50%;
+  width: 1.4em;
+  height: 1.4em;
+}
+
+.is-button-loader {
+  display: inline-block;
+  visibility: hidden;
+  position: absolute;
+  opacity: 0;
+  top: 8px;
+  left: 20px;
+  margin: 0;
+  border-top: .2em solid rgba(255, 255, 255, .2);
+  border-right: .2em solid rgba(255, 255, 255, .2);
+  border-bottom: .2em solid rgba(255, 255, 255, .2);
+  border-left: .2em solid map-get($is-light, 1);
+  transform: translateZ(0);
+  animation: is-button-load-animation 1.1s infinite linear;
+  transition: all ease .2s;
+}
+
+@keyframes is-button-load-animation {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@each $colorName, $color in $is-colors {
+  $text-color: contrast($color);
+  $color-contrast: $text-color;
+  $box-shadow: $is-button-box-shadow, inset 0 0 6px 1px rgba(0, 0, 0, 0);
+  @if ($text-color == #000) {
+    $color-contrast: map-get($is-dark, 3);
+  }
+
+  button[is-button].#{$colorName} {
+    background-color: rgba($color, 1);
+    border-color: transparent;
+    color: $color-contrast;
+    box-shadow: $box-shadow;
+
+    &:hover {
+      box-shadow: 0 1px 4px 0 rgba(0, 0, 0, .37);
+
+      &::after {
+        background-color: rgba(255, 255, 255, .2);
+      }
+    }
+
+    &:active {
+      outline: none;
+      box-shadow: none;
+
+      &::after {
+        background-color: rgba(0, 0, 0, .15);
+      }
+    }
+  }
+
+  button[is-button].is-button--clear.#{$colorName} {
+    background-color: map-get($is-light, 1);
+    box-shadow: none;
+    color: $color;
+    transition: $transiton-on-hover;
+
+    &:hover {
+      color: $color-contrast;
+      background-color: rgba($color, 1);
+
+      .is-button__content {
+        transition: none;
+      }
+    }
+  }
+
+  button[is-button].is-button--bordered.#{$colorName} {
+    background-color: map-get($is-light, 1);
+    box-shadow: none;
+    color: $color;
+    border: 1px solid $color;
+    transition: $transiton-on-hover;
+
+    &:hover {
+      color: $color-contrast;
+      background-color: rgba($color, 1);
+
+      .is-button__content {
+        transition: none;
+      }
+    }
+  }
+}

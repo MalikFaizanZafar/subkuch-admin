@@ -1,0 +1,24 @@
+@mixin padding($size) {
+  .p-#{$size} {
+    padding: #{$size}px;
+  }
+
+  .pt-#{$size} {
+    padding-top: #{$size}px;
+  }
+
+  .pr-#{$size} {
+    padding-right: #{$size}px;
+  }
+
+  .pb-#{$size} {
+    padding-bottom: #{$size}px;
+  }
+
+  .pl-#{$size} {
+    padding-left: #{$size}px;
+  }
+}
+
+@include padding(14);
+@include padding(20);

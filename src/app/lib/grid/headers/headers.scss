@@ -1,0 +1,60 @@
+@import '../../core/core';
+
+.is-grid-filter-button {
+  background: none;
+  border: none;
+  margin-left: 4px;
+  opacity: 1;
+  cursor: pointer;
+  color: map-get($is-dark, 1);
+
+  &__icon {
+    width: 11px;
+    height: 11px;
+  }
+
+  &--active {
+    color: $is-blue;
+  }
+}
+
+.is-grid-lock-button {
+  background: none;
+  border: none;
+  margin-left: 4px;
+  opacity: 1;
+  cursor: pointer;
+  color: map-get($is-dark, 1);
+
+  &__icon {
+    width: 11px;
+    height: 11px;
+  }
+
+  &--active {
+    color: $is-blue;
+  }
+}
+
+
+::ng-deep {
+  .popover {
+    &.bs-popover-bottom {
+      border-top: 2px solid $is-blue;
+
+      .arrow {
+        &::before {
+          border-bottom-color: $is-blue;
+          border-width: 8px;
+          top: -18px;
+        }
+
+        &::after {
+          border-bottom-color: $is-blue;
+          border-width: 8px;
+          top: -18px;
+        }
+      }
+    }
+  }
+}

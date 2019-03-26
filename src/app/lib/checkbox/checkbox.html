@@ -1,0 +1,28 @@
+<label #label
+       class="is-checkbox__layout"
+       [attr.for]="name">
+  <input
+    #input
+    type="checkbox"
+    class="is-visually-hidden"
+    [id]="inputId"
+    [required]="required"
+    [tabIndex]="tabIndex"
+    [checked]="checked"
+    [value]="value"
+    [disabled]="disabled"
+    [attr.name]="name"
+    [attr.aria-label]="ariaLabel"
+    [attr.aria-labelledby]="ariaLabelledby"
+    (change)="_onInteractionEvent($event)"
+    (click)="_onInputClick($event)">
+  <span class="is-checkbox__icon"
+        [style.color]="currentColor">
+    <i [class]="currentIcon"
+       [style.color]="currentIconColor"></i>
+  </span>
+  <span class="is-checkbox__label"
+        [style.color]="labelColor">
+    <ng-content></ng-content>
+  </span>
+</label>

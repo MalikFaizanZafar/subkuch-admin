@@ -1,0 +1,86 @@
+<div class="w-100 h-100 d-flex justify-content-center align-items-center">
+  <div class="col-md-4 col-sm-12 col-xs-12">
+
+    <div class="card-header text-white login-form__bg-blue text-center">
+        <h3 class="mb-0">Member Login</h3>
+    </div>
+
+    <div class="card pt-4 pl-3 pr-3 pb-4">
+        <div 
+          class="login-form__input_error mb-1 text-center"
+          *ngIf="errorMessage">
+          {{errorMessage}}
+        </div>
+
+        <form 
+            autocomplete="off"
+            [formGroup]="loginForm" 
+            (ngSubmit)="onLoginSubmit(formDir, submitBtn)" 
+            #formDir="ngForm">
+
+            <div class="form-group"
+              [class.mb-1]="(loginForm.hasError('required', 'email') || loginForm.hasError('email', 'email')) && formDir.submitted" >
+              <is-input-container label="Email">
+                <input 
+                  autocomplete="fakeName"
+                  class="login-form__input"
+                  type="email"
+                  placeholder="Enter email"
+                  formControlName="email">
+              </is-input-container>
+            </div>
+
+            <div 
+                *ngIf="loginForm.hasError('required', 'email') && formDir.submitted" 
+                class="login-form__input_error">
+                Email is required
+            </div>
+
+            <div 
+                *ngIf="loginForm.hasError('email', 'email') && formDir.submitted" 
+                class="login-form__input_error">
+                Email must include @
+            </div>
+
+            <div class="form-group"
+              [class.mb-1]="loginForm.hasError('required', 'password') && formDir.submitted">
+
+              <is-input-container label="Password">
+                <input 
+                  autocomplete="fakeName"
+                  class="login-form__input"
+                  type="password"
+                  placeholder="Password"
+                  formControlName="password">
+              </is-input-container>
+            </div>
+
+            <div 
+                *ngIf="loginForm.hasError('required', 'password') && formDir.submitted" 
+                class="login-form__input_error">
+                Password is required.
+            </div>
+
+            <div class="form-check mb-3">
+                <input 
+                    type="checkbox" 
+                    class="form-check-input" 
+                    id="exampleCheck1">
+                <label class="form-check-label">Remember Me</label>
+            </div>
+            <a [routerLink]="['/auth/forgot-password']" >
+              Forgot Password ?
+            </a>
+            <br>
+            <button 
+              #submitBtn
+              loaderPosition="after"
+              is-button
+              type="submit" 
+              class="w-100 login-form__submit-btn">Sign In
+            </button>
+
+        </form>
+    </div>
+  </div>
+</div>

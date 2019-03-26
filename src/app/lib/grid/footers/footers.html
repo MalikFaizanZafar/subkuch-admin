@@ -1,0 +1,13 @@
+<td *ngFor="let col of columns"
+    [ngStyle]="col.footerStyle || col.style"
+    [class]="col.footerStyleClass || col.styleClass"
+    [attr.colspan]="col.colspan"
+    [attr.rowspan]="col.rowspan"
+    [ngClass]="{'is-grid-column-footer__cell':true, 'd-none': col.hidden}">
+  <span class="is-grid-column-footer"
+        *ngIf="!col.footerTemplate">{{col.footer}}</span>
+  <span class="is-grid-column-footer"
+        *ngIf="col.footerTemplate">
+    <is-grid-column-footer-template-loader [column]="col"></is-grid-column-footer-template-loader>
+  </span>
+</td>

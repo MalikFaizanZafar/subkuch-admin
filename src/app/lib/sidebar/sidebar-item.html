@@ -1,0 +1,61 @@
+<div class="is-sidebar__item-container"
+     [class.is-sidebar__item-container--no-icon]="!hasIcon"
+     [class.is-sidebar__item--active]="isActive"
+     [class.is-sidebar__item--open]="isOpen"
+     (click)="onItemClick()">
+  <div class="is-sidebar__item-icon-container float-left"
+       *ngIf="hasIcon">
+    <div class="is-sidebar__item-icon d-flex justify-content-center align-items-center">
+      <ng-content select=".is-sidebar__item-icon--active"
+                  *ngIf="isActive"></ng-content>
+      <ng-content select=".is-sidebar__item-icon--inactive"
+                  *ngIf="!isActive"></ng-content>
+    </div>
+  </div>
+
+  <div class="is-sidebar__item-text float-left h-100 d-flex align-items-center"
+       *ngIf="hasIcon">
+    <ng-content select=".sidebar-item-text"></ng-content>
+  </div>
+
+  <ng-content select="a"></ng-content>
+
+  <div #auxTemplateAnchor></div>
+
+  <span *ngIf="hasNestedMenu"
+        class="fa {{ nestedMenuIcon() }} is-sidebar__chevron-icon"></span>
+</div>
+
+<div *ngIf="hasNestedMenu"
+     [@expandCollapse]="collapseExpand"
+     [@nestedExpandCollapse]="collapseExpand"
+     class="is-sidebar__item__menu"
+     [class.is-sidebar__item__menu--active]="isNestedMenuOpen">
+     <div class="is-sidebar__item-wrapper">
+       <ng-content *ngIf="!nodes"
+                   select="is-sidebar-item"></ng-content>
+      </div>
+
+  <is-sidebar-item *ngFor="let node of nodes"
+                   [link]="node.link"
+                   [icon]="node.icon"
+                   [label]="node.label"
+                   [hasIcon]="false"
+                   [auxTemplate]="auxTemplate"
+                   [auxInfo]="node.auxInfo"
+                   [isActive]="node.link && rla.isActive"
+                   [hasNestedMenu]="node.nodes"
+                   [expanded]="node.expanded"
+                   [nodes]="node.nodes">
+    <a class="h5"
+       routerLinkActive
+       #rla="routerLinkActive"
+       [routerLinkActiveOptions]="{exact: false}"
+       [routerLink]="node.link">
+      <i class="fa"
+         [ngClass]="node.icon"
+         *ngIf="node.icon"></i>
+      {{node.label}}
+    </a>
+  </is-sidebar-item>
+</div>

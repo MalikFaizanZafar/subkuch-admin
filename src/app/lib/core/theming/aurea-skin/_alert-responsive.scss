@@ -1,0 +1,9 @@
+@import '../../style/responsive-utils';
+
+@include media-breakpoint-down(sm) {
+  .is-alert__button,
+  .is-alert__button.is-button {
+    height: 100%;
+    border-radius: 0;
+  }
+}

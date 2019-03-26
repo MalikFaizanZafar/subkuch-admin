@@ -1,0 +1,29 @@
+<label class="is-input__label"
+       *ngIf="label"
+       [for]="inputId">
+  {{label}}
+</label>
+
+<i class="fa fa-info-circle is-input__tooltip-icon"
+   *ngIf="hasTooltip"
+   [class.is-input__tooltip-icon--hover]="isTooltipVisible"
+   [isToolTip]="tooltip"
+   [isToolTipPlacement]="tooltipPlacement"
+   [istoolTipTemplate]="tooltipTemplate"
+   [istoolTipData]="tooltipData"
+   [isToolTipColor]="tooltipClassName"
+   trigger="manual"
+   #helpTooltip="isToolTip"
+   (mouseover)="onMouseOver()"
+   (mouseout)="onMouseOut()"
+   (touchstart)="onTouchStart()"
+   (touchend)="onTouchEnd()"
+   (pointerover)="onPointerOver()"
+   (pointerout)="onPointerOut()"></i>
+
+<ng-content></ng-content>
+
+<span class="is-input__error-message"
+      *ngIf="invalid && errorMessage">
+  {{errorMessage}}
+</span>

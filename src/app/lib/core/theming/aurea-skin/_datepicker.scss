@@ -1,0 +1,133 @@
+is-datepicker {
+  & div.is-datepicker__input {
+    margin-bottom: 3px;
+    position: relative;
+
+    input[type='text'] {
+      width: 100%;
+      background: none;
+      border-radius: 0;
+      border: none;
+      border-bottom: 1px solid #cbd1d3;
+      font-size: 1em;
+      padding: 0 8px;
+      color: map-get($au-neutral, 4);
+
+      &:focus {
+        box-shadow: none;
+        border-bottom: 1px solid $au-green;
+      }
+    }
+  }
+
+  & div.is-datepicker__input--focused {
+    input[type='text'] {
+      box-shadow: none;
+      border-bottom: 1px solid $au-green;
+    }
+  }
+
+  & div.is-datepicker__input--error {
+    input[type='text'] {
+      border-bottom: 1px solid $au-red;
+    }
+  }
+}
+
+.is-datepicker {
+  width: 220px;
+  background-color: $au-black;
+
+  .is-datepicker__header {
+    border-bottom: none;
+    background-color: $au-black;
+    display: flex;
+    flex-direction: column;
+
+    .is-datepicker__header-inner {
+      background-color: $au-black;
+
+      & h4 {
+        color: map_get($au-gray, 1);
+        text-align: left;
+        left: 10px;
+        font-size: 13px;
+      }
+
+      & button.is-datepicker__ctrl-btn {
+        background-color: rgba(255, 255, 255, .15);
+      }
+
+      & button.is-datepicker__ctrl-btn--previous {
+        right: 30px;
+        left: inherit;
+
+        &::before {
+          border-right-color: #fff;
+        }
+      }
+
+      & button.is-datepicker__ctrl-btn--next {
+        &::before {
+          border-left-color: #fff;
+        }
+      }
+    }
+  }
+
+  .is-datepicker__today-btn.is-button {
+    background: rgba(255, 255, 255, .15);
+  }
+
+  .is-datepicker__weekdays {
+    background-color: $au-black;
+    color: $au-red;
+    border: none;
+    padding-top: 10px;
+
+    & .is-datepicker__weekday {
+      text-transform: inherit;
+      color: map_get($au-gray, 1);
+    }
+  }
+
+  .is-datepicker__weekdays::before {
+    content: '';
+    position: absolute;
+    left: 5%;
+    top: 0;
+    height: 1px;
+    width: 90%;
+    border-top: 1px solid map_get($au-gray, 2);
+  }
+
+  div.is-datepicker__row {
+    & button.is-datepicker__date--selected {
+      border: none;
+      background-color: $au-red;
+    }
+
+    & button.is-datepicker__date:not(.is-datepicker__date--selected):hover {
+      border: 1px solid map_get($au-gray, 2);
+      background-color: none;
+      background: none;
+    }
+
+    & .is-datepicker__date .is-datepicker__number {
+      color: map_get($au-gray, 1);
+    }
+
+    & button.is-datepicker__date--disabled {
+      & .is-datepicker__number {
+        color: map-get($au-gray, 3);
+      }
+    }
+  }
+
+  div.is-datepicker__row.is-datepicker__today {
+    & div.is-datepicker__today_text {
+      color: map_get($au-gray, 1);
+      border-top: 1px solid map-get($au-gray, 3);
+    }
+  }
+}

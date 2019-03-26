@@ -1,0 +1,27 @@
+.ws-nowrap {
+  white-space: nowrap;
+}
+
+.fill {
+  width: 100%;
+}
+
+.flex-fill {
+  flex: 1;
+}
+
+.text-red {
+  color: $au-red;
+}
+
+.text-green {
+  color: $au-green;
+}
+
+.text-blue {
+  color: $au-blue;
+}
+
+.bg-gray1 {
+  background: map-get($au-gray, 1);
+}

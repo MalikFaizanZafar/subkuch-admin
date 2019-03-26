@@ -1,0 +1,147 @@
+@import './theming';
+
+$au-sidebar-text-size: 14px;
+
+.is-sidebar {
+  background: $au-gray-main;
+  border-color: $au-gray-main;
+  border-right: none;
+  border-top: none;
+  font-size: $au-sidebar-text-size;
+  font-weight: 500;
+  overflow-y: auto;
+}
+
+.is-sidebar--scrollbars {
+  background: $au-gray-main;
+  border-color: $au-gray-main;
+}
+
+.is-sidebar__slide-button {
+  background: $au-gray-main;
+  border-color: $au-gray-main;
+  width: 0;
+  overflow: hidden;
+}
+
+.is-sidebar__slide-button-icon {
+  background: $au-gray-main;
+}
+
+.is-sidebar-item {
+  box-sizing: content-box;
+  display: block;
+  cursor: pointer;
+}
+
+.is-sidebar__item-container {
+  background: rgba(0, 0, 0, 0);
+  border-color: $au-gray-main;
+  color: $au-light-gray;
+
+  & > a {
+    color: inherit;
+    font-size: $au-sidebar-text-size;
+    display: block;
+    width: 100%;
+    height: 100%;
+    padding: 11px 10px 11px 20px;
+    font-weight: 500;
+    opacity: 1;
+
+    i {
+      width: 16px;
+      text-align: center;
+      margin-right: 5px;
+      font-size: .9em;
+      position: relative;
+      top: -1px;
+    }
+  }
+
+  &:hover {
+    color: $au-light-gray;
+    font-weight: 500;
+
+    &:not(.is-sidebar__item--open):not(.is-sidebar__item-container--no-icon):hover {
+      width: 100%;
+    }
+
+    a {
+      text-decoration: underline;
+    }
+  }
+
+  &--no-icon {
+    font-size: $au-sidebar-text-size;
+    padding: 0;
+  }
+}
+
+.is-sidebar__chevron-icon {
+  font-size: $au-sidebar-text-size;
+  width: 17px;
+  text-align: center;
+  font-weight: 600;
+}
+
+.is-sidebar__item__menu {
+  position: relative;
+  z-index: 10;
+
+  &::before {
+    height: 100%;
+    width: 1000px;
+    top: 0;
+    left: -500px;
+    content: '';
+    position: absolute;
+    background: rgba(0, 0, 0, .2);
+    z-index: -1;
+  }
+
+  & > .is-sidebar-item > div[class~='is-sidebar__item-container'] {
+    border: none;
+
+    &:hover {
+      box-shadow: none;
+
+      a {
+        text-decoration: underline;
+      }
+    }
+  }
+}
+
+.is-sidebar__item--active {
+  box-shadow: none;
+  font-weight: 500;
+
+  a,
+  .is-sidebar__item-text,
+  .is-sidebar__item-icon--active {
+    opacity: 1;
+    color: $au-pink;
+  }
+
+  & > a::before {
+    position: absolute;
+    transform: translate(-16px, -4px);
+    content: '\2022';
+    color: $au-red;
+    font-size: 21px;
+  }
+
+  &.is-sidebar__item--open {
+    box-shadow: none;
+  }
+}
+
+.is-sidebar__item-icon {
+  color: $au-light-gray;
+}
+
+.is-sidebar__item-text {
+  color: $au-light-gray;
+  display: inline-block;
+}

@@ -1,0 +1,15 @@
+@import '../theming/palette';
+
+// FUNCTION - for getting contrast color
+@function contrast($color) {
+  @if (lightness($color) > 75) {
+    @return #000;
+  } @else {
+    @return #fff;
+  }
+}
+
+// FUNCTION - For getting colors from the pallete map
+@function color($colorname) {
+  @return map-get($is-colors, $colorname);
+}

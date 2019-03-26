@@ -1,0 +1,51 @@
+.is-topbar-logo {
+  position: absolute;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  padding-bottom: 1px;
+  padding-left: 15px;
+  height: 100%;
+  width: 215px;
+  top: 0;
+  left: 0;
+
+  &__box {
+    border: 2px solid #fff;
+    height: 32px;
+    min-width: 32px;
+    max-width: 42px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    margin-right: 13px;
+
+    &::after {
+      content: '';
+      height: 32px;
+      width: 2px;
+      background: #fff;
+      margin-left: 3px;
+      position: absolute;
+      top: -2px;
+      right: -10px;
+    }
+  }
+
+  &__label {
+    margin-bottom: 0;
+    font-size: 12px;
+    font-weight: 500;
+  }
+
+  &__name {
+    margin-bottom: 0;
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 15px;
+  }
+}
+
+@import './topbar-logo-responsive';

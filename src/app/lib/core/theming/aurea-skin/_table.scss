@@ -1,0 +1,63 @@
+table[is-table] thead tr:not(.is-table__section) th,
+table[is-table] thead tr:not(.is-table__section) .is-sortable-column {
+  border-bottom: 1px solid map-get($au-gray, 2);
+
+  &::before,
+  &::after {
+    display: none;
+  }
+}
+
+table[is-table] thead td,
+table[is-table] thead th,
+table[is-table] thead .is-sortable-column {
+  font-weight: 500;
+  font-size: 13px;
+  text-align: left;
+}
+
+table[is-table] td:not(.is-row-detail__td),
+table[is-table] th,
+table[is-table] .is-sortable-column {
+  border-left: none;
+  height: 40px;
+}
+
+table[is-table] td:not(.is-row-detail__td) {
+  font-size: 13px;
+  font-weight: 400;
+  border-bottom: 1px solid map-get($au-gray, 2);
+  color: $au-gray-main;
+}
+
+table[is-table] tr:nth-of-type(even),
+table[is-table] tr:nth-of-type(odd) {
+  background: #fff;
+
+  &:hover {
+    background-color: #eff2f4;
+  }
+}
+
+table[is-table] {
+  box-shadow: none;
+
+  a,
+  i {
+    color: $au-green;
+    cursor: pointer;
+
+    &:hover {
+      text-decoration: none;
+      color: $au-gray-main;
+    }
+  }
+
+  .row-details {
+    display: table-row;
+  }
+}
+
+.is-sortable-column__container {
+  justify-content: flex-start;
+}

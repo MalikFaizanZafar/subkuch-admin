@@ -1,0 +1,13 @@
+<div class="is-modal__backdrop"
+     *ngIf="!isBackdropHidden()"
+     (click)="onBackdropClick()"
+     [@fadeInOut]></div>
+<div class="is-modal__content"
+     [@fadeUpDelay]="closing ? 'out' : 'in'"
+     [class.is-modal__content--small]="isSmallSize()"
+     [class.is-modal__content--large]="!isSmallSize()">
+  <div class="is-modal__template"
+       isModalTemplate
+       (keyup.esc)="escKey()"
+       tabindex="0"></div>
+</div>

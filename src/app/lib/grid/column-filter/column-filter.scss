@@ -1,0 +1,144 @@
+@import '../../core/core';
+@import '../../core/theming/palette';
+
+.is-grid-filters {
+  padding-top: 7px;
+}
+
+.is-grid-filter {
+  display: block;
+  white-space: nowrap;
+  cursor: pointer;
+  border-radius: 3px;
+
+  &:hover {
+    background: map-get($is-light , 2);
+  }
+
+  &__input {
+    display: none;
+  }
+
+
+  &__label {
+    font-size: 11px;
+    color: map-get($is-dark , 5);
+    font-weight: 500;
+    padding: 5px 8px;
+    display: block;
+    cursor: pointer;
+    margin-bottom: 0;
+  }
+
+  &__input + label {
+    opacity: .4;
+
+    .filter__check {
+      opacity: .25;
+    }
+  }
+
+  &__check {
+    display: none;
+    margin-right: 10px;
+    position: relative;
+    top: 0;
+    color: $is-blue;
+    font-size: 12px;
+    pointer-events: none;
+  }
+
+  &__input:checked + label {
+    &,
+    .is-grid-filter__check {
+      opacity: 1;
+      background: map-get($is-light , 3);
+    }
+  }
+}
+
+.is-grid-filter-text {
+  width: 100%;
+  font-weight: 500;
+}
+
+.is-grid-input-wrapper {
+  width: 100%;
+  margin-bottom: 9px;
+  position: relative;
+}
+
+.is-grid-filter-actions {
+  margin-bottom: 11px;
+  padding-left: 9px;
+}
+
+.is-grid-filter-action {
+  background: none;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  color: $is-blue;
+  border-bottom: 1px solid $is-blue;
+  font-weight: 600;
+  font-size: 11px;
+  display: inline-block;
+  margin-right: 10px;
+  padding: 0;
+
+  &:hover {
+    color: #0280b9;
+  }
+}
+
+.is-grid-filters-wrapper {
+  max-height: 169px;
+  overflow-y: auto;
+  margin-bottom: 5px;
+}
+
+.is-grid-filter-text-icon {
+  position: absolute;
+  top: 10px;
+  right: 19px;
+  opacity: .5;
+  font-size: 13px;
+  pointer-events: none;
+  height: 10px;
+  width: 10px;
+  border-radius: 50%;
+  border: 2px solid $is-blue;
+
+  &::after {
+    content: '';
+    width: 7px;
+    height: 2px;
+    border-radius: 5px;
+    transform: rotate(43deg);
+    position: absolute;
+    top: 7px;
+    right: -5px;
+    background: $is-blue;
+  }
+}
+
+.is-grid-text-input {
+  font-family: $is-font-family;
+  height: 32px;
+  display: inline-block;
+  appearance: none;
+  border: none;
+  border-bottom: 1px solid map-get($is-light, 6);
+  background: transparent;
+  padding: 0 10px;
+  transition: $ease-in-out;
+  font-size: .85em;
+  width: 100%;
+
+  &:focus {
+    border-bottom: 2px solid $is-blue;
+  }
+}
+
+
+

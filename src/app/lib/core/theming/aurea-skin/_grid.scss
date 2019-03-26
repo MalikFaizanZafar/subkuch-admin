@@ -1,0 +1,113 @@
+.is-grid {
+  font-size: 13px;
+
+  &__thead {
+    color: map-get($au-gray, 4);
+
+    th {
+      font-weight: 500;
+    }
+  }
+
+  &__data {
+    color: map-get($au-gray, 4);
+  }
+
+  &__tfoot {
+    color: map-get($au-gray, 4);
+  }
+
+  &__row-expandable-icon {
+    color: $au-green;
+  }
+
+}
+
+.is-grid-column {
+  &--sortable {
+    &__icon {
+      margin-left: 7px;
+
+      &--active {
+        color: map-get($au-gray, 4);
+      }
+    }
+  }
+}
+
+.is-grid-filter {
+  &__check {
+    display: inline-block;
+  }
+
+  &__label {
+    padding: 5px 20px;
+  }
+
+  &__input:checked + label {
+    &,
+    .is-grid-filter__check {
+      opacity: 1;
+      background: #fff;
+    }
+  }
+}
+
+.is-grid-filter-button {
+  position: absolute;
+  margin-left: 7px;
+  right: 0;
+
+  &--active {
+    color: map-get($au-gray, 4);
+  }
+}
+
+.is-grid-lock-button {
+  margin-left: 7px;
+  color: $au-green;
+
+  &--active {
+    color: $au-green;
+  }
+}
+
+.is-grid-filters {
+  .is-grid-text-input {
+    border: 1px solid map-get($au-gray, 2);
+
+    &:focus {
+      border-color: $au-blue;
+      box-shadow: 0 0 7px rgba(3, 169, 244, .41);
+      border-width: 1px;
+    }
+  }
+}
+
+.fa-filter {
+  font-size: 11px;
+}
+
+.popover-body {
+  padding: 7px 5px;
+}
+
+.popover {
+  &.bs-popover-bottom {
+    border-top: none;
+
+    .arrow {
+      &::before {
+        border-bottom-color: rgba(0, 0, 0, .25);
+        border-width: 8px;
+        top: -18px;
+      }
+
+      &::after {
+        border-bottom-color: #fff;
+        border-width: 8px;
+        top: -17px;
+      }
+    }
+  }
+}

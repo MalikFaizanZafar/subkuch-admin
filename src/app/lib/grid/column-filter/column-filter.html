@@ -1,0 +1,32 @@
+<div class="is-grid-filters">
+  <div class="is-grid-input-wrapper px-2">
+    <input [type]="filterBy.filterType"
+           [attr.maxlength]="filterBy.filterMaxlength"
+           [attr.placeholder]="filterBy.filterPlaceholder"
+           class="is-grid-text-input"
+           [value]="inputValue"
+           #filterInput
+           (keyup)="onInputChange(filterInput.value)">
+    <i class="is-grid-filter-text-icon"></i>
+  </div>
+  <div class="is-grid-filter-actions">
+  </div>
+  <div class="is-grid-filters-wrapper">
+    <div class="is-grid-filter"
+         *ngFor="let prop of properties">
+      <div *ngIf="prop !== '_filterInput'">
+        <input id="{{prop}}"
+               class="is-grid-filter__input"
+               (change)="onCheckboxToggle($event, filterInput);"
+               type="checkbox"
+               [name]="prop"
+               [value]="prop"
+               [checked]="filter[prop]">
+            <label class="is-grid-filter__label"
+                   [for]="prop">
+              <span class="is-grid-filter__check fa fa-check"></span>{{prop}}
+            </label>
+      </div>
+    </div>
+  </div>
+</div>

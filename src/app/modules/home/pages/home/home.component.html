@@ -1,0 +1,121 @@
+<header class="container-fluid d-flex align-items-center flex-shrink-0 header bg-dark">
+  <div class="container d-flex justify-content-between align-items-center">
+    <div class="w-100 d-flex justify-content-between">
+      <div class="w-25 justify-content-start d-flex">
+        <button
+          type="button"
+          is-button
+          class="header__link-button text-white"
+          is-clear-button>SubKuch Logo
+        </button>
+      </div>
+
+      <div class="d-flex w-75 justify-content-end">
+        <button
+          type="button"
+          is-button
+          is-clear-button
+          class="ml-5 mr-5 header__link-button text-white">Join Us
+        </button>
+        
+        <button
+          type="button"
+          is-button
+          is-clear-button
+          class="ml-5 mr-5 header__link-button text-white">Vendor Sign in
+        </button>
+
+        <button
+          type="button"
+          is-button
+          is-clear-button
+          class="ml-5 mr-5 header__link-button text-white">Track Order
+        </button>
+
+        <button
+        type="button"
+        is-button
+        is-clear-button
+        class="ml-5 mr-5 header__link-button text-white"
+        routerLink="/auth">Sign In
+      </button>
+
+      <button
+        type="button"
+        is-button
+        is-clear-button
+        class="ml-5 mr-5 header__link-button text-white"
+        routerLink="/auth/signup">Sign Up
+      </button>
+
+      </div>
+    </div>
+  </div>
+</header> 
+
+<!-- <div class="container-fluid main-content"> -->
+<div class="main-content">
+  <!-- <div class="container"> -->
+    <router-outlet></router-outlet>
+  <!-- </div> -->
+</div>
+
+<footer class="page-footer font-small pt-5 bg-dark">
+  <div class="container-fluid text-center text-md-left">
+    <div class="row">
+      <div class="col-md-4 offset-md-2 mt-md-0 mt-5">
+        <h1 class="text-uppercase font-weight-bold">SubQuch</h1>
+        <p class="text-muted w-50">Here you can use rows and columns here to organize your footer content.
+            Here you can use rows and columns here to organize your footer content.
+        </p>
+      </div>
+      <div class="col-md-3 mb-md-0 mb-3 offset-md-1">
+          <h5 class="text-uppercase">Other Links</h5>
+          <hr style="background-color:green;">
+          <div class="row">
+            <div class="col-md-6">
+              <ul class="list-unstyled">
+                <li>
+                  <a href="#!" class="footer__other-links text-muted">Services</a>
+                </li>
+                <li>
+                  <a href="#!" class="footer__other-links text-muted">About Us</a>
+                </li>
+                <li>
+                  <a href="#!" class="footer__other-links text-muted">Our Team</a>
+                </li>
+                <li>
+                  <a href="#!" class="footer__other-links text-muted">Blog</a>
+                </li>
+                </ul>
+            </div>
+            <div class="col-md-6">
+              <ul class="list-unstyled">
+                <li>
+                  <a href="#!" class="footer__other-links text-muted">Testimonials</a>
+                </li>
+                <li>
+                  <a href="#!" class="footer__other-links text-muted">About Us</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+    </div>
+  </div>
+    <div class="row">
+      <div class="col-md-2 offset-md-5 offset-sm-4 col-sm-4">
+      <i class="fab fa-facebook-f fa-2x w-25"></i>
+      <i class="fab fa-whatsapp fa-2x w-25"></i>
+      <i class="fab fa-instagram fa-2x w-25"></i>
+      <i class="fab fa-twitter fa-2x"></i>
+      </div>
+    </div>
+    <div class="row mt-2">
+      <div class="col-md-3 offset-md-5 ">
+        <div class="footer-copyright text-left">© 2018 Copyright:
+          <a href="subquch.com"> www.subQuch.com</a>
+        </div>
+      </div>
+    </div>
+</footer>

@@ -1,0 +1,128 @@
+<ng-template ngFor
+             let-rowData
+             [ngForOf]="data"
+             let-even="even"
+             let-odd="odd"
+             let-rowIndex="index"
+             [ngForTrackBy]="dt.rowTrackBy">
+  <tr #rowGroupElement
+      *ngIf="isRowGroupElement(rowData, rowIndex)"
+      (click)="dt.onRowGroupClick($event)"
+      [ngStyle]="{'cursor': dt.sortableRowGroup ? 'pointer' : 'auto'}">
+    <td [attr.colspan]="dt.visibleColumns().length">
+      <a href="#"
+         *ngIf="dt.expandableRowGroups"
+         (click)="dt.toggleRowGroup($event,rowData)">
+        <span class="fa fa-fw is-grid__row-expandable-icon"
+        [ngClass]="dt.isRowGroupExpanded(rowData) ? dt.expandedIcon : dt.collapsedIcon"></span>
+      </a>
+      <span>
+        <is-grid-template-loader [template]="dt.rowGroupHeaderTemplate"
+                                 [data]="rowData"></is-grid-template-loader>
+      </span>
+    </td>
+  </tr>
+  <tr #rowElement
+      class="is-grid__row--data"
+      *ngIf="!dt.expandableRowGroups||dt.isRowGroupExpanded(rowData)"
+      (click)="dt.handleRowClick($event, rowData, rowIndex)"
+      (dblclick)="dt._rowDblclick($event,rowData)"
+      (contextmenu)="dt.onRowRightClick($event,rowData)"
+      (touchend)="dt.handleRowTouchEnd($event)"
+      [ngClass]="[ dt.isSelected(rowData)? 'is-grid__row--selected': '',
+                   dt.isRowExpanded(rowData) ? 'is-grid--expanded-row': '',
+                   dt.getRowStyleClass(rowData,rowIndex)]">
+    <ng-template ngFor
+                 let-col
+                 [ngForOf]="columns"
+                 let-colIndex="index">
+      <td #cell
+          *ngIf="isCell(col, rowData, rowIndex)"
+          [ngStyle]="col.bodyStyle||col.style"
+          class="is-grid-table-body__cell"
+          [class]="col.bodyStyleClass||col.styleClass"
+          (click)="dt.switchCellToEditMode(cell,col,rowData)"
+          [ngClass]="{'is-grid-table-body__cell--editable':col.editable,'is-grid__selection-column':col.selectionMode, 'd-none': col.hidden}"
+          [attr.rowspan]="isRowSpan(col, rowData, rowIndex)">
+        <span class="is-grid-table-body__cell-column-title"
+              *ngIf="dt.responsive">{{col.header}}</span>
+        <span class="is-grid-table-body__cell-data"
+              *ngIf="!col.bodyTemplate && !col.expander && !col.selectionMode">{{dt.resolveFieldData(rowData,col.field)}}</span>
+        <span class="is-grid-table-body__cell-data"
+              *ngIf="col.bodyTemplate">
+          <is-grid-column-body-template-loader [column]="col"
+                                               [rowData]="rowData"
+                                               [rowIndex]="rowIndex + dt.first">
+          </is-grid-column-body-template-loader>
+        </span>
+        <div class="is-grid-table-body__editor"
+             *ngIf="col.editable">
+          <input *ngIf="!col.editorTemplate"
+                 type="text"
+                 [(ngModel)]="rowData[col.field]"
+                 (keydown)="dt.onCellEditorKeydown($event, col, rowData, rowIndex)"
+                 (blur)="dt.onCellEditorBlur($event, col, rowData, rowIndex)"
+                 (input)="dt.onCellEditorInput($event, col, rowData, rowIndex)"
+                 (change)="dt.onCellEditorChange($event, col, rowData, rowIndex)"
+                 class="is-grid-table-body__editor-input"
+          />
+          <a *ngIf="col.editorTemplate"
+             class="is-grid-editor-proxy-focus"
+             href="#"
+             (focus)="dt.onCustomEditorFocusPrev($event, colIndex)"></a>
+          <is-grid-column-editor-template-loader *ngIf="col.editorTemplate"
+                                                 [column]="col"
+                                                 [rowData]="rowData"
+                                                 [rowIndex]="rowIndex"></is-grid-column-editor-template-loader>
+          <a *ngIf="col.editorTemplate"
+             class="is-grid-editor-proxy-focus"
+             href="#"
+             (focus)="dt.onCustomEditorFocusNext($event, colIndex)"></a>
+        </div>
+        <a href="#"
+           *ngIf="col.expander"
+           (click)="dt.toggleRow(rowData,$event)">
+          <span class="fa fa-fw is-grid-clickable is-grid__row-expandable-icon"
+                [ngClass]="dt.isRowExpanded(rowData) ? dt.expandedIcon : dt.collapsedIcon"></span>
+        </a>
+        <is-radio-input *ngIf="col.selectionMode=='single'"
+                        [checked]="dt.isSelected(rowData)"
+                        (change)="dt.selectRowWithRadio($event, rowData)">
+        </is-radio-input>
+        <is-checkbox *ngIf="col.selectionMode=='multiple'"
+                     checkedColor="black"
+                     uncheckedColor="black"
+                     (change)="dt.toggleRowWithCheckbox($event,rowData)"
+                     [checked]="dt.isSelected(rowData)"></is-checkbox>
+      </td>
+    </ng-template>
+  </tr>
+  <tr *ngIf="dt.expandableRows && dt.isRowExpanded(rowData)"
+      class="is-grid-expanded-row__content"
+      [@slide]>
+    <td [attr.colspan]="dt.visibleColumns().length">
+      <is-grid-row-expansion-loader [rowData]="rowData"
+                                    [rowIndex]="rowIndex"
+                                    [template]="dt.rowExpansionTemplate">
+      </is-grid-row-expansion-loader>
+    </td>
+  </tr>
+  <tr class="is-grid__rowgroup-footer"
+      *ngIf="hasRowGroupFooter(rowData, rowIndex)">
+    <is-grid-template-loader class="d-none"
+                             [data]="rowData"
+                             [template]="dt.rowGroupFooterTemplate"></is-grid-template-loader>
+  </tr>
+</ng-template>
+
+<tr *ngIf="dt.isEmpty()"
+    class="is-grid__data is-grid__empty-message"
+    [style.visibility]="dt.loading ? 'hidden' : 'visible'">
+  <td [attr.colspan]="dt.visibleColumns().length"
+      class="is-grid__empty-message-data">
+    <span *ngIf="!dt.emptyMessageTemplate">
+      {{dt.emptyMessage}}
+    </span>
+    <is-grid-template-loader [template]="dt.emptyMessageTemplate"></is-grid-template-loader>
+  </td>
+</tr>

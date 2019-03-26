@@ -1,0 +1,149 @@
+<div>
+  <div class="position-relative w-100">
+    <img src="https://images.pexels.com/photos/920570/pexels-photo-920570.jpeg" class="w-100 home__slider">
+    <div class="position-absolute w-25 m-5 home__welcome">
+        <h1 class="home__welcome-text1 w-100">Satisfy Your Cravings</h1>
+        <h1 class="text-white home__welcome-text2 w-100">Order Now</h1>
+    </div>
+    <div class="position-absolute w-100 d-flex justify-content-center align-items-center home__search-container ">
+      <div class="w-75 pt-2 pb-2 pl-2 pr-2 d-flex align-items-center home__search-wrapper">
+        <i class="fa fa-map-marker mr-2" aria-hidden="true" (click)="showLocationInput = !showLocationInput"></i>
+        <div 
+          class="h-100 home__search-items home__search-items--hidden d-flex align-items-center"
+          [class.home__search-items--visible]="showLocationInput">
+          <input class="home__search-items_input" type="text" placeholder="Current Location"/>
+        </div>
+        <!-- <div class="h-100 home__search-items d-flex align-items-center">
+          <i class="ml-2 fa fa-list-alt" aria-hidden="true"></i>
+          <input class="home__search-items_input" type="text" placeholder="Categories"/>
+        </div> -->
+        <div class="h-100 d-flex justify-content-between align-items-center home__search-items"
+          [class.home__search-items--visible]="showLocationInput"
+          [class.w-100]="!showLocationInput">
+          <input class="home__search-items_input w-75" type="text" placeholder="What are you looking for..."/>
+          <button type="button" class="home__search-button w-25 h-100" is-button>Search</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- <div class="ml-auto mr-auto mt-5 d-flex justify-content-center home__steps">
+    <div class="row">
+      <div class="col-12">
+        <is-reveal-carousel [options]="OptionsWithoutBottomNav">
+          <ng-template isRevealCarouselItem
+                        *ngFor="let slide of slides">
+            <div class="slide"
+                  isRevealCarouselExpandable>
+              <img [src]="slide.img"
+                    alt="placeholder">
+            </div>
+            <div isRevealCarouselBody>
+              <h4>Content {{slide.text}}</h4>
+              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+              <button is-button>See more</button>
+            </div>
+          </ng-template>
+      </is-reveal-carousel>
+    </div>
+
+    <div class="col-12">
+        <is-reveal-carousel [options]="OptionsWithoutBottomNav">
+          <ng-template isRevealCarouselItem
+                        *ngFor="let slide of slides">
+            <div class="slide"
+                  isRevealCarouselExpandable>
+              <img [src]="slide.img"
+                    alt="placeholder">
+            </div>
+            <div isRevealCarouselBody>
+              <h4>Content {{slide.text}}</h4>
+              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+              <button is-button>See more</button>
+            </div>
+          </ng-template>
+      </is-reveal-carousel>
+    </div>
+  </div>
+</div> -->
+
+<div class="position-relative w-100 d-flex mt-5">
+    <div class="w-10">
+        Recommendations
+    </div>
+  <div class="w-70">
+      <img src="https://i.pinimg.com/originals/aa/92/89/aa9289de1ed2865bccd7c7457f246482.jpg" class="rounded-circle img-fluid home__vendors-logos" alt="KFC logo">
+      <img src="https://s.rozee.pk/company_logos/88/57787371842611.jpg" class="rounded-circle img-fluid home__vendors-logos" alt="KFC logo">
+      <img src="https://cdn.worldvectorlogo.com/logos/burger-king-4199.svg" class="rounded-circle img-fluid home__vendors-logos" alt="KFC logo">
+      <img src="https://pbs.twimg.com/profile_images/463420997182308352/aB_dGZ1u_400x400.png" class="rounded-circle img-fluid home__vendors-logos" alt="KFC logo">
+      <img src="http://www.whatshappening.com.ph/uploads/2017/07/19/1500428922.png" class="rounded-circle img-fluid home__vendors-logos" alt="KFC logo">
+
+      <img src="http://ahitservices.com/wp-content/uploads/2018/08/Logo-Design-LD-T-08-600x600.jpg" class="rounded-circle img-fluid home__vendors-logos" alt="KFC logo">
+      <img src="https://2.imimg.com/data2/QC/KJ/MY-4240261/restaurants-logo-design-250x250.jpg" class="rounded-circle img-fluid home__vendors-logos" alt="KFC logo">
+      <img src="https://cdn.worldvectorlogo.com/logos/burger-king-4199.svg" class="rounded-circle img-fluid home__vendors-logos" alt="KFC logo">
+      <img src="https://placeit.net/uploads/stage/stage_image/17143/default_07.png" class="rounded-circle img-fluid home__vendors-logos" alt="KFC logo">
+      <img src="http://www.whatshappening.com.ph/uploads/2017/07/19/1500428922.png" class="rounded-circle img-fluid home__vendors-logos" alt="KFC logo">
+
+      <img src="https://i.pinimg.com/originals/aa/92/89/aa9289de1ed2865bccd7c7457f246482.jpg" class="rounded-circle img-fluid home__vendors-logos" alt="KFC logo">
+      <img src="https://s.rozee.pk/company_logos/88/57787371842611.jpg" class="rounded-circle img-fluid home__vendors-logos" alt="KFC logo">
+      <img src="https://cdn.worldvectorlogo.com/logos/burger-king-4199.svg" class="rounded-circle img-fluid home__vendors-logos" alt="KFC logo">
+      <img src="https://pbs.twimg.com/profile_images/463420997182308352/aB_dGZ1u_400x400.png" class="rounded-circle img-fluid home__vendors-logos" alt="KFC logo">
+      <img src="http://www.whatshappening.com.ph/uploads/2017/07/19/1500428922.png" class="rounded-circle img-fluid home__vendors-logos" alt="KFC logo">
+  </div>
+  <div class="w-20">
+      <img src="https://pbs.twimg.com/media/DN2PoIpWsAAAMRN.jpg" alt="" class="img-fluid home__advertisement">
+  </div>
+</div>
+
+<div class="position-relative d-flex w-100 home__deals justify-content-center">
+    <is-reveal-carousel [options]="OptionsWithoutBottomNav" >
+        <ng-template isRevealCarouselItem
+                      *ngFor="let slide of slides" >
+          <div class="slide" 
+                isRevealCarouselExpandable>
+            <img [src]="slide.img"
+                  alt="placeholder">
+          </div>
+          <div isRevealCarouselBody>
+            <!-- <h4>Content {{slide.text}}</h4>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p> -->
+            <button is-button>See more</button>
+          </div>
+        </ng-template>
+    </is-reveal-carousel>
+</div>
+
+<div class="position-relative w-100 map" id="map">
+  <!-- <agm-map [latitude]="lat" [longitude]="lng" [zoom]="17">
+      <agm-marker
+      [latitude]="lat"
+      [longitude]="lng"
+      iconUrl="https://cdn0.iconfinder.com/data/icons/tiny-icons-1/100/tiny-62-512.png">
+    </agm-marker>
+  </agm-map> -->
+</div>
+
+<div class="position-relative w-100 home__app d-flex">
+  <div class="w-50 d-flex align-items-center">
+    <img src="https://www.zaplox.com/wp-content/uploads/2016/07/two-phones.png" alt="" class="home__app-phone">
+  </div>
+  <div class="w-50 d-flex align-items-center justify-content-end">
+    <div>
+      <h1 class="text-white font-weight-bold w-100 mb-3">Download The App</h1>
+      <h3 class="h2 font-weight-normal text-white  w-70">Get Everything under your Fingertips.Download the App and Live a Better Lifestyle</h3>
+      <div>
+        <a href="#" class="btn btn-store">
+            <span class="fa fa-apple fa-2x pull-left"></span> 
+            <span class="btn-label">Download on the</span>
+            <span class="btn-caption">App Store</span>
+          </a>
+          <a href="#" class="btn btn-store">
+            <span class="fa fa-android fa-2x pull-left"></span> 
+            <span class="btn-label">Download on the</span>
+            <span class="btn-caption">Google Play</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>

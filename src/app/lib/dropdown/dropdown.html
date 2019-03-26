@@ -1,0 +1,15 @@
+<div class="d-inline-block"
+     ngbDropdown
+     [placement]="options.placement">
+  <button class="is-dropdown__button"
+          type="button"
+          [class.is-dropdown__button--basic]="options.basicButton"
+          ngbDropdownToggle>{{title}}
+  </button>
+
+  <div class="dropdown-menu"
+       ngbDropdownMenu
+       [class.is-dropdown-menu--inverse]="options.inverse">
+    <ng-content></ng-content>
+  </div>
+</div>

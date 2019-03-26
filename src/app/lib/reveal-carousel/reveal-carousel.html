@@ -1,0 +1,41 @@
+<div class="is-reveal-carousel__wrapper">
+  <div class="is-reveal-carousel__body"
+       [style.width.px]="carouselWidth"
+       role="listbox">
+    <div class="is-reveal-carousel__list"
+         role="listbox"
+         [style.transform]="getListTranslate()">
+      <div *ngFor="let item of items; let i = index"
+           class="is-reveal-carousel__item"
+           (mouseenter)="onItemMouseEnter(i)"
+           (mouseleave)="onItemMouseLeave(i)"
+           [class.is-reveal-carousel__item--hovered]="isItemHovered(i)"
+           [style.transform]="getItemTranslate(i)"
+           [style.margin-left.px]="getMargins()"
+           [style.margin-right.px]="getMargins()">
+        <ng-template [ngTemplateOutlet]="item.tplRef"></ng-template>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="options.sideNavigation">
+    <button class="is-reveal-carousel__nav-btn is-reveal-carousel__nav-btn--prev"
+            [disabled]="canMoveCarouselForward()"
+            type="button"
+            (click)="moveCarouselForward()">
+    </button>
+
+    <button class="is-reveal-carousel__nav-btn is-reveal-carousel__nav-btn--next"
+            [disabled]="!canMoveCarouselBackward()"
+            type="button"
+            (click)="moveCarouselBackward()">
+    </button>
+  </div>
+  <div class="is-reveal-carousel__nav"
+       *ngIf="options.paging">
+    <span *ngFor="let btn of navDots"
+          class="is-reveal-carousel__nav-dot"
+          (click)="onNavigationDotClick(btn)"
+          [class.is-reveal-carousel__nav-dot--active]="isDotActive(btn)">
+    </span>
+  </div>
+</div>

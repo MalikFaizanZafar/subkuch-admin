@@ -1,0 +1,6 @@
+<div class="is-tooltip__content">
+  <span *ngIf="!toolTipTemplate"
+        [innerHTML]="toolTipText"></span>
+  <div [hidden]="!toolTipTemplate"
+       isToolTipContainer></div>
+</div>

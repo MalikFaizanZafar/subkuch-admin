@@ -1,0 +1,180 @@
+<div class="is-table-paginator__options__row"
+     *ngIf="options.showPaginator">
+  <div class="is-table-paginator__options__group">
+    <button type="button"
+            class="is-table-paginator__options__btn"
+            (click)="goToPage(1); tfp.close()"
+            [disabled]="isFirstPage()"
+            i18n-ngbTooltip="The tooltip for First Page@@isPaginatorTooltipFirstPage"
+            ngbTooltip="First Page"
+            placement="top"
+            container="body"
+            #tfp="ngbTooltip"
+            triggers="manual"
+            (mouseenter)="tfp.open()"
+            (mouseleave)="tfp.close()">
+      <i class="fa fa-step-backward"></i>
+    </button>
+
+    <button type="button"
+            class="is-table-paginator__options__btn"
+            (click)="goToPrevPage(); tpp.close()"
+            [disabled]="isFirstPage()"
+            i18n-ngbTooltip="The tooltip for Prev Page@@isPaginatorTooltipPrevPage"
+            ngbTooltip="Prev Page"
+            placement="top"
+            container="body"
+            #tpp="ngbTooltip"
+            triggers="manual"
+            (mouseenter)="tpp.open()"
+            (mouseleave)="tpp.close()">
+      <i class="fa fa-caret-left"></i>
+    </button>
+  </div>
+
+  <div class="is-table-paginator__options__pages is-table-paginator__options__group">
+    <span i18n="The word Pages in the table paginator@@isPaginatorPages">Pages</span>
+    <is-input-container *ngIf="!isReadOnlyPaginator(); else readonly"
+                        class="ml-2 mr-1">
+      <input type="number"
+             class="is-table-paginator__options__pages__input"
+             [value]="currentPage"
+             (change)="onPageChange($event)">
+    </is-input-container>
+    <ng-template #readonly>
+        <span class="is-table-paginator__options__pages__span ml-2 mr-1">
+          {{currentPage}}
+        </span>
+    </ng-template>
+    <span class="ws-nowrap">
+      <ng-container i18n="The word Of in the table paginator@@isPaginatorOf">of</ng-container>
+      {{ totalNumPages }}
+    </span>
+  </div>
+
+  <div class="is-table-paginator__options__group">
+    <button type="button"
+            class="is-table-paginator__options__btn"
+            (click)="goToNextPage(); tnp.close()"
+            [disabled]="isLastPage()"
+            i18n-ngbTooltip="The tooltip for Next Page@@isPaginatorTooltipNextPage"
+            ngbTooltip="Next Page"
+            placement="top"
+            container="body"
+            #tnp="ngbTooltip"
+            triggers="manual"
+            (mouseenter)="tnp.open()"
+            (mouseleave)="tnp.close()">
+      <i class="fa fa-caret-right"></i>
+    </button>
+
+    <button type="button"
+            class="is-table-paginator__options__btn"
+            (click)="goToPage(this.totalNumPages); tlp.close()"
+            [disabled]="isLastPage()"
+            i18n-ngbTooltip="The tooltip for Last Page@@isPaginatorTooltipLastPage"
+            ngbTooltip="Last Page"
+            placement="top"
+            container="body"
+            #tlp="ngbTooltip"
+            triggers="manual"
+            (mouseenter)="tlp.open()"
+            (mouseleave)="tlp.close()">
+      <i class="fa fa-step-forward"></i>
+    </button>
+  </div>
+</div>
+<div class="is-table-paginator__options__total is-table-paginator__options__group">
+  <button type="button"
+          class="is-table-paginator__options__btn is-table-paginator__options__btn--refresh"
+          (click)="onRefresh()"
+          i18n-ngbTooltip="The tooltip for Refresh@@isPaginatorTooltipRefresh"
+          ngbTooltip="Refresh"
+          placement="top"
+          container="body">
+    <i class="fa fa-refresh"></i>
+  </button>
+  <span class="ws-nowrap">
+    <ng-container
+      i18n="The word Total in the table paginator@@isPaginatorTotal">Total</ng-container>
+      : {{collectionSize}}
+  </span>
+</div>
+
+<div class="is-table-paginator__options__search is-table-paginator__options__group"
+     *ngIf="options.showSearchInput">
+  <div class="d-flex col p-0">
+    <is-input-container class="mr-2">
+      <input class="is-table-paginator__options__search__input"
+             i18n-placeholder="The Page Search Text... placeholder in the table paginator@@isPaginatorSearchPlaceholder"
+             placeholder="Page Search Text..."
+             type="text"
+             [(ngModel)]="filterString"
+             (input)="onSearchInput(ts, tcs)"
+             (keyup.enter)="onSearchInputSubmit()">
+    </is-input-container>
+    <button type="button"
+            class="is-table-paginator__options__btn is-table-paginator__options__search__icon"
+            [disabled]="filterString.length < 1"
+            (click)="onSearchInputSubmit(); ts.close()"
+            i18n-ngbTooltip="The tooltip for Search@@isPaginatorTooltipSearch"
+            ngbTooltip="Search"
+            placement="top"
+            container="body"
+            #ts="ngbTooltip"
+            triggers="manual"
+            (mouseenter)="ts.open()"
+            (mouseleave)="ts.close()">
+      <i class="fa fa-search"></i>
+    </button>
+  </div>
+
+  <label *ngIf="options.showMatchCase"
+         class="d-flex ws-nowrap is-table-paginator__options__checkbox">
+    <is-checkbox class="is-table-paginator__options__checkbox__input"
+                 [(ngModel)]="matchCase"
+                 (change)="onMatchCaseChange()"
+                 [checkedIcon]="matchCaseCheckedIcon">
+      <ng-container i18n="The Match Case word in the table paginator@@isPaginatorMatchCase">Match Case</ng-container>
+    </is-checkbox>
+  </label>
+
+  <button type="button"
+          class="is-table-paginator__options__btn"
+          [disabled]="filterString.length < 1"
+          (click)="onClearInput(); tcs.close()"
+          i18n-ngbTooltip="The tooltip for Clear Search Text@@isPaginatorTooltipClearSearchText"
+          ngbTooltip="Clear Search Text"
+          placement="top"
+          container="body"
+          #tcs="ngbTooltip"
+          triggers="manual"
+          (mouseenter)="tcs.open()"
+          (mouseleave)="tcs.close()">
+    <i class="fa fa-trash-o"></i>
+  </button>
+</div>
+
+<div class="is-table-paginator__options__aux is-table-paginator__options__group"
+     [class.is-table-paginator__options__aux--first]="!options.showPaginator">
+  <button type="button"
+          class="is-table-paginator__options__btn"
+          (click)="onExcelExport()"
+          i18n-ngbTooltip="The tooltip for Excel Export@@isPaginatorTooltipExcelExport"
+          ngbTooltip="Excel Export"
+          *ngIf="options.showExcel"
+          placement="top"
+          container="body">
+    <i class="fa fa-file-excel-o"></i>
+  </button>
+  <button type="button"
+          class="is-table-paginator__options__btn"
+          (click)="onPrint()"
+          i18n-ngbTooltip="The tooltip for Print Table@@isPaginatorTooltipPrintTable"
+          ngbTooltip="Print Table"
+          *ngIf="options.showPrint"
+          placement="top"
+          container="body">
+    <i class="fa fa-print"></i>
+  </button>
+</div>

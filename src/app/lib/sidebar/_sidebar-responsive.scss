@@ -1,0 +1,20 @@
+@import '../core/style/variables';
+@import '../core/style/responsive-utils';
+
+@include media-breakpoint-down(sm) {
+  .is-sidebar {
+    width: 75vw;
+    transition: .5s ease transform;
+    transform: translateX(-100%);
+    box-shadow: none;
+
+    &--mobile-revealed {
+      transform: translateX(0);
+      box-shadow: 2px 0 14px rgba(#000, .5);
+    }
+  }
+
+  .is-mobile-sidebar-overlay {
+    display: block;
+  }
+}

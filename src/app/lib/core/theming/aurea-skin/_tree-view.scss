@@ -1,0 +1,26 @@
+.is-tree-view {
+
+  &__item-name {
+    border-radius: 2px;
+    font-weight: 500;
+    font-size: 13px;
+    margin-bottom: 7px;
+
+    &:hover:not(.is-tree-view__item-name--select) {
+      background: rgba(#000, .17);
+    }
+
+    &--select {
+      background: rgba(#000, .17);
+
+      &:hover {
+        background: rgba(#000, .17);
+      }
+    }
+  }
+
+  &__icon {
+    color: #fff;
+  }
+
+}

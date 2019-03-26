@@ -1,0 +1,26 @@
+<label #label
+       [attr.for]="id"
+       class="is-radio-input__label">
+  <div class="is-radio-input__container">
+    <div class="is-radio-input__outer-circle"
+         [id]="'radio-outer-'+id"
+         [style.borderColor]="radioColor"></div>
+    <div class="is-radio-input__inner-circle"
+         [id]="'radio-inner-'+id"
+         [style.backgroundColor]="radioColor"></div>
+  </div>
+  <input #input
+         type="radio"
+         class="is-visually-hidden"
+         [id]="id"
+         [disabled]="disabled"
+         [name]="name"
+         [checked]="checked"
+         [value]="value"
+         (change)="onInputChange($event)"
+         (click)="onInputClick($event)"/>
+  <div class="is-radio-input__text"
+       [style.color]="labelColor">
+    <ng-content></ng-content>
+  </div>
+</label>

@@ -1,0 +1,44 @@
+.is-alert {
+  &__wrapper,
+  &__box__header {
+    background: map-get($au-neutral, 4);
+  }
+
+  &__box {
+    &__header {
+      color: #fff;
+      text-align: left;
+      font-weight: 500;
+      text-transform: none;
+      font-size: 16px;
+    }
+
+    &__buttons {
+      justify-content: center;
+    }
+  }
+
+  &__prompt-btn {
+    border: none;
+    color: #fff;
+    font-weight: 500;
+
+    &:hover {
+      opacity: .8;
+    }
+  }
+
+  &__button {
+    height: 32px;
+  }
+
+  &__confirm-btn {
+    background: $au-blue;
+  }
+
+  &__cancel-btn {
+    background: $au-red;
+  }
+}
+
+@import './alert-responsive';

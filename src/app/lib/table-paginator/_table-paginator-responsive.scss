@@ -1,0 +1,58 @@
+@import '../core/style/responsive-utils';
+@import '../core/theming/palette';
+
+@include media-breakpoint-down(sm) {
+  .is-table-paginator {
+    flex-direction: column;
+
+    &__options {
+      &__row {
+        width: 100%;
+        justify-content: space-between;
+        border-bottom: 1px solid map_get($is-light, 2);
+        flex-basis: auto;
+
+        :nth-child(n) {
+          border-bottom: none;
+        }
+      }
+
+      &__group {
+        border-right: none;
+        border-bottom: 1px solid map_get($is-light, 2);
+        padding: 5px 0;
+        justify-content: space-between;
+      }
+
+      &__total {
+        order: 2;
+        flex-direction: row-reverse;
+        padding-right: 45px;
+      }
+
+      &__search {
+        order: 3;
+        flex-shrink: 1;
+        flex-basis: auto;
+      }
+
+      &__btn {
+        &--refresh {
+          position: relative;
+          left: -4px;
+        }
+      }
+
+      &__aux {
+        position: absolute;
+        top: 45px;
+        right: 0;
+        border-bottom: none;
+
+        &--first {
+          top: 4px;
+        }
+      }
+    }
+  }
+}

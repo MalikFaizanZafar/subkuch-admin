@@ -1,0 +1,123 @@
+@import '../core/theming/palette';
+@import '../core/style/variables';
+
+@mixin input {
+  border: none;
+  background: 0;
+  border-bottom: 1px solid map_get($is-light, 6);
+}
+
+
+.is-table-paginator {
+  display: flex;
+  width: 100%;
+  position: relative;
+  font-size: 12px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  flex-wrap: wrap;
+
+  &__options {
+
+    &__row {
+      display: flex;
+      flex-shrink: 1;
+      flex-grow: 0;
+      flex-basis: 250px;
+    }
+
+    &__checkbox {
+      cursor: pointer;
+      margin-bottom: 0;
+      margin-left: 3px;
+      padding-left: 11px;
+
+      &__input {
+        position: relative;
+        margin-right: 4px;
+      }
+
+      label.is-checkbox__layout {
+        margin-bottom: 0;
+      }
+    }
+
+    &__group {
+      display: flex;
+      border-right: 1px solid map_get($is-light, 6);
+      align-items: center;
+      padding: 0 11px;
+    }
+
+    &__btn {
+      background: none;
+      border: none;
+      opacity: .4;
+
+      &:disabled {
+        cursor: default;
+      }
+
+      &:not(:disabled):hover {
+        opacity: .7;
+      }
+
+      .fa-caret-left,
+      .fa-caret-right {
+        font-size: 18px;
+        position: relative;
+        top: 1px;
+      }
+    }
+
+    &__aux {
+      border: none;
+    }
+
+    &__search {
+      flex-grow: 1;
+      flex-shrink: 0;
+      flex-basis: 210px;
+
+      &__input {
+        @include input;
+        margin-right: 4px;
+      }
+
+      &__icon {
+        padding: 0;
+      }
+
+      is-input-container {
+        width: 95%;
+        min-width: 30px;
+      }
+    }
+
+    &__pages {
+
+
+      &__input {
+        @include input;
+      }
+
+      &__span {
+        padding: 6px;
+      }
+
+      is-input-container {
+        min-width: 30px;
+        flex-basis: 30px;
+        flex-grow: 1;
+        flex-shrink: 0;
+      }
+    }
+  }
+
+  .is-tooltip__content {
+    padding: 3px 5px;
+    font-size: 12px;
+  }
+}
+
+@import './table-paginator-responsive';

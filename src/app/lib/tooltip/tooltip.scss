@@ -1,0 +1,180 @@
+@import '../core/mixins/triangle';
+@import '../core/style/variables';
+@import '../core/theming/palette';
+@import '../core/mixins/color-functions';
+
+$tooltip-width: 200px !default;
+$tooltip-margin: 10px !default;
+$tooltip-triangle-margin: 10px !default;
+
+.is-tooltip {
+  position: absolute;
+  width: $tooltip-width;
+  z-index: $z-index-infinite;
+  opacity: 0;
+  display: none;
+
+  &--visible {
+    display: block;
+  }
+
+  &__content {
+    margin: 0;
+    display: inline-block;
+    background-color: color(dark);
+    font-size: 14px;
+    border-radius: 3px;
+    padding: 8px 10px;
+    text-align: left;
+    color: color(light);
+  }
+
+  &.circle {
+    .is-tooltip__content {
+      border-radius: 50%;
+      padding: 5px;
+      text-align: center;
+      width: 50px;
+      height: 50px;
+      font-size: 12px;
+    }
+  }
+
+  &.fixed {
+    position: fixed;
+  }
+
+  &::after {
+    position: absolute;
+  }
+
+  &-- {
+    // Top tooltips
+    &top {
+      text-align: center;
+      transform: translateX(-50%) translateY(-100%) translateY(-10px);
+
+      &::after {
+        left: 50%;
+        transform: translateX(-50%) translateY(100%) translateY(-1px);
+      }
+    }
+
+    &topleft {
+      text-align: left;
+      transform: translateX(0) translateY(-100%) translateY(-10px);
+
+      &::after {
+        left: $tooltip-triangle-margin;
+        transform: translateX(0) translateY(100%) translateY(-1px);
+      }
+    }
+
+    &topright {
+      text-align: right;
+      transform: translateX(-100%) translateY(-100%) translateY(-10px);
+
+      &::after {
+        right: $tooltip-triangle-margin;
+        transform: translateX(0) translateY(100%) translateY(-1px);
+      }
+    }
+
+    &top,
+    &topleft,
+    &topright {
+      &::after {
+        @include triangle(bottom, color(dark), 5px);
+        bottom: 0;
+      }
+    }
+    // Bottom Tooltips
+
+    &bottom {
+      text-align: center;
+      transform: translate(-50%, 10px);
+
+      &::after {
+        left: 50%;
+        transform: translate(-50%, -100%);
+      }
+    }
+
+    &bottomleft {
+      text-align: left;
+      transform: translate(0, 10px);
+
+      &::after {
+        left: $tooltip-triangle-margin;
+        transform: translate(0, -100%);
+      }
+    }
+
+    &bottomright {
+      text-align: right;
+      transform: translate(-100%, 10px);
+
+      &::after {
+        right: $tooltip-triangle-margin;
+        transform: translate(0, -100%);
+      }
+    }
+
+    &bottom,
+    &bottomleft,
+    &bottomright {
+      &::after {
+        @include triangle(top, color(dark), 5px);
+        top: 0;
+      }
+    }
+    // Left and right tooltips
+
+    &left {
+      text-align: right;
+      transform: translateX(-100%) translateX(-10px) translateY(-50%);
+
+      &::after {
+        @include triangle(right, color(dark), 5px);
+        top: 50%;
+        right: 0;
+        transform: translate(100%, -50%);
+      }
+    }
+
+    &right {
+      text-align: left;
+      transform: translate(10px, -50%);
+
+      &::after {
+        @include triangle(left, color(dark), 5px);
+        top: 50%;
+        left: 0;
+        transform: translateX(-100%) translateX(1px) translateY(-50%);
+      }
+    }
+  }
+
+  // Theming the tooltip
+  @each $colorName, $color in $is-colors {
+    &.#{$colorName} {
+      .is-tooltip__content {
+        background-color: $color;
+        color: contrast($color);
+
+        @if $colorName == light {
+          background-color: map-get($is-light, 1);
+          box-shadow: 0 5px 14px 0 rgba(0, 0, 0, .06), 0 0 0 1px rgba(0, 0, 0, .05), 0 0 3px 0 rgba(0, 0, 0, .02);
+        }
+      }
+
+      &::after {
+        border-color: $color;
+
+        @if $colorName == light {
+          border-color: map-get($is-light, 1);
+        }
+      }
+    }
+  }
+}

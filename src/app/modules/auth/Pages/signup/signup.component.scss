@@ -1,0 +1,72 @@
+.sign {
+  &__slider {
+    height: calc(100vh - 50px);
+  }
+
+  &__form {
+      top: -3%;
+      left: 30%;
+      right: 0;
+  }
+
+  &__input {
+    padding: 7%;
+  }
+
+  &__register__button {
+    background: linear-gradient(#9acd32, #8ab82d);
+    font-weight: bolder;
+    color: white;
+    padding: 5%;
+    border-radius: 5%;
+    border: 0px;
+    margin-left: 25%;
+  }
+
+  &__about {
+    padding-top: 10%;
+    padding-bottom: 10%;
+  }
+
+  &__about__icon {
+    margin-left: 47%;
+  }
+
+  &__about__heading {
+    margin-left: 45%;
+  }
+
+  &__about__text {
+    margin-left: 25%;
+  }
+
+  &__section3 {
+    top: 40%;
+      left: 10%;
+      right: 0;
+
+      &__text1 {
+        font-size: 70px;
+        font-weight: 700;
+        color: #8ab82d;
+      }
+
+      &__text2 {
+        font-size: 50px;
+        font-weight: 600;
+      }
+
+      &__button {
+        background: linear-gradient(#9acd32, #8ab82d);
+        font-weight: bold;
+        font-size: 20px;
+        padding: 2%;
+        color: white;
+        border: 0px;
+        margin-top: 3%;
+      }
+  }
+}
+.h-12 {
+  height: 12%;;
+}

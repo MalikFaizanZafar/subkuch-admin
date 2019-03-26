@@ -1,0 +1,88 @@
+<div [ngStyle]="style"
+     [class]="styleClass"
+     class="is-grid"
+     [style.width]="containerWidth"
+     [ngClass]="{'is-grid--reflow':responsive,'is-grid--stacked':stacked,'is-grid--resizable':resizableColumns,'is-grid--scrollable':scrollable}">
+  <div class="is-grid-loading"
+       *ngIf="loading">
+    <div class="is-grid-loading__loader"></div>
+    <div class="is-grid-loading__label">{{loadingMessage}}</div>
+  </div>
+  <div class="is-grid__header"
+       *ngIf="header">
+    <ng-content select="is-grid-header"></ng-content>
+  </div>
+  <div class="is-grid__tablewrapper"
+       *ngIf="!scrollable">
+    <table [ngClass]="tableStyleClass"
+           [ngStyle]="tableStyle"
+           class="is-grid__table">
+      <thead class="is-grid__thead">
+        <tr *ngIf="!headerColumnGroups || !headerColumnGroups.first"
+            class="is-grid__row--header"
+            [isGridColumnHeaders]="columns">
+        </tr>
+        <ng-template [ngIf]="headerColumnGroups && headerColumnGroups.first">
+          <tr *ngFor="let headerRow of headerColumnGroups.first.rows"
+              class="is-grid__row--header"
+              [isGridColumnHeaders]="headerRow.columns">
+          </tr>
+        </ng-template>
+      </thead>
+      <tfoot *ngIf="hasFooter()"
+             class="is-grid__tfoot">
+        <tr *ngIf="!footerColumnGroups.first"
+            class="is-grid__row--header"
+            [isGridColumnFooters]="columns"></tr>
+        <ng-template [ngIf]="footerColumnGroups.first">
+          <tr *ngFor="let footerRow of footerColumnGroups.first.rows"
+              class="is-grid__row--header"
+              [isGridColumnFooters]="footerRow.columns"></tr>
+        </ng-template>
+      </tfoot>
+      <tbody [class.is-grid__hoverable-rows]="rowHover || selectionMode"
+             class="is-grid__data"
+             [isGridTableBody]="columns"
+             [data]="dataToRender"></tbody>
+    </table>
+  </div>
+
+  <ng-template [ngIf]="scrollable">
+    <div class="is-grid--scrollable__wrapper clearfix">
+      <is-grid-scrollable-view *ngIf="hasFrozenColumns()"
+                              [columns]="frozenColumns"
+                              frozen="true"
+                              [headerColumnGroup]="frozenHeaderColumnGroup"
+                              [footerColumnGroup]="frozenFooterColumnGroup"
+                              [ngStyle]="{'width':this.frozenWidth}"
+                              class="is-grid-scrollable-view--frozen"></is-grid-scrollable-view>
+      <is-grid-scrollable-view [columns]="scrollableColumns"
+                              [ngStyle]="{'width':this.unfrozenWidth, 'left': this.frozenWidth}"
+                              [headerColumnGroup]="scrollableHeaderColumnGroup"
+                              [footerColumnGroup]="scrollableFooterColumnGroup"
+                              [class]="'is-grid-scrollable-view'+(hasFrozenColumns()&&'--unfrozen')"
+                              [virtualScroll]="virtualScroll"
+                              (onVirtualScroll)="onVirtualScroll($event)"></is-grid-scrollable-view>
+    </div>
+  </ng-template>
+
+  <is-table-paginator [collectionSize]="totalRecords"
+                      [(currentPage)]="currentPage"
+                      [pageSize]="rows"
+                      (refresh)="onRefresh($event)"
+                      (print)="onPrint($event)"
+                      (pageChange)="onPageChange($event)"
+                      *ngIf="paginator && (paginatorPosition === 'bottom')"
+                      (searchInput)="onSearchInput($event)"
+                      (searchInputSubmit)="onSearchInput($event)"
+                      (excelExport)="exportCSV()">
+</is-table-paginator>
+  <div class="is-grid__footer"
+       *ngIf="footer">
+    <ng-content select="is-grid-footer"></ng-content>
+  </div>
+
+  <div class="is-grid__resizer-helper"></div>
+  <span class="fa fa-chevron-down is-grid__reorder-indicator-up"></span>
+  <span class="fa fa-chevron-up is-grid__reorder-indicator-down"></span>
+</div>

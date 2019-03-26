@@ -1,0 +1,13 @@
+.is-topbar {
+  background: map-get($au-neutral, 5);
+}
+
+.is-topbar-links a.active {
+  border-bottom: 3px solid $au-red;
+  opacity: 1;
+}
+
+.is-topbar-links a {
+  font-weight: 500;
+  opacity: .6;
+}

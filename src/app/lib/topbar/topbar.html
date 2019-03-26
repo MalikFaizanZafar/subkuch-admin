@@ -1,0 +1,32 @@
+<header class="is-topbar h-100">
+  <div [class.container]="!fluid"
+       class="h-100">
+    <nav class="d-flex align-items-center justify-content-between h-100">
+      <div class="is-topbar__left">
+        <button type="button"
+                class="is-hamburger"
+                (click)="onHamburguerClick()">
+          <span class="is-hamburger__line"></span>
+          <span class="is-hamburger__line"></span>
+          <span class="is-hamburger__line"></span>
+        </button>
+        <ng-content select=".left-group"></ng-content>
+      </div>
+      <div class="is-topbar__center">
+        <ng-content select=".center-group"></ng-content>
+        <div class="is-topbar-links"
+             *ngIf="links">
+          <a *ngFor="let link of links"
+             routerLinkActive="active"
+             routerLink="{{ link.link }}">
+            <i class="fa {{ link.icon }}"></i>
+            <span>{{ link.label }}</span>
+          </a>
+        </div>
+      </div>
+      <div class="is-topbar__right">
+        <ng-content select=".right-group"></ng-content>
+      </div>
+    </nav>
+  </div>
+</header>

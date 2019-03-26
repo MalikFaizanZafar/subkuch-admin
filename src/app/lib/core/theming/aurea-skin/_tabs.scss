@@ -1,0 +1,29 @@
+.nav-tabs {
+  background: map-get($au-gray, 4);
+
+  .nav-item {
+    margin: 0;
+  }
+
+  .nav-link {
+    border-radius: 0;
+    border: none;
+    color: map-get($au-neutral, 3);
+
+    &.active {
+      position: relative;
+      background: $au-gray-main;
+      color: #fff;
+
+      &::after {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 2px;
+        background: $au-red;
+        bottom: 2px;
+        left: 0;
+      }
+    }
+  }
+}

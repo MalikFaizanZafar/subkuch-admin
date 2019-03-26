@@ -1,0 +1,83 @@
+@import '../core/core';
+
+is-topbar {
+  position: relative;
+  background: map_get($is-dark, 5);
+  box-shadow: 0 1px 5px 0 rgba(0, 0, 0, .35);
+  z-index: $z-index-5;
+  height: 50px;
+  display: block;
+  color: map_get($is-light, 4);
+}
+
+.is-topbar {
+  &__left {
+    height: 100%;
+
+    .left-group {
+      height: 100%;
+      line-height: 50px;
+      position: relative;
+    }
+  }
+
+  .container {
+    .is-topbar-logo {
+      left: -15px;
+    }
+  }
+}
+
+.is-topbar-links {
+  position: absolute;
+  height: 100%;
+  display: flex;
+  top: 0;
+  left: 215px;
+  justify-content: start;
+  align-items: center;
+
+  a {
+    padding: 0 17px;
+    height: 100%;
+    color: #fff;
+    cursor: pointer;
+    text-decoration: none;
+    text-align: center;
+    line-height: 50px;
+
+    i {
+      margin-right: 5px;
+    }
+
+    &.active {
+      background: rgba(0, 0, 0, .2);
+      border-bottom: 2px solid #f00;
+    }
+
+    &:not(.active):hover {
+      background: rgba(255, 255, 255, .05);
+    }
+  }
+}
+
+.is-hamburger {
+  display: none;
+  background: none;
+  border: none;
+  position: absolute;
+  z-index: $z-index-1;
+  top: 8px;
+  left: 4px;
+
+  &__line {
+    background: #fff;
+    height: 2px;
+    margin: 6px 0;
+    display: block;
+    width: 23px;
+    border-radius: 2px;
+  }
+}
+
+@import './topbar-responsive';

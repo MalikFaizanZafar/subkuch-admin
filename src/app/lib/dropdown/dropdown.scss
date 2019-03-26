@@ -1,0 +1,30 @@
+@import '../core/core';
+
+.is-dropdown {
+  &__button {
+    cursor: pointer;
+    color: inherit;
+    background: map_get($is-light, 1);
+    border-radius: 3px;
+    border: solid 1px map_get($is-light, 7);
+    padding: .25rem 1rem;
+
+    &--basic {
+      border: none;
+      background: none;
+      color: inherit;
+    }
+  }
+
+  &-menu--inverse {
+    background: map_get($is-dark, 5);
+
+    .dropdown-item {
+      color: map_get($is-light, 4);
+
+      &:hover {
+        background: rgba(255, 255, 255, .05);
+      }
+    }
+  }
+}

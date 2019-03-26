@@ -1,0 +1,35 @@
+@import '../../core/core';
+
+.is-grid-table-body {
+  &__cell {
+    padding: 0 8.5px;
+
+    &--editing {
+      .is-grid-table-body__editor {
+        display: block;
+
+        .is-grid-table-body__editor-input {
+          border: none;
+          border-bottom: 2px $is-blue solid;
+        }
+      }
+
+      .is-grid-table-body__cell-data {
+        display: none;
+      }
+    }
+  }
+
+  &__cell-column-title {
+    padding: .4em;
+    min-width: 30%;
+    display: inline-block;
+    margin: -.4em 1em -.4em -.4em;
+    font-weight: 700;
+    max-width: 30%;
+  }
+
+  &__editor {
+    display: none;
+  }
+}

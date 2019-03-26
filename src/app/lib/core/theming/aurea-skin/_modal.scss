@@ -1,0 +1,18 @@
+// Modal
+.modal-header {
+  background: map-get($au-neutral, 4);
+  color: #fff;
+
+  button.close {
+    color: #fff;
+    opacity: 1;
+  }
+}
+
+.modal-title {
+  font-size: 16px;
+
+  i {
+    margin-right: 10px;
+  }
+}

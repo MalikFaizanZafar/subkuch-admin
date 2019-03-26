@@ -1,0 +1,40 @@
+@import '../../core/core';
+
+.is-grid-scrollable-view {
+  &--frozen {
+    .is-grid-scrollable-view__body {
+      overflow: hidden;
+    }
+  }
+
+  &__header {
+    overflow: hidden;
+
+    .is-grid__data {
+      border-bottom: 2px solid map-get($is-light, 4);
+      overflow: hidden;
+    }
+  }
+
+  &__table {
+    border-collapse: collapse;
+    width: 100%;
+    table-layout: fixed;
+
+    &--virtual {
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+  }
+
+  &__wrapper {
+    position: relative;
+  }
+
+  &__body {
+    overflow: auto;
+    overflow-anchor: none;
+    min-height: 0%;
+  }
+}

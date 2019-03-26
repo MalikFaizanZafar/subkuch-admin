@@ -1,0 +1,30 @@
+<div ngbDropdown
+     [placement]="dropdownPlacement"
+     class="h-100">
+  <div ngbDropdownToggle
+       class="is-dropdown__button is-dropdown__button--basic d-flex align-items-center h-100">
+    <div class="d-inline-block">
+      <div class="d-flex align-items-center justify-content-between is-user-profile__wrapper"
+           [class.flex-row-reverse]="isLeft()">
+        <!-- hack to centrally align dropdown down arrow when message is midden-->
+        <div class="ml-1">&nbsp;</div>
+        <div *ngIf="showMessage"
+             [style.color]="color"
+             [ngClass]="getBootstrapColorClass()"
+             class="ml-1">{{welcomeMessage}}, {{userName}}
+        </div>
+        <div class="is-user-profile__img-container">
+          <img [src]="image"
+               (error)="hideImage()"
+               *ngIf="image && !invalidImg"
+               alt="User Image"
+               class="is-user-profile__img">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div ngbDropdownMenu>
+    <ng-content></ng-content>
+  </div>
+</div>

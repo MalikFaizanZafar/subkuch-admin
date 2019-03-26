@@ -1,0 +1,66 @@
+// @import "~@devfactory/ngx-df/core/_core";
+// @import 'palette';
+
+// table[df-table] {
+//   box-shadow: none;
+// }
+
+// .df-table {
+//   thead {
+//     th {
+//       font-weight: bolder !important;
+//       color: map-get($df-dark, 3) !important;
+//       height: 40px;
+//       text-align: left;
+//       font-weight: 500;
+//       border-bottom: 1px solid map-get($df-light, 7);
+//       border-left: none;
+//       position: inherit;
+//     }
+//   }
+// }
+
+// table[df-table] {
+//   td {
+//     border-left: none;
+//     border-bottom: 1px solid map-get($df-light, 7);
+//     &:not(.df-row-detail__td) {
+//       font-size: 14px;
+//       padding-top: 7px;
+//       padding-bottom: 7px;
+//       color: map-get($df-dark, 3);
+//       font-weight: 400;
+//     }
+//   }
+// } 
+
+// table[df-table] thead td,
+// table[df-table] thead th,
+// table[df-table] thead .df-sortable-column {
+//   font-size: 14px;
+//   color: map-get($df-dark, 3);
+// }
+
+
+// table[df-table] i {
+//   color: #28bd8b;
+//   cursor: default;
+
+//   &:hover {
+//     color: #28bd8b;
+//   }
+// }
+
+// table[df-table] tr {
+//   &:not(.df-selectable-row--selected) {
+//     &:hover {
+//       background-color: map-get($df-light, 3);
+//     }
+//     &:nth-of-type(odd) {
+//       background-color: map-get($df-light, 1);
+//       &:hover {
+//         background-color: map-get($df-light, 3);
+//       }
+//     }
+//   }
+// }

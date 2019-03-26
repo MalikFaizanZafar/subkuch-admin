@@ -1,0 +1,47 @@
+<nav #navBar
+     class="is-sidebar is-custom-scroll"
+     [class.is-sidebar--mobile-revealed]="mobileSidebarRevealed"
+     [class.is-sidebar--open]="isOpen"
+     [class.is-sidebar--scrollbars]="scrollBars">
+  <button type="button"
+          class="is-sidebar__slide-button d-flex align-items-center"
+          (click)="toogleOpen()"
+          *ngIf="!disableButton">
+    <i class="fa fa-angle-double-right is-sidebar__slide-button-icon"
+       *ngIf="!isOpen"></i>
+    <i class="fa fa-angle-double-left is-sidebar__slide-button-icon"
+       *ngIf="isOpen"></i>
+  </button>
+
+  <ng-content></ng-content>
+
+  <div *ngIf="autoGenerateItems">
+    <is-sidebar-item *ngFor="let item of autoGenerateItems"
+                     [hasIcon]="false"
+                     [icon]="item.icon"
+                     [label]="item.label"
+                     [hasNestedMenu]="item.nodes"
+                     [expanded]="item.expanded"
+                     [link]="item.link"
+                     [auxInfo]="item.auxInfo"
+                     [isActive]="item.link && rla.isActive"
+                     [auxTemplate]="auxTemplate"
+                     [nodes]="item.nodes">
+      <a class="h4"
+         routerLinkActive
+         #rla="routerLinkActive"
+         [routerLink]="item.link"
+         [routerLinkActiveOptions]="{exact: false}">
+        <i class="fa"
+           [ngClass]="item.icon"
+           *ngIf="item.icon"></i>
+        {{item.label}}
+      </a>
+    </is-sidebar-item>
+  </div>
+</nav>
+
+<div class="is-mobile-sidebar-overlay"
+     [@fadeInOut]
+     (click)="hideMobileSidebar()"
+     *ngIf="mobileSidebarRevealed"></div>

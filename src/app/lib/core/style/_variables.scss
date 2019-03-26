@@ -1,0 +1,20 @@
+$is-font-family: 'Roboto', Helvetica, sans-serif !default;
+
+// easing
+$ease-in-out-curve-function: cubic-bezier(.35, 0, .25, 1) !default;
+$ease-in-out-duration: 500ms !default;
+$ease-in-out-timing-function: $ease-in-out-curve-function !default;
+$ease-in-out: all $ease-in-out-duration $ease-in-out-timing-function !default;
+$ease-strong-in-smooth-out: cubic-bezier(.785, .135, .15, .86) !default;
+
+// General use utils
+$infinite: 9999;
+
+// Z-index utils
+$z-index-1: 5;
+$z-index-2: 10;
+$z-index-3: 15;
+$z-index-4: 20;
+$z-index-5: 25;
+$z-index-6: 30;
+$z-index-infinite: $infinite;

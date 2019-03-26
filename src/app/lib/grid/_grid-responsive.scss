@@ -1,0 +1,31 @@
+@import '../core/style/responsive-utils';
+@import '../core/theming/palette';
+
+@include media-breakpoint-down(sm) {
+  .is-grid {
+    &--reflow {
+      .is-grid__thead {
+        display: none;
+      }
+
+      .is-grid__tfoot {
+        display: none;
+      }
+
+      .is-grid__data {
+        border-bottom: 1px solid map-get($is-dark, 1);
+      }
+
+      .is-grid-table-body__cell {
+        text-align: left;
+        display: block;
+        border: 1px solid map-get($is-light, 3);
+        width: 100%;
+        box-sizing: border-box;
+        float: left;
+        clear: left;
+        padding: 8.5px !important; // sass-lint:disable-line no-important
+      }
+    }
+  }
+}

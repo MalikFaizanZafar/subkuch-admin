@@ -1,0 +1,70 @@
+<div #scrollHeader
+     class="is-grid-scrollable-view__header"
+     [ngStyle]="{'width': width}">
+  <div #scrollHeaderBox
+       class="is-grid-scrollable-view__header-box">
+    <table [ngClass]="dt.tableStyleClass"
+           [ngStyle]="dt.tableStyle"
+           class="is-grid__table">
+      <thead class="is-grid__thead">
+      <tr *ngIf="!headerColumnGroup"
+          class="'is-grid__row--header"
+          [isGridColumnHeaders]="columns">
+      </tr>
+      <ng-template [ngIf]="headerColumnGroup">
+        <tr *ngFor="let headerRow of headerColumnGroup.rows"
+            class="is-grid__row--header"
+            [isGridColumnHeaders]="headerRow.columns">
+        </tr>
+      </ng-template>
+      </thead>
+      <tbody *ngIf="dt.frozenValue"
+            [ngClass]="{'is-grid__data': true, 'is-grid__hoverable-rows': (dt.rowHover||dt.selectionMode)}"
+            [isGridTableBody]="columns"
+            [data]="dt.frozenValue"></tbody>
+    </table>
+  </div>
+</div>
+<div #scrollBody
+     class="is-grid-scrollable-view__body "
+     [ngStyle]="{'width': width}">
+  <div #scrollTableWrapper
+       class="is-grid-scrollable-view__wrapper">
+    <table #scrollTable
+           class="is-grid-scrollable-view__table"
+           [class]="dt.tableStyleClass"
+           [ngStyle]="dt.tableStyle"
+           [ngClass]="{'is-grid-scrollable-view__table--virtual':virtualScroll}">
+      <colgroup class="is-grid-scrollable-colgroup">
+        <col *ngFor="let col of columns"
+             [ngStyle]="col.headerStyle||col.style"
+             [ngClass]="{'d-none': col.hidden}"/>
+      </colgroup>
+      <tbody [ngClass]="{'is-grid__hoverable-rows': (dt.rowHover||dt.selectionMode)}"
+             [isGridTableBody]="columns"
+             [data]="dt.dataToRender"></tbody>
+    </table>
+  </div>
+</div>
+<div #scrollFooter
+     class="is-grid__scrollable-footer"
+     [ngStyle]="{'width': width}"
+     *ngIf="dt.hasFooter()">
+  <div #scrollFooterBox
+       class="is-grid__scrollable-footer-box">
+    <table [ngClass]="dt.tableStyleClass"
+           [ngStyle]="dt.tableStyle"
+           class="is-grid__table">
+      <tfoot class="is-grid__tfoot">
+      <tr *ngIf="!footerColumnGroup"
+          [isGridColumnFooters]="columns"
+          class="is-grid-state--default"></tr>
+      <ng-template [ngIf]="footerColumnGroup">
+        <tr *ngFor="let footerRow of footerColumnGroup.rows"
+            class="is-grid-state--default"
+            [isGridColumnFooters]="footerRow.columns"></tr>
+      </ng-template>
+      </tfoot>
+    </table>
+  </div>
+</div>

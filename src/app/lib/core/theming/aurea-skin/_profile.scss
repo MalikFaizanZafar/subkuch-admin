@@ -1,0 +1,36 @@
+is-user-profile {
+  & div.d-flex.justify-content-between {
+    color: #fff;
+    flex-direction: row-reverse;
+    font-weight: 500;
+
+    & > .is-user-profile__img-container {
+      margin: 0 3px 0 0;
+      border: none;
+      box-shadow: none;
+      background-image: none;
+
+      &::before {
+        content: '\F007';
+        position: absolute;
+        display: inline-block;
+        font: normal normal normal 14px / 1 FontAwesome;
+        font-size: inherit;
+        text-rendering: auto;
+        -webkit-font-smoothing: antialiased; // sass-lint:disable-line no-vendor-prefixes
+        margin: 8px 0 0 10px;
+      }
+
+      & img {
+        position: absolute;
+        width: 30px;
+        height: 30px;
+        border-radius: 40px;
+      }
+    }
+  }
+
+  & div.is-dropdown__button::after {
+    border-top: .3em solid $au-red;
+  }
+}

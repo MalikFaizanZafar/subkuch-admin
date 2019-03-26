@@ -1,0 +1,18 @@
+<a
+  class="px-3 py-2 d-block button"
+  (click)="navigateToUrl()"
+  [style.background-color]="color">
+  <div class="d-flex align-items-center">
+    <i
+      *ngIf="icon && !loading"
+      class="fa {{ icon }} fa-lg mr-3"
+      aria-hidden="true">
+    </i>
+    <i
+      *ngIf="loading"
+      class="fa fa-spin fa-circle-o-notch mr-3"
+      aria-hidden="true">
+    </i>
+    {{ text }}
+  </div>
+</a>

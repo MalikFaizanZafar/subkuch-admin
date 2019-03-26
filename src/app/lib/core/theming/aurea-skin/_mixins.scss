@@ -1,0 +1,32 @@
+@mixin panelHeader {
+  padding: 1em;
+  background: map-get($is-dark, 4);
+  color: map-get($is-dark, 1);
+  width: 100%;
+  min-height: 3em;
+  float: left;
+  margin-bottom: 0;
+  text-transform: uppercase;
+  font-size: 12px;
+  font-weight: 600;
+  align-items: center;
+  justify-content: space-between;
+}
+
+@mixin topSeparator {
+  border-top: 8px solid map-get($is-dark, 5);
+}
+
+@mixin button($type: 'primary') {
+  @if $type == 'primary' {
+    background-color: #28bd8b;
+    border-color: #28bd8b;
+  } @else if $type == 'red' {
+    background-color: #ea5a5a;
+    border-color: #ea5a5a;
+  }
+
+  position: relative;
+  font-size: 13px;
+  color: #fff;
+}

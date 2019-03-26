@@ -1,0 +1,276 @@
+@import '../core/core';
+@import '../core/theming/palette';
+
+.is-grid {
+  font-family: $is-font-family;
+  font-size: 14px;
+  position: relative;
+  border-collapse: collapse;
+  width: 100%;
+  table-layout: fixed;
+
+  &__table {
+    border-collapse: collapse;
+    width: 100%;
+    table-layout: fixed;
+  }
+
+  &--stacked {
+    .is-grid__thead,
+    .is-grid__tfoot {
+      display: none;
+    }
+
+    .is-grid-table-body__cell {
+      text-align: left;
+      display: block;
+      border: 0 none;
+      width: 100%;
+      box-sizing: border-box;
+      float: left;
+      clear: left;
+    }
+  }
+
+  &--resizable {
+    padding-bottom: 1px; /*fix for webkit overlow*/
+    overflow: auto;
+  }
+
+  &--scrollable {
+    &__wrapper {
+      position: relative;
+    }
+  }
+
+  .is-grid-loading {
+    display: block;
+    width: 100%;
+    background: linear-gradient(to top, #fff 6%, transparent);
+    position: absolute;
+    bottom: 0;
+    text-align: center;
+    padding: 132px 0 39px;
+    pointer-events: none;
+    transition: all ease .5s;
+    opacity: 1;
+    transform: translateY(0);
+
+    &__loader,
+    &__loader::after {
+      border-radius: 50%;
+      width: 1.4em;
+      height: 1.4em;
+    }
+
+    &__loader {
+      position: relative;
+      top: 5px;
+      margin: 0;
+      margin-right: 16px;
+      display: inline-block;
+      border-top: .2em solid rgba(0, 0, 0, .2);
+      border-right: .2em solid rgba(0, 0, 0, .2);
+      border-bottom: .2em solid rgba(0, 0, 0, .2);
+      border-left: .2em solid map-get($is-dark, 3);
+      transform: translateZ(0);
+      animation: is-grid-loader-animation 1.1s infinite linear;
+      transition: all ease .2s;
+    }
+
+    &__label {
+      font-size: 1em;
+      font-weight: 600;
+      text-transform: uppercase;
+      color: map-get($is-dark, 3);
+      display: inline-block;
+    }
+  }
+
+  &__header {
+    background-color: map-get($is-light, 1);
+  }
+
+  &__thead {
+    color: map-get($is-dark, 3);
+    border-bottom: 1px solid map-get($is-light, 4);
+  }
+
+  &__tfoot {
+    color: map-get($is-dark, 2);
+    font-weight: bold;
+  }
+
+  &__data {
+    color: map-get($is-dark, 2);
+    border-bottom: 1px solid map-get($is-light, 4);
+    text-align: left;
+  }
+
+  &__empty-message {
+    color: map-get($is-dark, 2);
+    border-bottom: 1px solid map-get($is-light, 4);
+    text-align: left;
+    height: 2.5rem;
+  }
+
+  &__row {
+    &--data {
+      height: 2.5rem;
+    }
+
+    &--header {
+      height: 3.25rem;
+      padding: 0 8.5px;
+      outline: none;
+      position: relative;
+      border-bottom: 1px solid map-get($is-light, 4);
+    }
+
+    &--active {
+      height: 3.25rem;
+      padding: 0 8.5px;
+    }
+
+    &--selected {
+      background-color: map-get($is-light, 3);
+    }
+  }
+
+  &__row-expandable-icon {
+    color: $is-blue;
+  }
+
+  &__footer {
+    border-bottom: 1px solid map-get($is-light, 4);
+  }
+
+  &__resizer-helper {
+    width: 1px;
+    position: absolute;
+    z-index: 10;
+    display: none;
+    background-color: map-get($is-light, 4);
+  }
+
+  &__reorder-indicator-up {
+    color: $is-blue;
+    display: none;
+    position: absolute;
+  }
+
+  &__reorder-indicator-down {
+    color: $is-blue;
+    display: none;
+    position: absolute;
+  }
+}
+
+.is-grid-clickable {
+  cursor: pointer;
+}
+
+.is-grid-column {
+  &__title {
+    vertical-align: middle;
+  }
+
+  &--sortable {
+    cursor: pointer;
+
+    &__icon {
+      font-size: 10px;
+      color: map-get($is-dark, 1);
+      display: inline-flex;
+      flex-direction: column;
+      vertical-align: middle;
+      margin-left: 4px;
+
+      &--active {
+        color: $is-blue;
+      }
+    }
+  }
+
+  &--reorderable {
+    cursor: grab;
+  }
+
+  &--resizable {
+    background-clip: padding-box;
+    position: relative;
+  }
+}
+
+.is-grid-column-resizer {
+  cursor: col-resize;
+  display: block;
+  position: absolute !important; // sass-lint:disable-line no-important
+  top: 0;
+  right: 0;
+  margin: 0;
+  height: 100%;
+  padding: 0;
+  border: 1px solid transparent;
+  width: .5em;
+}
+
+.is-grid-scrollable-view {
+  &--frozen {
+    display: block;
+    border-right: 1px solid map-get($is-light, 4);
+    padding-right: 12px;
+
+    .is-grid-scrollable-view__body {
+      overflow: hidden !important; // sass-lint:disable-line no-important
+    }
+  }
+
+  &--unfrozen {
+    display: block;
+    position: absolute;
+    top: 0;
+    padding-left: 12px;
+  }
+}
+
+@keyframes is-grid-loader-animation {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+// Overwrites global popover styles
+.popover-body {
+  margin: 0;
+  padding: 0;
+}
+
+.popover {
+  border: none;
+  max-width: 500px;
+  box-shadow: 0 2px 6px 0 rgba(0, 0, 0, .27);
+  min-width: 180px;
+
+  &::before {
+    border: none;
+  }
+
+  &.popover.popover-bottom::after {
+    border-bottom-color: #fff;
+  }
+}
+
+.fa--small {
+  font-size: 9px;
+}
+
+.noselect {
+  user-select: none;
+}
+
+@import './grid-responsive';

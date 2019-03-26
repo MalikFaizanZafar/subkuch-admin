@@ -1,0 +1,37 @@
+// @import '../../../../../lib/core/style/responsive-utils';
+
+.sidebar-wrapper {
+  position: absolute;
+  width: 100%;
+  height: 524px;
+  top: 0;
+  left: 0;
+}
+
+.content {
+  position: relative;
+  overflow: auto;
+  height: 470px;
+}
+
+// @include media-breakpoint-down(sm) {
+//   // Custom rules should by applied the developer.
+//   // In this case, we're deciding to hide the center and right groups and
+//   // extending the left group to full extension
+//   .center-group,
+//   .right-group {
+//     display: none;
+//   }
+
+//   .df-topbar-logo {
+//     width: 100%;
+//   }
+
+//   ::ng-deep {
+//     .df-topbar {
+//       .df-topbar__left {
+//         width: 100%;
+//       }
+//     }
+//   }
+// }

@@ -1,0 +1,9 @@
+@import '../core/style/variables';
+@import '../core/theming/palette';
+@import '../core/style/responsive-utils';
+
+@include media-breakpoint-down(sm) {
+  .is-topbar-logo {
+    padding-left: 47px;
+  }
+}

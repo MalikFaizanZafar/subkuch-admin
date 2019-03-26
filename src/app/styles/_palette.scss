@@ -1,0 +1,9 @@
+// Including this file instead of the library palette directly will give you
+// great customization as you could easily overwrite any of the variables
+@import '~../lib/core/theming/palette';
+
+$main-bg-color: map_get($is-light, 2);
+$main-text-color: map_get($is-dark, 6);
+
+// $dark-blue: rgba(54, 163, 246, 1);
+// $light-blue: rgba(54, 163, 246, 0.3);

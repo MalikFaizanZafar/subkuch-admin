@@ -1,0 +1,54 @@
+@import '../core/theming/palette';
+@import '../core/style/variables';
+
+$is-modal-large-size: 800px;
+
+.is-modal {
+  position: fixed;
+  z-index: $z-index-infinite;
+  top: 0;
+  width: 100vw;
+  left: 0;
+  height: 100vh;
+  text-align: center;
+  white-space: nowrap;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+
+  &::before {
+    content: '';
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+  }
+
+  &__backdrop {
+    position: absolute;
+    z-index: $z-index-1;
+    top: 0;
+    width: 100%;
+    left: 0;
+    height: 100%;
+    background: rgba(#000, .6);
+
+    &--hidden {
+      background: transparent;
+    }
+  }
+
+  &__content {
+    width: 489px;
+    background: #fff;
+    box-shadow: 0 2px 34px rgba(#000, .7);
+    border-radius: 3px;
+    overflow: hidden;
+    z-index: $z-index-2;
+
+    &--large {
+      width: $is-modal-large-size;
+    }
+  }
+}
+
+@import './modal-responsive';

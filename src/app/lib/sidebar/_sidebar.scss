@@ -1,0 +1,10 @@
+@import '../core/core';
+@import '../core/custom/scroll';
+
+$is-sidebar-color: map-get($is-dark, 3);
+$is-sidebar-background: map-get($is-light, 5);
+$is-sidebar-open-width: 212px;
+$is-sidebar-border-color: map-get($is-light, 7);
+$is-sidebar-active-color: map-get($is-dark, 4);
+$is-icon-size: 50px;
+$is-sidebar-text-size: 13px;

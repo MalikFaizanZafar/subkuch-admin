@@ -1,0 +1,89 @@
+<ng-template ngFor
+             let-col
+             [ngForOf]="columns"
+             let-lastCol="last">
+  <th #headerCell
+      [attr.id]="col.colId"
+      [ngStyle]="col.headerStyle||col.style"
+      [class]="col.headerStyleClass||col.styleClass"
+      (click)="dt.sort($event,col)"
+      [attr.colspan]="col.colspan"
+      [attr.rowspan]="col.rowspan"
+      focusable="false"
+      class="is-grid__row--header is-grid__text--unselectable"
+      [ngClass]="{'is-grid-column--sortable': col.sortable,
+                  'is-grid--state-active': dt.isSorted(col),
+                  'is-grid-column--resizable': dt.resizableColumns,
+                  'is-grid-column--selectable':col.selectionMode,
+                  'is-grid-column--reorderable':dt.reorderableColumns,
+                  'd-none': col.hidden}"
+      (dragstart)="dt.onColumnDragStart($event)"
+      (dragleave)="dt.onColumnDragleave($event)"
+      (drop)="dt.onColumnDrop($event)"
+      (mousedown)="dt.onHeaderMousedown($event,headerCell)"
+      [attr.tabindex]="col.sortable ? dt.tabindex : null"
+      (keydown)="dt.onHeaderKeydown($event,col)"
+      [attr.scope]="getColumnA11yScope(col)">
+    <span class="is-grid-column-resizer is-grid-clickable"
+          *ngIf="shouldRenderResizer(col, lastCol)"
+          (mousedown)="dt.initColumnResize($event)">
+    </span>
+    <span class="is-grid-column__title"
+      *ngIf="!col.selectionMode && !col.headerTemplate">{{col.header}}</span>
+    <span class="is-grid-column__title"
+      *ngIf="col.headerTemplate">
+      <is-grid-column-header-template-loader [column]="col"></is-grid-column-header-template-loader>
+    </span>
+
+    <span *ngIf="col.sortable"
+          class="is-grid-column--sortable__icon"
+          [class.is-grid-column--sortable__icon--active]="dt.getSortOrder(col) != 0">
+      <span *ngIf="(dt.getSortOrder(col) != -1)"
+            class="fa fa--small fa-chevron-up"></span>
+      <span *ngIf="(dt.getSortOrder(col) != 1)"
+            class="fa fa--small fa-chevron-down"></span>
+    </span>
+    <button *ngIf="dt.lockable"
+            class="is-grid-lock-button"
+            [class.is-grid-lock-button--active]="col.frozen"
+            (click)="lockChange(col, $event)">
+          <i *ngIf="col.frozen"
+             class="fa fa-lock is-filter-lock__icon"
+             aria-hidden="true"></i>
+          <i *ngIf="!col.frozen"
+             class="fa fa-unlock-alt is-filter-lock__icon"
+             aria-hidden="true"></i>
+    </button>
+    <button *ngIf="col.filter"
+            type="button"
+            class="is-grid-filter-button"
+            id="is-filter-{{col.field}}"
+            triggers="click"
+            [class.is-grid-filter-button--active]="isPropertyFiltered(col)"
+            #popover="ngbPopover"
+            [ngbPopover]="col.filterTemplate? columnCustomFilter : columnFilter"
+            placement="bottom"
+            container="body">
+      <i class="fa fa-filter is-filter-button__icon"
+         aria-hidden="true"></i>
+    </button>
+    <ng-template #columnFilter>
+      <is-grid-column-filter [filterBy]="col"
+        (onFilterChange)="filterChanged($event, col)"
+        [properties]="uniqueValues(col)"
+        [values]="getColumnFilterValues(col)"
+        [inputValue]="getColumnFilterInputValue(col)">
+      </is-grid-column-filter>
+    </ng-template>
+
+    <ng-template #columnCustomFilter>
+      <is-grid-column-filter-template-loader [column]="col">
+      </is-grid-column-filter-template-loader>
+    </ng-template>
+    <is-checkbox *ngIf="col.selectionMode=='multiple' && dt.showHeaderCheckbox === true"
+                 (change)="dt.toggleRowsWithCheckbox($event)"
+                 [checked]="dt.allSelected"
+                 [disabled]="dt.isEmpty()">
+    </is-checkbox>
+  </th>
+</ng-template>

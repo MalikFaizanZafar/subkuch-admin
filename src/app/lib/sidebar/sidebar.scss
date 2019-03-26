@@ -1,0 +1,144 @@
+@import '_sidebar';
+@import '../core/style/variables';
+
+.is-sidebar {
+  position: absolute;
+  top: 50px;
+  left: 0;
+  bottom: 0;
+  z-index: $z-index-4;
+  font-size: $is-sidebar-text-size;
+  width: 50px;
+  background: $is-sidebar-background;
+  border-right: solid 1px $is-sidebar-border-color;
+  border-top: solid 1px $is-sidebar-border-color;
+  transition: width .2s ease-in-out;
+}
+
+.is-sidebar--scrollbars {
+  overflow: auto;
+}
+
+.is-sidebar--open {
+  width: $is-sidebar-open-width;
+}
+
+.is-sidebar__slide-button {
+  cursor: pointer;
+  position: absolute;
+  background-color: $is-sidebar-background;
+  width: 19px;
+  box-shadow: 2px 0 5px 0 rgba(0, 0, 0, .2);
+  top: 0;
+  bottom: 0;
+  right: -20px;
+  transition: all .2s;
+  text-align: center;
+  border: none;
+  padding: 0;
+}
+
+.is-sidebar__slide-button-icon {
+  width: 100%;
+  transform: scale(1.5, 3);
+  color: #9e9e9e;
+}
+
+.is-sidebar__item-container {
+  background: rgba(0, 0, 0, 0);
+  border-color: $is-sidebar-border-color;
+  color: $is-sidebar-color;
+
+  & > a {
+    color: inherit;
+    text-decoration: none;
+    font-size: $is-sidebar-text-size;
+    display: block;
+    width: 100%;
+    height: 100%;
+    padding: 12px 10px 12px 20px;
+    font-weight: 500;
+    opacity: .8;
+
+    i {
+      width: 16px;
+      text-align: center;
+      margin-right: 5px;
+      font-size: .9em;
+      position: relative;
+      top: -1px;
+    }
+  }
+
+  &:hover {
+    font-weight: 500;
+    color: $is-sidebar-active-color;
+  }
+
+  &--no-icon {
+    font-size: $is-sidebar-text-size;
+    padding: 0;
+  }
+}
+
+.is-sidebar__chevron-icon {
+  font-size: 13px;
+  width: 17px;
+  text-align: center;
+  font-weight: 600;
+}
+
+.is-sidebar__item__menu {
+  position: relative;
+  z-index: $z-index-1;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity ease .2s;
+
+  .is-sidebar-item .is-sidebar__item-container {
+    box-shadow: none;
+  }
+
+  &--active {
+    opacity: 1;
+    pointer-events: all;
+  }
+}
+
+.is-sidebar__item--active {
+  font-weight: 500;
+  box-shadow: none;
+
+  a {
+    opacity: 1;
+  }
+
+  & > a::before {
+    position: absolute;
+    transform: translate(-16px, -5px);
+    content: '\2022';
+    color: $is-sidebar-active-color;
+    font-size: 21px;
+  }
+
+  &.is-sidebar__item--open {
+    box-shadow: none;
+  }
+}
+
+.is-sidebar__item-text {
+  display: inline-block;
+}
+
+.is-mobile-sidebar-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: rgba(#000, .45);
+  display: none;
+  z-index: $z-index-2;
+}
+
+@import './sidebar-responsive';

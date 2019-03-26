@@ -1,0 +1,34 @@
+.is-dropdown__button--basic {
+  color: #fff;
+}
+
+.dropdown-menu {
+  background-color: map-get($au-neutral, 5);
+  border: none;
+  border-radius: 2px;
+}
+
+.dropdown-item {
+  color: #fff;
+  font-weight: 500;
+  font-size: 12px;
+  padding: 6px 11px;
+  cursor: pointer;
+
+  &:hover {
+    color: #fff;
+    background: rgba(#fff, .05);
+  }
+}
+
+.is-dropdown-menu--inverse {
+  background: $au-light-gray;
+
+  .dropdown-item {
+    color: $au-gray-main;
+
+    &:hover {
+      background: rgba(255, 255, 255, .7);
+    }
+  }
+}

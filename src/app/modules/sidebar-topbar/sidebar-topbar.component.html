@@ -1,0 +1,44 @@
+<is-topbar [fluid]="true"
+           #topbar="topbar">
+  <div class="left-group">
+    <is-topbar-logo background="#509E2F"
+                    label="Cam"
+                    name="Campaign Manager"></is-topbar-logo>
+  </div>
+  <div class="center-group">
+    center
+  </div>
+  <div class="right-group">
+    right
+  </div>
+</is-topbar>
+<div class="sidebar-wrapper">
+  <is-sidebar [autoGenerateItems]="autoGenerateLinks"
+              [topbar]="topbar"
+              [disableButton]="true"
+              [open]="true"
+              ></is-sidebar>
+</div>
+<div class="content is-custom-scroll p-3">
+  <!-- <table is-table
+         [data]="data">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Lastname</th>
+        <th>Title</th>
+        <th>Language</th>
+        <th>Hobbie</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let obj of data">
+        <td>{{obj.name}}</td>
+        <td>{{obj.lastname}}</td>
+        <td>{{obj.title}}</td>
+        <td>{{obj.language}}</td>
+        <td>{{obj.hobbie}}</td>
+      </tr>
+    </tbody>
+  </table> -->
+</div>

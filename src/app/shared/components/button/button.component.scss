@@ -1,0 +1,19 @@
+@import 'palette';
+
+:host {
+  display: block;
+  color: map-get($df-light, 1);
+  cursor: pointer;
+}
+
+.button {
+  font-size: 17px;
+  font-weight: 400;
+  background: $df-blue;
+  border: none;
+  border-radius: 3px;
+
+  &:hover {
+    text-decoration: none;
+  }
+}

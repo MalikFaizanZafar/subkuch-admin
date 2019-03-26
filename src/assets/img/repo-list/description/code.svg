@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="48px" height="48px" viewBox="0 0 48 48" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: sketchtool 52.5 (67469) - http://www.bohemiancoding.com/sketch -->
+    <title>8EA38F64-3B8C-405F-B75B-5773BC11749A</title>
+    <desc>Created with sketchtool.</desc>
+    <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="-g-Icons-/-Steps-/-ic-step-01">
+            <g id="Group" transform="translate(2.000000, 1.000000)">
+                <polyline id="Path-3" stroke="#16BB96" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" points="29.5 7 43.5 20.6628936 29.5 35"></polyline>
+                <polyline id="Path-3" stroke="#16BB96" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" transform="translate(7.500000, 21.000000) scale(-1, 1) translate(-7.500000, -21.000000) " points="0.5 7 14.5 20.6628936 0.5 35"></polyline>
+                <path d="M18.56065,3.26437999 L0,20.8807943 L18.5346926,38.67343 C20.4705798,40.5318118 23.5282695,40.530614 25.4627002,38.6707161 L44,20.8476501 L25.4419381,3.26165099 C23.5122152,1.4330061 20.4889218,1.43420509 18.56065,3.26437999 Z" id="Path" fill="#16BB96" opacity="0.294410342"></path>
+                <polyline id="Path-6" stroke="#16BB96" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" points="15 20.1042877 21.6484244 25.4760947 30 16"></polyline>
+            </g>
+        </g>
+    </g>
+</svg>

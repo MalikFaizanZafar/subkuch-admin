@@ -1,0 +1,17 @@
+<div
+  *ngFor="let tab of tabs; index as index; trackBy:trackByFn"
+  class="position-relative tab"
+  [ngClass]="{ 'tab--active': tab.active, 'tab--disabled': tab.disabled }"
+  (click)="onTabClick(tab)">
+  <div class="position-relative px-3 d-flex justify-content-between align-items-center tab__content">
+    <div class="d-flex align-content-center">
+      <div class="d-flex justify-content-center align-items-center tab__number">{{ index + 1 }}</div>
+      <h5 class="mb-0 ml-3">{{ tab.title }}</h5>
+    </div>
+    <div
+      class="px-2 d-flex justify-content-center align-items-center tab__amount"
+      [class.tab__amount--empty]="tab.value === undefined">
+      <ng-container *ngIf="tab.value !== undefined">{{ tab.value | number:'1.0-0' }}</ng-container>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,28 @@
+.is-checkbox {
+  cursor: pointer;
+
+  &__layout {
+    cursor: inherit;
+    align-items: baseline;
+    vertical-align: middle;
+    display: inline-flex;
+  }
+
+  &__icon {
+    margin-right: 5px;
+    width: 12px;
+
+    &--disabled {
+      cursor: not-allowed;
+      opacity: .5;
+    }
+  }
+
+  &--label-before {
+    .is-checkbox__icon {
+      order: 1;
+      margin-left: 5px;
+      margin-right: auto;
+    }
+  }
+}
