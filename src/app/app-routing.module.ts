@@ -6,10 +6,6 @@ import { SideBarTopBarModule } from './modules/sidebar-topbar/sidebar-topbar.mod
 const routes: Routes = [
   {
     path: '',
-    loadChildren: 'app/modules/home/home.module#HomeModule',
-  },
-  {
-    path: 'auth',
     loadChildren: 'app/modules/auth/auth.module#AuthModule',
   },
   {
