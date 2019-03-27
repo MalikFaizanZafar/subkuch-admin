@@ -9,7 +9,6 @@ export class FranchiseAuthService {
   constructor( private http : HttpClient){}
   
   login( username : string, password : string) : Observable<any>{
-    console.log('Sending post request')
     return this.http.post<any>(`${this.baseURL}/auth/login`, { username, password, keep_logged : 1})
   }
 }

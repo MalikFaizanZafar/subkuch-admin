@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FranchiseItemsService } from '../../services/franchiseItems.service';
 
 @Component({
   selector: 'meals',
@@ -26,9 +27,13 @@ export class MealsComponent implements OnInit {
     name: 'Vegetables',
     quantity: 5
   }]
-  constructor() { }
+  meals : any = []
+  constructor(private franchiseItemsService : FranchiseItemsService) { }
 
-  ngOnInit() {
+  async ngOnInit() {
+    await this.franchiseItemsService.getItems(50).subscribe(responseData => {
+      this.meals = responseData.data
+    })
   }
 
 }

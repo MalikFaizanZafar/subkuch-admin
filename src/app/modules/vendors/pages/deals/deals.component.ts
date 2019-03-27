@@ -13,9 +13,6 @@ export class DealsComponent implements OnInit {
   async ngOnInit() {
     await this.franchiseDealsService.getDeals(1).subscribe(responseData => {
       this.deals = responseData.data
-      // let Authorization = localStorage.getItem('Authorization');
-      // console.log('Authorization : ', Authorization)
-      // console.log('this.deals : ', this.deals)
     })
   }
 

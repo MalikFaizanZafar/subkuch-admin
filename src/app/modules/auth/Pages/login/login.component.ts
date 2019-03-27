@@ -56,8 +56,6 @@ export class LoginComponent implements OnInit {
       //   })
       this.franchiseAuthService.login(user.username, user.password).subscribe(res => {
         localStorage.setItem('Authorization', `${res.tokenType} ${res.accessToken}`)
-        let Authorization = localStorage.getItem('Authorization');
-        console.log('Authorization : ', Authorization)
         this.router.navigate(['/vendors']);
       })
     } else {
