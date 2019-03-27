@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { MemberDetails } from '../models/vendor-members';
 import { UserDetailsService } from '../services/userDetails.service';
 import { EditMainService } from '../services/editMain.service';
+import { FranchiseInfoService } from '../services/franchiseInfo.service';
 
 @Component({
   selector: 'app-vendors-layout',
@@ -44,11 +45,15 @@ export class VendorsLayoutComponent implements OnInit {
       link: 'sales/'
     }
   ]
+  franchiseInfo : any = {}
+  constructor(private router : Router, private franchiseInfoService : FranchiseInfoService, private userDetailsService: UserDetailsService, private editMainService: EditMainService) { }
 
-  constructor(private router : Router, private userDetailsService: UserDetailsService, private editMainService: EditMainService) { }
-
-  ngOnInit() {
+  async ngOnInit() {
     let userId = localStorage.getItem('user')
+    await this.franchiseInfoService.getFranchiseInfo(1).subscribe(responseData => {
+      this.franchiseInfo = responseData.data
+      console.log('franchiseInfo is : ', this.franchiseInfo)
+    })
     this.userDetailsService.getUserDetails(userId).pipe().subscribe(ud => {
       this.user = ud.data
       this.ratingArray = new Array(this.user.companyRating)

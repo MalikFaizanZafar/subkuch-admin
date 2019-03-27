@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UserDetailsService } from '../../services/userDetails.service';
 import { MemberDetails } from '../../models/vendor-members';
 import { EditMainService } from '../../services/editMain.service';
+import { FranchiseInfoService } from '../../services/franchiseInfo.service';
 declare const google: any;
 
 @Component({
@@ -12,23 +13,28 @@ declare const google: any;
 export class OverviewComponent implements OnInit {
   user: MemberDetails;
   isEditingMode: boolean = false;
+  franchiseInfo : any = {}
 
   constructor(
-    private userDetailsService : UserDetailsService, 
+    private userDetailsService : UserDetailsService,
+    private franchiseInfoService : FranchiseInfoService, 
     private editMainService : EditMainService) { }
 
-  ngOnInit() {
+  async ngOnInit() {
     let userId = localStorage.getItem('user');
-    this.userDetailsService.getUserDetails(userId).pipe().subscribe(ud => {
+    await this.franchiseInfoService.getFranchiseInfo(1).subscribe(responseData => {
+      this.franchiseInfo = responseData.data
+    })
+    await this.userDetailsService.getUserDetails(userId).pipe().subscribe(ud => {
       this.user = ud.data
     })
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((position) => {
-        console.log('Current Position is : ', position.coords)
-      });
-    } else {
-      alert("Geolocation is not supported by this browser.");
-    }
+    // if (navigator.geolocation) {
+    //   navigator.geolocation.getCurrentPosition((position) => {
+    //     console.log('Current Position is : ', position.coords)
+    //   });
+    // } else {
+    //   alert("Geolocation is not supported by this browser.");
+    // }
   }
 
   setEditingMode() {

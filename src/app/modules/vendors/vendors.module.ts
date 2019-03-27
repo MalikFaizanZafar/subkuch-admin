@@ -16,6 +16,7 @@ import { OrdersComponent } from './pages/orders/orders.component';
 import { FranchiseComponent } from './pages/franchise/franchise.component';
 import { SalesComponent } from './pages/sales/sales.component';
 import { OrdersService } from './services/orders.service';
+import { FranchiseInfoService } from './services/franchiseInfo.service';
 
 
 @NgModule({
@@ -32,7 +33,8 @@ import { OrdersService } from './services/orders.service';
     AuthService,
     UserDetailsService,
     EditMainService,
-    OrdersService
+    OrdersService,
+    FranchiseInfoService
   ],
   declarations: [
     OverviewComponent, 

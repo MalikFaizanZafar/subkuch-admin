@@ -1,22 +1,22 @@
-<div class="mt-3">
-  <div  class="bg-white mt-3 p-5 overview__container" *ngIf="!isEditingMode">
-
-    <a href="">
-      <i class="fa fa-pencil fa-2x text-dark" style="margin-left: 95%;"></i>Edit
-    </a>
+<div class="mt-1">
+  <div  class="bg-white p-4 overview__container" *ngIf="!isEditingMode">
     <h2 class="text-dark">Overview</h2>
-    <p class="mb-0 text-muted text-left overview__text" *ngIf="user">
-      {{user.overview.welcomeParagraph}}
-    </p>
-
+    <div class="d-flex w-100">
+      <p class="mb-0 text-muted text-left overview__text w-95" *ngIf="franchiseInfo">
+        {{franchiseInfo.welcomeNote}}
+      </p>
+      <a href="" class="w-5">
+        <i class="fa fa-pencil fa-2x text-dark"></i>Edit
+      </a>
+    </div>
     <h3 class="text-dark mt-5">Address</h3>
-    <p class="mb-0 text-muted text-left overview__text" *ngIf="user">
-      Bahria Town Phase 8 Rawalpindi
+    <p class="mb-0 text-muted text-left overview__text" *ngIf="franchiseInfo">
+      {{franchiseInfo.address}}
     </p>
 
     <h4 class="text-dark mt-5">Contact Info</h4>
-    <p class="mb-0 text-muted text-left overview__text" *ngFor="let phone of user.overview.contact.phone">
-      {{phone}}
+    <p class="mb-0 text-muted text-left overview__text" *ngFor="let contact of franchiseInfo.contact">
+      {{contact.franchiseContactPersonPhone}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  {{contact.email}}
     </p>
 
   </div>
