@@ -11,6 +11,7 @@ import { AuthService } from './services/auth.service';
 import { SocialAuthService } from './services/Authentication.service';
 import { ForgotPasswordComponent } from './Pages/forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './Pages/reset-password/reset-password.component';
+import { FranchiseAuthService } from './services/franchiseAuth.service';
 
 @NgModule({
   imports: [
@@ -25,6 +26,7 @@ import { ResetPasswordComponent } from './Pages/reset-password/reset-password.co
   ],
   providers: [
     AuthService,
+    FranchiseAuthService,
     SocialAuthService
   ]
 })

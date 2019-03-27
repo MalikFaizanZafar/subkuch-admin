@@ -19,27 +19,21 @@
             #formDir="ngForm">
 
             <div class="form-group"
-              [class.mb-1]="(loginForm.hasError('required', 'email') || loginForm.hasError('email', 'email')) && formDir.submitted" >
-              <is-input-container label="Email">
+              [class.mb-1]="(loginForm.hasError('required', 'username') || loginForm.hasError('username', 'username')) && formDir.submitted" >
+              <is-input-container label="Username">
                 <input 
-                  autocomplete="fakeName"
+                  autocomplete="username"
                   class="login-form__input"
-                  type="email"
-                  placeholder="Enter email"
-                  formControlName="email">
+                  type="text"
+                  placeholder="Enter username"
+                  formControlName="username">
               </is-input-container>
             </div>
 
             <div 
-                *ngIf="loginForm.hasError('required', 'email') && formDir.submitted" 
+                *ngIf="loginForm.hasError('required', 'username') && formDir.submitted" 
                 class="login-form__input_error">
-                Email is required
-            </div>
-
-            <div 
-                *ngIf="loginForm.hasError('email', 'email') && formDir.submitted" 
-                class="login-form__input_error">
-                Email must include @
+                Username is required
             </div>
 
             <div class="form-group"

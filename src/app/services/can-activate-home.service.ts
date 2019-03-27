@@ -11,7 +11,7 @@ export class CanActivateHome implements CanActivate {
   canActivate(
     route : ActivatedRouteSnapshot,
     state: RouterStateSnapshot) {
-      if(localStorage.getItem('user')) {
+      if(localStorage.getItem('Authorization')) {
         console.log('route activated')
         return true
       } else {

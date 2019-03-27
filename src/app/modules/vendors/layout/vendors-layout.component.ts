@@ -1,7 +1,6 @@
 import { Component, OnInit, HostBinding } from '@angular/core';
 import { Router } from '@angular/router';
 import { MemberDetails } from '../models/vendor-members';
-import { UserDetailsService } from '../services/userDetails.service';
 import { EditMainService } from '../services/editMain.service';
 import { FranchiseInfoService } from '../services/franchiseInfo.service';
 
@@ -46,18 +45,11 @@ export class VendorsLayoutComponent implements OnInit {
     }
   ]
   franchiseInfo : any = {}
-  constructor(private router : Router, private franchiseInfoService : FranchiseInfoService, private userDetailsService: UserDetailsService, private editMainService: EditMainService) { }
+  constructor(private router : Router, private franchiseInfoService : FranchiseInfoService, private editMainService: EditMainService) { }
 
   async ngOnInit() {
-    let userId = localStorage.getItem('user')
     await this.franchiseInfoService.getFranchiseInfo(1).subscribe(responseData => {
       this.franchiseInfo = responseData.data
-      console.log('franchiseInfo is : ', this.franchiseInfo)
-    })
-    this.userDetailsService.getUserDetails(userId).pipe().subscribe(ud => {
-      this.user = ud.data
-      this.ratingArray = new Array(this.user.companyRating)
-      this.ratingArray.fill('0')
     })
     this.editMainService.editEnable.subscribe(val => {
       this.editBtnEnabled = val

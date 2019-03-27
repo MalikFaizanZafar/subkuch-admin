@@ -1,6 +1,6 @@
 {
   "/api": {
-    "target": "http://mockbin.com/request",
+    "target": "http://localhost:8080/",
     "secure": true,
     "changeOrigin": true,
     "pathRewrite": {

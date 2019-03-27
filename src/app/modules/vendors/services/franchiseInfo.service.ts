@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 @Injectable()
@@ -9,6 +9,11 @@ export class FranchiseInfoService {
   constructor( private http : HttpClient){}
   
   getFranchiseInfo( id : number) : Observable<any>{
-    return this.http.get<any>(`${this.baseURL}/auth/franchise/${id}`)
+    let headers = new HttpHeaders()
+    const token = localStorage.getItem('Authorization');
+    headers = headers.append(
+    'Authorization', token
+    );
+    return this.http.get<any>(`${this.baseURL}/franchise/${id}`, {headers})
   }
 }

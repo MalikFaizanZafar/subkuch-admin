@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { UserDetailsService } from '../../services/userDetails.service';
 import { MemberDetails } from '../../models/vendor-members';
 import { EditMainService } from '../../services/editMain.service';
 import { FranchiseInfoService } from '../../services/franchiseInfo.service';
@@ -16,17 +15,14 @@ export class OverviewComponent implements OnInit {
   franchiseInfo : any = {}
 
   constructor(
-    private userDetailsService : UserDetailsService,
     private franchiseInfoService : FranchiseInfoService, 
     private editMainService : EditMainService) { }
 
   async ngOnInit() {
-    let userId = localStorage.getItem('user');
     await this.franchiseInfoService.getFranchiseInfo(1).subscribe(responseData => {
       this.franchiseInfo = responseData.data
-    })
-    await this.userDetailsService.getUserDetails(userId).pipe().subscribe(ud => {
-      this.user = ud.data
+      let Authorization = localStorage.getItem('Authorization');
+      console.log('Authorization : ', Authorization)
     })
     // if (navigator.geolocation) {
     //   navigator.geolocation.getCurrentPosition((position) => {

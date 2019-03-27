@@ -10,7 +10,7 @@ import { SalesComponent } from './pages/sales/sales.component';
 import { OrdersComponent } from './pages/orders/orders.component';
 
 const routes: Routes = [
-  { path: ':vendorId', component: VendorsLayoutComponent, children: [
+  { path: '', component: VendorsLayoutComponent, children: [
     { path: '', pathMatch: 'full', redirectTo: 'overview'},
     { path: 'overview', component: OverviewComponent},
     { path: 'deals', component: DealsComponent},
