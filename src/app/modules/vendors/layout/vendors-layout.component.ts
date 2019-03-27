@@ -13,7 +13,7 @@ export class VendorsLayoutComponent implements OnInit {
   @HostBinding() class: string = 'd-flex flex-column col p-0 overflow-y-auto overflow-x-hidden';
   user: MemberDetails;
   editBtnEnabled: boolean;
-  ratingArray: string[];
+  ratingArray: string[] = ['1', '2', '3', '4']
   autoGenerateLinks = [
     {
       label: 'Overview',

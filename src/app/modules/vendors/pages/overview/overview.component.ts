@@ -21,8 +21,6 @@ export class OverviewComponent implements OnInit {
   async ngOnInit() {
     await this.franchiseInfoService.getFranchiseInfo(1).subscribe(responseData => {
       this.franchiseInfo = responseData.data
-      let Authorization = localStorage.getItem('Authorization');
-      console.log('Authorization : ', Authorization)
     })
     // if (navigator.geolocation) {
     //   navigator.geolocation.getCurrentPosition((position) => {
