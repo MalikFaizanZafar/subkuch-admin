@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { OrdersService } from '../../services/orders.service';
 import { order } from '../../models/vendor-members';
 import { Router } from '@angular/router';
+import { FranchiseOrdersService } from '../../services/franchiseOrders.service';
 
 @Component({
   selector: 'orders',
@@ -11,11 +12,11 @@ import { Router } from '@angular/router';
 export class OrdersComponent implements OnInit {
   orders: order[] = []
   currentUrl: string;
-  constructor(private orderService : OrdersService, private router : Router,) { }
+  constructor(private franchiseOrdersService : FranchiseOrdersService, private router : Router,) { }
 
-  ngOnInit() {
-    this.orderService.getOrders().subscribe(data => {
-      this.orders = data
+  async ngOnInit() {
+    await this.franchiseOrdersService.getOrders(1).subscribe(responseData => {
+      this.orders = responseData.data
     })
     this.currentUrl =  this.router.url
   }

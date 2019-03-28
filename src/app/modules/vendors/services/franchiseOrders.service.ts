@@ -3,16 +3,16 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Observable } from "rxjs";
 
 @Injectable()
-export class FranchiseDealsService {
+export class FranchiseOrdersService {
   baseURL: string = "http://localhost:8080/api";
 
   constructor(private http: HttpClient) {}
 
-  getDeals(id: number): Observable<any> {
+  getOrders(id: number): Observable<any> {
     let headers = new HttpHeaders();
     const token = localStorage.getItem("Authorization");
     headers = headers.append("Authorization", token);
-    return this.http.get<any>(`${this.baseURL}/deal/franchise/${id}`, {
+    return this.http.get<any>(`${this.baseURL}/order/franchise/${id}`, {
       headers
     });
   }

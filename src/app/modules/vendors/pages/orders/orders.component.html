@@ -1,65 +1,85 @@
 <div class="container-fluid mt-3 bg-white text-dark">
-  <is-grid [value]="orders"
+  <is-grid
+    [value]="orders"
     [rowExpandMode]="'single'"
     expandableRows="true"
-    (rowCollapse)="isGridrowCollapseHandler($event)" 
-    (rowExpand)="isGridrowExpandHandler($event)">
-      <is-grid-column 
-        expander="true"
-        [style]="{'width':'38px'}" 
-        styleClass="bg_blue"
+    (rowCollapse)="isGridrowCollapseHandler($event)"
+    (rowExpand)="isGridrowExpandHandler($event)"
+  >
+    <is-grid-column
+      expander="true"
+      [style]="{ width: '38px' }"
+      styleClass="bg_blue"
+    >
+    </is-grid-column>
+    <is-grid-column field="user" header="User" styleClass="text-dark">
+      <ng-template let-order="rowData" isGridTemplate="body">
+        <span>User</span>
+      </ng-template>
+    </is-grid-column>
+    <is-grid-column
+      field="ordersPlaced.startTime"
+      header="Date"
+      styleClass="text-dark"
+    >
+      <ng-template let-order="rowData" isGridTemplate="body">
+        <span>{{order.ordersPlaced.startTime | date }}</span>
+      </ng-template>
+    </is-grid-column>
+    <is-grid-column
+      field="ordersPlaced.startTime"
+      header="time"
+      styleClass="text-dark"
+    >
+      <ng-template let-order="rowData" isGridTemplate="body">
+        <span>{{order.ordersPlaced.startTime | date:'HH:mm:ss' }}</span>
+      </ng-template>
+    </is-grid-column>
+    <is-grid-column field="status" header="Status" styleClass="text-dark">
+      <ng-template let-order="rowData" isGridTemplate="body">
+        <span
+          class="badge badge-success"
+          *ngIf="order.ordersPlaced.delivery === true"
+          >Delivered</span
         >
-      </is-grid-column>
-      <is-grid-column 
-        field="user"
-        header="User" 
-        styleClass="text-dark">
-      </is-grid-column>
-      <is-grid-column 
-        field="dateTime.date"
-        header="Date" 
-        styleClass="text-dark">
-      </is-grid-column>
-      <is-grid-column 
-        field="dateTime.time"
-        header="Time" 
-        styleClass="text-dark">
-      </is-grid-column>
-      <is-grid-column 
-        field="status"
-        header="Status" 
-        styleClass="text-dark">
-        <ng-template let-order="rowData" isGridTemplate="body">
-          <span class="badge badge-success" *ngIf="order.status === 'Delivered'">Delivered</span>
-          <span class="badge badge-info" *ngIf="order.status === 'Completed'">Completed</span>
-          <span class="badge badge-danger" *ngIf="order.status === 'New'">New</span>
-          <span class="badge badge-light" *ngIf="order.status === 'Working'">Working</span>
-        </ng-template>
-      </is-grid-column>
-      <ng-template let-data isGridTemplate="rowexpansion">
-        <div class="user-detail">
-          <h4 class="d-flex justify-content-center text-dark my-2">Items</h4>
-          <div class="row my-2">
-            <div class="col-md-4 offset-md-4">
-              <table class="table text-dark">
-                <thead class="bg_blue">
-                  <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Quantity</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr *ngFor="let item of data.items; let i = index">
-                    <th scope="row">{{i+1}}</th>
-                    <td>{{item.name}}</td>
-                    <td>{{item.quantity}}</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+        <span
+          class="badge badge-danger"
+          *ngIf="order.ordersPlaced.acknowledged === false"
+          >New</span
+        >
+        <span
+          class="badge badge-light"
+          *ngIf="order.ordersPlaced.acknowledged === true"
+          >Working</span
+        >
+      </ng-template>
+    </is-grid-column>
+    <ng-template let-data isGridTemplate="rowexpansion">
+      <div class="user-detail">
+        <h4 class="d-flex justify-content-center text-dark my-2">Items</h4>
+        <div class="row my-2">
+          <div class="col-md-4 offset-md-4">
+            <table class="table text-dark">
+              <thead class="bg_blue">
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Name</th>
+                  <th scope="col">Quantity</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr
+                  *ngFor="let orderDetail of data.orderDetails; let i = index"
+                >
+                  <th scope="row">{{ i + 1 }}</th>
+                  <td>{{ orderDetail.item.name }}</td>
+                  <td>{{ orderDetail.quantity }}</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
-      </ng-template>
+      </div>
+    </ng-template>
   </is-grid>
 </div>
