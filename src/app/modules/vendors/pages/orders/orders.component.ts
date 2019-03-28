@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { OrdersService } from '../../services/orders.service';
 import { order } from '../../models/vendor-members';
 import { Router } from '@angular/router';
 import { FranchiseOrdersService } from '../../services/franchiseOrders.service';

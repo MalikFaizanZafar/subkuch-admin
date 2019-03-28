@@ -1,64 +1,68 @@
-import { Component, OnInit, HostBinding } from '@angular/core';
-import { Router } from '@angular/router';
-import { MemberDetails } from '../models/vendor-members';
-import { EditMainService } from '../services/editMain.service';
-import { FranchiseInfoService } from '../services/franchiseInfo.service';
+import { Component, OnInit, HostBinding } from "@angular/core";
+import { Router } from "@angular/router";
+import { MemberDetails } from "../models/vendor-members";
+import { EditMainService } from "../services/editMain.service";
+import { FranchiseInfoService } from "../services/franchiseInfo.service";
 
 @Component({
-  selector: 'app-vendors-layout',
-  templateUrl: './vendors-layout.component.html',
-  styleUrls: ['./vendors-layout.component.scss']
+  selector: "app-vendors-layout",
+  templateUrl: "./vendors-layout.component.html",
+  styleUrls: ["./vendors-layout.component.scss"]
 })
 export class VendorsLayoutComponent implements OnInit {
-  @HostBinding() class: string = 'd-flex flex-column col p-0 overflow-y-auto overflow-x-hidden';
+  @HostBinding() class: string =
+    "d-flex flex-column col p-0 overflow-y-auto overflow-x-hidden";
   user: MemberDetails;
   editBtnEnabled: boolean;
-  ratingArray: string[] = ['1', '2', '3', '4']
+  ratingArray: string[] = ["1", "2", "3", "4"];
   autoGenerateLinks = [
     {
-      label: 'Overview',
-      icon: 'fa-table',
-      link: 'overview/',
+      label: "Overview",
+      icon: "fa-table",
+      link: "overview/"
     },
     {
-      icon: 'fa-bars',
-      label: 'Deals',
-      link: 'deals/'
+      icon: "fa-bars",
+      label: "Deals",
+      link: "deals/"
     },
     {
-      icon: 'fa-bars',
-      label: 'Meals',
-      link: 'meals/'
+      icon: "fa-bars",
+      label: "Meals",
+      link: "meals/"
     },
     {
-      icon: 'fa-bars',
-      label: 'Orders',
-      link: 'orders/'
-    },{
-      icon: 'fa-bars',
-      label: 'Franchise',
-      link: 'franchise/'
-    },{
-      icon: 'fa-bars',
-      label: 'Sales',
-      link: 'sales/'
+      icon: "fa-bars",
+      label: "Orders",
+      link: "orders/"
+    },
+    {
+      icon: "fa-bars",
+      label: "Sales",
+      link: "sales/"
     }
-  ]
-  franchiseInfo : any = {}
-  constructor(private router : Router, private franchiseInfoService : FranchiseInfoService, private editMainService: EditMainService) { }
+  ];
+  franchiseInfo: any = {};
+  constructor(
+    private router: Router,
+    private franchiseInfoService: FranchiseInfoService,
+    private editMainService: EditMainService
+  ) {}
 
   async ngOnInit() {
-    await this.franchiseInfoService.getFranchiseInfo(1).subscribe(responseData => {
-      this.franchiseInfo = responseData.data
-    })
+    await this.franchiseInfoService
+      .getFranchiseInfo(1)
+      .subscribe(responseData => {
+        this.franchiseInfo = responseData.data;
+      });
     this.editMainService.editEnable.subscribe(val => {
-      this.editBtnEnabled = val
-    })
+      this.editBtnEnabled = val;
+    });
   }
 
   logoutHandler() {
-    localStorage.clear()
-    this.user = {}
-    this.router.navigate(['auth'])
+    localStorage.clear();
+    this.user = {};
+    this.router.navigate(["auth"]);
   }
 }

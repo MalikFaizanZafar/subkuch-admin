@@ -1,3 +1,34 @@
-<p>
-  sales works!
-</p>
+<div class="container-fluid mt-3 bg-white text-dark">
+  <is-grid
+    [value]="sales"
+    (rowCollapse)="isGridrowCollapseHandler($event)"
+    (rowExpand)="isGridrowExpandHandler($event)"
+  >
+    <is-grid-column field="user" header="User" styleClass="text-dark">
+      <ng-template let-order="rowData" isGridTemplate="body">
+        <span>User</span>
+      </ng-template>
+    </is-grid-column>
+    <is-grid-column field="startTime" header="Date" styleClass="text-dark">
+      <ng-template let-sale="rowData" isGridTemplate="body">
+        <span>{{ sale.endTime | date }}</span>
+      </ng-template>
+    </is-grid-column>
+
+    <is-grid-column field="startTime" header="Time" styleClass="text-dark">
+      <ng-template let-sale="rowData" isGridTemplate="body">
+        <span>{{ sale.endTime | date: "HH:mm:ss" }}</span>
+      </ng-template>
+    </is-grid-column>
+    <is-grid-column field="discount" header="Discount" styleClass="text-dark">
+      <ng-template let-sale="rowData" isGridTemplate="body">
+        <span>{{ sale.discount }}</span>
+      </ng-template>
+    </is-grid-column>
+    <is-grid-column field="total" header="Amount" styleClass="text-dark">
+      <ng-template let-sale="rowData" isGridTemplate="body">
+        <span>{{ sale.total }}</span>
+      </ng-template>
+    </is-grid-column>
+  </is-grid>
+</div>
