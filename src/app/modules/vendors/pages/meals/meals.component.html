@@ -105,7 +105,7 @@
             <input
               type="text"
               class="form-control"
-              style="height:45px;"
+              style="height:40px;"
               placeholder="Enter Title"
               formControlName="title"
             />
@@ -117,6 +117,41 @@
         >
           Title is required
         </div>
+        <div class="form-check item-form_product_checkbox mb-2">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              value=""
+              id="defaultCheck1"
+              formControlName="isAvailable"
+            />
+            <label class="form-check-label text-dark" for="defaultCheck1">
+              Is Available ?
+            </label>
+          </div>
+        <div class="form-group row">
+          <label for="inputPassword3" class="col-sm-2 col-form-label text-dark"
+            >Item Category</label
+          >
+          <div class="col-sm-6">
+            <select
+              id="inputState"
+              class="form-control"
+              formControlName="category"
+              placeholder="Choose Category"
+            >
+              <option value="1">Pizza</option>
+              <option value="2">Burger</option>
+              <option value="3">Chicken</option>
+            </select>
+          </div>
+        </div>
+        <div
+          *ngIf="itemForm.hasError('required', 'category') && formDir.submitted"
+          class="item-form__input_error"
+        >
+          Item Category is required
+        </div>
         <div class="form-group row">
           <label for="inputPassword3" class="col-sm-2 col-form-label text-dark"
             >Price</label
@@ -125,7 +160,7 @@
             <input
               type="number"
               class="form-control"
-              style="height:45px;"
+              style="height:40px;"
               placeholder="Enter Price"
               formControlName="price"
             />
@@ -145,7 +180,7 @@
             <input
               type="number"
               class="form-control"
-              style="height:45px;"
+              style="height:40px;"
               placeholder="Enter Discount"
               formControlName="discount"
             />
@@ -159,12 +194,74 @@
         </div>
         <div class="form-group row">
           <label for="inputPassword3" class="col-sm-2 col-form-label text-dark"
+            >Dicount End</label
+          >
+          <div class="col-sm-6">
+            <input
+              type="date"
+              class="form-control"
+              style="height:40px;"
+              placeholder="Enter Discount End Date"
+              formControlName="discountEnd"
+            />
+          </div>
+        </div>
+        <div
+          *ngIf="
+            itemForm.hasError('required', 'discountEnd') && formDir.submitted
+          "
+          class="item-form__input_error"
+        >
+          Discount End Date is required
+        </div>
+        <div class="form-check item-form_product_checkbox mb-2">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            value=""
+            id="defaultCheck1"
+            formControlName="isProduct"
+          />
+          <label class="form-check-label text-dark" for="defaultCheck1">
+            Is Product ?
+          </label>
+        </div>
+        <div
+          class="form-group row"
+          *ngIf="!itemForm.hasError('required', 'isProduct')"
+        >
+          <label for="inputPassword3" class="col-sm-2 col-form-label text-dark"
+            >Quantity</label
+          >
+          <div class="col-sm-6">
+            <input
+              type="number"
+              class="form-control"
+              style="height:40px;"
+              placeholder="Enter Quantity"
+              formControlName="quantity"
+            />
+          </div>
+        </div>
+        <div
+          *ngIf="
+            itemForm.hasError('required', 'quantity') &&
+            formDir.submitted &&
+            !itemForm.hasError('required', 'isProduct')
+          "
+          class="item-form__input_error"
+        >
+          Quantity is required
+        </div>
+
+        <div class="form-group row">
+          <label for="inputPassword3" class="col-sm-2 col-form-label text-dark"
             >Description</label
           >
           <div class="col-sm-10">
             <textarea
               class="form-control"
-              rows="10"
+              rows="2"
               formControlName="description"
             ></textarea>
           </div>
@@ -177,7 +274,7 @@
         >
           Description is required
         </div>
-        <div class="form-group">
+        <!-- <div class="form-group">
           <label for="exampleFormControlFile1" class="text-dark"
             >Attachments</label
           >
@@ -204,7 +301,7 @@
           class="item-form__input_error"
         >
           Attachment is required
-        </div>
+        </div> -->
         <div class="form-group row">
           <div class="col-sm-10">
             <button type="submit" class="btn btn-primary btn-lg">Submit</button>
