@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ElementRef, ViewChild } from "@angular/core";
 import { FranchiseItemsService } from "../../services/franchiseItems.service";
 
 @Component({
@@ -30,11 +30,17 @@ export class MealsComponent implements OnInit {
     }
   ];
   meals: any = [];
+  showMeals: boolean  = true;
+  @ViewChild('itemImage') itemImage : ElementRef;
   constructor(private franchiseItemsService: FranchiseItemsService) {}
 
   async ngOnInit() {
     await this.franchiseItemsService.getItems(50).subscribe(responseData => {
       this.meals = responseData.data;
     });
+  }
+
+  chooseFile(){
+    this.itemImage.nativeElement.click()
   }
 }
