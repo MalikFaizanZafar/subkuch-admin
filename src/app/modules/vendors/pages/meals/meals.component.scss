@@ -21,3 +21,24 @@
 .w-35 {
   width: 35% !important;
 }
+
+.item-form {
+  &__bg-blue {
+    background-color: #52cdec;
+    font-size: 16px;
+  }
+
+  &__input {
+    font-size: 12px;
+
+    &_error {
+      color: red;
+      margin-left: 17%;
+      margin-top: -1.7%;
+    }
+  }
+
+  &__submit-btn {
+    font-size: 16px;
+  }
+}
