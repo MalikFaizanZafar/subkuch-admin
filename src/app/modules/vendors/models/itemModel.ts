@@ -4,6 +4,7 @@ export interface itemModel {
   price : Number,
   discount: Number,
   discount_end_date : Date,
+  image_url : String,
   available : boolean,
   product : boolean,
   quanity : Number,

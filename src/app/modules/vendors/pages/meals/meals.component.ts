@@ -34,7 +34,8 @@ export class MealsComponent implements OnInit {
   meals: any = [];
   showMeals: boolean = true;
   itemForm: FormGroup;
-  newItem : itemModel;
+  newItem: itemModel;
+  itemUrl: String = '';
   @ViewChild("itemImage") itemImage: ElementRef;
   constructor(private franchiseItemsService: FranchiseItemsService) {}
 
@@ -49,7 +50,7 @@ export class MealsComponent implements OnInit {
       discount: new FormControl(null, [Validators.required]),
       discountEnd: new FormControl(null, [Validators.required]),
       description: new FormControl(null, [Validators.required]),
-      // attachment: new FormControl(null, [Validators.required])
+      attachment: new FormControl(null, [Validators.required])
     });
     await this.franchiseItemsService.getItems(50).subscribe(responseData => {
       this.meals = responseData.data;
@@ -57,30 +58,38 @@ export class MealsComponent implements OnInit {
   }
 
   onItemSubmit(form: FormGroup) {
-    console.log("this.itemForm.valid has : ", this.itemForm.valid);
     if (this.itemForm.valid) {
       let item = this.itemForm.value;
       this.newItem = {
-        name : item.title,
+        name: item.title,
         description: item.description,
-        price : item.price,
+        price: item.price,
+        image_url : this.itemUrl,
         discount: item.discount,
-        discount_end_date : item.discountEnd,
-        available : item.isAvailable,
-        product : item.isProduct,
-        quanity : item.quantity,
-        category_id : Number(item.category),
-        franchise_id : 1
-      }
-      console.log("this.newItem has : ", this.newItem);
-      this.franchiseItemsService.addItem(this.newItem).subscribe(responseData => {
-        console.log("responseData has : ", responseData);
-        this.newItem = responseData.data
-        // console.log("this.newItem : ", this.newItem);
-      })
+        discount_end_date: item.discountEnd,
+        available: item.isAvailable,
+        product: item.isProduct,
+        quanity: item.quantity,
+        category_id: Number(item.category),
+        franchise_id: 1,
+      };
+      this.franchiseItemsService
+        .addItem(this.newItem)
+        .subscribe(responseData => {
+          this.newItem = responseData.data;
+          this.itemForm.reset()
+        });
     } else {
       return;
     }
+  }
+
+  fileChangeEvent(fileInput : any) {
+    let image = fileInput.target.files[0];
+    this.franchiseItemsService.uploadItemImage(image).subscribe(serverResponse => {
+      this.itemUrl = serverResponse.fileDownloadUri
+      console.log('this.itemUrl is : ', this.itemUrl)
+    })
   }
   chooseFile() {
     console.log("choose an image");

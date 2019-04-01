@@ -26,4 +26,10 @@ export class FranchiseItemsService {
       headers
     });
   }
+
+  uploadItemImage( image : any) : Observable<any> {
+    var fd = new FormData();
+    fd.append('file', image);
+    return this.http.post<any>(`${this.baseURL}/auth/upload`,fd);
+  }
 }
