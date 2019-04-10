@@ -12,6 +12,10 @@ import { SocialAuthService } from './services/Authentication.service';
 import { ForgotPasswordComponent } from './Pages/forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './Pages/reset-password/reset-password.component';
 import { FranchiseAuthService } from './services/franchiseAuth.service';
+import { NotificationsService } from 'app/services/notifications.service';
+import { AngularFireModule } from '@angular/fire';
+import { AngularFireDatabaseModule } from '@angular/fire/database';
+import { AngularFireAuthModule } from '@angular/fire/auth';
 
 @NgModule({
   imports: [
@@ -19,6 +23,16 @@ import { FranchiseAuthService } from './services/franchiseAuth.service';
     AuthRoutingModule, 
     SharedModule, 
     ReactiveFormsModule,
+    AngularFireModule.initializeApp({
+      apiKey: "AIzaSyBVuIpEpE4Ke9xam26eRzVZItTslj6iTMY",
+      authDomain: "subquch-d4369.firebaseapp.com",
+      databaseURL: "https://subquch-d4369.firebaseio.com",
+      projectId: "subquch-d4369",
+      storageBucket: "",
+      messagingSenderId: "54989238851"
+    }),
+    AngularFireDatabaseModule,
+    AngularFireAuthModule
   ],
   declarations: [
     LoginComponent, 
@@ -27,7 +41,8 @@ import { FranchiseAuthService } from './services/franchiseAuth.service';
   providers: [
     AuthService,
     FranchiseAuthService,
-    SocialAuthService
+    SocialAuthService,
+    NotificationsService
   ]
 })
 export class AuthModule {}
