@@ -5,7 +5,6 @@ import { IsButton } from '../../../../lib';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { FranchiseAuthService } from 'app/modules/auth/services/franchiseAuth.service';
-import { NotificationsService } from 'app/services/notifications.service';
 
 @Component({
   selector: 'app-login',
@@ -16,24 +15,17 @@ export class LoginComponent implements OnInit {
   @HostBinding() class: string = 'd-flex flex-column col p-0 overflow-y-auto overflow-x-hidden';
   loginForm: FormGroup;
   errorMessage: string;
-  message;
 
   constructor(
     private authService: AuthService,
     private franchiseAuthService : FranchiseAuthService,
-    private notificationsService : NotificationsService, 
     private router: Router) {}
 
   ngOnInit() {
-    console.log('ngOnInit called ')
     this.loginForm = new FormGroup({
       username: new FormControl(null, [Validators.required]),
       password: new FormControl(null, [Validators.required])
     });
-    this.notificationsService.getPermission()
-    this.notificationsService.receiveMessage()
-    this.message = this.notificationsService.currentMessage
-    console.log('message has : ', this.message)
   }
 
   onLoginSubmit(form: FormGroup, btn: IsButton) {

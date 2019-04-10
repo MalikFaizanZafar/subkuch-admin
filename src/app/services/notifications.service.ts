@@ -5,6 +5,7 @@ import * as firebase from 'firebase';
 
 import 'rxjs/add/operator/take';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject'
+import { FranchiseAccountService } from 'app/modules/vendors/services/franchiseAccount.service';
 
 @Injectable()
 export class NotificationsService {
@@ -12,20 +13,12 @@ export class NotificationsService {
   messaging = firebase.messaging()
   currentMessage = new BehaviorSubject(null)
 
-  constructor(private db: AngularFireDatabase, private afAuth: AngularFireAuth) { }
+  constructor(private db: AngularFireDatabase, private afAuth: AngularFireAuth, private franchiseAccountService : FranchiseAccountService) { }
 
 
   updateToken(token) {
-    const data = { ['123']: token }
+    const data = { ['53']: token }
     this.db.object('fcmTokens/').update(data)
-    // this.afAuth.authState.take(1).subscribe(user => {
-    //   console.log('User is ', user);
-    //   if (!user) return;
-
-    //   const data = { [user.uid]: token }
-    //   this.db.object('fcmTokens/').update(data)
-    // })
-    // console.log('User false');
   }
 
   getPermission() {
@@ -37,6 +30,9 @@ export class NotificationsService {
       .then(token => {
         // console.log("token is :", token)
         this.updateToken(token)
+        this.franchiseAccountService.setDeviceToken({token}).subscribe(resp => {
+          console.log("Resp has : ", resp)
+        })
       })
       .catch((err) => {
         console.log('Unable to get permission to notify.', err);

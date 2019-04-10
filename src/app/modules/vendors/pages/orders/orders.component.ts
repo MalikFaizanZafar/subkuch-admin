@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { order } from '../../models/vendor-members';
 import { Router } from '@angular/router';
 import { FranchiseOrdersService } from '../../services/franchiseOrders.service';
+import { NotificationsService } from 'app/services/notifications.service';
 
 @Component({
   selector: 'orders',
@@ -11,13 +12,18 @@ import { FranchiseOrdersService } from '../../services/franchiseOrders.service';
 export class OrdersComponent implements OnInit {
   orders: order[] = []
   currentUrl: string;
-  constructor(private franchiseOrdersService : FranchiseOrdersService, private router : Router,) { }
+  message;
+  constructor(private franchiseOrdersService : FranchiseOrdersService, private router : Router,
+    private notificationsService : NotificationsService ) { }
 
   async ngOnInit() {
     await this.franchiseOrdersService.getOrders(1).subscribe(responseData => {
       this.orders = responseData.data
     })
     this.currentUrl =  this.router.url
+    this.notificationsService.getPermission()
+    this.notificationsService.receiveMessage()
+    this.message = this.notificationsService.currentMessage
   }
 
   isGridrowExpandHandler(data : any) {

@@ -21,6 +21,7 @@ import { FranchiseDealsService } from './services/franchiseDeals.service';
 import { FranchiseItemsService } from './services/franchiseItems.service';
 import { FranchiseOrdersService } from './services/franchiseOrders.service';
 import { FranchiseSalesService } from './services/franchiseSales.service';
+import { NotificationsService } from 'app/services/notifications.service';
 
 
 @NgModule({
@@ -42,7 +43,8 @@ import { FranchiseSalesService } from './services/franchiseSales.service';
     FranchiseDealsService,
     FranchiseItemsService,
     FranchiseOrdersService,
-    FranchiseSalesService
+    FranchiseSalesService,
+    NotificationsService
   ],
   declarations: [
     OverviewComponent, 
