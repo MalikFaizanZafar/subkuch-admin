@@ -1,10 +1,11 @@
-import { Component, HostBinding, OnInit } from '@angular/core';
+import { Component, HostBinding, OnInit, TemplateRef } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 
-import { IsButton } from '../../../../lib';
-import { AuthService } from '../../services/auth.service';
+import { IsButton, IsModalService } from '../../../../lib';
+// import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { FranchiseAuthService } from 'app/modules/auth/services/franchiseAuth.service';
+import { IsToasterService } from '../../../../lib/toaster';
 
 @Component({
   selector: 'app-login',
@@ -17,9 +18,11 @@ export class LoginComponent implements OnInit {
   errorMessage: string;
 
   constructor(
-    private authService: AuthService,
+    // private authService: AuthService,
     private franchiseAuthService : FranchiseAuthService, 
-    private router: Router) {}
+    private router: Router,
+    private toaster: IsToasterService,
+    private isModal: IsModalService) {}
 
   ngOnInit() {
     this.loginForm = new FormGroup({
@@ -28,35 +31,27 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  onLoginSubmit(form: FormGroup, btn: IsButton) {
+  onLoginSubmit(form: FormGroup, btn: IsButton, veirfyTemplate: TemplateRef<any>, activeTemplate: TemplateRef<any>) {
     if (this.loginForm.valid) {
       btn.startLoading();
       let user = this.loginForm.value;
-      // this.authService.getUserLoggedIn(newUser.email, newUser.password)
-      //   .pipe()
-      //   .subscribe(res => {
-      //     btn.stopLoading();
-      //     if (res.statusCode !== 200) {
-      //       this.errorMessage = res.statusMessage;
-      //       return;
-      //     } else  {
-      //       if (!res.data.isEmailVerified) {
-      //         this.errorMessage = 'Please verify your email address.'
-      //         return;
-      //       }
-      //       if (!res.data.isActive) {
-      //         this.errorMessage = 'Account is not active! please contact administrator.'
-      //         return; 
-      //       }
-      //       let token = newUser.email;
-      //       localStorage.setItem('user', token)
-      //       localStorage.setItem('userData', JSON.stringify(newUser))
-      //       this.router.navigate(['/vendors', `${token}`]);
-      //     }
-      //   })
       this.franchiseAuthService.login(user.username, user.password).subscribe(res => {
         localStorage.setItem('Authorization', `${res.tokenType} ${res.accessToken}`)
         this.router.navigate(['/vendors']);
+        this.toaster.popSuccess('Logged In Successfully');
+        btn.stopLoading();
+      }, (err) => {
+        debugger
+        if (err.error.indexOf('verified') > -1) {
+          this.isModal.open(veirfyTemplate, {data: err.error})
+        }
+
+        if (err.error.indexOf('active') > -1) {
+          this.isModal.open(activeTemplate, {data: err.error})
+        }
+        btn.stopLoading();
+        // if 
+        // this.isModal.open()
       })
     } else {
       return;

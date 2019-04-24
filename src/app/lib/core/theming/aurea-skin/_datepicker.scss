@@ -3,7 +3,7 @@ is-datepicker {
     margin-bottom: 3px;
     position: relative;
 
-    input[type='text'] {
+    .is-datepicker__input-control {
       width: 100%;
       background: none;
       border-radius: 0;
@@ -21,15 +21,28 @@ is-datepicker {
   }
 
   & div.is-datepicker__input--focused {
-    input[type='text'] {
+    .is-datepicker__input-control {
       box-shadow: none;
       border-bottom: 1px solid $au-green;
     }
   }
 
   & div.is-datepicker__input--error {
-    input[type='text'] {
+    .is-datepicker__input-control {
       border-bottom: 1px solid $au-red;
+    }
+  }
+}
+
+.is-month-year-grid {
+
+  &__button {
+
+    &--active {
+
+      .is-month-year-grid__button-content {
+        background: $au-red;
+      }
     }
   }
 }
@@ -37,6 +50,29 @@ is-datepicker {
 .is-datepicker {
   width: 220px;
   background-color: $au-black;
+
+  &__timepicker {
+    padding: 11px 14px;
+  }
+
+  &__slider-wrapper {
+    padding: 0;
+  }
+
+  &__time {
+    color: map_get($au-neutral, 1);
+    background: rgba(#000, .17);
+    border-radius: 2px;
+    border: none;
+  }
+
+  &__time-label {
+    color: map_get($au-neutral, 1);
+  }
+
+  &__year-month-selector {
+    background-color: $au-black;
+  }
 
   .is-datepicker__header {
     border-bottom: none;
@@ -50,7 +86,7 @@ is-datepicker {
       & h4 {
         color: map_get($au-gray, 1);
         text-align: left;
-        left: 10px;
+        padding-left: 10px;
         font-size: 13px;
       }
 

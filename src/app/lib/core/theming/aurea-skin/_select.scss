@@ -1,3 +1,6 @@
+$selected-color: $au-green;
+$temporary-selected-color: rgba($selected-color, .45);
+
 .is-select-wrapper {
   border-bottom: 1px solid #cbd1d3;
   font-size: 13px;
@@ -15,56 +18,92 @@
     width: 0;
     height: 0;
   }
+}
 
-  .is-select__placeholder {
-    font-style: normal;
+.is-select--invalid {
+  border-bottom-color: $au-red;
+}
+
+.is-select__placeholder {
+  font-style: normal;
+}
+
+.is-select--shadow-box {
+  box-shadow: none;
+  border: none;
+  min-width: 130px;
+  background: none;
+  width: 100%;
+  font-size: 13px;
+}
+
+.is-select__filter--shadow-box {
+  min-width: 220px;
+  font-size: 13px;
+}
+
+.is-select__options {
+  border-radius: 0;
+  font-size: 13px;
+
+  &--dark {
+    background: $au-gray-main;
+    color: #fff;
+    box-shadow: 0 0 3px rgba(30, 40, 44, .5);
   }
 
-  .is-select--shadow-box {
-    box-shadow: none;
-    border: none;
-    min-width: 130px;
-    background: none;
-    width: 100%;
+  &--light {
+    background: #fff;
+    color: #000;
+    box-shadow: 0 0 3px rgba(30, 40, 44, .5);
   }
 
-  .is-select__filter--shadow-box {
-    min-width: 220px;
-  }
+  .is-option {
+    font-weight: 500;
 
-  .is-select__options {
-    border-radius: 0;
+    &--selected,
+    &--temporary-selected {
+      &::before {
+        display: none;
+      }
+    }
 
-    &--dark {
-      background: $au-gray-main;
+    &--selected {
+      background: $selected-color;
+
+      &:hover {
+        background: $selected-color;
+      }
+    }
+
+    &--temporary-selected:not(.is-option--selected) {
+      background: $temporary-selected-color;
+
+      &:hover {
+        background: $temporary-selected-color;
+      }
+    }
+
+    &:not(.is-option--selected):not(.is-option--temporary-selected):hover {
+      background: rgba(#000, .1);
+    }
+
+    &.is-checkbox .is-checkbox__wrapper-btn {
       color: #fff;
-      box-shadow: 0 0 3px rgba(30, 40, 44, .5);
-    }
-
-    &--light {
-      background: #fff;
-      color: #000;
-      box-shadow: 0 0 3px rgba(30, 40, 44, .5);
-    }
-
-    .is-option {
-      font-weight: 500;
-
-      &:hover:not(.is-option--selected) {
-        background: rgba(#000, .1);
-      }
-
-      &--selected {
-        background: $au-green;
-
-        &:hover {
-          background: $au-green;
-        }
-
-        &::before {
-          display: none;
-        }
-      }
+      font-weight: 600;
     }
   }
 }
+
+.is-select__back {
+  &-container {
+    font-weight: 600;
+    color: $au-blue;
+  }
+
+  &-button {
+    color: $au-blue;
+  }
+}
+
+@import 'select-responsive';

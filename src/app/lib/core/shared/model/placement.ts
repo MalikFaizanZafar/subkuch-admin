@@ -1,11 +1,11 @@
 /**
- * Created by egonzalez<edgard.gonzalez@aurea.com> on 21/08/2017.
+ * Enumeration for placement
  */
 export enum IsPlacement {
-  TopLeft = <any> 'top-left',
-  TopRight = <any> 'top-right',
-  BottomLeft = <any> 'bottom-left',
-  BottomRight = <any> 'bottom-right',
-  TopCenter = <any> 'top-center',
-  BottomCenter = <any> 'bottom-center'
+  TopLeft = 'top-left',
+  TopRight = 'top-right',
+  BottomLeft = 'bottom-left',
+  BottomRight = 'bottom-right',
+  TopCenter = 'top-center',
+  BottomCenter = 'bottom-center'
 }

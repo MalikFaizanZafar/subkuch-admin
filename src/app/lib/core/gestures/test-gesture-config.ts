@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
+
+import { HammerInstance, HammerManager } from './gesture-annotations';
 import { IsGestureConfig } from './gesture-config';
-import { HammerManager } from './gesture-annotations';
 
 /**
  * An extension of GestureConfig that exposes the underlying HammerManager instances.
@@ -17,9 +18,9 @@ export class TestGestureConfig extends IsGestureConfig {
   /**
    * Create a mapping of Hammer instances to element so that events can be emitted during testing.
    */
-  buildHammer( element: HTMLElement ) {
-    const mc = super.buildHammer(element) as HammerManager;
-    const instance = this.hammerInstances.get(element);
+  buildHammer( element: HTMLElement ): HammerInstance {
+    const mc: any = super.buildHammer(element);
+    const instance: HammerManager[] = this.hammerInstances.get(element);
 
     if (instance) {
       instance.push(mc);
@@ -34,11 +35,11 @@ export class TestGestureConfig extends IsGestureConfig {
    * The Angular event plugin for Hammer creates a new HammerManager instance for each listener,
    * so we need to apply our event on all instances to hit the correct listener.
    */
-  emitEventForElement( eventType: string, element: HTMLElement, eventData = {} ) {
-    const instances = this.hammerInstances.get(element);
+  emitEventForElement( eventType: string, element: HTMLElement, eventData: any = {} ): void {
+    const instances: any[] = this.hammerInstances.get(element);
 
     if (instances) {
-      instances.forEach(instance => instance.emit(eventType, eventData));
+      instances.forEach((instance: any) => instance.emit(eventType, eventData));
     }
   }
 }

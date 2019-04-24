@@ -1,4 +1,14 @@
+@import './_theming';
+@import '../_palette';
+
 is-input-container {
+  .is-input__wrapper {
+    border: none;
+    border-radius: 0;
+    padding: 0;
+    border-bottom: 1px solid map-get($au-gray, 2);
+  }
+
   input[type='text'],
   input[type='email'],
   input[type='number'],
@@ -7,26 +17,12 @@ is-input-container {
   input[type='url'],
   textarea {
     background: none;
-    border-radius: 0;
-    border: none;
-    border-bottom: 1px solid #cbd1d3;
     font-size: 1em;
     color: map-get($au-neutral, 4);
-    padding: 0;
-
-    &:focus {
-      box-shadow: none;
-      border-bottom: 1px solid $au-green;
-    }
   }
 
   textarea {
-    border: 1px solid #cbd1d3;
     height: auto;
-
-    &:focus {
-      border-color: $au-green;
-    }
   }
 
   .is-input__error-message {
@@ -41,10 +37,32 @@ is-input-container {
 .is-input-container {
   @extend is-input-container;
 
+  &--focused {
+    .is-input__wrapper {
+      border-bottom: 1px solid $au-green;
+      box-shadow: none;
+    }
+  }
+
+  &--textarea {
+    .is-input__wrapper {
+      border: 1px solid map-get($au-gray, 2);
+    }
+
+    &.is-input-container--focussed {
+      .is-input__wrapper {
+        border-color: $au-green;
+      }
+    }
+  }
+
   &--invalid {
+    .is-input__wrapper {
+      border-bottom-color: $au-red;
+    }
+
     input.is-input {
       border-color: transparent;
-      border-bottom-color: $au-red;
     }
   }
 }
@@ -55,12 +73,36 @@ is-input-container input {
   width: 100%;
 }
 
-.is-input__error-message {
-  margin-top: 5px;
-  padding-left: 2px;
-  color: #f44346;
-  font-size: .8em;
-  font-weight: 600;
+.is-input {
+  &__prefix,
+  &__suffix {
+    height: 29px;
+    font-size: inherit;
+    padding: 0;
+  }
+
+  &__prefix {
+    margin-right: 3px;
+  }
+
+  &__suffix {
+    margin-left: 3px;
+  }
+}
+
+.au-input-container {
+  transition: border-bottom-color .5s ease;
+  border-bottom: 1px solid map-get($au-gray, 2);
+
+  &.is-input-container {
+    &--focused {
+      border-bottom-color: $au-green;
+    }
+
+    &--light {
+      border-bottom: 1px solid #fff;
+    }
+  }
 }
 
 .au-input {

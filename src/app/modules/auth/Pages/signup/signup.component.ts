@@ -1,11 +1,11 @@
-import { Component, HostBinding, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { AuthService } from "angularx-social-login";
-import { FacebookLoginProvider, GoogleLoginProvider} from "angularx-social-login"
+import { Component, HostBinding, OnInit, TemplateRef } from '@angular/core';
+import { FormGroup, FormControl, Validators, NgForm } from '@angular/forms';
 
-import { IsButton } from '../../../../lib';
-import { SocialAuthService } from './../../services/Authentication.service'
+import { IsButton, IsModalService } from '../../../../lib';
+import { UserAuthService } from '../../services/auth.service';
+import { AvailableServices, AvailableServicesResponse } from '../../models/availableServices';
+import { VendorUser } from '../../models/vendor-members';
+
 @Component({
   selector: 'app-sign-up',
   templateUrl: './signup.component.html',
@@ -17,49 +17,64 @@ export class SignUpComponent implements OnInit {
   message = '';
   signupForm: FormGroup;
   loading: boolean = false;
+  selectedService: number = 0;
+  availableServices: AvailableServices[] = [];
 
-  constructor( 
-    private authService: AuthService, private socialAuthService : SocialAuthService,
-    private router: Router) {}
+  constructor(private authService: UserAuthService, 
+              private isModal: IsModalService){}
 
   ngOnInit() {
     this.signupForm = new FormGroup({
       email: new FormControl(null, [Validators.required, Validators.email]),
+      brandName: new FormControl(null, [Validators.required]),
       password: new FormControl(null, [
         Validators.required,
         Validators.minLength(8)
+      ]),
+      confirmPassword: new FormControl(null, [
+        Validators.required,
+        Validators.minLength(8)
+      ]),
+      service: new FormControl(0, [
+        Validators.required
+      ]), 
+      username: new FormControl(null, [
+        Validators.required
+      ]),
+      contact: new FormControl(null, [
+        Validators.required
       ])
     });
+
+    this.authService.getServices().subscribe((res: AvailableServicesResponse) => {
+      this.availableServices = res.data.filter(item => item.enabled);
+    })
   }
 
-  signInWithFB(): void {
-    this.authService.signIn(FacebookLoginProvider.PROVIDER_ID);
-    this.authService.authState.subscribe((user) => {
-      this.socialAuthService.facebookSignup(user);
-    });
-  }
-
-  signInWithGoogle(): void {
-    this.authService.signIn(GoogleLoginProvider.PROVIDER_ID);
-    this.authService.authState.subscribe((user) => {
-      this.socialAuthService.googleSignup(user);
-    });
-  }
-
-  onSignSubmit(form: any, btn: IsButton) {
-    // this.loading = true;
-    // if (this.signupForm.valid) {
-    //   let user = this.signupForm.value;
-    //   this.message = this.authService.signUpUser(user.email, user.password);
-    //   setTimeout(() => {
-    //     this.loading = false;
-    //     this.message = '';
-    //     form.submitted = false;
-    //     this.router.navigate(['auth'])
-    //   }, 2000);
-    // } else {
-    //   this.loading = false;
-    //   console.log('Form is not Valid');
-    // }
+  onSubmit(form: NgForm, btn: IsButton, template: TemplateRef<any>) {
+    if (this.signupForm.controls.password.value !== this.signupForm.controls.confirmPassword.value) {
+      return;
+    }
+    if (this.signupForm.valid) {
+      btn.startLoading();
+      let user = this.signupForm.value;
+      const vendor = new VendorUser();      
+      
+      vendor.contact = user.contact,
+      vendor.email = user.email,
+      vendor.name = user.brandName,
+      vendor.password =  user.password,
+      vendor.service_id=  parseInt(user.service, 10),
+      vendor.username =  user.username;
+      this.authService.signup(vendor).subscribe(res => {
+        btn.stopLoading();
+        if (res) {
+          this.isModal.open(template, {data: vendor.email});
+          form.reset();
+        }
+      })
+    } else {
+      return;
+    }  
   }
 }

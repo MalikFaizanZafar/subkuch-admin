@@ -19,8 +19,8 @@
  * }
  *
  */
-export function IsEnumAware( enums: { [id: string]: { [id: number]: string } } ) {
-  return function( constructor: Function ) {
+export function IsEnumAware( enums: { [id: string]: { [id: number]: string } } ): any {
+  return ( constructor: () => {} ): void => {
     for (const key of Object.keys(enums)) {
       constructor.prototype[key] = enums[key];
     }

@@ -4,16 +4,16 @@ import { Observable } from 'rxjs';
 
 @Injectable()
 export class FranchiseInfoService {
-  baseURL : string = 'http://localhost:8080/api'
+  baseURL : string = '/api/auth/franchise'
 
   constructor( private http : HttpClient){}
   
-  getFranchiseInfo( id : number) : Observable<any>{
+  getFranchiseInfo() : Observable<any>{
     let headers = new HttpHeaders()
     const token = localStorage.getItem('Authorization');
     headers = headers.append(
     'Authorization', token
     );
-    return this.http.get<any>(`${this.baseURL}/franchise/${id}`, {headers})
+    return this.http.get<any>(`${this.baseURL}`, {headers})
   }
 }

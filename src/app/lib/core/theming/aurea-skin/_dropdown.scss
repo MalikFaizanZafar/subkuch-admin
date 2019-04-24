@@ -1,5 +1,7 @@
+@import './theming';
+
 .is-dropdown__button--basic {
-  color: #fff;
+  color: $au-gray-main;
 }
 
 .dropdown-menu {

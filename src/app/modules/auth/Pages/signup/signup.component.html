@@ -6,86 +6,178 @@
       </div>
     </div>
   </div>
-</header> 
+</header>
 <div>
   <div class="position-relative w-100">
     <img src="https://images.pexels.com/photos/920570/pexels-photo-920570.jpeg" class="w-100 sign__slider">
-    <div class="position-absolute w-100 d-flex justify-content-center align-items-center sign__form ">
+    <div class="position-absolute w-100 h-100 d-flex justify-content-end align-items-center sign__form mr-5">
       <div class="card p-2 bg-light" style="width: 28rem;">
         <div class="card-body">
-          <h3 class="card-title text-dark w-100 d-flex justify-content-center font-weight-bold">Become Our</h3>
-          <h3 class="card-title text-dark w-100 d-flex justify-content-center font-weight-bold">Partner</h3>
-          <div class="form-group">
-            <input type="text" class="form-control sign__input" id="formGroupExampleInput" placeholder="Your City">
-          </div>
-          <div class="form-group">
-            <input type="text" class="form-control sign__input" id="formGroupExampleInput" placeholder="Setup Name">
-          </div>
-          <div class="form-group">
-            <input type="text" class="form-control sign__input" id="formGroupExampleInput" placeholder="Address">
-          </div>
-          <div class="form-group">
-            <input type="text" class="form-control sign__input" id="formGroupExampleInput" placeholder="First Name">
-          </div>
-          <div class="form-group">
-            <input type="text" class="form-control sign__input" id="formGroupExampleInput" placeholder="Last Name">
-          </div>
-          <div class="form-group">
-            <input type="text" class="form-control sign__input" id="formGroupExampleInput" placeholder="Contact Number">
-          </div>
-          <div class="form-group">
-            <input type="text" class="form-control sign__input" id="formGroupExampleInput" placeholder="Email">
-          </div>
-          <div class="form-group">
-            <input type="text" class="form-control sign__input" id="formGroupExampleInput" placeholder="Type of Buisness">
-          </div>
-          <button type="button" class="sign__register__button w-50">Register Now</button>
+          <h3 class="card-title text-dark w-100 d-flex justify-content-center font-weight-bold mb-4">Become Our Partner
+          </h3>
+          <form autocomplete="off" [formGroup]="signupForm" (ngSubmit)="onSubmit(formDir, submitBtn, signUpTemplate)" #formDir="ngForm">
+            <div class="form-group"
+              [class.mb-1]="(signupForm.hasError('required', 'service') || signupForm.hasError('service', 'service') || signupForm.controls.service.value === 0) && formDir.submitted">
+              <select class="form-control" formControlName="service">
+                <option value="0" default selected>Select service...</option>
+                <option *ngFor="let service of availableServices" value="{{service.id}}">{{service.name}}
+                </option>
+              </select>
+            </div>
+
+            <div
+              *ngIf="(signupForm.hasError('required', 'service')|| signupForm.controls.service.value === 0) && formDir.submitted"
+              class="sign__input_error">
+              Service is required
+            </div>
+
+            <div class="form-group"
+              [class.mb-1]="(signupForm.hasError('required', 'brandName') || signupForm.hasError('brandName', 'brandName')) && formDir.submitted">
+              <is-input-container>
+                <input autocomplete="username" class="sign__input" type="text" placeholder="Enter Brand name"
+                  formControlName="brandName">
+              </is-input-container>
+            </div>
+
+            <div *ngIf="signupForm.hasError('required', 'brandName') && formDir.submitted" class="sign__input_error">
+              Brand name is required
+            </div>
+
+            <div class="form-group"
+              [class.mb-1]="(signupForm.hasError('required', 'username') || signupForm.hasError('username', 'username')) && formDir.submitted">
+              <is-input-container>
+                <input autocomplete="username" class="sign__input" type="text" placeholder="Enter username"
+                  formControlName="username">
+              </is-input-container>
+            </div>
+            <div *ngIf="signupForm.hasError('required', 'username') && formDir.submitted" class="sign__input_error">
+              Username is required
+            </div>
+
+            <div class="form-group"
+              [class.mb-1]="(signupForm.hasError('required', 'email') || signupForm.hasError('email', 'eamil')) && formDir.submitted">
+              <is-input-container>
+                <input autocomplete="username" class="sign__input" type="email" placeholder="Enter Email id"
+                  formControlName="email">
+              </is-input-container>
+            </div>
+
+            <div *ngIf="signupForm.hasError('required', 'email') && formDir.submitted" class="sign__input_error">
+              Email id is required
+            </div>
+
+            <div class="form-group"
+              [class.mb-1]="(signupForm.hasError('required', 'contact') || signupForm.hasError('contact', 'contact')) && formDir.submitted">
+              <is-input-container>
+                <input autocomplete="contact" class="sign__input" type="text" placeholder="Enter contact number"
+                  formControlName="contact">
+              </is-input-container>
+            </div>
+
+            <div *ngIf="signupForm.hasError('required', 'contact') && formDir.submitted" class="sign__input_error">
+              Contact number is required
+            </div>
+
+            <div class="form-group"
+                 [class.mb-1]="signupForm.controls.password.errors && formDir.submitted">
+              <is-input-container>
+                <input autocomplete="contact" class="sign__input" type="password" placeholder="Enter password"
+                  formControlName="password">
+              </is-input-container>
+            </div>
+
+            <div *ngIf="signupForm.hasError('required', 'password') && formDir.submitted" class="sign__input_error">
+              Password is required
+            </div>
+
+            <div *ngIf="signupForm.controls.password.errors && signupForm.controls.password.errors.minlength && formDir.submitted" class="sign__input_error">
+              Password must contain at least 8 charaters
+            </div>
+
+            <div class="form-group"
+                 [class.mb-1]="(signupForm.controls.confirmPassword.errors || (signupForm.controls.confirmPassword.value !== signupForm.controls.password.value)) && formDir.submitted">
+              <is-input-container>
+                <input autocomplete="contact" class="sign__input" type="password" placeholder="Enter password"
+                  formControlName="confirmPassword">
+              </is-input-container>
+            </div>
+
+            <div *ngIf="signupForm.hasError('required', 'confirmPassword') && formDir.submitted" class="sign__input_error">
+              Confirm Password is required
+            </div>
+
+            <div *ngIf="signupForm.controls.confirmPassword.errors && signupForm.controls.confirmPassword.errors.minlength && formDir.submitted" class="sign__input_error">
+              Password must contain at least 8 charaters
+            </div>
+
+            <div *ngIf="signupForm.controls.confirmPassword.value !== signupForm.controls.password.value && formDir.submitted" class="sign__input_error">
+              Password and Confirm password should match
+            </div>
+            <button #submitBtn loaderPosition="after" is-button type="submit"
+              class="w-100 login-form__submit-btn">Register Now
+            </button>
+          </form>
         </div>
       </div>
     </div>
   </div>
-<!-- About Section -->
-<div class="position-relative w-100 d-flex bg-white justify-content-center sign__about">
-  <div>
+  <!-- About Section -->
+  <!-- <div class="w-100 d-flex bg-white justify-content-center sign__about">
+    <div>
       <i class="fas fa-info-circle fa-2x text-dark sign__about__icon "></i>
       <h2 class="h2 text-dark w-25 sign__about__heading">About Us</h2>
       <p class="lead w-50 sign__about__text text-center">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Atque, tempora, nostrum nemo optio accusamus 
-          illum maxime consectetur nulla voluptatem autem beatae, facere blanditiis similique expedita eveniet 
-          officiis repellat.
-        </p>
-  </div>
-</div>
-
-<div>
-
-<div class="position-relative w-100">
-  <img src="https://images.pexels.com/photos/1296543/pexels-photo-1296543.jpeg" class="w-100 sign__slider">
-  <div class="position-absolute w-100 d-flex justify-content-center align-items-center sign__section3 ">
-    <div class="position-absolute w-50 mx-5 sign__welcome">
-      <h1 class="sign__section3__text1 w-100">Interested?</h1>
-      <h1 class="text-white sign__section3__text2 w-100">Become Our Partners</h1>
-      <h1 class="text-white sign__section3__text2 w-100">& Increase Your Revenue</h1>
-      <button type="button" class="sign__section3__button w-50">Register Now</button>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Atque, tempora, nostrum nemo optio accusamus
+        illum maxime consectetur nulla voluptatem autem beatae, facere blanditiis similique expedita eveniet
+        officiis repellat.
+      </p>
     </div>
-  </div>
-  </div>
-</div>
+  </div> -->
 
-<footer class="page-footer font-small py-5 bg-dark">
-  <div class="row">
-    <div class="col-md-2 offset-md-5 offset-sm-4 col-sm-4">
-    <i class="fab fa-facebook-f fa-2x w-25"></i>
-    <i class="fab fa-whatsapp fa-2x w-25"></i>
-    <i class="fab fa-instagram fa-2x w-25"></i>
-    <i class="fab fa-twitter fa-2x"></i>
-    </div>
-  </div>
-  <div class="row mt-2">
-    <div class="col-md-3 offset-md-5 ">
-      <div class="footer-copyright text-left">© 2018 Copyright:
-        <a href="subquch.com"> www.subQuch.com</a>
+  <div class="position-relative w-100">
+    <img src="https://images.pexels.com/photos/1296543/pexels-photo-1296543.jpeg" class="w-100 sign__slider">
+    <div class="position-absolute w-100 d-flex justify-content-center align-items-center sign__welcome h-100">
+      <div class="w-100 h-50">
+        <h1 class="sign__section3__text1  d-flex justify-content-center">Interested?</h1>
+        <h1 class="text-white sign__section3__text2  d-flex justify-content-center">Become Our Partners</h1>
+        <h1 class="text-white sign__section3__text2  d-flex justify-content-center">& Increase Your Revenue</h1>
+        <div class=" d-flex justify-content-center">
+          <button type="button" class="sign__section3__button ">Register Now</button>
+        </div>
       </div>
     </div>
   </div>
-  </footer>
+</div>
+<footer class="font-small py-5 bg-dark">
+  <div class="d-flex justify-content-center align-items-center">
+    <div class="d-flex">
+      <i class="fab fa-facebook-f fa-2x mr-2"></i>
+      <i class="fab fa-whatsapp fa-2x mr-2"></i>
+      <i class="fab fa-instagram fa-2x mr-2"></i>
+      <i class="fab fa-twitter fa-2x"></i>
+    </div>
+  </div>
+  <div class="d-flex justify-content-center align-items-center mt-2">
+    <div class="footer-copyright text-left">© 2018 Copyright:
+      <a href="subquch.com"> www.subquch.com</a>
+    </div>
+  </div>
+</footer>
+
+
+<ng-template #signUpTemplate
+             let-close="close"
+             let-data="data">
+  <div class="p-3">
+    <p>Verification email has been sent to {{data}}.</p>
+    <p><strong>Please verify your email address.</strong></p>
+    <div class="d-flex justify-content-center">
+      <button is-button
+              theme="danger"
+              class="close-btn"
+              (click)="close('Click on Close')">
+        <span>Close</span>
+      </button>
+    </div>
+  </div>
+</ng-template>

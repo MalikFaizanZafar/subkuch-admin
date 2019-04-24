@@ -1,12 +1,11 @@
 // Colors from the DevFactory Design Guidelines
 
 $is-dark: (
-  1: #f6f7fb,
-  2: #d0dae6,
-  3: #adbdcd,
-  4: #8595a5,
-  5: #575d6b,
-  6: #2a2f40
+  1: #b0bec5,
+  2: #607d8b,
+  3: #455a64,
+  4: #263238,
+  5: #1e282c
 );
 
 $is-light: (
@@ -19,19 +18,20 @@ $is-light: (
   7: #bdbdbd
 );
 
-$is-blue: #52cdec;
-$is-green: #9ddb0f;
+$is-blue: #03a9f4;
+$is-green: #8bc34a;
 $is-amber: #ff9800;
-$is-red: #f03867;
+$is-red: #f44346;
 $is-yellow: #e8e04b;
+$is-purple: #9f72ee;
 
 // List of colors
 $is-colors: (
   light: map-get($is-light, 2),
-  dark: map-get($is-dark, 6),
+  dark: map-get($is-dark, 5),
   primary: $is-blue,
   success: $is-green,
   warning: $is-amber,
   danger: $is-red,
-  info: $is-blue + 20
+  info: adjust-color($is-blue, $red: 20, $green: 20, $blue: 20)
 );

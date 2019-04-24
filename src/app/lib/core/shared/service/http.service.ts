@@ -1,148 +1,168 @@
-// /**
-//  * Created by egonzalez<edgard.gonzalez@aurea.com> on 03/01/2017.
-//  */
-// import { Injectable } from '@angular/core';
-// import {
-//   Headers,
-//   Http,
-//   Request,
-//   RequestMethod,
-//   RequestOptions,
-//   Response,
-//   URLSearchParams
-// } from '@angular/http';
-// import { Observable } from 'rxjs/internal/Observable';
-// import { Subject } from 'rxjs/internal/Subject';
-// import { IsToasterService } from '../../../toaster/toast.service';
-// import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
+import { Injectable } from '@angular/core';
+import {
+  Headers,
+  Http,
+  Request,
+  RequestMethod,
+  RequestOptions,
+  Response,
+  URLSearchParams
+} from '@angular/http';
+import { Observable, Subject, throwError } from 'rxjs';
+import { IsToasterService } from '../../../toaster/toast.service';
 
-// export const API_URL = {
-//   API: '/api',
-//   AUTH: '/proxy/oauth'
-// };
+/**
+ * Default API URL object
+ */
+export enum API_URL {
+  API = '/api',
+  AUTH = '/proxy/oauth'
+}
 
-// @Injectable()
-// export class IsHttpService {
-//   private headers: Headers;
-//   private _onError: Subject<any> = new Subject();
+/**
+ * Http service class
+ */
+@Injectable()
+export class IsHttpService {
+  /**
+   * Headers
+   */
+  private headers: Headers;
 
-//   static getResponseErrorMsg( error: Response | any ) {
-//     let errMsg = '';
-//     if (error instanceof Response) {
-//       const body = error.json() || '';
-//       errMsg = body.message || body.error || JSON.stringify(body);
-//     } else {
-//       errMsg = error.message ? error.message : error.toString();
-//     }
+  /**
+   * On error subject
+   */
+  private _onError: Subject<any> = new Subject();
 
-//     return errMsg;
-//   }
+  /**
+   * Returns response error message
+   * @param error
+   */
+  static getResponseErrorMsg( error: Response | any ): string {
+    let errMsg: string = '';
+    if (error instanceof Response) {
+      const body: any = error.json() || '';
+      errMsg = body.message || body.error || JSON.stringify(body);
+    } else {
+      errMsg = error.message ? error.message : error.toString();
+    }
 
-//   get onError$(): Observable<any> {
-//     return this._onError.asObservable();
-//   }
+    return errMsg;
+  }
 
-//   constructor( private http: Http,
-//                private toastr: IsToasterService ) {}
+  /**
+   * Error observable getter
+   */
+  get onError$(): Observable<any> {
+    return this._onError.asObservable();
+  }
 
-//   /**
-//    * Make http request
-//    * @param url resource url
-//    * @param method http method
-//    * @param data request parameters or body
-//    */
-//   request( url: string, method: RequestMethod,
-//            data?: URLSearchParams | Object ): Observable<Response> {
-//     const options = new RequestOptions({
-//       method: method,
-//       url: url
-//     });
+  /**
+   * Creates an instance of IsHttpService.
+   * @param http Http
+   * @param toastr object of IsToasterService
+   */
+  constructor( private http: Http,
+               private toastr: IsToasterService ) {}
 
-//     if (this.headers) {
-//       options.headers = this.headers;
-//     }
+  /**
+   * Make http request
+   * @param url resource url
+   * @param method http method
+   * @param data request parameters or body
+   */
+  request( url: string, method: RequestMethod,
+           data?: URLSearchParams | object ): Observable<Response> {
+    const options: RequestOptions = new RequestOptions({
+      method,
+      url
+    });
 
-//     if (data) {
-//       if (method === RequestMethod.Get) {
-//         options.params = data as URLSearchParams;
-//       } else {
-//         options.body = data;
-//       }
-//     }
+    if (this.headers) {
+      options.headers = this.headers;
+    }
 
-//     return this.http.request(new Request(options));
-//   }
+    if (data) {
+      if (method === RequestMethod.Get) {
+        options.params = data as URLSearchParams;
+      } else {
+        options.body = data;
+      }
+    }
 
-//   /**
-//    * Make GET http request
-//    * @param url resource url
-//    * @param data url query string
-//    */
-//   get( url: string, data?: URLSearchParams ): Observable<Response> {
-//     return this.request(url, RequestMethod.Get, data);
-//   }
+    return this.http.request(new Request(options));
+  }
 
-//   /**
-//    * Make POST http request
-//    * @param url resource url
-//    * @param data request body
-//    */
-//   post( url: string, data?: Object ): Observable<Response> {
-//     return this.request(url, RequestMethod.Post, data);
-//   }
+  /**
+   * Make GET http request
+   * @param url resource url
+   * @param data url query string
+   */
+  get( url: string, data?: URLSearchParams ): Observable<Response> {
+    return this.request(url, RequestMethod.Get, data);
+  }
 
-//   /**
-//    * Set global headers that will be applied to all requests
-//    * @param headers key value pair object of headers to be applied
-//    */
-//   setHeaders( headers: Object ) {
-//     this.headers = new Headers();
+  /**
+   * Make POST http request
+   * @param url resource url
+   * @param data request body
+   */
+  post( url: string, data?: object ): Observable<Response> {
+    return this.request(url, RequestMethod.Post, data);
+  }
 
-//     for (const key in headers) {
-//       if (headers.hasOwnProperty(key)) {
-//         this.headers.append(key, headers[key]);
-//       }
-//     }
-//   }
+  /**
+   * Set global headers that will be applied to all requests
+   * @param headers key value pair object of headers to be applied
+   */
+  setHeaders( headers: object ): void {
+    this.headers = new Headers();
 
-//   /**
-//    * Clear global headers
-//    */
-//   clearHeaders() {
-//     this.headers = null;
-//   }
+    for (const key in headers) {
+      if (headers.hasOwnProperty(key)) {
+        const property: any = headers;
+        this.headers.append(key, property[key]);
+      }
+    }
+  }
 
-//   /**
-//    * Add api prefix to url
-//    * @param url
-//    * @param prefix api prefix
-//    * @example
-//    * let url = httpService.createUrl('/branch/1/commits');
-//    * // returns: /api/branch/1/commits
-//    */
-//   createUrl( url: string, prefix = API_URL.API ): string {
-//     return prefix + url;
-//   }
+  /**
+   * Clear global headers
+   */
+  clearHeaders(): void {
+    this.headers = null;
+  }
 
-//   /**
-//    * Handle http error and show toast error and print error on console, emits
-//    * onError event
-//    * @example
-//    * httpService.get('/api/branch/1/commits')
-//    *   .catch(httpService.handleError());
-//    */
-//   handleError() {
-//     const self = this;
-//     const toastr = this.toastr;
-//     return function( error: Response | any ) {
-//       // In a real world app, we might use a remote logging infrastructure
-//       const errMsg = IsHttpService.getResponseErrorMsg(error);
-//       console.error(errMsg);
-//       toastr.popError(errMsg);
-//       self._onError.next(error);
+  /**
+   * Add api prefix to url
+   * @param url
+   * @param prefix api prefix
+   * @example
+   * let url = httpService.createUrl('/branch/1/commits');
+   * // returns: /api/branch/1/commits
+   */
+  createUrl( url: string, prefix: API_URL = API_URL.API ): string {
+    return prefix + url;
+  }
 
-//       return ErrorObservable.create(errMsg);
-//     };
-//   }
+  /**
+   * Handle http error and show toast error and print error on console, emits
+   * onError event
+   * @example
+   * httpService.get('/api/branch/1/commits')
+   *   .catch(httpService.handleError());
+   */
+  handleError(): (error: any) => Observable<never> {
+    const toastr: IsToasterService = this.toastr;
+    return ( error: Response | any ): Observable<never> => {
+      // In a real world app, we might use a remote logging infrastructure
+      const errMsg: string = IsHttpService.getResponseErrorMsg(error);
+      console.error(errMsg);
+      toastr.popError(errMsg);
+      this._onError.next(error);
 
-// }
+      return throwError(errMsg);
+    };
+  }
+
+}

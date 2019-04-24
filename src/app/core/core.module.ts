@@ -8,6 +8,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxDfCustom } from '@app/shared/ngx-custom.module';
 // import { DfHttpErrorInterceptor, DfHttpIEInterceptor, DfHttpLoaderInterceptor } from '@devfactory/ngx-df/interceptor';
 import { NgbDropdownModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { HttpErrorInterceptor } from '@app/core/http-interceptors';
 
 /**
  * The Core module is used to hold all root-level providers. It should only be imported in the AppModule.
@@ -28,23 +29,12 @@ import { NgbDropdownModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap'
   ],
   /** Place all services/providers/injection tokens here here */
   providers: [
-    // {
-    //   provide: HTTP_INTERCEPTORS,
-    //   useClass: DfHttpLoaderInterceptor,
-    //   multi: true,
-    // },
-    // {
-    //   provide: HTTP_INTERCEPTORS,
-    //   useClass: DfHttpErrorInterceptor,
-    //   multi: true,
-    // },
-    // {
-    //   provide: HTTP_INTERCEPTORS,
-    //   useClass: DfHttpIEInterceptor,
-    //   multi: true,
-    // },
-    /** Provide your app wide services here */
-  ],
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpErrorInterceptor,
+      multi: true
+    }
+  ]
 })
 export class CoreModule {
   constructor(@Optional() @SkipSelf() parentModule: CoreModule) {

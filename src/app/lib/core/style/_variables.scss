@@ -8,7 +8,7 @@ $ease-in-out: all $ease-in-out-duration $ease-in-out-timing-function !default;
 $ease-strong-in-smooth-out: cubic-bezier(.785, .135, .15, .86) !default;
 
 // General use utils
-$infinite: 9999;
+$infinite: 999;
 
 // Z-index utils
 $z-index-1: 5;
@@ -18,3 +18,4 @@ $z-index-4: 20;
 $z-index-5: 25;
 $z-index-6: 30;
 $z-index-infinite: $infinite;
+$z-index-higher-than-cdk-overlay: 1001;

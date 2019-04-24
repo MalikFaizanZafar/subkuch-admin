@@ -1,21 +1,49 @@
 .is-timepicker {
-  &__ui {
-    background-color: $au-black;
-  }
 
-  &__ui-arrow {
-    background-color: rgba(#fff, .15);
+  &__input {
+    border-top-width: 0;
+    border-left-width: 0;
+    border-right-width: 0;
+    border-radius: 0;
 
-    &::before {
-      border-bottom-color: #fff;
+    &-field,
+    &-colon {
+      font-size: 14px;
+      text-align: center;
     }
 
-    &:active {
+    &-number {
+      width: 19px;
+    }
+
+    &-text {
+      width: 25px;
+    }
+
+    &--visible {
+      box-shadow: none;
+      border-bottom-color: $au-green;
+    }
+  }
+
+  &__ui {
+    background-color: $au-black;
+
+    &__arrow {
+      background-color: rgba(#fff, .15);
+
       &::before {
-        border-bottom-color: $au-red;
+        border-bottom-color: #fff;
+      }
+
+      &:active {
+        &::before {
+          border-bottom-color: $au-red;
+        }
       }
     }
   }
+
 
   &__ui-time {
     color: #fff;
@@ -28,6 +56,40 @@
       color: #fff;
       border-color: $au-red;
       background: $au-red;
+    }
+  }
+}
+
+@import '../../style/responsive-utils';
+@include media-breakpoint-down(sm) {
+  .is-timepicker-mobile-template {
+    .is-timepicker__ui {
+      border: thin solid $au-black;
+
+      &__arrow {
+        box-shadow: none;
+        background-color: transparent;
+
+        &::before {
+          border-bottom-color: map-get($au-neutral, 3);
+        }
+      }
+
+      &-time {
+        color: map-get($au-neutral, 3);
+      }
+
+      &-meridian {
+        color: map-get($au-neutral, 3);
+
+        &--selected {
+          color: $au-light-gray;
+        }
+      }
+
+      &-header {
+        border-bottom-color: map-get($au-neutral, 5);
+      }
     }
   }
 }

@@ -2,6 +2,24 @@
 
 $au-sidebar-text-size: 14px;
 
+.is-sidebar-host:not([is-sidebar]) {
+  background: $au-gray-main;
+
+  .is-sidebar:not(.is-sidebar__nested-renderer) {
+    border: none;
+
+    &__item {
+      &--active {
+        box-shadow: none;
+      }
+    }
+
+    &--open {
+      width: $sidebar-width;
+    }
+  }
+}
+
 .is-sidebar {
   background: $au-gray-main;
   border-color: $au-gray-main;
@@ -10,6 +28,51 @@ $au-sidebar-text-size: 14px;
   font-size: $au-sidebar-text-size;
   font-weight: 500;
   overflow-y: auto;
+
+  &__header {
+    color: $au-light-gray;
+    opacity: 1;
+    border-bottom: 1px solid rgba(255, 255, 255, .1);
+
+    &--label {
+      opacity: .7;
+    }
+
+    &--icon {
+      color: $au-blue;
+    }
+  }
+
+  &__child-panel {
+    background: transparent;
+  }
+
+  &__nested-renderer {
+    .is-sidebar__item-container {
+      &:hover {
+        a {
+          text-decoration: none;
+          color: $au-blue;
+        }
+      }
+
+      .is-sidebar__chevron-icon {
+        color: $au-blue;
+      }
+    }
+
+    .is-sidebar__item--active {
+      &:hover {
+        a {
+          color: $au-pink;
+        }
+      }
+    }
+  }
+
+  &__child-items {
+    background: $au-gray-main;
+  }
 }
 
 .is-sidebar--scrollbars {
@@ -117,9 +180,9 @@ $au-sidebar-text-size: 14px;
   box-shadow: none;
   font-weight: 500;
 
-  a,
+  .is-sidebar__item-icon--active,
   .is-sidebar__item-text,
-  .is-sidebar__item-icon--active {
+  a {
     opacity: 1;
     color: $au-pink;
   }
@@ -145,3 +208,5 @@ $au-sidebar-text-size: 14px;
   color: $au-light-gray;
   display: inline-block;
 }
+
+@import 'sidebar-responsive';

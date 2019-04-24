@@ -4,11 +4,11 @@ import { Observable } from 'rxjs';
 
 @Injectable()
 export class FranchiseAuthService {
-  baseURL : string = 'http://localhost:8080/api'
+  baseURL : string = '/api/auth/login'
 
   constructor( private http : HttpClient){}
   
   login( username : string, password : string) : Observable<any>{
-    return this.http.post<any>(`${this.baseURL}/auth/login`, { username, password, keep_logged : 1})
+    return this.http.post<any>(`${this.baseURL}`, { username, password, keep_logged : 1})
   }
 }

@@ -16,13 +16,12 @@ export class IsFileSizePipe implements PipeTransform {
     if (valueBytes === 0) {
       return '0 Bytes';
     }
-    const base = 1000;
-    const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
-    const calc = Math.floor(Math.log(valueBytes) / Math.log(base));
+    const base: number = 1000;
+    const fixedRatio: number = 2;
+    const sizes: string[] = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+    const calc: number = Math.floor(Math.log(valueBytes) / Math.log(base));
     return (
-      parseFloat((valueBytes / Math.pow(base, calc)).toFixed(2)) +
-      ' ' +
-      sizes[calc]
+      `${parseFloat((valueBytes / Math.pow(base, calc)).toFixed(fixedRatio))} ${sizes[calc]}`
     );
   }
 }

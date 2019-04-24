@@ -8,3 +8,7 @@ export * from './tokens/index';
 export * from './pipe/index';
 export * from './plugins/index';
 export * from './constants/index';
+export * from './validation/index';
+export * from './types';
+export * from './factory/index';
+export * from './directives/index';

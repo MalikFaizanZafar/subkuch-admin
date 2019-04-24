@@ -9,6 +9,7 @@
     "strictMetadataEmit": true,
     "flatModuleOutFile": "index.js",
     "flatModuleId": "@devfactory/ngx-is/core",
-    "skipTemplateCodegen": true
+    "skipTemplateCodegen": true,
+    "fullTemplateTypeCheck": false
   }
 }

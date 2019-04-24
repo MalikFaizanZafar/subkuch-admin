@@ -1,15 +1,75 @@
+$au-btn-text-colors: (
+  light: $au-gray-main,
+  dark: #fff,
+  primary: #fff,
+  success: #fff,
+  warning: #fff,
+  danger: #fff,
+  info: #fff,
+  disabled: #fff,
+);
+
+$au-colors: (
+  light: #fff,
+  dark: $au-gray-main,
+  primary: $au-blue,
+  success: $au-green,
+  warning: $au-amber,
+  danger: $au-red,
+  info: $au-blue,
+  disabled: #b5b9ba
+);
+
+$au-hover-colors: (
+  light: map-get($au-gray, 1),
+  dark: map-get($au-gray, 4),
+  primary: #0097cd,
+  success: #04a675,
+  warning: darken($au-amber, 8%),
+  danger: #da4050,
+  info: #0097cd,
+  disabled: #b5b9ba
+);
+
+$au-active-colors: (
+  light: #d3dadd,
+  dark: #151c28,
+  primary: #007bad,
+  success: #009765,
+  warning: darken($au-amber, 16%),
+  danger: #c33046,
+  info: #007bad,
+  disabled: #b3b6b7
+);
+
 button[is-button],
 a[is-button],
 .is-button {
   box-shadow: none;
-  border-radius: 3px;
-  font-size: 14px;
-  height: 32px;
   font-family: 'Roboto', Helvetica, sans-serif;
   font-weight: 500;
+  border-radius: 3px;
+  font-size: 13px;
+  // padding: 9px 24px;
+  // height: auto;
+
+  &::before {
+    display: none;
+  }
 
   &:hover {
     box-shadow: none;
+
+    &::before {
+      display: none;
+    }
+  }
+
+  &:active {
+
+    &::before {
+      display: none;
+    }
   }
 
   .icon-left {
@@ -63,7 +123,130 @@ a[is-button]::before,
   height: 1.15em;
 }
 
-.is-button__content {
-  position: relative;
-  font-size: 13px;
+button[is-button] {
+
+  @each $theme, $color in $au-colors {
+    &.#{$theme} {
+      color: map-get($map: $au-btn-text-colors, $key: $theme);
+      background-color: $color;
+
+      &:hover {
+        background-color: map-get($map: $au-hover-colors, $key: $theme);
+      }
+
+      &:active {
+        background-color: map-get($map: $au-active-colors, $key: $theme);
+      }
+    }
+  }
+
+  // light theme has a different border
+  &.light {
+    border-style: solid;
+    border-width: 2px;
+    border-color: #b5b9ba;
+  }
+
+  // Clear button section
+  &.is-button--clear {
+    background-color: rgba(0, 0, 0, 0);
+
+    &.primary,
+    &.info,
+    &.warning,
+    &.danger,
+    &.warning
+    &.light {
+      background-color: rgba(0, 0, 0, 0);
+    }
+
+    &:hover {
+      background-color: rgba(0, 0, 0, .08);
+    }
+
+    @each $theme, $color in $au-colors {
+      &.#{$theme} {
+        color: $color;
+
+        &:hover {
+          color: #fff;
+          background-color: map-get($map: $au-hover-colors, $key: $theme);
+        }
+
+        &:active {
+          color: #fff;
+          background-color: map-get($map: $au-active-colors, $key: $theme);
+        }
+      }
+    }
+
+    &.dark {
+      color: $au-gray-main;
+
+      &:hover {
+        color: $au-gray-main;
+      }
+
+      &:active {
+        color: $au-gray-main;
+      }
+    }
+  }
+
+  &.is-button--bordered {
+    &:hover {
+      background-color: rgba(0, 0, 0, .08);
+
+      .is-button__content {
+        transition: none;
+      }
+    }
+    // end clear button section
+    @each $colorName, $color in $au-colors {
+
+      &.#{$colorName} {
+        background-color: rgba(0, 0, 0, 0);
+        color: $color;
+        border-color: $color;
+
+        &:hover {
+          color: $au-white;
+          background-color: rgba($color, 1);
+        }
+      }
+    }
+
+    @each $theme, $color in $au-colors {
+      &.#{$theme} {
+        color: $color;
+
+        &:hover {
+          color: #fff;
+          background-color: map-get($map: $au-hover-colors, $key: $theme);
+          border-color: map-get($map: $au-hover-colors, $key: $theme);
+        }
+
+        &:active {
+          color: #fff;
+          background-color: map-get($map: $au-active-colors, $key: $theme);
+          border-color: map-get($map: $au-active-colors, $key: $theme);
+        }
+      }
+    }
+
+    &.dark {
+      color: $au-gray-main;
+
+      &:hover {
+        color: $au-gray-main;
+      }
+
+      &:active {
+        color: $au-gray-main;
+      }
+    }
+  }
 }
+
+
+

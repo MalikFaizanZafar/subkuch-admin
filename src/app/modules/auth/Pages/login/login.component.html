@@ -1,80 +1,122 @@
-<div class="w-100 h-100 d-flex justify-content-center align-items-center">
-  <div class="col-md-4 col-sm-12 col-xs-12">
-
-    <div class="card-header text-white login-form__bg-blue text-center">
-        <h3 class="mb-0">Member Login</h3>
+<header class="container-fluid d-flex align-items-center flex-shrink-0 header bg-dark h-12">
+  <div class="container d-flex justify-content-between align-items-center">
+    <div class="w-100 d-flex justify-content-between">
+      <div class="w-25 justify-content-start d-flex">
+        <h1>SubKuch Logo</h1>
+      </div>
     </div>
-
-    <div class="card pt-4 pl-3 pr-3 pb-4">
-        <div 
-          class="login-form__input_error mb-1 text-center"
-          *ngIf="errorMessage">
-          {{errorMessage}}
-        </div>
-
-        <form 
-            autocomplete="off"
-            [formGroup]="loginForm" 
-            (ngSubmit)="onLoginSubmit(formDir, submitBtn)" 
-            #formDir="ngForm">
+  </div>
+</header>
+<div>
+  <div class="position-relative w-100">
+    <img src="https://images.pexels.com/photos/920570/pexels-photo-920570.jpeg" class="w-100 sign__slider">
+    <div class="position-absolute w-100 h-100 d-flex justify-content-end align-items-center sign__form mr-5">
+      <div class="card p-2 bg-light" style="width: 28rem;">
+        <div class="card-body">
+          <h3 class="card-title text-dark w-100 d-flex justify-content-center font-weight-bold mb-4">Member Sign In
+          </h3>
+          <form autocomplete="off" [formGroup]="loginForm" (ngSubmit)="onLoginSubmit(formDir, submitBtn, verifyTemplate, activeTemplate)" #formDir="ngForm">
 
             <div class="form-group"
-              [class.mb-1]="(loginForm.hasError('required', 'username') || loginForm.hasError('username', 'username')) && formDir.submitted" >
-              <is-input-container label="Username">
-                <input 
-                  autocomplete="username"
-                  class="login-form__input"
-                  type="text"
-                  placeholder="Enter username"
+              [class.mb-1]="(loginForm.hasError('required', 'username') || loginForm.hasError('username', 'username')) && formDir.submitted">
+              <is-input-container>
+                <input autocomplete="username" class="sign__input" type="text" placeholder="Enter username"
                   formControlName="username">
               </is-input-container>
             </div>
-
-            <div 
-                *ngIf="loginForm.hasError('required', 'username') && formDir.submitted" 
-                class="login-form__input_error">
-                Username is required
+            <div *ngIf="loginForm.hasError('required', 'username') && formDir.submitted" class="sign__input_error">
+              Username is required
             </div>
 
             <div class="form-group"
-              [class.mb-1]="loginForm.hasError('required', 'password') && formDir.submitted">
-
-              <is-input-container label="Password">
-                <input 
-                  autocomplete="fakeName"
-                  class="login-form__input"
-                  type="password"
-                  placeholder="Password"
+                 [class.mb-1]="loginForm.controls.password.errors && formDir.submitted">
+              <is-input-container>
+                <input autocomplete="contact" class="sign__input" type="password" placeholder="Enter password"
                   formControlName="password">
               </is-input-container>
             </div>
 
-            <div 
-                *ngIf="loginForm.hasError('required', 'password') && formDir.submitted" 
-                class="login-form__input_error">
-                Password is required.
+            <div *ngIf="loginForm.hasError('required', 'password') && formDir.submitted" class="sign__input_error">
+              Password is required
             </div>
 
-            <div class="form-check mb-3">
-                <input 
-                    type="checkbox" 
-                    class="form-check-input" 
-                    id="exampleCheck1">
-                <label class="form-check-label">Remember Me</label>
+            <div *ngIf="loginForm.controls.password.errors && loginForm.controls.password.errors.minlength && formDir.submitted" class="sign__input_error">
+              Password must contain at least 8 charaters
             </div>
-            <a [routerLink]="['/auth/forgot-password']" >
-              Forgot Password ?
-            </a>
-            <br>
-            <button 
-              #submitBtn
-              loaderPosition="after"
-              is-button
-              type="submit" 
+            <button #submitBtn loaderPosition="after" is-button type="submit"
               class="w-100 login-form__submit-btn">Sign In
             </button>
 
-        </form>
+            <div class=" d-flex justify-content-between mt-2">
+              <a routerLink="/forgot-password">Forgot password?</a>
+              <a routerLink="/signup">Don't have an account?</a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="position-relative w-100">
+    <img src="https://images.pexels.com/photos/1296543/pexels-photo-1296543.jpeg" class="w-100 sign__slider">
+    <div class="position-absolute w-100 d-flex justify-content-center align-items-center sign__welcome h-100">
+      <div class="w-100 h-50">
+        <h1 class="sign__section3__text1  d-flex justify-content-center">Interested?</h1>
+        <h1 class="text-white sign__section3__text2  d-flex justify-content-center">Become Our Partners</h1>
+        <h1 class="text-white sign__section3__text2  d-flex justify-content-center">& Increase Your Revenue</h1>
+        <div class=" d-flex justify-content-center">
+          <button type="button" class="sign__section3__button ">Register Now</button>
+        </div>
+      </div>
     </div>
   </div>
 </div>
+<footer class="font-small py-5 bg-dark">
+  <div class="d-flex justify-content-center align-items-center">
+    <div class="d-flex">
+      <i class="fab fa-facebook-f fa-2x mr-2"></i>
+      <i class="fab fa-whatsapp fa-2x mr-2"></i>
+      <i class="fab fa-instagram fa-2x mr-2"></i>
+      <i class="fab fa-twitter fa-2x"></i>
+    </div>
+  </div>
+  <div class="d-flex justify-content-center align-items-center mt-2">
+    <div class="footer-copyright text-left">© 2018 Copyright:
+      <a href="subquch.com"> www.subquch.com</a>
+    </div>
+  </div>
+</footer>
+
+
+<ng-template #verifyTemplate
+             let-close="close"
+             let-data="data">
+  <div class="p-3">
+    <p>{{data}}.</p>
+    <p><strong>Please verify your email address.</strong></p>
+    <div class="d-flex justify-content-center">
+      <button is-button
+              theme="danger"
+              class="close-btn"
+              (click)="close('Click on Close')">
+        <span>Close</span>
+      </button>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #activeTemplate
+             let-close="close"
+             let-data="data">
+  <div class="p-3">
+    <p>{{data}}.</p>
+    <p><strong>Please contact support@subquch.com</strong></p>
+    <div class="d-flex justify-content-center">
+      <button is-button
+              theme="danger"
+              class="close-btn"
+              (click)="close('Click on Close')">
+        <span>Close</span>
+      </button>
+    </div>
+  </div>
+</ng-template>

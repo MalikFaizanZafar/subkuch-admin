@@ -1,3 +1,27 @@
+.is-tab-group {
+  &__label-wrapper {
+    &--active {
+      border-bottom: 2px solid $au-red;
+      background: $au-gray-main;
+      color: map-get($au-gray, 1);
+    }
+  }
+}
+
+.is-tab-group-header {
+  background: map-get($au-gray, 4);
+  color: map-get($au-neutral, 3);
+  border-bottom: none;
+
+  &__pagination {
+    box-shadow: 0 2px 4px -1px rgba(#fff, .2), 0 4px 5px 0 rgba(255, 255, 255, .14), 0 1px 10px 0 rgba(255, 255, 255, .12);
+  }
+
+  &__mobile-scroll-indication {
+    box-shadow: 0 2px 4px -1px rgba(#fff, .2), 0 4px 5px 0 rgba(255, 255, 255, .14), 0 1px 10px 0 rgba(255, 255, 255, .12);
+  }
+}
+
 .nav-tabs {
   background: map-get($au-gray, 4);
 
@@ -13,7 +37,7 @@
     &.active {
       position: relative;
       background: $au-gray-main;
-      color: #fff;
+      color: map-get($au-gray, 1);
 
       &::after {
         content: '';

@@ -1,14 +1,28 @@
 import { Injectable } from '@angular/core';
 
+interface ViewPortOffset {
+  width?: number;
+  height: number;
+  top?: number;
+  left?: number;
+}
+
+interface UserAgentInfo {
+  browser?: any;
+  version?: any;
+}
+
 /**
  * This class defines and exposes several utilities to easily interact with the DOM
  */
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class DomHandler {
   /**
    * An arbitrary zindex value
    */
-  public static zindex = 1000;
+  public static zindex: number = 1000;
 
   /**
    * Helper variable to hold the scroll bar witdh
@@ -21,6 +35,13 @@ export class DomHandler {
   private browser: any;
 
   /**
+   * Whether or not the screen is touchable.
+   */
+  private isTouchable: boolean = (('ontouchstart' in window)
+       || (navigator.maxTouchPoints > 0)
+       || (navigator.msMaxTouchPoints > 0));
+
+  /**
    * Adds a class to a dom element. Adds the class to the classList if it exist otherwise
    * adds to the className attribute.
    * @param element
@@ -30,25 +51,28 @@ export class DomHandler {
     if (element.classList) {
       element.classList.add(className);
     } else {
-      element.className += ' ' + className;
+      element.className += ` ${className}`;
     }
   }
 
   /**
-   * Adds classes to a dom element. Adds the classes to the classList if it exist otherwise adds to the className attribute.
+   * Adds classes to a dom element.
+   * Adds the classes to the classList if it exist otherwise adds to the className attribute.
    * @param element
    * @param className
    */
   addMultipleClasses(element: any, className: string): void {
     if (element.classList) {
       const styles: string[] = className.split(' ');
-      for (let i = 0; i < styles.length; i++) {
-        element.classList.add(styles[i]);
+      let style: string;
+      for (style of styles) {
+        element.classList.add(style);
       }
     } else {
       const styles: string[] = className.split(' ');
-      for (let i = 0; i < styles.length; i++) {
-        element.className += ' ' + styles[i];
+      let style: string;
+      for (style of styles) {
+        element.className += ` ${style}`;
       }
     }
   }
@@ -64,7 +88,7 @@ export class DomHandler {
     } else {
       element.className = element.className.replace(
         new RegExp(
-          '(^|\\b)' + className.split(' ').join('|') + '(\\b|$)',
+          `(^|\\b)${className.split(' ').join('|')}(\\b|$)`,
           'gi'
         ),
         ' '
@@ -81,7 +105,7 @@ export class DomHandler {
     if (element.classList) {
       return element.classList.contains(className);
     } else {
-      return new RegExp('(^| )' + className + '( |$)', 'gi').test(
+      return new RegExp(`(^| )${className}( |$)`, 'gi').test(
         element.className
       );
     }
@@ -89,11 +113,12 @@ export class DomHandler {
 
   /**
    * Returns the siblings of a given element
+   * @param element
    */
   siblings(element: HTMLElement): any {
-    return Array.prototype.filter.call((element.parentNode as HTMLElement).children, function(
-      child
-    ) {
+    return Array.prototype.filter.call((element.parentNode as HTMLElement).children, (
+      child: HTMLElement
+    ): boolean  => {
       return child !== element;
     });
   }
@@ -108,7 +133,8 @@ export class DomHandler {
   }
 
   /**
-   * Returns the first element that is a descendant of the element on which it is invoked that matches the specified group of selectors.
+   * Returns the first element that is a descendant of the element
+   * on which it is invoked that matches the specified group of selectors.
    * @param element
    * @param selector
    */
@@ -118,11 +144,15 @@ export class DomHandler {
 
   /**
    * Returns the position index of the given element among its siblings
+   * @param element
    */
   index(element: HTMLElement): number {
-    const children = element.parentNode.childNodes;
-    let num = 0;
-    for (let i = 0; i < children.length; i++) {
+    const children: NodeListOf<Node & ChildNode> = element.parentNode.childNodes;
+    let num: number = 0;
+
+    // disabled for-of rule as for-of will work for array not for NodeList
+    // tslint:disable-next-line:prefer-for-of
+    for (let i: number = 0; i < children.length; i++) {
       if (children[i] === element) {
         return num;
       }
@@ -139,14 +169,15 @@ export class DomHandler {
    * @param target
    */
   relativePosition(element: any, target: any): void {
-    const elementDimensions = element.offsetParent
+    const elementDimensions: ViewPortOffset = element.offsetParent
       ? { width: element.offsetWidth, height: element.offsetHeight }
       : this.getHiddenElementDimensions(element);
-    const targetHeight = target.offsetHeight;
-    const targetWidth = target.offsetWidth;
-    const targetOffset = target.getBoundingClientRect();
-    const viewport = this.getViewport();
-    let top, left;
+    const targetHeight: number = target.offsetHeight;
+    const targetWidth: number = target.offsetWidth;
+    const targetOffset: ViewPortOffset = target.getBoundingClientRect();
+    const viewport: ViewPortOffset = this.getViewport();
+    let top: number;
+    let left: number;
 
     if (
       targetOffset.top + targetHeight + elementDimensions.height >
@@ -166,8 +197,8 @@ export class DomHandler {
       left = 0;
     }
 
-    element.style.top = top + 'px';
-    element.style.left = left + 'px';
+    element.style.top = `${top}px` + 'px';
+    element.style.left = `${left}px`;
   }
 
   /**
@@ -176,18 +207,19 @@ export class DomHandler {
    * @param target
    */
   absolutePosition(element: any, target: any): void {
-    const elementDimensions = element.offsetParent
+    const elementDimensions: ViewPortOffset = element.offsetParent
       ? { width: element.offsetWidth, height: element.offsetHeight }
       : this.getHiddenElementDimensions(element);
-    const elementOuterHeight = elementDimensions.height;
-    const elementOuterWidth = elementDimensions.width;
-    const targetOuterHeight = target.offsetHeight;
-    const targetOuterWidth = target.offsetWidth;
-    const targetOffset = target.getBoundingClientRect();
-    const windowScrollTop = this.getWindowScrollTop();
-    const windowScrollLeft = this.getWindowScrollLeft();
-    const viewport = this.getViewport();
-    let top, left;
+    const elementOuterHeight: number = elementDimensions.height;
+    const elementOuterWidth: number = elementDimensions.width;
+    const targetOuterHeight: number = target.offsetHeight;
+    const targetOuterWidth: number = target.offsetWidth;
+    const targetOffset: ViewPortOffset = target.getBoundingClientRect();
+    const windowScrollTop: number = this.getWindowScrollTop();
+    const windowScrollLeft: number = this.getWindowScrollLeft();
+    const viewport: ViewPortOffset = this.getViewport();
+    let top: number;
+    let left: number;
 
     if (
       targetOffset.top + targetOuterHeight + elementOuterHeight >
@@ -214,17 +246,18 @@ export class DomHandler {
       left = targetOffset.left + windowScrollLeft;
     }
 
-    element.style.top = top + 'px';
-    element.style.left = left + 'px';
+    element.style.top = `${top}px`;
+    element.style.left = `${left}px`;
   }
 
   /**
    * Returns the outer height of a hidden element
+   * @param element
    */
-  getHiddenElementOuterHeight(element: any): number {
+  getHiddenElementOuterHeight(element: HTMLElement): number {
     element.style.visibility = 'hidden';
     element.style.display = 'block';
-    const elementHeight = element.offsetHeight;
+    const elementHeight: number = element.offsetHeight;
     element.style.display = 'none';
     element.style.visibility = 'visible';
 
@@ -233,12 +266,14 @@ export class DomHandler {
 
   /**
    * Returns the outer width of a hidden element
+   * @param element
    */
   getHiddenElementOuterWidth(element: HTMLElement): number {
+    const displayOld: string = element.style.display;
     element.style.visibility = 'hidden';
     element.style.display = 'block';
-    const elementWidth = element.offsetWidth;
-    element.style.display = 'none';
+    const elementWidth: number = element.offsetWidth;
+    element.style.display = displayOld;
     element.style.visibility = 'visible';
 
     return elementWidth;
@@ -246,6 +281,7 @@ export class DomHandler {
 
   /**
    * Returns the dimensions of a hidden element
+   * @param element
    */
   getHiddenElementDimensions(element: HTMLElement): {width: number, height: number} {
     const dimensions: any = {};
@@ -261,8 +297,10 @@ export class DomHandler {
 
   /**
    * Scrolls a given container to an arbitrary view
+   * @param container container for scrolling
+   * @param item item to be scrolled
    */
-  scrollInView(container: HTMLElement, item: HTMLElement) {
+  scrollInView(container: HTMLElement, item: HTMLElement): void {
     const borderTopValue: string = getComputedStyle(container).getPropertyValue(
       'borderTopWidth'
     );
@@ -273,17 +311,17 @@ export class DomHandler {
     const paddingTop: number = paddingTopValue
       ? parseFloat(paddingTopValue)
       : 0;
-    const containerRect = container.getBoundingClientRect();
-    const itemRect = item.getBoundingClientRect();
-    const offset =
+    const containerRect: ClientRect | DOMRect = container.getBoundingClientRect();
+    const itemRect: ClientRect | DOMRect = item.getBoundingClientRect();
+    const offset: number =
       itemRect.top +
       document.body.scrollTop -
       (containerRect.top + document.body.scrollTop) -
       borderTop -
       paddingTop;
-    const scroll = container.scrollTop;
-    const elementHeight = container.clientHeight;
-    const itemHeight = this.getOuterHeight(item);
+    const scroll: number = container.scrollTop;
+    const elementHeight: number = container.clientHeight;
+    const itemHeight: number = this.getOuterHeight(item);
 
     if (offset < 0) {
       container.scrollTop = scroll + offset;
@@ -294,13 +332,16 @@ export class DomHandler {
 
   /**
    * Fades in an element within the timeframe specified by 'duration'
+   * @param element the element to be faded
+   * @param duration timeframe specified in 'ms'
    */
   fadeIn(element: HTMLElement, duration: number): void {
     element.style.opacity = '0';
 
-    let last = +new Date();
-    let opacity = 0;
-    const tick = function() {
+    let last: number = +new Date();
+    let opacity: number = 0;
+    const tickDelay: number = 16;
+    const tick: () => void = (): void => {
       opacity =
         +element.style.opacity.replace(',', '.') +
         (new Date().getTime() - last) / duration;
@@ -309,7 +350,7 @@ export class DomHandler {
 
       if (+opacity < 1) {
         if (!(window.requestAnimationFrame && requestAnimationFrame(tick))) {
-          setTimeout(tick, 16);
+          setTimeout(tick, tickDelay);
         }
       }
     };
@@ -319,14 +360,16 @@ export class DomHandler {
 
   /**
    * Fades out an element within the timeframe specified by 'ms'
+   * @param element the element to be faded
+   * @param ms timeframe specified in 'ms'
    */
-  fadeOut(element: HTMLElement, ms: number) {
-    let opacity = 1;
-    const interval = 50,
-      duration = ms,
-      gap = interval / duration;
+  fadeOut(element: HTMLElement, ms: number): void {
+    let opacity: number = 1;
+    const interval: number = 50;
+    const duration: number = ms;
+    const gap: number = interval / duration;
 
-    const fading = setInterval(() => {
+    const fading: any = setInterval(() => {
       opacity = opacity - gap;
 
       if (opacity <= 0) {
@@ -341,7 +384,7 @@ export class DomHandler {
    * Returns the number of scrolled pixels from the top
    */
   getWindowScrollTop(): number {
-    const doc = document.documentElement;
+    const doc: HTMLElement = document.documentElement;
     return (window.pageYOffset || doc.scrollTop) - (doc.clientTop || 0);
   }
 
@@ -349,21 +392,23 @@ export class DomHandler {
    * Returns the number of scrolled pixels from the left
    */
   getWindowScrollLeft(): number {
-    const doc = document.documentElement;
+    const doc: HTMLElement = document.documentElement;
     return (window.pageXOffset || doc.scrollLeft) - (doc.clientLeft || 0);
   }
 
   /**
    * Whether or not the element would be selected by the specified selector string
+   * @param element
+   * @param selector
    */
   matches(element: HTMLElement, selector: string): boolean {
-    const p = Element.prototype;
-    const f =
+    const p: any = Element.prototype;
+    const f: any =
       p['matches'] ||
       p.webkitMatchesSelector ||
       p['mozMatchesSelector'] ||
       p.msMatchesSelector ||
-      function(s) {
+      function(this: HTMLElement, s: string): boolean {
         return [].indexOf.call(document.querySelectorAll(s), this) !== -1;
       };
     return f.call(element, selector);
@@ -371,14 +416,14 @@ export class DomHandler {
 
   /**
    * Returns the outer width of an element.
-   * @param el the element to which width will be calculated
+   * @param el the element to which outer width will be calculated
    * @param margin if set to true, it will add the margins to the returned height
    */
-  getOuterWidth(el: HTMLElement, margin?: boolean) {
-    let width = el.offsetWidth;
+  getOuterWidth(el: HTMLElement, margin?: boolean): number {
+    let width: number = el.offsetWidth;
 
     if (margin) {
-      const style = getComputedStyle(el);
+      const style: CSSStyleDeclaration = getComputedStyle(el);
       width += parseFloat(style.marginLeft) + parseFloat(style.marginRight);
     }
 
@@ -387,26 +432,29 @@ export class DomHandler {
 
   /**
    * Returns the horizontal paddings of an element
+   * @param el the element to which horizontal padding will be calculated
    */
-  getHorizontalPadding(el: HTMLElement) {
-    const style = getComputedStyle(el);
+  getHorizontalPadding(el: HTMLElement): number {
+    const style: CSSStyleDeclaration = getComputedStyle(el);
     return parseFloat(style.paddingLeft) + parseFloat(style.paddingRight);
   }
 
   /**
    * Returns the horizontal margins of an element
+   * @param el the element to which horizontal margin will be calculated
    */
-  getHorizontalMargin(el: HTMLElement) {
-    const style = getComputedStyle(el);
+  getHorizontalMargin(el: HTMLElement): number {
+    const style: CSSStyleDeclaration = getComputedStyle(el);
     return parseFloat(style.marginLeft) + parseFloat(style.marginRight);
   }
 
   /**
    * Returns the element's width with paddings
+   * @param el the element to which inner width will be calculated
    */
-  innerWidth(el: HTMLElement) {
-    let width = el.offsetWidth;
-    const style = getComputedStyle(el);
+  innerWidth(el: HTMLElement): number {
+    let width: number = el.offsetWidth;
+    const style: CSSStyleDeclaration = getComputedStyle(el);
 
     width += parseFloat(style.paddingLeft) + parseFloat(style.paddingRight);
     return width;
@@ -414,10 +462,11 @@ export class DomHandler {
 
   /**
    * Returns the element's width without paddings
+   * @param el the element to which width will be calculated
    */
-  width(el: HTMLElement) {
-    let width = el.offsetWidth;
-    const style = getComputedStyle(el);
+  width(el: HTMLElement): number {
+    let width: number = el.offsetWidth;
+    const style: CSSStyleDeclaration = getComputedStyle(el);
 
     width -= parseFloat(style.paddingLeft) + parseFloat(style.paddingRight);
     return width;
@@ -425,10 +474,11 @@ export class DomHandler {
 
   /**
    * Returns the height of the element including paddings
+   * @param el the element to which inner height will be calculated
    */
-  getInnerHeight(el: HTMLElement) {
-    let height = el.offsetHeight;
-    const style = getComputedStyle(el);
+  getInnerHeight(el: HTMLElement): number {
+    let height: number = el.offsetHeight;
+    const style: CSSStyleDeclaration = getComputedStyle(el);
 
     height += parseFloat(style.paddingTop) + parseFloat(style.paddingBottom);
     return height;
@@ -439,11 +489,11 @@ export class DomHandler {
    * @param el the element to which height will be calculated
    * @param margin if set to true, it will add the margins to the returned height
    */
-  getOuterHeight(el: HTMLElement, margin?: boolean) {
-    let height = el.offsetHeight;
+  getOuterHeight(el: HTMLElement, margin?: boolean): number {
+    let height: number = el.offsetHeight;
 
     if (margin) {
-      const style = getComputedStyle(el);
+      const style: CSSStyleDeclaration = getComputedStyle(el);
       height += parseFloat(style.marginTop) + parseFloat(style.marginBottom);
     }
 
@@ -452,10 +502,11 @@ export class DomHandler {
 
   /**
    * Returns the intrinsic height of an element without padding and border.
+   * @param el
    */
   getHeight(el: HTMLElement): number {
-    let height = el.offsetHeight;
-    const style = getComputedStyle(el);
+    let height: number = el.offsetHeight;
+    const style: CSSStyleDeclaration = getComputedStyle(el);
 
     height -=
       parseFloat(style.paddingTop) +
@@ -468,10 +519,11 @@ export class DomHandler {
 
   /**
    * Returns the intrinsic width of an element without padding and border.
+   * @param el
    */
   getWidth(el: HTMLElement): number {
-    let width = el.offsetWidth;
-    const style = getComputedStyle(el);
+    let width: number = el.offsetWidth;
+    const style: CSSStyleDeclaration = getComputedStyle(el);
 
     width -=
       parseFloat(style.paddingLeft) +
@@ -486,12 +538,12 @@ export class DomHandler {
    * Returns the view port dimensions
    */
   getViewport(): {width: number, height: number} {
-    const win = window,
-      d = document,
-      e = d.documentElement,
-      g = d.getElementsByTagName('body')[0],
-      w = win.innerWidth || e.clientWidth || g.clientWidth,
-      h = win.innerHeight || e.clientHeight || g.clientHeight;
+    const win: Window = window;
+    const d: Document = document;
+    const e: HTMLElement = d.documentElement;
+    const g: HTMLBodyElement = d.getElementsByTagName('body')[0];
+    const w: number = win.innerWidth || e.clientWidth || g.clientWidth;
+    const h: number = win.innerHeight || e.clientHeight || g.clientHeight;
 
     return { width: w, height: h };
   }
@@ -499,9 +551,10 @@ export class DomHandler {
   /**
    * Returns an oject with top and left distances between the
    * given element and the documents's very origin at (0,0)
+   * @param el
    */
   getOffset(el: HTMLElement): {top: number, left: number} {
-    const rect = el.getBoundingClientRect();
+    const rect: ClientRect | DOMRect = el.getBoundingClientRect();
 
     return {
       top: rect.top + document.body.scrollTop,
@@ -519,19 +572,19 @@ export class DomHandler {
   /**
    * Whether the navigator is Internet Explorer or Edge.
    */
-  isIE() {
-    const ua = window.navigator.userAgent;
-    const msie = ua.indexOf('MSIE ');
+  isIE(): boolean {
+    const ua: string = window.navigator.userAgent;
+    const msie: number = ua.indexOf('MSIE ');
     if (msie > 0) {
       // IE 10 or older
       return true;
     }
-    const trident = ua.indexOf('Trident/');
+    const trident: number = ua.indexOf('Trident/');
     if (trident > 0) {
       // IE 11
       return true;
     }
-    const edge = ua.indexOf('Edge/');
+    const edge: number = ua.indexOf('Edge/');
     if (edge > 0) {
       // Edge (IE 12+)
       return true;
@@ -543,33 +596,38 @@ export class DomHandler {
   /**
    * Appends an element to a parent target. It accepts vanilla
    * html elements or component instances with public element refs
+   * @param element
+   * @param target
    */
-  appendChild(element: any, target: any) {
+  appendChild(element: any, target: any): void {
     if (this.isElement(target)) {
       target.appendChild(element);
     } else if (target.el && target.el.nativeElement) {
       target.el.nativeElement.appendChild(element);
     } else {
-      throw new Error('Cannot append ' + target + ' to ' + element);
+      throw new Error(`Cannot append ${target} to ${element}`);
     }
   }
 
   /**
    * Removes a child element from a parent target. It accepts vanilla
    * html elements or component instances with public element refs
+   * @param element
+   * @param target
    */
-  removeChild(element: any, target: any) {
+  removeChild(element: any, target: any): void {
     if (this.isElement(target)) {
       target.removeChild(element);
     } else if (target.el && target.el.nativeElement) {
       target.el.nativeElement.removeChild(element);
     } else {
-      throw new Error('Cannot remove ' + element + ' from ' + target);
+      throw new Error(`Cannot remove ${element} from ${target}`);
     }
   }
 
   /**
    * Whether the given object is an html element
+   * @param obj
    */
   isElement(obj: any): boolean {
     return typeof HTMLElement === 'object'
@@ -581,7 +639,6 @@ export class DomHandler {
           typeof obj.nodeName === 'string';
   }
 
-
   /**
    * Appends a div to the body and use it to calculates the scrollbar width.
    */
@@ -590,7 +647,7 @@ export class DomHandler {
       return this.calculatedScrollBarWidth;
     }
 
-    const scrollDiv = document.createElement('div');
+    const scrollDiv: HTMLDivElement = document.createElement('div');
     scrollDiv.style.width = '100px';
     scrollDiv.style.height = '100px';
     scrollDiv.style.overflow = 'scroll';
@@ -599,13 +656,19 @@ export class DomHandler {
 
     document.body.appendChild(scrollDiv);
 
-    const scrollBarWidth = scrollDiv.offsetWidth - scrollDiv.clientWidth;
+    const scrollBarWidth: number = scrollDiv.offsetWidth - scrollDiv.clientWidth;
     document.body.removeChild(scrollDiv);
 
     this.calculatedScrollBarWidth = scrollBarWidth;
     return scrollBarWidth;
   }
 
+  /**
+   * Invoke the given method on given element with specified arguments
+   * @param element
+   * @param methodName
+   * @param args
+   */
   invokeElementMethod(element: any, methodName: string, args?: any[]): void {
     (element as any)[methodName].apply(element, args);
   }
@@ -614,6 +677,7 @@ export class DomHandler {
    * Clears the range of text selected by the user
    */
   clearSelection(): void {
+    const doc: any = document;
     if (window.getSelection) {
       if (window.getSelection().empty) {
         window.getSelection().empty();
@@ -627,11 +691,11 @@ export class DomHandler {
       ) {
         window.getSelection().removeAllRanges();
       }
-    } else if (document['selection'] && document['selection'].empty) {
+    } else if (doc['selection'] && doc['selection'].empty) {
       try {
-        document['selection'].empty();
+        doc['selection'].empty();
       } catch (error) {
-        console.log(error);
+        throw new Error(error);
       }
     }
   }
@@ -639,9 +703,9 @@ export class DomHandler {
   /**
    * Returns the current browser name with its version
    */
-  getBrowser() {
+  getBrowser(): any {
     if (!this.browser) {
-      const matched = this.resolveUserAgent();
+      const matched: UserAgentInfo = this.resolveUserAgent();
       this.browser = {};
 
       if (matched.browser) {
@@ -662,9 +726,10 @@ export class DomHandler {
   /**
    * Identifies and returns the current user agent
    */
-  resolveUserAgent() {
-    const ua = navigator.userAgent.toLowerCase();
-    const match =
+  resolveUserAgent(): UserAgentInfo {
+    const ua: string = navigator.userAgent.toLowerCase();
+    const secondElement: number = 2;
+    const match: any[] | RegExpExecArray =
       /(chrome)[ \/]([\w.]+)/.exec(ua) ||
       /(webkit)[ \/]([\w.]+)/.exec(ua) ||
       /(opera)(?:.*version|)[ \/]([\w.]+)/.exec(ua) ||
@@ -675,7 +740,14 @@ export class DomHandler {
 
     return {
       browser: match[1] || '',
-      version: match[2] || '0'
+      version: match[secondElement] || '0'
     };
+  }
+
+  /**
+   * Whether or not the device has touch screen.
+   */
+  isTouchDevice(): boolean {
+   return this.isTouchable;
   }
 }

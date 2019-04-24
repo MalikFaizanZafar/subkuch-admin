@@ -16,7 +16,7 @@ export class IsAPIPaginatedResponse<T> {
    * List of objects to be rendered in the page
    * @memberof IsAPIPaginatedResponse
    */
-  contents: Array<T>;
+  contents: T[];
 
   /**
    * URL to the page of the collection
@@ -29,7 +29,7 @@ export class IsAPIPaginatedResponse<T> {
    * For paginated responses it is always 'Page'.
    * @memberof IsAPIPaginatedResponse
    */
-  kind = 'Page';
+  kind: string = 'Page';
 
   /**
    * URL to the root collection (e.g. /repositories)

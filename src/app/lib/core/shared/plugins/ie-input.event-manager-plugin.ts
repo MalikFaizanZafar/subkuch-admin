@@ -1,7 +1,7 @@
-import { Inject, Injectable, Provider, NgModule, ModuleWithProviders } from '@angular/core';
-import { EVENT_MANAGER_PLUGINS } from '@angular/platform-browser';
-import { DOCUMENT } from '@angular/common';
 import { Platform, PlatformModule } from '@angular/cdk/platform';
+import { DOCUMENT } from '@angular/common';
+import { Inject, Injectable, ModuleWithProviders, NgModule, Provider } from '@angular/core';
+import { EVENT_MANAGER_PLUGINS } from '@angular/platform-browser';
 
 /**
  * Event manager plugin to handle 'input' events in IE10/11 properly.
@@ -18,8 +18,9 @@ export class IsIEInputEventManagerPlugin {
   private document: Document;
 
   /**
-   * @param document
-   * @param platform
+   * Constructor
+   * @param document object of Document
+   * @param platform object of Platform
    */
   constructor(
     @Inject(DOCUMENT) document: any,
@@ -71,7 +72,7 @@ export class IsIEInputEventManagerPlugin {
     originalHandler: (event: Event) => void
   ): () => void {
     element.addEventListener(eventName, originalHandler, false);
-    return () => element.removeEventListener(eventName, originalHandler, false);
+    return (): void => element.removeEventListener(eventName, originalHandler, false);
   }
 
   /**
@@ -92,7 +93,7 @@ export class IsIEInputEventManagerPlugin {
     // lets store the initial value of the element
     let value: string = element.value;
 
-    const inputHandler = (event: Event) => {
+    const inputHandler: (e: Event) => void = (event: Event): void => {
       // Makes sure the value has changed before dispatching a new input event
       if (element.value !== value) {
         value = element.value;
@@ -100,7 +101,7 @@ export class IsIEInputEventManagerPlugin {
       }
     };
     element.addEventListener(eventName, inputHandler, false);
-    return () => {
+    return (): void => {
       element.removeEventListener(eventName, inputHandler, false);
     };
   }
@@ -116,11 +117,17 @@ export class IsIEInputEventManagerPlugin {
     eventName: string,
     handler: (event: Event) => void
   ): () => void {
-    const element = this.document.querySelector(selector);
+    const element: Element = this.document.querySelector(selector);
     return this.addEventListener(element, eventName, handler);
   }
 }
 
+/**
+ * Provider used to inject
+ * IsIEInputEventManagerPlugin as custom
+ * class substituted in place of the in-built
+ * EventManagerPlugin
+ */
 export const DF_IE_INPUT_EVENT_MANAGER_PLUGIN_PROVIDER: Provider = {
   provide: EVENT_MANAGER_PLUGINS,
   useClass: IsIEInputEventManagerPlugin,

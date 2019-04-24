@@ -30,17 +30,27 @@ table[is-table] td:not(.is-row-detail__td) {
   color: $au-gray-main;
 }
 
-table[is-table] tr:nth-of-type(even),
-table[is-table] tr:nth-of-type(odd) {
-  background: #fff;
-
-  &:hover {
-    background-color: #eff2f4;
-  }
-}
-
 table[is-table] {
+
   box-shadow: none;
+
+  tr:not(.is-selectable-row--selected) {
+
+    &:nth-of-type(odd),
+    &:nth-of-type(even) {
+      background: #fff;
+
+      &:hover {
+        background-color: $au-light-blue;
+      }
+    }
+  }
+
+  .is-selectable-row {
+    &--selected {
+      background-color: darken($au-light-blue, 3%);
+    }
+  }
 
   a,
   i {
@@ -61,3 +71,5 @@ table[is-table] {
 .is-sortable-column__container {
   justify-content: flex-start;
 }
+
+@import './table-responsive';

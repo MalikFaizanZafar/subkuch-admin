@@ -51,7 +51,7 @@ export class VendorsLayoutComponent implements OnInit {
 
   async ngOnInit() {
     await this.franchiseInfoService
-      .getFranchiseInfo(1)
+      .getFranchiseInfo()
       .subscribe(responseData => {
         this.franchiseInfo = responseData.data;
       });

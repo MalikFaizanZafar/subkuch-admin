@@ -1,19 +1,25 @@
-import { Injectable, Inject, Optional } from '@angular/core';
+import { Inject, Injectable, Optional } from '@angular/core';
 import { HammerGestureConfig } from '@angular/platform-browser';
 import {
-  HammerStatic,
   HammerInstance,
+  HammerOptions,
+  HammerStatic,
   Recognizer,
-  RecognizerStatic,
-  HammerOptions
+  RecognizerStatic
 } from './gesture-annotations';
 import { DF_HAMMER_OPTIONS } from './gesture-config-token';
 
 /**
  * Adjusts configuration of our gesture library, Hammer.
  */
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class IsGestureConfig extends HammerGestureConfig {
+
+  /**
+   * Hammer object
+   */
   private _hammer: HammerStatic = typeof window !== 'undefined' ? (window as any).Hammer : null;
 
   /**
@@ -25,9 +31,14 @@ export class IsGestureConfig extends HammerGestureConfig {
     'slidemove',
     'slideend',
     'slideright',
-    'slideleft'
+    'slideleft',
+    'longpress'
   ] : [];
 
+  /**
+   * Constructor for IsGestureConfig
+   * @param _hammerOptions Hammer options
+   */
   constructor( @Optional() @Inject(DF_HAMMER_OPTIONS) private _hammerOptions?: HammerOptions ) {
     super();
   }
@@ -42,17 +53,24 @@ export class IsGestureConfig extends HammerGestureConfig {
    * @param element
    */
   buildHammer( element: HTMLElement ): HammerInstance {
-    const mc = new this._hammer(element, this._hammerOptions || undefined);
+    // touchAction: 'pan-y' is needed to enable normal scrolling via slide gesture
+    const opts: any = {
+      ...this._hammerOptions,
+      touchAction: 'pan-y'
+    };
+    const mc: any = new this._hammer(element, opts || undefined);
 
     // Default Hammer Recognizers.
-    const pan = new this._hammer.Pan();
-    const swipe = new this._hammer.Swipe();
-    const press = new this._hammer.Press();
-    const slide = this._createRecognizer(pan, {event: 'slide', threshold: 0}, swipe);
+    const pan: Recognizer = new this._hammer.Pan();
+    const swipe: Recognizer = new this._hammer.Swipe();
+    const press: Recognizer = new this._hammer.Press();
+    const slide: Recognizer = this._createRecognizer(pan, {event: 'slide', threshold: 0}, swipe);
+    const longpress: Recognizer = this._createRecognizer(press, {event: 'longpress', time: 252});
+
     pan.recognizeWith(swipe);
 
     // Add customized gestures to Hammer manager
-    mc.add([swipe, press, pan, slide]);
+    mc.add([swipe, press, pan, slide, longpress]);
 
     return mc as HammerInstance;
   }
@@ -63,13 +81,12 @@ export class IsGestureConfig extends HammerGestureConfig {
    * @param options
    * @param inheritances
    */
-  private _createRecognizer(base: Recognizer, options: any, ...inheritances: Recognizer[]) {
-    const recognizer = new (base.constructor as RecognizerStatic)(options);
+  private _createRecognizer(base: Recognizer, options: any, ...inheritances: Recognizer[]): Recognizer {
+    const recognizer: Recognizer = new (base.constructor as RecognizerStatic)(options);
 
     inheritances.push(base);
-    inheritances.forEach(item => recognizer.recognizeWith(item));
+    inheritances.forEach((item: Recognizer) => recognizer.recognizeWith(item));
 
     return recognizer;
   }
-
 }

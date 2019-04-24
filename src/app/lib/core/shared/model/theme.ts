@@ -1,13 +1,13 @@
 /**
- * Created by egonzalez<edgard.gonzalez@aurea.com> on 21/08/2017.
+ * Enumeration for theme
  */
 export enum IsTheme {
-  Primary = <any> 'primary',
-  Success = <any> 'success',
-  Warning = <any> 'warning',
-  Danger = <any> 'danger',
-  Info = <any> 'info',
-  Light = <any> 'light',
-  Error = <any> 'error',
-  Dark = <any> 'dark'
+  Primary = 'primary',
+  Success = 'success',
+  Warning = 'warning',
+  Danger = 'danger',
+  Info = 'info',
+  Light = 'light',
+  Dark = 'dark',
+  Error = 'error',
 }

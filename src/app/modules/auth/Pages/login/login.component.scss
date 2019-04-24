@@ -1,26 +1,91 @@
+@import 'palette';
+
 :host {
-  ::ng-deep {
-    .is-input__label {
-      font-size: 14px;
+  option[default] {
+    display: none;
+  }
+  option {
+    height: 30px;
+    font-size: 15px;
+  }
+}
+
+.sign {
+  &__slider {
+    height: calc(100vh - 50px);
+  }
+  &__input {
+    &_error {
+      color: $is-red;
+      font-size: 11px;
+    }
+  }
+  &__welcome {
+    top: 0;
+    left: 0;
+  }
+
+  &__form {
+    top: 0;
+    right: 0;
+  }
+
+  &__register__button {
+    background: linear-gradient(#9acd32, #8ab82d);
+    font-weight: bolder;
+    color: white;
+    padding: 5%;
+    border-radius: 5%;
+    border: 0px;
+    margin-left: 25%;
+  }
+
+  &__about {
+    padding-top: 10%;
+    padding-bottom: 10%;
+  }
+
+  &__about__icon {
+    margin-left: 47%;
+  }
+
+  &__about__heading {
+    margin-left: 45%;
+  }
+
+  &__about__text {
+    margin-left: 25%;
+  }
+
+  &__section3 {
+    top: 40%;
+    left: 10%;
+    right: 0;
+
+    &__text1 {
+      font-size: 50px;
+      font-weight: 700;
+      color: #8ab82d;
+    }
+
+    &__text2 {
+      font-size: 40px;
+      font-weight: 600;
+    }
+
+    &__button {
+      background: linear-gradient(#9acd32, #8ab82d);
+      font-weight: bold;
+      font-size: 20px;
+      color: white;
+      border: 0px;
+      width: 200px;
+      height: 50px;
     }
   }
 }
 
-.login-form {
-  &__bg-blue {
-    background-color: #52cdec;
-    font-size: 16px;
-  }
-
-  &__input {
-    font-size: 12px;
-
-    &_error {
-      color: red;
-    }
-  }
-
-  &__submit-btn {
-    font-size: 16px;
-  }
+.h-12 {
+  height: 12%;
+  ;
 }

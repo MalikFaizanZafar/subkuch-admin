@@ -13,6 +13,7 @@ export class EditOverviewComponent implements OnInit {
   overviewForm: FormGroup;
   @Output() overviewEdited: EventEmitter<any> = new EventEmitter();
   @Output() overviewEditedCancelled: EventEmitter<any> = new EventEmitter();
+  
   constructor(private userDetailsService: UserDetailsService,
       private modal: IsModalService) { }
 

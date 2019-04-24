@@ -22,3 +22,8 @@ export class IsCheckboxModule {
     };
   }
 }
+
+/**
+ * Module to import the DfCheckboxModule as root
+ */
+export const IS_CHECKBOX_FOR_ROOT = IsCheckboxModule.forRoot();

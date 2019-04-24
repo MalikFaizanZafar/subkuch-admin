@@ -19,7 +19,7 @@ export class OverviewComponent implements OnInit {
     private editMainService : EditMainService) { }
 
   async ngOnInit() {
-    await this.franchiseInfoService.getFranchiseInfo(1).subscribe(responseData => {
+    await this.franchiseInfoService.getFranchiseInfo().subscribe(responseData => {
       this.franchiseInfo = responseData.data
     })
     // if (navigator.geolocation) {

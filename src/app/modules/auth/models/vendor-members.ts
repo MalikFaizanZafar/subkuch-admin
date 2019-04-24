@@ -6,7 +6,21 @@ export interface Memeber {
 }
 
 export interface MemberResponse {
-  data?:  Memeber;
+  data?: Memeber;
   statusCode?: number;
-  statusMessage?: string; 
+  statusMessage?: string;
+}
+
+export class VendorUser {
+  address?: string = '';
+  contact?: string = '';
+  email?: string = '';
+  latitude?: string = '';
+  longitude?: string = '';
+  manager_name?: string = '';
+  name?: string = '';
+  ntn?: string = '';
+  password?: string = '';
+  service_id?: number;
+  username?: string = '';
 }

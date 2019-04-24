@@ -1,16 +1,27 @@
-/**
- * Created by rgarcia<rafael.garcia@devfactory.com> on 25/08/2017.
- */
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs/internal/Subject';
-import { Observable } from 'rxjs/internal/observable';
-import { fromEvent } from 'rxjs/internal/observable/fromEvent';
+import { fromEvent, merge, Observable, Subject } from 'rxjs';
 
-@Injectable()
+/**
+ * Service class that acts as a listener for window mouseup event
+ */
+@Injectable({
+  providedIn: 'root'
+})
 export class IsMouseUpService {
+
+  /**
+   * Whether service is already initialized
+   */
   private initialized: boolean;
+
+  /**
+   * Emits event on MouseUp event
+   */
   private _mouseUp: Subject<Event>;
 
+  /**
+   * Creates an instance of IsMouseUpService.
+   */
   constructor() {
     this.initialized = false;
     this._mouseUp = new Subject();
@@ -19,10 +30,12 @@ export class IsMouseUpService {
   /**
    * Initialize document's mouseup event listener.
    */
-  private init() {
-    const auxObservable: Observable<Event> = fromEvent(window.document, 'mouseup');
+  private init(): void {
+    const auxObservable: Observable<Event> = merge(
+      fromEvent(window.document, 'touchend'),
+      fromEvent(window.document, 'mouseup'));
 
-    auxObservable.subscribe((event) => {
+    auxObservable.subscribe((event: Event) => {
       this._mouseUp.next(event);
     });
 
@@ -30,7 +43,7 @@ export class IsMouseUpService {
   }
 
   /**
-   * Return event observable.
+   * Returns event subject.
    */
   get onMouseUp(): Subject<Event> {
     if (!this.initialized) {
