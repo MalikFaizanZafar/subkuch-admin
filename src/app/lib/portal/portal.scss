@@ -1,0 +1,295 @@
+@import '../core/theming/palette';
+@import '../core/style/variables';
+
+$is-portal-large-size: 800px;
+
+$height: 350px;
+$width: 450px;
+$header-height: 40px;
+
+.is-portal {
+
+  &--full {
+    position: fixed;
+    z-index: $z-index-higher-than-cdk-overlay;
+    top: 0;
+    width: 100vw;
+    left: 0;
+    height: 100%;
+    text-align: center;
+    white-space: nowrap;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+  }
+
+  &--auto-height {
+
+    .is-portal__container {
+      height: auto;
+      max-height: 100%;
+    }
+  }
+
+  &__content {
+    z-index: $z-index-3;
+  }
+
+  &__backdrop {
+    position: absolute;
+    z-index: $z-index-1;
+    top: 0;
+    width: 100%;
+    left: 0;
+    height: 100%;
+    background: rgba(#000, .6);
+
+    &--hide {
+      background: transparent;
+    }
+  }
+
+  &__header {
+    width: 100%;
+    height: $header-height;
+    font-weight: 600;
+    padding: 9px 15px;
+    text-transform: capitalize;
+    display: flex;
+    top: 0;
+    position: absolute;
+
+    &--fill {
+      background-color: map-get($is-light, 4);
+    }
+
+    &-text {
+      font-size: 14px;
+      margin-top: 5px;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+      width: calc(100% - 10px);
+    }
+
+    &-close {
+      font-size: 18px;
+      text-align: right;
+      width: 25px;
+      cursor: pointer;
+
+      &--icon {
+        font-size: 12px;
+        padding: 0 5px;
+        border-radius: 3px;
+
+        &:hover {
+          background-color: rgba(#000, .3);
+        }
+      }
+    }
+  }
+
+  &__container {
+    width: 100%;
+    display: block;
+
+    &--animate {
+      animation-duration: .3s;
+      animation-fill-mode: forwards;
+      animation-timing-function: cubic-bezier(.785, .135, .15, .86);
+
+      &.is-portal__container--bottom {
+        animation-name: is-portal-fade-in-bottom;
+      }
+
+      &.is-portal__container--top {
+        animation-name: is-portal-fade-in-top;
+      }
+
+      &.is-portal__container--right {
+        animation-name: is-portal-fade-in-right;
+      }
+
+      &.is-portal__container--left {
+        animation-name: is-portal-fade-in-left;
+      }
+    }
+
+    &--show {
+      background: #fff;
+      overflow: hidden;
+      z-index: $z-index-2;
+      height: $height;
+      position: fixed;
+      display: block;
+    }
+
+    &--hide {
+      display: none;
+    }
+
+    &--bottom {
+      bottom: 0;
+      transform: translateY(-100%);
+      left: 0;
+
+      &.is-portal__container--closing {
+        animation-name: is-portal-fade-out-bottom;
+      }
+    }
+
+    &--top {
+      top: 0;
+      left: 0;
+      transform: translateY(100%);
+
+      &.is-portal__container--closing {
+        animation-name: is-portal-fade-out-top;
+      }
+    }
+
+    &--right {
+      top: 0;
+      bottom: 0;
+      height: 100%;
+      right: 0;
+      width: $width;
+      transform: translateX(100%);
+
+      &.is-portal__container--closing {
+        animation-name: is-portal-fade-out-right;
+      }
+    }
+
+    &--left {
+      top: 0;
+      bottom: 0;
+      height: 100%;
+      left: 0;
+      width: $width;
+      transform: translateX(-100%);
+
+      &.is-portal__container--closing {
+        animation-name: is-portal-fade-out-left;
+      }
+    }
+  }
+}
+
+.is-portal__backdrop {
+
+  &--animate {
+    animation-name: is-portal-fade-in;
+    animation-duration: .3s;
+    animation-fill-mode: forwards;
+    animation-timing-function: ease;
+  }
+
+  &--closing {
+    animation-name: is-portal-fade-out;
+  }
+}
+
+@import './portal-responsive';
+
+@keyframes is-portal-fade-in-top {
+  from {
+    transform: translateY(-100%);
+  }
+
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes is-portal-fade-out-top {
+  from {
+    transform: translateY(0);
+  }
+
+  to {
+    transform: translateY(-100%);
+  }
+}
+
+@keyframes is-portal-fade-in-left {
+  from {
+    transform: translateX(-100%);
+  }
+
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes is-portal-fade-out-left {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+@keyframes is-portal-fade-in-bottom {
+  from {
+    transform: translateY(100%);
+  }
+
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes is-portal-fade-out-bottom {
+  from {
+    transform: translateY(0);
+  }
+
+  to {
+    transform: translateY(100%);
+  }
+}
+
+@keyframes is-portal-fade-in-right {
+  from {
+    transform: translateX(100%);
+  }
+
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes is-portal-fade-out-right {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes is-portal-fade-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes is-portal-fade-out {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
+}
+

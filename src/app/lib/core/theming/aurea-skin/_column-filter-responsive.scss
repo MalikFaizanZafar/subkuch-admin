@@ -1,0 +1,51 @@
+.settings-screen__column-filter {
+
+  is-column-filter {
+
+    .is-input-wrapper {
+      border-bottom: 2px solid $au-blue;
+
+      .is-filter-text-icon {
+        &--search,
+        &--close {
+          color: $au-blue;
+        }
+      }
+    }
+
+    .is-filter-actions {
+      margin-bottom: 0;
+      border-bottom: 1px solid rgba($au-white, .14);
+    }
+
+    .is-filter-container:last-child {
+      border-left: 1px solid rgba($au-white, .14);
+    }
+
+    .is-filter-actions .is-filter-action,
+    .is-filter__label {
+      color: $au-white;
+    }
+
+    .is-filter {
+      border-bottom: 1px solid rgba($au-white, .14);
+      padding: 7px;
+      border-radius: 0;
+      background: $au-gray-main;
+
+      &__label {
+        &,
+        .is-filter__check {
+          color: #fff;
+          font-weight: 500;
+        }
+      }
+
+      .is-filter__input:checked + label {
+        .is-filter__check {
+          color: $au-blue;
+        }
+      }
+    }
+  }
+}

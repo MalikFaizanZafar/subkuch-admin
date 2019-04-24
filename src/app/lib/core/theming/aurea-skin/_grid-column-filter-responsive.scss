@@ -1,0 +1,51 @@
+.is-grid-mobile-settings  .settings-screen__column-filter {
+  is-grid-column-filter {
+
+    .is-grid-input-wrapper {
+      border-bottom: 2px solid $au-blue;
+
+      .is-grid-filter-text-icon {
+        &--search,
+        &--close {
+          color: $au-blue;
+        }
+      }
+    }
+
+    .is-grid-filter-actions {
+      margin-bottom: 0;
+      border-bottom: 1px solid rgba($au-white, .14);
+    }
+
+    .is-grid-filter-container:last-child {
+      border-left: 1px solid rgba($au-white, .14);
+    }
+
+    .is-grid-filter-actions .is-grid-filter-action,
+    .is-grid-filter__label {
+      color: $au-white;
+    }
+
+    .is-grid-filter {
+      border-bottom: 1px solid rgba($au-white, .14);
+      padding: 7px;
+      border-radius: 0;
+      background: $au-gray-main;
+
+      &__label {
+        &,
+        .is-grid-filter__check {
+          color: #fff;
+          font-weight: 500;
+          background: $au-gray-main;
+        }
+      }
+
+      .is-grid-filter__input:checked + label {
+        .is-grid-filter__check {
+          color: $au-blue;
+        }
+      }
+    }
+  }
+}

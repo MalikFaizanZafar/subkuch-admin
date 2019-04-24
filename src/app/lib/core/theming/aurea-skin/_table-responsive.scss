@@ -1,0 +1,9 @@
+@import '../../style/responsive-utils';
+
+@include media-breakpoint-down(sm) {
+  table[is-table] td:not(.is-row-detail__td),
+  table[is-table] th,
+  table[is-table] .is-sortable-column {
+    height: auto;
+  }
+}

@@ -1,0 +1,12 @@
+.is-pie {
+
+  &__slice {
+
+    &__path {
+
+      &--active {
+        stroke: $au-red;
+      }
+    }
+  }
+}

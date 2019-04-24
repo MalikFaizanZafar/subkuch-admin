@@ -1,0 +1,24 @@
+.is-option {
+  user-select: none;
+  display: block;
+
+  &--invisible {
+    display: none;
+  }
+
+  &__unselectable {
+    pointer-events: none;
+  }
+
+  &__nested-block {
+    width: 100%;
+
+    .is-option__icon {
+      font-size: 16px;
+      right: 0;
+      padding-right: 10px;
+      position: absolute;
+      padding-top: 1px;
+    }
+  }
+}

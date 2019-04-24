@@ -1,0 +1,33 @@
+<div class="is-portal__backdrop"
+     [class.is-portal__backdrop--animate]="mappedOptions.animationsOn"
+     [class.is-portal__backdrop--closing]="closing && mappedOptions.animationsOn"
+     *ngIf="isBackdropVisible"
+     (click)="onBackdropClick()"></div>
+<div class="is-portal__container"
+     [class.is-portal__container--show]="showingOverlay"
+     [ngStyle]="containerStyle"
+     [class.is-portal__container--hide]="hideContainer"
+     [ngClass]="orientationClass"
+     [class.is-portal__container--animate]="mappedOptions.animationsOn"
+     [class.is-portal__container--closing]="closing && mappedOptions.animationsOn">
+  <div class="is-portal__header"
+       [class.is-portal__header--fill]="mappedOptions.showHeader"
+       *ngIf="showHeaderBlock">
+    <div class="is-portal__header-text">
+      {{mappedOptions.headerTitle}}
+    </div>
+    <div class="is-portal__header-close"
+         *ngIf="mappedOptions.showCloseButton">
+      <span class="is-portal__header-close--icon"
+            (click)="closePortal()">
+        <i class="fa fa-close"></i>
+      </span>
+    </div>
+  </div>
+  <div class="is-portal__template"
+       isPortalContent
+       tabindex="0"></div>
+  <div [class.is-portal__content]="showingOverlay">
+    <ng-content></ng-content>
+  </div>
+</div>

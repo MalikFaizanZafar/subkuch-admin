@@ -1,0 +1,259 @@
+@import '../core/style/variables';
+@import '../core/theming/palette';
+@import '../core/mixins/color-functions';
+
+$selected-color: color(primary);
+$temporary-selected-color: rgba($selected-color, .45);
+
+.is-select-wrapper {
+  display: inline-block;
+  max-width: 100%;
+
+  &.is-select--disabled {
+    opacity: .7;
+
+    .is-select .is-select__input {
+      cursor: not-allowed;
+    }
+  }
+}
+
+.is-select {
+  position: relative;
+
+  &__input {
+    display: flex;
+    padding: 5px 7px;
+    cursor: pointer;
+    min-width: 200px;
+
+    &-text {
+      width: calc(100% - 16px);
+    }
+
+    &::after {
+      content: '\f0d7';
+      font-family: 'FontAwesome';
+      margin-left: 7px;
+    }
+  }
+
+  .is-select__filter-input + .is-select__options-list {
+    max-height: 205px;
+  }
+
+  &__options {
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    z-index: $z-index-infinite;
+    min-width: 200px;
+    width: 100%;
+
+    &-list {
+      max-height: 250px;
+      width: 100%;
+      overflow-y: auto;
+      position: relative;
+    }
+
+    .is-option {
+      padding: 5px 7px;
+      cursor: pointer;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+
+      &.is-checkbox {
+        padding-left: 0;
+      }
+
+      .is-checkbox__layout {
+        display: block;
+      }
+
+      &--selected {
+        background: $selected-color;
+        color: contrast($selected-color);
+
+        &:hover {
+          background: $selected-color;
+        }
+      }
+
+      &--temporary-selected:not(.is-option--selected) {
+        background: $temporary-selected-color;
+        color: contrast($temporary-selected-color);
+
+        &:hover {
+          background: $temporary-selected-color;
+        }
+      }
+
+      &:not(.is-option--selected):not(.is-option--temporary-selected):hover {
+        background-color: rgba($selected-color, .1);
+      }
+    }
+  }
+
+  &__placeholder {
+    color: map-get($is-dark, 1);
+    font-style: italic;
+  }
+
+  &__filter-input {
+    display: flex;
+    flex-shrink: 0;
+    border-bottom: 2px solid color(primary);
+    background: #fff;
+
+    &__icon {
+      padding: 8px 5px;
+      color: color(primary);
+    }
+
+    &__icon-close {
+      cursor: pointer;
+    }
+
+    &__input {
+      flex-grow: 1;
+      border: none;
+      padding: 4px 0 0;
+      width: auto;
+      margin-bottom: 2px;
+    }
+  }
+
+  &__back {
+    &-container {
+      border-top: map-get($is-dark, 1) solid 1px;
+      border-bottom: map-get($is-dark, 1) solid 1px;
+      padding: 5px 3px;
+    }
+
+    &-button {
+      background: transparent;
+      border: none;
+    }
+  }
+
+  &--shadow-box {
+    background-color: map-get($is-light, 1);
+    border: map-get($is-dark, 1) solid 1px;
+    border-radius: 3px;
+    box-shadow: 0 2px 3px rgba(color(dark), .1);
+  }
+
+  &--invalid {
+    .is-select--shadow-box {
+      border-color: $is-red;
+    }
+  }
+
+  &__loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__loading-spinner {
+    height: 13px;
+    width: 13px;
+    margin-right: 10px;
+  }
+}
+// Theming the component
+@each $colorName, $color in $is-colors {
+  $temporary-color: lighten($color, 3);
+
+  &.#{$colorName} .is-select {
+    &__filter-input {
+      border-bottom: 2px solid $color;
+
+      &__icon {
+        color: $color;
+      }
+    }
+
+    &__back-container,
+    .is-select__back-button {
+      color: contrast($color);
+    }
+
+    &__options {
+      .is-option {
+        &--selected,
+        &--temporary-selected {
+          &::before {
+            content: '\f00c';
+            font-family: 'FontAwesome';
+          }
+        }
+
+        &--selected {
+          background-color: $color;
+          color: contrast($color);
+
+          &:hover {
+            background-color: adjust-color($color, $red: -10, $green: -10, $blue: -10);;
+          }
+        }
+
+        &--temporary-selected:not(.is-option--selected) {
+          background-color: $temporary-color;
+          color: contrast($temporary-color);
+
+          &:hover {
+            background-color: adjust-color($temporary-color, $red: -10, $green: -10, $blue: -10);;
+          }
+        }
+
+        &:not(.is-option--selected):not(.is-option--temporary-selected):hover {
+          background-color: rgba($color, .5);
+        }
+      }
+    }
+  }
+}
+
+.is-select--inline {
+  display: inline-block;
+
+  .is-select {
+    &__input {
+      background-color: transparent;
+      border: none;
+      padding: 3px 0;
+      margin: 0 5px;
+      border-bottom: 2px solid color(primary);
+      border-radius: 0;
+      box-shadow: none;
+      min-width: 0;
+
+      &::after {
+        content: none;
+      }
+    }
+
+    &__placeholder {
+      font-style: normal;
+    }
+
+    &__options {
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+  }
+  // Theming inline type
+  @each $colorName, $color in $is-colors {
+    &.#{$colorName} .is-select {
+      &__input {
+        border-bottom: 2px solid $color;
+      }
+    }
+  }
+}
+
+@import './select-responsive';

@@ -1,0 +1,38 @@
+@import './_theming';
+@import '../_palette';
+@import '../../style/_variables';
+
+.is-chip {
+  &-list {
+    &__wrapper {
+      display: block;
+      border: none;
+      border-radius: 0;
+      transition: $ease-in-out;
+    }
+
+    &__bottom-line {
+      &--blurred {
+        border-bottom: 1px solid map-get($au-gray, 2);
+      }
+
+      &--focused {
+        border-bottom: 1px solid $au-green;
+        box-shadow: none;
+      }
+
+      &--invalid {
+        border-bottom: 1px solid $au-red;
+      }
+    }
+
+    &__error-message {
+      display: inline-block;
+      margin-top: 5px;
+      padding-left: 2px;
+      color: $is-red;
+      font-size: .8em;
+      font-weight: 600;
+    }
+  }
+}

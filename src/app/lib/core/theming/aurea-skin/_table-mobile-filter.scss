@@ -1,0 +1,38 @@
+.is-table-mobile-settings {
+
+  .column-screen__columns,
+  .settings-screen__column-filter {
+    background: $au-gray-main;
+    color: $au-white;
+    box-shadow: 0 0 3px rgba(30, 40, 44, .5);
+    height: 100%;
+  }
+
+  .column-screen__columns {
+
+    &_col-name {
+      border-bottom: 1px solid rgba($au-white, .14);
+    }
+
+    .column-icon {
+      color: $au-white;
+    }
+
+    .column-name {
+      font-weight: 500;
+    }
+  }
+
+  &__settings-screen {
+    background: $au-gray-main;
+
+    .settings-screen__sort {
+      color: $au-white;
+      border-bottom: 1px solid rgba($au-white, .14);
+
+      &--desc {
+        border-left: 1px solid rgba($au-white, .14);
+      }
+    }
+  }
+}

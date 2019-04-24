@@ -1,0 +1,73 @@
+$selected-color: $au-green;
+$focused-color: rgba($selected-color, .45);
+
+.is-typeahead-wrapper {
+  font-size: 13px;
+  // Used to remove the default close sign available in IE
+  // to keep the UI consistent in all browsers.
+
+  input[type='text']::-ms-clear { // sass-lint:disable-line no-vendor-prefixes
+    display: none;
+    width: 0;
+    height: 0;
+  }
+
+  input[type='text']::-ms-reveal { // sass-lint:disable-line no-vendor-prefixes
+    display: none;
+    width: 0;
+    height: 0;
+  }
+}
+
+.is-typeahead__placeholder {
+  font-style: normal;
+}
+
+.is-typeahead__items {
+  border-radius: 0;
+  font-size: 13px;
+  background: $au-gray-main;
+  color: #fff;
+  box-shadow: 0 0 3px rgba(30, 40, 44, .5);
+
+  &--light {
+    background: #fff;
+    color: #000;
+    box-shadow: 0 0 3px rgba(30, 40, 44, .5);
+  }
+
+  .is-typeahead-item {
+    font-weight: 500;
+
+    &__text--marked {
+      text-decoration: underline;
+    }
+
+    &--selected,
+    &--focused {
+      &::before {
+        display: none;
+      }
+    }
+
+    &--selected {
+      background: $selected-color;
+
+      &:hover {
+        background: $selected-color;
+      }
+    }
+
+    &--focused:not(.is-typeahead-item--selected) {
+      background: $focused-color;
+
+      &:hover {
+        background: $focused-color;
+      }
+    }
+
+    &:not(.is-typeahead-item--selected):not(.is-typeahead-item--focused):hover {
+      background: rgba(#000, .1);
+    }
+  }
+}

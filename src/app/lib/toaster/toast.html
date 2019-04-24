@@ -1,0 +1,16 @@
+<div class="is-toast__icon"
+     *ngIf="options.faIcon">
+  <i class="fa {{options.faIcon}}"></i>
+</div>
+<div class="is-toast__body">
+  <h1 *ngIf="options.title">
+    {{options.title}}
+  </h1>
+  <p *ngIf="message">
+    {{message}}
+  </p>
+</div>
+<div class="is-toast__close"
+     *ngIf="options.showCloseButton">
+  <span (click)="closeButtonClick()">x</span>
+</div>

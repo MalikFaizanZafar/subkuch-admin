@@ -1,0 +1,10 @@
+<div *ngFor="let toast of toasts"
+     [@flyInOut]>
+  <is-toast #isToasts
+            (click)="onToastClick(toast)"
+            (closeTimeOut)="removeToast(toast)"
+            (onCloseButtonClick)="removeToast(toast)"
+            [message]="toast.message"
+            [options]="toast.options">
+  </is-toast>
+</div>

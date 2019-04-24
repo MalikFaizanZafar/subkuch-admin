@@ -1,0 +1,96 @@
+@import '../core/style/responsive-utils';
+@import '../core/theming/palette';
+@import '../core/mixins/color-functions';
+
+$toast-bg-opacity: .97;
+
+.is-toast,
+is-toast {
+  display: flex;
+  width: 100%;
+  max-width: 100%;
+  padding: 10px 15px;
+  background-color: rgba(color(light), $toast-bg-opacity);
+  border: 1px solid adjust-color(color(light), $red: -20, $green: -20, $blue: -20);
+  color: color(dark);
+  overflow: visible;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  transition: background-color .3s;
+
+  &:hover {
+    background-color: color(light);
+  }
+
+  &.closable {
+    cursor: pointer;
+  }
+
+  .is-toast__icon {
+    margin-right: 15px;
+    font-size: 22px;
+    display: flex;
+
+    &:empty {
+      margin: 0;
+    }
+  }
+
+  .is-toast__body {
+    // 38px is the sum of margins + paddings surrounding the body,
+    // that way the content will always be correctly aligned.
+    max-width: calc(100% - 38px);
+    word-wrap: break-word;
+    flex-grow: 1;
+    flex-basis: auto;
+  }
+
+  .is-toast__close {
+    span {
+      cursor: pointer;
+      font-size: 12px;
+      padding: 0 5px;
+      border-radius: 3px;
+
+      &:hover {
+        background-color: rgba(#000, .3);
+      }
+    }
+  }
+
+  h1 {
+    font-size: 14px;
+    font-weight: bold;
+  }
+
+  p {
+    margin: 0;
+  }
+}
+
+// Theming the Toast
+@each $colorName, $color in $is-colors {
+  is-toast.#{$colorName} {
+    background-color: rgba($color, $toast-bg-opacity);
+    border-color: transparent;
+
+    @if (lightness($color) > 75) {
+      color: #000;
+    } @else {
+      color: #fff;
+    }
+
+    &:hover {
+      background-color: $color;
+    }
+  }
+}
+
+@include media-breakpoint-down(sm) {
+  .is-toast,
+  is-toast {
+    border-radius: 0;
+    margin-bottom: 5px;
+    width: 100% !important; // sass-lint:disable-line no-important
+  }
+}

@@ -1,0 +1,18 @@
+@import '../core/style/responsive-utils';
+
+@include media-breakpoint-down(sm) {
+  .is-portal {
+
+    &__container {
+
+      &--right {
+        width: 80%;
+      }
+
+      &--left {
+        width: 80%;
+      }
+    }
+
+  }
+}
