@@ -16,6 +16,7 @@ export class LoginComponent implements OnInit {
   @HostBinding() class: string = 'd-flex flex-column col p-0 overflow-y-auto overflow-x-hidden';
   loginForm: FormGroup;
   errorMessage: string;
+  unauthorized: boolean = false;
 
   constructor(
     // private authService: AuthService,
@@ -32,6 +33,7 @@ export class LoginComponent implements OnInit {
   }
 
   onLoginSubmit(form: FormGroup, btn: IsButton, veirfyTemplate: TemplateRef<any>, activeTemplate: TemplateRef<any>) {
+    this.unauthorized = false;
     if (this.loginForm.valid) {
       btn.startLoading();
       let user = this.loginForm.value;
@@ -41,17 +43,23 @@ export class LoginComponent implements OnInit {
         this.toaster.popSuccess('Logged In Successfully');
         btn.stopLoading();
       }, (err) => {
-        debugger
-        if (err.error.indexOf('verified') > -1) {
-          this.isModal.open(veirfyTemplate, {data: err.error})
+        btn.stopLoading();
+        if(err.status === 401){
+          this.unauthorized = true;
+          return;
         }
-
-        if (err.error.indexOf('active') > -1) {
-          this.isModal.open(activeTemplate, {data: err.error})
+        if(err && err.error) {
+          if (err.error.indexOf('verified') > -1) {
+            this.isModal.open(veirfyTemplate, {data: err.error});
+            return;
+          }
+  
+          if (err.error.indexOf('active') > -1) {
+            this.isModal.open(activeTemplate, {data: err.error})
+            return;
+          }
         }
         btn.stopLoading();
-        // if 
-        // this.isModal.open()
       })
     } else {
       return;

@@ -5,8 +5,8 @@ import { Injectable } from '@angular/core';
 import { VendorUser } from '../models/vendor-members';
 
 const API_URL = {
-  service: '/api/auth/service?size=30',
-  signup: '/api/auth/signup'
+  service: 'http://localhost:8080/api/auth/service?size=30',
+  signup: 'http://localhost:8080/api/auth/signup'
 };
 
 @Injectable()
