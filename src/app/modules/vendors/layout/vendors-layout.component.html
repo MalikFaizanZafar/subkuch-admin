@@ -19,39 +19,41 @@
       [open]="true">
     </is-sidebar>
 
-    <main class="col overflow-auto">
-      <div class="container-fluid px-0">
-        <div class="position-relative d-flex align-items-center bg_image_1" *ngIf="franchiseInfo" [ngStyle]="{'background-image': 'url(' + franchiseInfo.welcomeImage + ')'}">
-          <div class="w-50 d-flex align-items-center justify-content-start">
-              <div class="w-25 d-flex justify-content-end ml-3">
-                <img
-                  *ngIf="franchiseInfo"
-                  [src]="franchiseInfo.logo"
-                  alt=""
-                  height="80"
-                  width="80"
-                />
-              </div>
-              <div class="w-25 d-flex justify-content-start">
-                <div class="row">
-                  <div class="col-12 ml-2">
-                      <span class="fa fa-star checked star_icons px-1" *ngFor="let rating of ratingArray"></span>
-                      <span class="text-white px-1">(41)</span>
-                      <span class="text-white px-1">Reviews</span>
-                  </div>
-                  <div class="col-12 ml-2">
-                      <h4 class="text-white d-block" *ngIf="franchiseInfo">{{franchiseInfo.brandName}}</h4>
-                  </div>
+    <main class="col overflow-auto main-content">
+      <is-card>
+        <is-card-content class="p-0">
+          <div class="position-relative d-flex align-items-center bg_image_1" *ngIf="franchiseInfo" [ngStyle]="{'background-image': 'url(' + getFranshiseBanner() + ')'}">
+            <div class="w-50 d-flex align-items-center justify-content-start">
+                <div class="w-25 d-flex justify-content-end ml-3">
+                  <img
+                    *ngIf="franchiseInfo"
+                    [src]="franchiseInfo.logo || 'https://via.placeholder.com/80/575d6be6/FFFFFF/?text=Logo'"
+                    alt=""
+                    height="80"
+                    width="80"
+                  />
                 </div>
-                  
-              </div>
+                <div class="w-25 d-flex justify-content-start">
+                  <div class="row">
+                    <div class="col-12 ml-2">
+                        <span class="fa fa-star checked star_icons px-1" *ngFor="let rating of ratingArray"></span>
+                        <span class="text-white px-1">(41)</span>
+                        <span class="text-white px-1">Reviews</span>
+                    </div>
+                    <div class="col-12 ml-2">
+                        <h4 class="text-white d-block" *ngIf="franchiseInfo">{{franchiseInfo.brandName}}</h4>
+                    </div>
+                  </div>
+                    
+                </div>
+            </div>
+            <div class="w-50 d-flex align-items-center" *ngIf="editBtnEnabled">
+              <i class="fa fa-edit fa-2x text_blue main__edit__icon" ></i>
+            </div>
           </div>
-          <div class="w-50 d-flex align-items-center" *ngIf="editBtnEnabled">
-            <i class="fa fa-edit fa-2x text_blue main__edit__icon" ></i>
-          </div>
-        </div>
-      </div>
-      <div class="container-fluid px-0">
+        </is-card-content>
+      </is-card>
+      <div class="container-fluid mt-2 px-0">
         <div class="row">
           <div class="col-md-12">
             <router-outlet></router-outlet>

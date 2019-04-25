@@ -1,27 +1,28 @@
-<div class="mt-1">
-  <div  class="bg-white p-4 overview__container" *ngIf="!isEditingMode">
-    <div class="d-flex justify-content-between w-100 align-items-center">
-        <h2 class="text-dark">Overview</h2>
-        <a href="" class="w-5" (click)="setEditingMode()">
-            <i class="fa fa-pencil fa-2x text-dark"></i>Edit
-          </a>
+<is-card *ngIf="!isEditingMode">
+  <is-card-header>
+    <div class="w-100">
+      <div class="w-100 d-flex justify-content-between">
+        <h2>Overview</h2>
+        <i class="fa fa-pencil fa-2x icon-color" (click)="setEditingMode()"></i>
+      </div>
+      <div class="d-flex w-100">
+        <p class="mb-0 text-left overview__text" *ngIf="franchiseInfo">
+          {{franchiseInfo.welcomeNote || 'Your welcome note will be placed here'}}
+        </p>
+      </div>
     </div>
-    <div class="d-flex w-100">
-      <p class="mb-0 text-muted text-left overview__text w-95" *ngIf="franchiseInfo">
-        {{franchiseInfo.welcomeNote || 'Your welcome note will be placed here'}}
-      </p>
-    </div>
-    <h3 class="text-dark mt-5">Address</h3>
-    <p class="mb-0 text-muted text-left overview__text" *ngIf="franchiseInfo">
+  </is-card-header>
+  <is-card-content>
+    <h3>Address</h3>
+    <p class="mb-0 text-left overview__text" *ngIf="franchiseInfo">
       {{franchiseInfo.address || 'Your Address'}}
     </p>
 
-    <h4 class="text-dark mt-5">Contact Info</h4>
-    <p class="mb-0 text-muted text-left overview__text" *ngFor="let contact of franchiseInfo.contact">
+    <h4 class="mt-2">Contact Info</h4>
+    <p class="mb-0 text-left overview__text" *ngFor="let contact of franchiseInfo.contact">
       {{contact.franchiseContactPersonPhone || 'Your contact will be added here'}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  {{contact.email || 'Your email id'}}
-    </p>
+    </p>  
+  </is-card-content>
+</is-card>
 
-  </div>
-</div>
-
-<edit-overview *ngIf="isEditingMode" (overviewEdited)="overviewEditedHandler()" (overviewEditedCancelled)="cancelEditing()"></edit-overview>
+<edit-overview *ngIf="isEditingMode" ></edit-overview>

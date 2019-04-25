@@ -11,6 +11,11 @@ import { LocationSelectorComponent } from '../../modal/location-selector/locatio
 })
 export class EditOverviewComponent implements OnInit {
   overviewForm: FormGroup;
+  dragging: boolean;
+  loaded: boolean;
+  imageSrc: any;
+  imageLoaded: boolean;
+  
   @Output() overviewEdited: EventEmitter<any> = new EventEmitter();
   @Output() overviewEditedCancelled: EventEmitter<any> = new EventEmitter();
   
@@ -48,14 +53,58 @@ export class EditOverviewComponent implements OnInit {
     })
     this.overviewForm.reset();
   }
+
   cancelEditing(){
     this.overviewForm.reset()
     this.overviewEditedCancelled.emit(null);
   }
+  
   onLocationTouch(){
     this.modal.open(LocationSelectorComponent, {
       size: IsModalSize.Large
     });
+  }
+
+
+  handleDragEnter() {
+    this.dragging = true;
+  }
+
+  handleDragLeave() {
+    this.dragging = false;
+  }
+
+  handleDrop(e) {
+    e.preventDefault();
+    this.dragging = false;
+    this.handleInputChange(e);
+  }
+
+  handleImageLoad() {
+    this.imageLoaded = true;
+  }
+
+  handleInputChange(e) {
+    const file = e.dataTransfer ? e.dataTransfer.files[0] : e.target.files[0];
+    if (file) {
+      const pattern = /image-*/;
+      const reader = new FileReader();
+
+      if (!file.type.match(pattern)) {
+        alert('invalid format');
+        return;
+      }
+
+      this.loaded = false;
+      reader.onload = this._handleReaderLoaded.bind(this);
+      reader.readAsDataURL(file);
+    }
+  }
+
+  _handleReaderLoaded(e) {
+    const reader = e.target;
+    this.imageSrc = reader.result;
+    this.loaded = true;
   }
 
 }

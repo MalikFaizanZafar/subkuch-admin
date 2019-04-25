@@ -49,8 +49,8 @@ export class VendorsLayoutComponent implements OnInit {
     private editMainService: EditMainService
   ) {}
 
-  async ngOnInit() {
-    await this.franchiseInfoService
+  ngOnInit() {
+    this.franchiseInfoService
       .getFranchiseInfo()
       .subscribe(responseData => {
         this.franchiseInfo = responseData.data;
@@ -58,6 +58,10 @@ export class VendorsLayoutComponent implements OnInit {
     this.editMainService.editEnable.subscribe(val => {
       this.editBtnEnabled = val;
     });
+  }
+
+  getFranshiseBanner() {
+    return this.franchiseInfo.welcomeImage || `https://via.placeholder.com/1100x200.png?text=upload+your+banner+here`; 
   }
 
   logoutHandler() {

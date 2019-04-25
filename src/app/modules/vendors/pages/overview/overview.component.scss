@@ -1,5 +1,12 @@
+@import 'palette';
+
 .bg_blue {
-  background-color: #52cdec;
+  background-color: $is-blue;
+}
+
+.icon-color {
+  color: $is-blue;
+  cursor: pointer;
 }
 
 .contact__phone_icon {
@@ -15,8 +22,8 @@
 }
 
 .overview__text {
-  font-size: 20px;
-  font-weight: 10;
+  font-size: 15px;
+  font-weight: normal;
 }
 
 .w-95 {

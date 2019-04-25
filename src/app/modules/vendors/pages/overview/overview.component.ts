@@ -18,28 +18,27 @@ export class OverviewComponent implements OnInit {
     private franchiseInfoService : FranchiseInfoService, 
     private editMainService : EditMainService) { }
 
-  async ngOnInit() {
-    await this.franchiseInfoService.getFranchiseInfo().subscribe(responseData => {
+  ngOnInit() {
+    this.franchiseInfoService.getFranchiseInfo().subscribe(responseData => {
       this.franchiseInfo = responseData.data
+      if (!this.franchiseInfo.address) {
+        this.setEditingMode();
+      }
     })
-    // if (navigator.geolocation) {
-    //   navigator.geolocation.getCurrentPosition((position) => {
-    //     console.log('Current Position is : ', position.coords)
-    //   });
-    // } else {
-    //   alert("Geolocation is not supported by this browser.");
-    // }
   }
 
   setEditingMode() {
     this.isEditingMode = true;
     this.editMainService.editEnable.next(true);
   }
+  
   cancelEditing() {
     console.log('changes canceled');
     this.isEditingMode = false;
     this.editMainService.editEnable.next(false);
   }
+
+
   overviewEditedHandler(){
     this.isEditingMode = false;
     this.editMainService.editEnable.next(false);

@@ -1,99 +1,116 @@
-<div class="container-fluid bg-white mt-3">
+<is-card>
+  <is-card-content>
+    
   <div class="row">
-    <div class="col-md-12">
-        <h5 class="mt-4">Welcome Note</h5>
-      <form action="" class="d-flex" (ngSubmit)="submitHandler()" [formGroup]="overviewForm">
-        <div class="w-100">
-          <div class="form-group">
-            <textarea class="form-control" rows="5" formControlName="welcomeParagraph"></textarea>
+      <div class="col-md-12">
+          <h5 class="mt-4">Welcome Note</h5>
+        <form action="" class="d-flex" (ngSubmit)="submitHandler()" [formGroup]="overviewForm">
+          <div class="w-100">
+            <div class="form-group">
+              <textarea class="form-control" rows="5" formControlName="welcomeParagraph"></textarea>
+            </div>
+            <h5 class="mt-4">Contact Info</h5>
+            <div class="d-flex justify-content-between w-100">
+              <div class="form-group w-50 pr-3">
+                <is-input-container label="Primary Contact">
+                  <input 
+                    autocomplete="fakeName"
+                    class="login-form__input"
+                    type="text"
+                    placeholder="Enter Cell 1"
+                    formControlName="phoneOne">
+                </is-input-container>
+              </div>
+              <div class="form-group w-50 pr-3">
+                <is-input-container label="Secondary Contact">
+                  <input 
+                    autocomplete="fakeName"
+                    class="login-form__input"
+                    type="text"
+                    placeholder="Enter Cell 2"
+                    formControlName="phoneTwo">
+                </is-input-container>
+              </div>
+            </div>
+            <div class="d-flex justify-content-between w-100">
+              <div class="form-group w-50 pr-3">
+                <is-input-container label="Primary Email">
+                  <input 
+                    autocomplete="fakeName"
+                    class="login-form__input"
+                    type="email"
+                    placeholder="Enter email"
+                    formControlName="email">
+                </is-input-container>
+              </div>
+              <div class="form-group w-50 pr-3">
+                <is-input-container label="Secondary Email">
+                  <input 
+                    autocomplete="fakeName"
+                    class="login-form__input"
+                    type="email"
+                    placeholder="Enter email"
+                    formControlName="email">
+                </is-input-container>
+              </div>
+            </div>
+            <div class="w-100">
+              <div class="form-group w-100 pr-3">
+                <is-input-container label="Location">
+                  <input 
+                    autocomplete="fakeName"
+                    class="login-form__input"
+                    type="email"
+                    placeholder="Enter Location"
+                    formControlName="location"
+                    (click)="onLocationTouch()">
+                </is-input-container>
+              </div>
+            </div>
+            <h5 class="mt-4">Opening Status</h5>
+            <div class="d-flex justify-content-between mb-3">
+              <div class="form-group w-50 mr-5">
+                <is-input-container label="Start">
+                  <input 
+                    autocomplete="fakeName"
+                    class="login-form__input"
+                    type="number"
+                    min="0"
+                    max="24"
+                    placeholder="Enter Start Time"
+                    formControlName="startTime">
+                </is-input-container>
+              </div>
+              <div class="form-group w-50">
+                <is-input-container label="End">
+                  <input 
+                    autocomplete="fakeName"
+                    class="login-form__input"
+                    type="number"
+                    min="0"
+                    max="24"
+                    placeholder="Enter End Time"
+                    formControlName="endTime">
+                </is-input-container>
+              </div>
+            </div>
+            <div class="d-flex justify-content-end">
+              <button
+                class="mr-2"
+                type="submit" 
+                theme="success"
+                is-button>Save
+              </button>
+              <button
+                type="button" 
+                (click)="cancelEditing()"
+                theme="danger"
+                is-button>Cancel
+              </button>
+            </div>
           </div>
-          <h5 class="mt-4">Contact Info</h5>
-          <div class="d-flex justify-content-between">
-            <div class="form-group w-25 pr-3">
-              <is-input-container label="Cell # 1">
-                <input 
-                  autocomplete="fakeName"
-                  class="login-form__input"
-                  type="email"
-                  placeholder="Enter Cell 1"
-                  formControlName="phoneOne">
-              </is-input-container>
-            </div>
-            <div class="form-group w-25 pr-3">
-              <is-input-container label="Cell # 1">
-                <input 
-                  autocomplete="fakeName"
-                  class="login-form__input"
-                  type="email"
-                  placeholder="Enter Cell 2"
-                  formControlName="phoneTwo">
-              </is-input-container>
-            </div>
-            <div class="form-group w-25 pr-3">
-              <is-input-container label="Email">
-                <input 
-                  autocomplete="fakeName"
-                  class="login-form__input"
-                  type="email"
-                  placeholder="Enter email"
-                  formControlName="email">
-              </is-input-container>
-            </div>
-            <div class="form-group w-25 pr-3">
-              <is-input-container label="Location">
-                <input 
-                  autocomplete="fakeName"
-                  class="login-form__input"
-                  type="email"
-                  placeholder="Enter Location"
-                  formControlName="location"
-                  (click)="onLocationTouch()">
-              </is-input-container>
-            </div>
-          </div>
-          <h5 class="mt-4">Opening Status</h5>
-          <div class="d-flex justify-content-between mb-3">
-            <div class="form-group w-50 mr-5">
-              <is-input-container label="Start">
-                <input 
-                  autocomplete="fakeName"
-                  class="login-form__input"
-                  type="number"
-                  min="0"
-                  max="24"
-                  placeholder="Enter Start Time"
-                  formControlName="startTime">
-              </is-input-container>
-            </div>
-            <div class="form-group w-50">
-              <is-input-container label="End">
-                <input 
-                  autocomplete="fakeName"
-                  class="login-form__input"
-                  type="number"
-                  min="0"
-                  max="24"
-                  placeholder="Enter End Time"
-                  formControlName="endTime">
-              </is-input-container>
-            </div>
-          </div>
-          <div>
-          <button
-            class="mr-2"
-            type="submit" 
-            theme="success"
-            is-button>Save
-          </button>
-          <button
-            type="button" 
-            (click)="cancelEditing()"
-            theme="danger"
-            is-button>Cancel
-          </button>
-        </div>
-        </div>
-      </form>
-    </div>
-  </div>
-</div>
+        </form>
+      </div>
+    </div>  
+  </is-card-content>
+</is-card> 
