@@ -37,7 +37,10 @@ export class MealsComponent implements OnInit {
   meals: any = [];
   showMeals: boolean = true;
   itemForm: FormGroup;
+  eitemForm: FormGroup;
   newItem: itemModel;
+  editMeal: {};
+  showEditMeal: boolean = false;
   itemUrl: String = '';
   downloadURL: Observable<string>;
   imageFile;
@@ -60,6 +63,14 @@ export class MealsComponent implements OnInit {
     this.franchiseItemsService.getItems(50).subscribe(responseData => {
       this.meals = responseData.data;
     });
+  }
+
+  onEditItemHandler(id) {
+    let filterdItems = this.meals.filter(meal => meal.id == id)
+    this.editMeal = filterdItems[0]
+    this.showEditMeal = true
+    this.showMeals = false
+    console.log("Edit Meal is : ", this.editMeal)
   }
 
   onItemSubmit(form: FormGroup) {
@@ -102,7 +113,47 @@ export class MealsComponent implements OnInit {
       } )
    ).subscribe()
   }
-
+  onEItemSubmit(form: FormGroup, mealId : any) {
+    let randomString = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+    const filePath = "items/"+randomString+"-"+this.imageFile.name;
+    const fileRef = this.storage.ref(filePath);
+    const task = this.storage.upload(filePath, this.imageFile);
+    
+    task.snapshotChanges().pipe(
+      finalize(() => {
+        this.downloadURL = fileRef.getDownloadURL()
+        this.downloadURL.subscribe(url => {
+          if (this.itemForm.valid) {
+            let item = this.itemForm.value;
+            this.newItem = {
+              name: item.title,
+              description: item.description,
+              price: item.price,
+              image_url : url,
+              discount: item.discount,
+              discount_end_date: item.discountEnd,
+              available: item.isAvailable,
+              product: item.isProduct,
+              quanity: item.quantity,
+              category_id: Number(item.category),
+              franchise_id: 1,
+            };
+            this.franchiseItemsService
+              .editItem(this.newItem, mealId)
+              .subscribe(responseData => {
+                this.newItem = responseData.data;
+                this.showEditMeal = false
+                this.showMeals = true
+                console.log('this.newItem : ', this.newItem)
+                this.itemForm.reset()
+              });
+          } else {
+            return;
+          }
+        })
+      } )
+   ).subscribe()
+  }
   fileChangeEvent(fileInput : any) {
     this.imageFile = fileInput.target.files[0];
   }
