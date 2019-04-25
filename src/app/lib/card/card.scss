@@ -1,0 +1,119 @@
+@import '../core/core';
+@import '../core/mixins/color-functions';
+
+$is-card-background-color: #fff;
+$is-card-border-radius: 5px;
+$is-card-padding: 15px;
+$is-card-box-shadow: 0 5px 14px 0 rgba(0, 0, 0, .05), 0 0 3px 0 rgba(0, 0, 0, .09);
+
+.is-card {
+  box-shadow: $is-card-box-shadow;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  border-radius: $is-card-border-radius;
+  background: $is-card-background-color;
+  overflow: hidden;
+
+  &__content {
+    display: block;
+    flex-grow: 1;
+    padding: $is-card-padding;
+  }
+
+  &__header,
+  &__footer {
+    display: flex;
+    align-items: center;
+    padding: $is-card-padding;
+    border-bottom: 1px solid map-get($is-light, 3);
+
+    &__button {
+      background-color: transparent;
+      border: none;
+      flex-shrink: 0;
+      color: map-get($is-dark, 3);
+
+      i {
+        font-size: 18px;
+      }
+
+      :hover {
+        color: map-get($is-dark, 2);
+      }
+    }
+  }
+
+  &__footer {
+    border-bottom: none;
+    border-top: 1px solid map-get($is-light, 3);
+  }
+
+  &__title {
+    font-size: 18px;
+    flex: 1;
+    align-items: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  &--ellipsis {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    max-width: 100%;
+    white-space: nowrap;
+  }
+
+  is-card-avatar {
+    display: block;
+  }
+
+  &__avatar {
+    display: block;
+    width: 50px;
+    height: 50px;
+    background-color: #ccc;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+    overflow: hidden;
+    border-radius: 50%;
+  }
+
+  &__image {
+    width: calc(100% + #{$is-card-padding * 2});
+    height: auto;
+    margin: -$is-card-padding;
+    margin-bottom: $is-card-padding;
+  }
+}
+
+// Theming card component
+@each $color-name, $color in $is-colors {
+  .is-card {
+    &.is-card--#{$color-name} {
+      background-color: $color;
+      color: contrast($color);
+
+      .is-card__header,
+      .is-card__footer {
+        border-color: darken($color, 5%);
+
+        &__button {
+          color: contrast($color);
+        }
+      }
+    }
+  }
+}
+
+/*IE 11 fix as height auto was not working there*/
+// sass-lint:disable no-vendor-prefixes
+_:-ms-fullscreen,
+:root {
+  .is-card__content {
+    flex-grow: 0;
+    flex-shrink: 0;
+  }
+}
+// sass-lint:enable no-vendor-prefixes
