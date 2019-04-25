@@ -16,6 +16,7 @@ export class DealsComponent implements OnInit {
   dealForm: FormGroup;
   newDeal: dealModel
   showDeals: boolean = true;
+  editDeal: {};
   showEditDeal: boolean = false;
   downloadURL: Observable<string>;
   imageFile;
@@ -43,6 +44,13 @@ export class DealsComponent implements OnInit {
     this.dealImage.nativeElement.click();
   }
 
+  onEditDealHandler(id) {
+    let filterdDeals = this.deals.filter(meal => meal.id == id);
+    this.editDeal = filterdDeals[0];
+    // this.showEditDeal = true;
+    // this.showDeals = false;
+    console.log("Edit Deal is : ", this.editDeal);
+  }
   onDeleteDealHandler(id) {
     console.log("Delete Deal is : ", id);
     this.franchiseDealsService.deleteDeal(id).subscribe(response => {
