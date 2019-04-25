@@ -23,7 +23,7 @@ export class DealsComponent implements OnInit {
   constructor(private franchiseDealsService: FranchiseDealsService, private storage: AngularFireStorage) {}
 
   ngOnInit() {
-    this.franchiseDealsService.getDeals(1).subscribe(responseData => {
+    this.franchiseDealsService.getDeals(6).subscribe(responseData => {
       this.deals = responseData.data;
       console.log('this.deals has : ', this.deals)
     });
@@ -41,6 +41,14 @@ export class DealsComponent implements OnInit {
   chooseFile() {
     console.log("choose an image");
     this.dealImage.nativeElement.click();
+  }
+
+  onDeleteDealHandler(id) {
+    console.log("Delete Deal is : ", id);
+    this.franchiseDealsService.deleteDeal(id).subscribe(response => {
+      console.log("Response from Server : ", response);
+      this.deals = this.deals.filter(deal => deal.id != id);
+    });
   }
 
   onDealSubmit(form: FormGroup) {

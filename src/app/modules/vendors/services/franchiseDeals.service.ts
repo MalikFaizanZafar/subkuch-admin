@@ -17,12 +17,19 @@ export class FranchiseDealsService {
       headers
     });
   }
-
-  addDeal( deal : dealModel): Observable<any> {
-    let headers = new HttpHeaders().set('Content-Type', 'application/json');
+  deleteDeal(id: number): Observable<any> {
+    let headers = new HttpHeaders();
     const token = localStorage.getItem("Authorization");
     headers = headers.append("Authorization", token);
-    return this.http.post<any>(`${this.baseURL}/deal`,deal, {
+    return this.http.delete<any>(`${this.baseURL}/deal/${id}`, {
+      headers
+    });
+  }
+  addDeal(deal: dealModel): Observable<any> {
+    let headers = new HttpHeaders().set("Content-Type", "application/json");
+    const token = localStorage.getItem("Authorization");
+    headers = headers.append("Authorization", token);
+    return this.http.post<any>(`${this.baseURL}/deal`, deal, {
       headers
     });
   }
