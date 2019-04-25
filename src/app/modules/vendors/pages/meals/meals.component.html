@@ -8,11 +8,6 @@
       <h4 class="text-dark">Offered Meals</h4>
       <h6 class="pt-1 pl-2">(07)</h6>
     </div>
-    <div class="w-50 d-flex justify-content-end">
-      <button type="button" is-button (click)="showMeals = false">
-        Add Meal
-      </button>
-    </div>
   </div>
   <div class="row mt-5 mx-1" *ngIf="showMeals">
     <div class="col-md-2">
@@ -51,11 +46,48 @@
         <div class="col-md-3">
           <div class="row">
             <h5 class="text-dark ml-2">Garlic Bread</h5>
-            <h6 class="pt-1 pl-1">(07)</h6>
+            <h6 class=" pl-1">(07)</h6>
           </div>
         </div>
       </div>
-      <div class="row mt-2" *ngFor="let meal of meals">
+      <div class="row">
+        <div class="col-md-8">
+          <div class="card rounded shadow  mb-3 meal__card" *ngFor="let meal of meals">
+            <div class="row no-gutters">
+              <div class="col-md-4">
+                <img
+                  [src]="meal.image_url"
+                  class="card-img"
+                  style="height:100%;"
+                  alt="..."
+                />
+              </div>
+              <div class="col-md-8">
+                <div class="card-body">
+                  <h2 class="card-title">{{ meal.name }}</h2>
+                  <p class="card-text">{{ meal.description }}</p>
+                  <p class="card-text">
+                    <small class="text-muted">
+                      <i class="fas fa-user-clock fa-3x meal__icons mr-2"></i>
+                      {{ meal.endDate | date }}</small
+                    >
+                  </p>
+                  <h5 class="card-title d-flex justify-content-end">
+                    Rs . {{ meal.price }}
+                  </h5>
+                  <div class="d-flex justify-content-end w-100">
+                    <div class="d-flex justify-content-around w-20">
+                      <i class="fas fa-2x fa-edit meal__icons"></i>
+                      <i class="fas fa-2x fa-trash meal__icons"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- <div class="row mt-2" *ngFor="let meal of meals">
         <div class="col-md-2">
           <img
             src="https://images.pexels.com/photos/247685/pexels-photo-247685.png"
@@ -84,7 +116,7 @@
             Rs . {{ meal.price }}
           </span>
         </div>
-      </div>
+      </div> -->
       <hr />
     </div>
   </div>
@@ -118,17 +150,17 @@
           Title is required
         </div>
         <div class="form-check item-form_product_checkbox mb-2">
-            <input
-              class="form-check-input"
-              type="checkbox"
-              value=""
-              id="defaultCheck1"
-              formControlName="isAvailable"
-            />
-            <label class="form-check-label text-dark" for="defaultCheck1">
-              Is Available ?
-            </label>
-          </div>
+          <input
+            class="form-check-input"
+            type="checkbox"
+            value=""
+            id="defaultCheck1"
+            formControlName="isAvailable"
+          />
+          <label class="form-check-label text-dark" for="defaultCheck1">
+            Is Available ?
+          </label>
+        </div>
         <div class="form-group row">
           <label for="inputPassword3" class="col-sm-2 col-form-label text-dark"
             >Item Category</label
@@ -294,7 +326,9 @@
           >
             Choose an Image
           </button>
-          <p class="lead w-25 mt-3 ml-3" *ngIf="this.imageFile">{{this.imageFile.name}}</p>
+          <p class="lead w-25 mt-3 ml-3" *ngIf="this.imageFile">
+            {{ this.imageFile.name }}
+          </p>
         </div>
         <div
           *ngIf="
