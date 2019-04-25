@@ -5,7 +5,7 @@ import { itemModel } from "../models/itemModel";
 
 @Injectable()
 export class FranchiseItemsService {
-  baseURL: string = "http://localhost:8080/api";
+  baseURL: string = "http://localhost:8080/api/auth";
 
   constructor(private http: HttpClient) {}
 

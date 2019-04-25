@@ -11,7 +11,7 @@ const routes: Routes = [
   {
     path: 'vendors',
     loadChildren: 'app/modules/vendors/vendors.module#VendorsModule',
-    canActivate: [CanActivateHome]
+    // canActivate: [CanActivateHome]
   },
   {
     path: 'example',

@@ -4,6 +4,7 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { AngularFireModule } from "@angular/fire";
 import { AngularFireDatabaseModule } from "@angular/fire/database";
 import { AngularFireAuthModule } from "@angular/fire/auth";
+import { AngularFireStorageModule } from '@angular/fire/storage';
 import { AgmCoreModule } from "@agm/core";
 
 import { AppRoutingModule } from "./app-routing.module";
@@ -35,11 +36,12 @@ import { FranchiseAccountService } from "./modules/vendors/services/franchiseAcc
       authDomain: "subquch-d4369.firebaseapp.com",
       databaseURL: "https://subquch-d4369.firebaseio.com",
       projectId: "subquch-d4369",
-      storageBucket: "",
+      storageBucket: "gs://subquch-d4369.appspot.com",
       messagingSenderId: "54989238851"
     }),
     AngularFireDatabaseModule,
-    AngularFireAuthModule
+    AngularFireAuthModule,
+    AngularFireStorageModule
   ],
   providers: [
     {
