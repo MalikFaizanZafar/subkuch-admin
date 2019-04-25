@@ -2,6 +2,9 @@ import { Component, OnInit, ElementRef, ViewChild } from "@angular/core";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { FranchiseItemsService } from "../../services/franchiseItems.service";
 import { itemModel } from "../../models/itemModel";
+import { AngularFireStorage } from '@angular/fire/storage';
+import { Observable } from "rxjs";
+import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: "meals",
@@ -36,10 +39,12 @@ export class MealsComponent implements OnInit {
   itemForm: FormGroup;
   newItem: itemModel;
   itemUrl: String = '';
+  downloadURL: Observable<string>;
+  imageFile;
   @ViewChild("itemImage") itemImage: ElementRef;
-  constructor(private franchiseItemsService: FranchiseItemsService) {}
+  constructor(private franchiseItemsService: FranchiseItemsService, private storage: AngularFireStorage) {}
 
-  async ngOnInit() {
+  ngOnInit() {
     this.itemForm = new FormGroup({
       title: new FormControl(null, [Validators.required]),
       isAvailable: new FormControl(1),
@@ -52,44 +57,54 @@ export class MealsComponent implements OnInit {
       description: new FormControl(null, [Validators.required]),
       attachment: new FormControl(null, [Validators.required])
     });
-    await this.franchiseItemsService.getItems(50).subscribe(responseData => {
+    this.franchiseItemsService.getItems(50).subscribe(responseData => {
       this.meals = responseData.data;
     });
   }
 
   onItemSubmit(form: FormGroup) {
-    if (this.itemForm.valid) {
-      let item = this.itemForm.value;
-      this.newItem = {
-        name: item.title,
-        description: item.description,
-        price: item.price,
-        image_url : this.itemUrl,
-        discount: item.discount,
-        discount_end_date: item.discountEnd,
-        available: item.isAvailable,
-        product: item.isProduct,
-        quanity: item.quantity,
-        category_id: Number(item.category),
-        franchise_id: 1,
-      };
-      this.franchiseItemsService
-        .addItem(this.newItem)
-        .subscribe(responseData => {
-          this.newItem = responseData.data;
-          this.itemForm.reset()
-        });
-    } else {
-      return;
-    }
+    let randomString = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+    const filePath = "items/"+randomString+"-"+this.imageFile.name;
+    const fileRef = this.storage.ref(filePath);
+    const task = this.storage.upload(filePath, this.imageFile);
+    
+    task.snapshotChanges().pipe(
+      finalize(() => {
+        this.downloadURL = fileRef.getDownloadURL()
+        this.downloadURL.subscribe(url => {
+          if (this.itemForm.valid) {
+            let item = this.itemForm.value;
+            this.newItem = {
+              name: item.title,
+              description: item.description,
+              price: item.price,
+              image_url : url,
+              discount: item.discount,
+              discount_end_date: item.discountEnd,
+              available: item.isAvailable,
+              product: item.isProduct,
+              quanity: item.quantity,
+              category_id: Number(item.category),
+              franchise_id: 1,
+            };
+            this.franchiseItemsService
+              .addItem(this.newItem)
+              .subscribe(responseData => {
+                this.newItem = responseData.data;
+                this.showMeals = true
+                console.log('this.newItem : ', this.newItem)
+                this.itemForm.reset()
+              });
+          } else {
+            return;
+          }
+        })
+      } )
+   ).subscribe()
   }
 
   fileChangeEvent(fileInput : any) {
-    let image = fileInput.target.files[0];
-    this.franchiseItemsService.uploadItemImage(image).subscribe(serverResponse => {
-      this.itemUrl = serverResponse.fileDownloadUri
-      console.log('this.itemUrl is : ', this.itemUrl)
-    })
+    this.imageFile = fileInput.target.files[0];
   }
   chooseFile() {
     console.log("choose an image");

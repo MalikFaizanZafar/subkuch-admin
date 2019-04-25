@@ -1,0 +1,32 @@
+@import 'palette';
+
+agm-map {
+  height: 300px;
+  width: 100%;
+}
+
+.location-search {
+  width: 40%;
+
+  &__container {
+    background: map-get($is-light, 1);
+    border: 1px solid map-get($is-dark, 2);
+    padding: 4px;
+    min-width: 250px; 
+    width: 100%;
+  }
+  
+  &__input {
+    border: none;
+    background: transparent;
+    width: calc(100% - 16px);
+  }
+
+  &__label {
+    color: map-get($is-light, 1);
+  }
+
+  &__icon {
+    cursor: pointer;
+  }
+}

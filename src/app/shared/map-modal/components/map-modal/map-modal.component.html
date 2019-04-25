@@ -1,0 +1,37 @@
+<div class="container-fluid p-5">
+  <div class="row">
+    <div class="col-md-10 pr-0">
+      <div class="form-group location-search__container">
+        <input placeholder="Enter your block & area" 
+                  autocorrect="off" 
+                  autocapitalize="off" 
+                  spellcheck="off" 
+                  type="text" 
+                  class="location-search__input" 
+                  #search 
+                  [formControl]="searchControl">
+      </div>
+    </div>
+    <div class="col-md-2 pr-0">
+      <button type="submit" class="btn btn-primary" is-button (click)="searchLocation()">Search</button>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <agm-map [latitude]="location.latitude" 
+               [longitude]="location.longitude" 
+               [zoom]="zoom">
+        <agm-marker 
+          [latitude]="location.latitude" 
+          [longitude]="location.longitude" 
+          [label]="'M'" 
+          [markerDraggable]="true"
+          (dragEnd)="markerDragEnd($event)">
+          <agm-info-window>
+            <strong>InfoWindow content</strong>
+          </agm-info-window>
+        </agm-marker>
+        </agm-map>
+    </div>
+  </div>
+</div>

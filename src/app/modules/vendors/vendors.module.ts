@@ -21,6 +21,9 @@ import { FranchiseDealsService } from './services/franchiseDeals.service';
 import { FranchiseItemsService } from './services/franchiseItems.service';
 import { FranchiseOrdersService } from './services/franchiseOrders.service';
 import { FranchiseSalesService } from './services/franchiseSales.service';
+import { NotificationsService } from 'app/services/notifications.service';
+import { SearchService } from './services/search.service';
+import { GoogleMapService } from '@app/shared/services/google-map.service';
 
 
 @NgModule({
@@ -29,7 +32,7 @@ import { FranchiseSalesService } from './services/franchiseSales.service';
     VendorsRoutingModule,
     SharedModule,
     AgmCoreModule.forRoot({
-      apiKey: 'AIzaSyAkScOhpOriytM-HCi_8lh6bSIVfMhsJ8E',
+      apiKey: 'AIzaSyB-EsaismaaJDTBDg0F2l-28Z-7zsVCTWU',
       libraries: ['places']
     })
   ],
@@ -42,7 +45,10 @@ import { FranchiseSalesService } from './services/franchiseSales.service';
     FranchiseDealsService,
     FranchiseItemsService,
     FranchiseOrdersService,
-    FranchiseSalesService
+    FranchiseSalesService,
+    NotificationsService,
+    GoogleMapService,
+    SearchService
   ],
   declarations: [
     OverviewComponent, 

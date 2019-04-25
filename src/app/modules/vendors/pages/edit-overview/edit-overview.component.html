@@ -43,28 +43,25 @@
                     formControlName="email">
                 </is-input-container>
               </div>
-              <div class="form-group w-50 pr-3">
-                <is-input-container label="Secondary Email">
-                  <input 
-                    autocomplete="fakeName"
-                    class="login-form__input"
-                    type="email"
-                    placeholder="Enter email"
-                    formControlName="email">
-                </is-input-container>
-              </div>
             </div>
             <div class="w-100">
-              <div class="form-group w-100 pr-3">
-                <is-input-container label="Location">
-                  <input 
-                    autocomplete="fakeName"
-                    class="login-form__input"
-                    type="email"
-                    placeholder="Enter Location"
-                    formControlName="location"
-                    (click)="onLocationTouch()">
-                </is-input-container>
+              <div class="d-flex align-items-center justify-content-between location-search">
+                <div class="h-100 d-flex align-items-center location-search__container">
+                  <img class="mx-2 location-search__icon"
+                       src="assets/gps-locator-icon.svg"
+                       (click)="setUserCurrentLocation()">
+                       <input placeholder="Enter your block & area" 
+                              autocorrect="off" 
+                              autocapitalize="off" 
+                              spellcheck="off" 
+                              type="text" 
+                              class="location-search__input" 
+                              #search>
+                </div>
+                <button type="button"
+                        is-button
+                        theme="primary">Find Location
+                </button>
               </div>
             </div>
             <h5 class="mt-4">Opening Status</h5>
