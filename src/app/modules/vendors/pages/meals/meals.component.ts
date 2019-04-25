@@ -73,6 +73,13 @@ export class MealsComponent implements OnInit {
     console.log("Edit Meal is : ", this.editMeal)
   }
 
+  onDeleteItemHandler(id) {
+    console.log("Delete Meal is : ", id)
+    this.franchiseItemsService.deleteItems(id).subscribe(response => {
+      console.log("Response from Server : ", response)
+      this.meals = this.meals.filter(meal => meal.id != id)
+    })
+  }
   onItemSubmit(form: FormGroup) {
     let randomString = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
     const filePath = "items/"+randomString+"-"+this.imageFile.name;

@@ -18,6 +18,15 @@ export class FranchiseItemsService {
     });
   }
 
+  deleteItems(id: number): Observable<any> {
+    let headers = new HttpHeaders();
+    const token = localStorage.getItem("Authorization");
+    headers = headers.append("Authorization", token);
+    return this.http.delete<any>(`${this.baseURL}/item/${id}`, {
+      headers
+    });
+  }
+
   addItem( item : itemModel): Observable<any> {
     let headers = new HttpHeaders().set('Content-Type', 'application/json');
     const token = localStorage.getItem("Authorization");
