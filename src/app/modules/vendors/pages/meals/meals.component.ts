@@ -64,8 +64,11 @@ export class MealsComponent implements OnInit {
       description: new FormControl(null, [Validators.required]),
       attachment: new FormControl(null, [Validators.required])
     });
-    this.franchiseItemsService.getItems(50).subscribe(responseData => {
-      this.meals = responseData.data;
+    this.franchiseItemsService.getCategories().subscribe(responseData => {
+      this.categories = responseData.data;
+      this.franchiseItemsService.getItems(50).subscribe(itemresponseData => {
+        this.meals = itemresponseData.data;
+      });
     });
   }
 

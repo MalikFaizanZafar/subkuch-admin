@@ -18,11 +18,10 @@
       <h6 class="text-dark ml-3">CATEGORIES</h6>
       <ul class="list-group mt-2">
         <li
-          class="list-group-item d-flex justify-content-start align-items-center text-muted bg-transparent"
+          class="list-group-item d-flex justify-content-start align-items-center text-muted bg-transparent "
           *ngFor="let category of categories"
         >
-          {{ category.name }}
-          <span class="pl-2">({{ category.quantity }})</span>
+         <span class="categories__item">{{ category.name }}</span> 
         </li>
       </ul>
     </div>
@@ -152,9 +151,7 @@
               formControlName="category"
               placeholder="Choose Category"
             >
-              <option value="1">Pizza</option>
-              <option value="2">Burger</option>
-              <option value="3">Chicken</option>
+              <option value="{{category.id}}" *ngFor="let category of categories">{{category.name}}</option>
             </select>
           </div>
         </div>
