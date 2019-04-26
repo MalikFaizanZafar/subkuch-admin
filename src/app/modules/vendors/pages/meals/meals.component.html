@@ -71,7 +71,7 @@
                     <h3 class="card-title w-75">{{ meal.name }}</h3>
                     <div class="d-flex justify-content-around w-25">
                       <i class="fas fa-edit meal__icons" (click)="onEditItemHandler(meal.id)"></i>
-                      <i class="fas fa-trash meal__icons" (click)="onDeleteItemHandler(meal.id)" ></i>
+                      <i class="fas fa-trash meal__icons__delete" (click)="onDeleteItemHandler(meal.id)" ></i>
                     </div>
                   </div>
                   <p class="card-text">{{ meal.description }}</p>
