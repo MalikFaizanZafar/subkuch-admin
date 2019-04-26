@@ -1,165 +1,184 @@
-<div class="container-fluid mt-3">
-  <div class="d-flex justify-content-between w-100 align-items-center">
-    <div class="d-flex align-items-center w-25 justify-content-start">
-      <h4 class="text-dark w-50">Offered Deals (07)</h4>
-    </div>
-    <div class="w-25 d-flex justify-content-end">
-      <button type="button" (click)="showDeals = false" is-button>
-        Add Deal
-      </button>
-    </div>
+<is-card class="container-fluid bg-white mt-3 py-3" *ngIf="showDeals">
+  <is-card-header
+  class="d-flex justify-content-between w-100 align-items-center"
+>
+  <div class="d-flex align-items-center w-25 justify-content-left">
+    <h4 class="text-dark w-50">Offered Deals (07)</h4>
   </div>
-  <div class="container-fluid bg-white mt-3" *ngIf="showDeals">
-    <div class="row p-4">
-      <div class="col-md-4 mb-3" *ngFor="let deal of deals">
-        <div class="card rounded shadow  mb-3 deal__card">
-          <div class="row no-gutters">
-            <div class="col-md-5">
-              <img
-                [src]="deal.dealImage"
-                class="card-img"
-                style="height:100%;"
-                alt="..."
-              />
-            </div>
-            <div class="col-md-7">
-              <div class="card-body">
-                <div class="d-flex justify-content-end w-100">
-                  <h3 class="card-title w-75">{{ deal.name }}</h3>
-                  <div class="d-flex justify-content-around w-25">
-                    <i
-                      class="fas fa-edit deal__icons"
-                      (click)="onEditDealHandler(deal.id)"
-                    ></i>
-                    <i
-                      class="fas fa-trash deal__icons__delete"
-                      (click)="onDeleteDealHandler(deal.id)"
-                    ></i>
+  <div class="w-25 d-flex justify-content-end">
+    <button
+      type="button"
+      (click)="showDeals = false"
+      *ngIf="showDeals"
+      class="ml-5"
+      is-button
+    >
+      Add Deal
+    </button>
+  </div>
+</is-card-header>
+
+  <is-card-content >
+    <div class="row">
+        <div class="col-md-4 mb-3" *ngFor="let deal of deals">
+            <div class="card rounded shadow  mb-3 deal__card">
+              <div class="row no-gutters">
+                <div class="col-md-5">
+                  <img
+                    [src]="deal.dealImage"
+                    class="card-img"
+                    style="height:100%;"
+                    alt="..."
+                  />
+                </div>
+                <div class="col-md-7">
+                  <div class="card-body">
+                    <div class="d-flex justify-content-end w-100">
+                      <h3 class="card-title w-75">{{ deal.name }}</h3>
+                      <div class="d-flex justify-content-around w-25">
+                        <i
+                          class="fas fa-edit deal__icons"
+                          (click)="onEditDealHandler(deal.id)"
+                        ></i>
+                        <i
+                          class="fas fa-trash deal__icons__delete"
+                          (click)="onDeleteDealHandler(deal.id)"
+                        ></i>
+                      </div>
+                    </div>
+                    <h4>
+                      Price
+                      <span class="badge badge-dark">{{ deal.price }}</span>
+                    </h4>
+                    <p class="card-text">
+                      <small class="text-muted">
+                        <i class="fas fa-user-clock deal__icons mr-2"></i>
+                        {{ deal.endDate | date }}
+                      </small>
+                    </p>
+                    <div
+                      class="d-flex justify-content-end w-100 align-items-center mt-5"
+                    ></div>
                   </div>
                 </div>
-                <h4>
-                  Price
-                  <span class="badge badge-dark">{{ deal.price }}</span>
-                </h4>
-                <p class="card-text">
-                  <small class="text-muted">
-                    <i class="fas fa-user-clock deal__icons mr-2"></i>
-                    {{ deal.endDate | date }}
-                  </small>
-                </p>
-                <div
-                  class="d-flex justify-content-end w-100 align-items-center mt-5"
-                ></div>
               </div>
             </div>
           </div>
+    </div>
+  </is-card-content>
+</is-card>
+<!-- Add Deal Form -->
+<is-card
+  class="d-flex w-100 justify-content-start bg-light mt-5"
+  *ngIf="!showDeals"
+>
+  <is-card-content class="w-50 py-2">
+    <h1 class="text-dark">New Deal</h1>
+    <form
+      class="ml-5"
+      [formGroup]="dealForm"
+      (ngSubmit)="onDealSubmit(formDir, submitBtn)"
+      #formDir="ngForm"
+    >
+      <div class="form-group row">
+        <label for="inputEmail3" class="col-sm-2 col-form-label text-dark"
+          >Title</label
+        >
+        <div class="col-sm-6">
+          <input
+            type="text"
+            class="form-control"
+            style="height:40px;"
+            placeholder="Enter Title"
+            formControlName="name"
+          />
         </div>
       </div>
-    </div>
-  </div>
-  <!-- Add Deal Form -->
-  <div class="d-flex w-100 justify-content-start bg-light mt-5" *ngIf="!showDeals">
-    <div class="w-50 py-2">
-      <h1 class="text-dark">New Deal</h1>
-      <form
-        class="ml-5"
-        [formGroup]="dealForm"
-        (ngSubmit)="onDealSubmit(formDir, submitBtn)"
-        #formDir="ngForm"
+      <div
+        *ngIf="dealForm.hasError('required', 'name') && formDir.submitted"
+        class="item-form__input_error"
       >
-        <div class="form-group row">
-          <label for="inputEmail3" class="col-sm-2 col-form-label text-dark"
-            >Title</label
-          >
-          <div class="col-sm-6">
-            <input
-              type="text"
-              class="form-control"
-              style="height:40px;"
-              placeholder="Enter Title"
-              formControlName="name"
-            />
-          </div>
-        </div>
-        <div
-          *ngIf="dealForm.hasError('required', 'name') && formDir.submitted"
-          class="item-form__input_error"
+        Name is required
+      </div>
+      <div class="form-group row">
+        <label for="inputPassword3" class="col-sm-2 col-form-label text-dark"
+          >Price</label
         >
-          Name is required
+        <div class="col-sm-6">
+          <input
+            type="number"
+            class="form-control"
+            style="height:40px;"
+            placeholder="Enter Price"
+            formControlName="price"
+          />
         </div>
-        <div class="form-group row">
-          <label for="inputPassword3" class="col-sm-2 col-form-label text-dark"
-            >Price</label
-          >
-          <div class="col-sm-6">
-            <input
-              type="number"
-              class="form-control"
-              style="height:40px;"
-              placeholder="Enter Price"
-              formControlName="price"
-            />
-          </div>
-        </div>
-        <div
-          *ngIf="dealForm.hasError('required', 'price') && formDir.submitted"
-          class="item-form__input_error"
+      </div>
+      <div
+        *ngIf="dealForm.hasError('required', 'price') && formDir.submitted"
+        class="item-form__input_error"
+      >
+        Price is required
+      </div>
+      <div class="form-group row">
+        <label for="inputPassword3" class="col-sm-2 col-form-label text-dark"
+          >Dicount End</label
         >
-          Price is required
+        <div class="col-sm-6">
+          <input
+            type="date"
+            class="form-control"
+            style="height:40px;"
+            placeholder="Enter Discount End Date"
+            formControlName="discountEnd"
+          />
         </div>
-        <div class="form-group row">
-          <label for="inputPassword3" class="col-sm-2 col-form-label text-dark"
-            >Dicount End</label
-          >
-          <div class="col-sm-6">
-            <input
-              type="date"
-              class="form-control"
-              style="height:40px;"
-              placeholder="Enter Discount End Date"
-              formControlName="discountEnd"
-            />
-          </div>
-        </div>
-        <div
-          *ngIf="
-            dealForm.hasError('required', 'discountEnd') && formDir.submitted
-          "
-          class="item-form__input_error"
+      </div>
+      <div
+        *ngIf="
+          dealForm.hasError('required', 'discountEnd') && formDir.submitted
+        "
+        class="item-form__input_error"
+      >
+        Discount End Date is required
+      </div>
+      <div class="form-group w-100 d-flex align-items-center">
+        <label for="exampleFormControlFile1" class="text-dark"
+          >Attachments</label
         >
-          Discount End Date is required
+        <input
+          type="file"
+          class="form-control-file"
+          style="display:none;"
+          #dealImage
+          accept=".jpeg,.png"
+          formControlName="attachment"
+          (change)="fileChangeEvent($event)"
+        />
+        <button
+          class="btn btn-secondary ml-5 w-25"
+          (click)="chooseFile()"
+          type="button"
+        >
+          Choose an Image
+        </button>
+        <p class="lead w-25 mt-3 ml-3" *ngIf="this.imageFile">
+          {{ this.imageFile.name }}
+        </p>
+      </div>
+      <div class="form-group row">
+        <div class="col-sm-10">
+          <button
+            type="submit"
+            class="btn btn-primary btn-lg"
+            is-button
+            #submitBtn
+          >
+            Submit
+          </button>
         </div>
-        <div class="form-group w-100 d-flex align-items-center">
-            <label for="exampleFormControlFile1" class="text-dark"
-              >Attachments</label
-            >
-            <input
-              type="file"
-              class="form-control-file"
-              style="display:none;"
-              #dealImage
-              accept=".jpeg,.png"
-              formControlName="attachment"
-              (change)="fileChangeEvent($event)"
-            />
-            <button
-              class="btn btn-secondary ml-5 w-25"
-              (click)="chooseFile()"
-              type="button"
-            >
-              Choose an Image
-            </button>
-            <p class="lead w-25 mt-3 ml-3" *ngIf="this.imageFile">
-              {{ this.imageFile.name }}
-            </p>
-          </div>
-        <div class="form-group row">
-          <div class="col-sm-10">
-            <button type="submit" class="btn btn-primary btn-lg" is-button #submitBtn>Submit</button>
-          </div>
-        </div>
-      </form>
-    </div>
-  </div>
-  <!-- Add Deal Form End -->
-</div>
+      </div>
+    </form>
+  </is-card-content>
+</is-card>
+<!-- Add Deal Form End -->

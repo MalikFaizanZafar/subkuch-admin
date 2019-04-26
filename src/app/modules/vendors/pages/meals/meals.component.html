@@ -1,18 +1,22 @@
-<div class="container-fluid mt-3">
-    <div class="d-flex justify-content-between w-100 align-items-center">
-      <div class="d-flex align-items-center w-25 justify-content-left">
-        <h4 class="text-dark w-50">Offered Meals (07)</h4>
-      </div>
-      <div class="w-25 d-flex justify-content-end">
-        <button
-          type="button"
-          (click)="showMeals = false" 
-          *ngIf="showMeals"
-          is-button>Add Meal
-        </button>
-      </div>
+<is-card class="container-fluid mt-3 mb-5">
+  <is-card-header
+    class="d-flex justify-content-between w-100 align-items-center"
+  >
+    <div class="d-flex align-items-center w-25 justify-content-left">
+      <h4 class="text-dark w-50">Offered Meals (07)</h4>
     </div>
-<div class="container-fluid mt-3 mb-5">
+    <div class="w-25 d-flex justify-content-end">
+      <button
+        type="button"
+        (click)="showMeals = false"
+        *ngIf="showMeals"
+        class="ml-5"
+        is-button
+      >
+        Add Meal
+      </button>
+    </div>
+  </is-card-header>
   <div class="row mt-5 mx-1" *ngIf="showMeals">
     <div class="col-md-2">
       <h6 class="font-weight-bold ml-3 mt-5">CATEGORIES</h6>
@@ -21,7 +25,11 @@
           class="list-group-item d-flex justify-content-start align-items-center text-muted bg-transparent "
           *ngFor="let category of categories"
         >
-         <span class="categories__item" (click)="getCategoryItems(category.name)">{{ category.name }}</span> 
+          <span
+            class="categories__item"
+            (click)="getCategoryItems(category.name)"
+            >{{ category.name }}</span
+          >
         </li>
       </ul>
     </div>
@@ -70,8 +78,14 @@
                   <div class="d-flex justify-content-end w-100">
                     <h3 class="card-title w-75">{{ meal.name }}</h3>
                     <div class="d-flex justify-content-around w-25">
-                      <i class="fas fa-edit meal__icons" (click)="onEditItemHandler(meal.id)"></i>
-                      <i class="fas fa-trash meal__icons__delete" (click)="onDeleteItemHandler(meal.id, deleteDialog)" ></i>
+                      <i
+                        class="fas fa-edit meal__icons"
+                        (click)="onEditItemHandler(meal.id)"
+                      ></i>
+                      <i
+                        class="fas fa-trash meal__icons__delete"
+                        (click)="onDeleteItemHandler(meal.id, deleteDialog)"
+                      ></i>
                     </div>
                   </div>
                   <p class="card-text">{{ meal.description }}</p>
@@ -99,7 +113,10 @@
     </div>
   </div>
   <!-- Add Meal Form -->
-  <div class="d-flex w-100 justify-content-start bg-light" *ngIf="!showMeals && !showEditMeal">
+  <div
+    class="d-flex w-100 justify-content-start bg-light"
+    *ngIf="!showMeals && !showEditMeal"
+  >
     <div class="w-50 py-2">
       <h1 class="text-dark">Meal Entry</h1>
       <form
@@ -151,7 +168,11 @@
               formControlName="category"
               placeholder="Choose Category"
             >
-              <option value="{{category.id}}" *ngFor="let category of categories">{{category.name}}</option>
+              <option
+                value="{{ category.id }}"
+                *ngFor="let category of categories"
+                >{{ category.name }}</option
+              >
             </select>
           </div>
         </div>
@@ -317,7 +338,14 @@
         </div>
         <div class="form-group row">
           <div class="col-sm-10">
-            <button type="submit" class="btn btn-primary btn-lg" is-button #submitBtn>Submit</button>
+            <button
+              type="submit"
+              class="btn btn-primary btn-lg"
+              is-button
+              #submitBtn
+            >
+              Submit
+            </button>
           </div>
         </div>
       </form>
@@ -325,259 +353,270 @@
   </div>
   <!-- Add Meal Form End -->
 
-    <!-- Edit Meal Form -->
-    <div class="d-flex w-100 justify-content-start bg-light mt-5" *ngIf="showEditMeal">
-        <div class="w-50 py-2">
-          <h1 class="text-dark">Edit Meal</h1>
-          <form
-            class="ml-5"
-            [formGroup]="itemForm"
-            (ngSubmit)="onEItemSubmit(formDir, editMeal.id)"
-            #formDir="ngForm"
+  <!-- Edit Meal Form -->
+  <div
+    class="d-flex w-100 justify-content-start bg-light mt-5"
+    *ngIf="showEditMeal"
+  >
+    <div class="w-50 py-2">
+      <h1 class="text-dark">Edit Meal</h1>
+      <form
+        class="ml-5"
+        [formGroup]="itemForm"
+        (ngSubmit)="onEItemSubmit(formDir, editMeal.id)"
+        #formDir="ngForm"
+      >
+        <div class="form-group row">
+          <label for="inputEmail3" class="col-sm-2 col-form-label text-dark"
+            >Title</label
           >
-            <div class="form-group row">
-              <label for="inputEmail3" class="col-sm-2 col-form-label text-dark"
-                >Title</label
-              >
-              <div class="col-sm-6">
-                <input
-                  type="text"
-                  class="form-control"
-                  style="height:40px;"
-                  placeholder="Enter Title"
-                  formControlName="title"
-                  [value]="editMeal.name"
-                />
-              </div>
-            </div>
-            <div
-              *ngIf="itemForm.hasError('required', 'title') && formDir.submitted"
-              class="item-form__input_error"
-            >
-              Title is required
-            </div>
-            <div class="form-check item-form_product_checkbox mb-2">
-              <input
-                class="form-check-input"
-                type="checkbox"
-                value=""
-                id="defaultCheck1"
-                formControlName="isAvailable"
-                [value]="editMeal.isAvailable"
-              />
-              <label class="form-check-label text-dark" for="defaultCheck1">
-                Is Available ?
-              </label>
-            </div>
-            <div class="form-group row">
-              <label for="inputPassword3" class="col-sm-2 col-form-label text-dark"
-                >Item Category</label
-              >
-              <div class="col-sm-6">
-                <select
-                  id="inputState"
-                  class="form-control"
-                  formControlName="category"
-                  placeholder="Choose Category"
-                >
-                  <option value="1">Pizza</option>
-                  <option value="2">Burger</option>
-                  <option value="3">Chicken</option>
-                </select>
-              </div>
-            </div>
-            <div
-              *ngIf="itemForm.hasError('required', 'category') && formDir.submitted"
-              class="item-form__input_error"
-            >
-              Item Category is required
-            </div>
-            <div class="form-group row">
-              <label for="inputPassword3" class="col-sm-2 col-form-label text-dark"
-                >Price</label
-              >
-              <div class="col-sm-6">
-                <input
-                  type="number"
-                  class="form-control"
-                  style="height:40px;"
-                  placeholder="Enter Price"
-                  formControlName="price"
-                  [value]="editMeal.price"
-                />
-              </div>
-            </div>
-            <div
-              *ngIf="itemForm.hasError('required', 'price') && formDir.submitted"
-              class="item-form__input_error"
-            >
-              Price is required
-            </div>
-            <div class="form-group row">
-              <label for="inputPassword3" class="col-sm-2 col-form-label text-dark"
-                >Dicount</label
-              >
-              <div class="col-sm-6">
-                <input
-                  type="number"
-                  class="form-control"
-                  style="height:40px;"
-                  placeholder="Enter Discount"
-                  formControlName="discount"
-                  [value]="editMeal.discount"
-                />
-              </div>
-            </div>
-            <div
-              *ngIf="itemForm.hasError('required', 'discount') && formDir.submitted"
-              class="item-form__input_error"
-            >
-              Discount is required
-            </div>
-            <div class="form-group row">
-              <label for="inputPassword3" class="col-sm-2 col-form-label text-dark"
-                >Dicount End</label
-              >
-              <div class="col-sm-6">
-                <input
-                  type="date"
-                  class="form-control"
-                  style="height:40px;"
-                  placeholder="Enter Discount End Date"
-                  formControlName="discountEnd"
-                  [value]="editMeal.endDate"
-                />
-              </div>
-            </div>
-            <div
-              *ngIf="
-                itemForm.hasError('required', 'discountEnd') && formDir.submitted
-              "
-              class="item-form__input_error"
-            >
-              Discount End Date is required
-            </div>
-            <div class="form-check item-form_product_checkbox mb-2">
-              <input
-                class="form-check-input"
-                type="checkbox"
-                value=""
-                id="defaultCheck1"
-                formControlName="isProduct"
-                [value]="editMeal.isProduct"
-              />
-              <label class="form-check-label text-dark" for="defaultCheck1">
-                Is Product ?
-              </label>
-            </div>
-            <div
-              class="form-group row"
-              *ngIf="!itemForm.hasError('required', 'isProduct')"
-            >
-              <label for="inputPassword3" class="col-sm-2 col-form-label text-dark"
-                >Quantity</label
-              >
-              <div class="col-sm-6">
-                <input
-                  type="number"
-                  class="form-control"
-                  style="height:40px;"
-                  placeholder="Enter Quantity"
-                  formControlName="quantity"
-                  [value]="editMeal.quantity"
-                />
-              </div>
-            </div>
-            <div
-              *ngIf="
-                itemForm.hasError('required', 'quantity') &&
-                formDir.submitted &&
-                !itemForm.hasError('required', 'isProduct')
-              "
-              class="item-form__input_error"
-            >
-              Quantity is required
-            </div>
-    
-            <div class="form-group row">
-              <label for="inputPassword3" class="col-sm-2 col-form-label text-dark"
-                >Description</label
-              >
-              <div class="col-sm-10">
-                <textarea
-                  class="form-control"
-                  rows="2"
-                  formControlName="description"
-                  [value]="editMeal.description"
-                ></textarea>
-              </div>
-            </div>
-            <div
-              *ngIf="
-                itemForm.hasError('required', 'description') && formDir.submitted
-              "
-              class="item-form__input_error"
-            >
-              Description is required
-            </div>
-            <div class="form-group w-100 d-flex align-items-center">
-              <label for="exampleFormControlFile1" class="text-dark"
-                >Attachments</label
-              >
-              <input
-                type="file"
-                class="form-control-file"
-                style="display:none;"
-                #itemImage
-                accept=".jpeg,.png"
-                formControlName="attachment"
-                (change)="fileChangeEvent($event)"
-              />
-              <img [src]="editMeal.image_url" alt=""  style="height:200px; width:200px; margin-left: 6%;">
-              <i class="fas fa-edit meal__icons ml-3" (click)="chooseFile()"></i>
-              <p class="lead w-25 mt-3 ml-3" *ngIf="this.imageFile">
-                {{ this.imageFile.name }}
-              </p>
-            </div>
-            <div
-              *ngIf="
-                itemForm.hasError('required', 'attachment') && formDir.submitted
-              "
-              class="item-form__input_error"
-            >
-              Attachment is required
-            </div>
-            <div class="form-group row">
-              <div class="col-sm-10">
-                <button type="submit" class="btn btn-primary btn-lg">Submit</button>
-              </div>
-            </div>
-          </form>
+          <div class="col-sm-6">
+            <input
+              type="text"
+              class="form-control"
+              style="height:40px;"
+              placeholder="Enter Title"
+              formControlName="title"
+              [value]="editMeal.name"
+            />
+          </div>
         </div>
-      </div>
-      <!-- Edit Meal Form End -->
+        <div
+          *ngIf="itemForm.hasError('required', 'title') && formDir.submitted"
+          class="item-form__input_error"
+        >
+          Title is required
+        </div>
+        <div class="form-check item-form_product_checkbox mb-2">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            value=""
+            id="defaultCheck1"
+            formControlName="isAvailable"
+            [value]="editMeal.isAvailable"
+          />
+          <label class="form-check-label text-dark" for="defaultCheck1">
+            Is Available ?
+          </label>
+        </div>
+        <div class="form-group row">
+          <label for="inputPassword3" class="col-sm-2 col-form-label text-dark"
+            >Item Category</label
+          >
+          <div class="col-sm-6">
+            <select
+              id="inputState"
+              class="form-control"
+              formControlName="category"
+              placeholder="Choose Category"
+            >
+              <option value="1">Pizza</option>
+              <option value="2">Burger</option>
+              <option value="3">Chicken</option>
+            </select>
+          </div>
+        </div>
+        <div
+          *ngIf="itemForm.hasError('required', 'category') && formDir.submitted"
+          class="item-form__input_error"
+        >
+          Item Category is required
+        </div>
+        <div class="form-group row">
+          <label for="inputPassword3" class="col-sm-2 col-form-label text-dark"
+            >Price</label
+          >
+          <div class="col-sm-6">
+            <input
+              type="number"
+              class="form-control"
+              style="height:40px;"
+              placeholder="Enter Price"
+              formControlName="price"
+              [value]="editMeal.price"
+            />
+          </div>
+        </div>
+        <div
+          *ngIf="itemForm.hasError('required', 'price') && formDir.submitted"
+          class="item-form__input_error"
+        >
+          Price is required
+        </div>
+        <div class="form-group row">
+          <label for="inputPassword3" class="col-sm-2 col-form-label text-dark"
+            >Dicount</label
+          >
+          <div class="col-sm-6">
+            <input
+              type="number"
+              class="form-control"
+              style="height:40px;"
+              placeholder="Enter Discount"
+              formControlName="discount"
+              [value]="editMeal.discount"
+            />
+          </div>
+        </div>
+        <div
+          *ngIf="itemForm.hasError('required', 'discount') && formDir.submitted"
+          class="item-form__input_error"
+        >
+          Discount is required
+        </div>
+        <div class="form-group row">
+          <label for="inputPassword3" class="col-sm-2 col-form-label text-dark"
+            >Dicount End</label
+          >
+          <div class="col-sm-6">
+            <input
+              type="date"
+              class="form-control"
+              style="height:40px;"
+              placeholder="Enter Discount End Date"
+              formControlName="discountEnd"
+              [value]="editMeal.endDate"
+            />
+          </div>
+        </div>
+        <div
+          *ngIf="
+            itemForm.hasError('required', 'discountEnd') && formDir.submitted
+          "
+          class="item-form__input_error"
+        >
+          Discount End Date is required
+        </div>
+        <div class="form-check item-form_product_checkbox mb-2">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            value=""
+            id="defaultCheck1"
+            formControlName="isProduct"
+            [value]="editMeal.isProduct"
+          />
+          <label class="form-check-label text-dark" for="defaultCheck1">
+            Is Product ?
+          </label>
+        </div>
+        <div
+          class="form-group row"
+          *ngIf="!itemForm.hasError('required', 'isProduct')"
+        >
+          <label for="inputPassword3" class="col-sm-2 col-form-label text-dark"
+            >Quantity</label
+          >
+          <div class="col-sm-6">
+            <input
+              type="number"
+              class="form-control"
+              style="height:40px;"
+              placeholder="Enter Quantity"
+              formControlName="quantity"
+              [value]="editMeal.quantity"
+            />
+          </div>
+        </div>
+        <div
+          *ngIf="
+            itemForm.hasError('required', 'quantity') &&
+            formDir.submitted &&
+            !itemForm.hasError('required', 'isProduct')
+          "
+          class="item-form__input_error"
+        >
+          Quantity is required
+        </div>
 
-  <!-- Delete Dialog Box -->
-  <ng-template #deleteDialog
-             let-close="close"
-             let-data="data">
-  <div class="p-3">
-    <p><strong>{{data}}</strong></p>
-    <div class="d-flex justify-content-center">
-        <button is-button
-        theme="danger"
-        class="close-btn"
-        (click)="close('ok')">
-        <span>Ok</span>
-      </button>
-      <button is-button
-              theme="primary"
-              class="close-btn ml-5"
-              (click)="close('Click on Close')">
-        <span>Cancel</span>
-      </button>
+        <div class="form-group row">
+          <label for="inputPassword3" class="col-sm-2 col-form-label text-dark"
+            >Description</label
+          >
+          <div class="col-sm-10">
+            <textarea
+              class="form-control"
+              rows="2"
+              formControlName="description"
+              [value]="editMeal.description"
+            ></textarea>
+          </div>
+        </div>
+        <div
+          *ngIf="
+            itemForm.hasError('required', 'description') && formDir.submitted
+          "
+          class="item-form__input_error"
+        >
+          Description is required
+        </div>
+        <div class="form-group w-100 d-flex align-items-center">
+          <label for="exampleFormControlFile1" class="text-dark"
+            >Attachments</label
+          >
+          <input
+            type="file"
+            class="form-control-file"
+            style="display:none;"
+            #itemImage
+            accept=".jpeg,.png"
+            formControlName="attachment"
+            (change)="fileChangeEvent($event)"
+          />
+          <img
+            [src]="editMeal.image_url"
+            alt=""
+            style="height:200px; width:200px; margin-left: 6%;"
+          />
+          <i class="fas fa-edit meal__icons ml-3" (click)="chooseFile()"></i>
+          <p class="lead w-25 mt-3 ml-3" *ngIf="this.imageFile">
+            {{ this.imageFile.name }}
+          </p>
+        </div>
+        <div
+          *ngIf="
+            itemForm.hasError('required', 'attachment') && formDir.submitted
+          "
+          class="item-form__input_error"
+        >
+          Attachment is required
+        </div>
+        <div class="form-group row">
+          <div class="col-sm-10">
+            <button type="submit" class="btn btn-primary btn-lg">Submit</button>
+          </div>
+        </div>
+      </form>
     </div>
   </div>
-</ng-template>
+  <!-- Edit Meal Form End -->
+
+  <!-- Delete Dialog Box -->
+  <ng-template #deleteDialog let-close="close" let-data="data">
+    <div class="p-3">
+      <p>
+        <strong>{{ data }}</strong>
+      </p>
+      <div class="d-flex justify-content-center">
+        <button
+          is-button
+          theme="danger"
+          class="close-btn"
+          (click)="close('ok')"
+        >
+          <span>Ok</span>
+        </button>
+        <button
+          is-button
+          theme="primary"
+          class="close-btn ml-5"
+          (click)="close('Click on Close')"
+        >
+          <span>Cancel</span>
+        </button>
+      </div>
+    </div>
+  </ng-template>
   <!-- Delete Dialog Box End -->
-</div>
+</is-card>
