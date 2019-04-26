@@ -40,6 +40,7 @@ export class MealsComponent implements OnInit {
   eitemForm: FormGroup;
   newItem: itemModel;
   editMeal: {};
+  deleteMeal;
   showEditMeal: boolean = false;
   itemUrl: String = "";
   downloadURL: Observable<string>;
@@ -77,11 +78,15 @@ export class MealsComponent implements OnInit {
   }
 
   onDeleteItemHandler(id) {
-    console.log("Delete Meal is : ", id);
-    this.franchiseItemsService.deleteItems(id).subscribe(response => {
+    let delMeal = this.meals.filter(deal => deal.id == id);
+    this.deleteMeal = delMeal[0]
+    const delFile = this.storage.storage.refFromURL(this.deleteMeal.image_url);
+    delFile.delete().then(deletedFile => {
+      this.franchiseItemsService.deleteItems(id).subscribe(response => {
       console.log("Response from Server : ", response);
-      this.meals = this.meals.filter(meal => meal.id != id);
+      this.meals = this.meals.filter(deal => deal.id != id);
     });
+    })
   }
   onItemSubmit(form: FormGroup) {
     let randomString =
@@ -121,6 +126,7 @@ export class MealsComponent implements OnInit {
                 .subscribe(responseData => {
                   this.newItem = responseData.data;
                   this.showMeals = true;
+                  this.meals.push(this.newItem)
                   console.log("this.newItem : ", this.newItem);
                   this.itemForm.reset();
                 });

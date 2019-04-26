@@ -53,13 +53,10 @@ export class DealsComponent implements OnInit {
     console.log("Edit Deal is : ", this.editDeal);
   }
   onDeleteDealHandler(id) {
-    console.log("Delete Deal is : ", id);
     let delDeal = this.deals.filter(deal => deal.id == id);
     this.deleteDeal = delDeal[0]
-    console.log("this.deleteDeal is : ", this.deleteDeal.dealImage)
     const delFile = this.storage.storage.refFromURL(this.deleteDeal.dealImage);
     delFile.delete().then(deletedFile => {
-      console.log('deleted file is : ', deletedFile)
       this.franchiseDealsService.deleteDeal(id).subscribe(response => {
       console.log("Response from Server : ", response);
       this.deals = this.deals.filter(deal => deal.id != id);
