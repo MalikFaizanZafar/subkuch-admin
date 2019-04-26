@@ -17,6 +17,7 @@ export class DealsComponent implements OnInit {
   newDeal: dealModel
   showDeals: boolean = true;
   editDeal: {};
+  deleteDeal;
   showEditDeal: boolean = false;
   downloadURL: Observable<string>;
   imageFile;
@@ -53,10 +54,17 @@ export class DealsComponent implements OnInit {
   }
   onDeleteDealHandler(id) {
     console.log("Delete Deal is : ", id);
-    this.franchiseDealsService.deleteDeal(id).subscribe(response => {
+    let delDeal = this.deals.filter(deal => deal.id == id);
+    this.deleteDeal = delDeal[0]
+    console.log("this.deleteDeal is : ", this.deleteDeal.dealImage)
+    const delFile = this.storage.storage.refFromURL(this.deleteDeal.dealImage);
+    delFile.delete().then(deletedFile => {
+      console.log('deleted file is : ', deletedFile)
+      this.franchiseDealsService.deleteDeal(id).subscribe(response => {
       console.log("Response from Server : ", response);
       this.deals = this.deals.filter(deal => deal.id != id);
     });
+    })
   }
 
   onDealSubmit(form: FormGroup) {
