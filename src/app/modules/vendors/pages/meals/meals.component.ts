@@ -25,6 +25,7 @@ export class MealsComponent implements OnInit {
   meals: any = [];
   showMeals: boolean = true;
   itemForm: FormGroup;
+  categoryForm: FormGroup;
   eitemForm: FormGroup;
   newItem: itemModel;
   editMeal: {};
@@ -54,6 +55,9 @@ export class MealsComponent implements OnInit {
       description: new FormControl(null, [Validators.required]),
       attachment: new FormControl(null, [Validators.required])
     });
+    this.categoryForm = new FormGroup({
+      categoryName: new FormControl(null, [Validators.required])
+    });
     this.franchiseItemsService.getCategories().subscribe(responseData => {
       this.categories = responseData.data;
       this.franchiseItemsService.getItems(50).subscribe(itemresponseData => {
@@ -67,6 +71,35 @@ export class MealsComponent implements OnInit {
       .subscribe(nameCategories => {
         console.log("nameCategories : ", nameCategories);
       });
+  }
+  addCategoryHandler(addCategoryDialog: TemplateRef<any>){
+    const addCategoryDlg = this.isModal.open(addCategoryDialog);
+    if (this.categoryForm.valid) {
+      console.log("valid form ", this.categoryForm.value)
+      addCategoryDlg.onClose.subscribe(res => {
+        if(res === 'save') {
+          this.onAddCategory()
+        }else {
+          console.log("Form not Valid")
+        }
+      })
+     }
+  }
+  onAddCategory() {
+    if (this.categoryForm.valid) {
+     console.log("valid form ", this.categoryForm.value)
+     let category = this.categoryForm.value;
+     let newCategory = {
+       name : category.categoryName,
+       type : "Type",
+       franchise_id: Number(localStorage.getItem("franchiseId"))
+     }
+     this.franchiseItemsService.addCategory(newCategory).subscribe(categoryResponse => {
+       console.log('newCat is : ', categoryResponse.data)
+       this.categories.push(categoryResponse.data)
+       this.categoryForm.reset()
+     })
+    }
   }
   onEditItemHandler(id) {
     let filterdItems = this.meals.filter(meal => meal.id == id);

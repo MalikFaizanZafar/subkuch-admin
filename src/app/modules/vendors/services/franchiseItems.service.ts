@@ -27,6 +27,15 @@ export class FranchiseItemsService {
     });
   }
 
+  addCategory( category : any): Observable<any> {
+    let headers = new HttpHeaders().set('Content-Type', 'application/json');
+    const token = localStorage.getItem("Authorization");
+    headers = headers.append("Authorization", token);
+    return this.http.post<any>(`${this.baseURL}/itemcategory`,category, {
+      headers
+    });
+  }
+
   getCategoriesByName( name : string): Observable<any> {
     let headers = new HttpHeaders();
     const token = localStorage.getItem("Authorization");
