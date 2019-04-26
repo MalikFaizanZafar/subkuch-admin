@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 
 @Injectable()
 export class FranchiseAuthService {
-  baseURL : string = 'http://localhost:8080/api/auth/login'
+  baseURL : string = '/api/auth/login'
 
   constructor( private http : HttpClient){}
   

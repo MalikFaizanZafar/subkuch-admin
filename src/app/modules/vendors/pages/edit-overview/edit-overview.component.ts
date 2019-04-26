@@ -17,7 +17,12 @@ import { MapModalComponent } from "@app/shared/map-modal/components/map-modal/ma
 import { SearchService } from "../../services/search.service";
 
 declare var google: any;
-
+const startTime: Date = new Date();
+startTime.setHours(9);
+startTime.setMinutes(0);
+const endTime: Date = new Date();
+endTime.setHours(23);
+endTime.setMinutes(0);
 @Component({
   selector: "edit-overview",
   templateUrl: "./edit-overview.component.html",
@@ -53,8 +58,8 @@ export class EditOverviewComponent implements OnInit {
       phoneTwo: new FormControl(null),
       email: new FormControl(null, [Validators.required]),
       location: new FormControl(null, [Validators.required]),
-      startTime: new FormControl(null, [Validators.required]),
-      endTime: new FormControl(null, [Validators.required])
+      startTime: new FormControl(startTime, [Validators.required]),
+      endTime: new FormControl(endTime, [Validators.required])
     });
     this.mapsApiLoader.load().then(() => {
       let autocomplete = new google.maps.places.Autocomplete(
@@ -159,14 +164,22 @@ export class EditOverviewComponent implements OnInit {
         latitude: location.lat(),
         longitude: location.lng()
       };
-      this.modal.open(MapModalComponent, {
-        data: {
-          coords: this.currentPostion,
-          address: this.searchElementRef.nativeElement.value
-        },
-        size: IsModalSize.Large
-      });
+      this.openModalPopup();
     });
+  }
+
+  private openModalPopup() {
+    const modalRef =  this.modal.open(MapModalComponent, {
+      data: {
+        coords: this.currentPostion,
+        address: this.searchElementRef.nativeElement.value
+      },
+      size: IsModalSize.Large
+    });
+    
+    modalRef.onClose.subscribe(res => {
+      console.log(res);
+    })
   }
 
   setUserCurrentLocation() {
@@ -184,13 +197,6 @@ export class EditOverviewComponent implements OnInit {
         };
         this.googleMapService.getUserCurrentAddress(this.currentPostion);
       }
-      this.loadFranchiseAndDeals();
-    });
-  }
-
-  private loadFranchiseAndDeals() {
-    this.searchService.findDefaultItemsByLocation(this.currentPostion).subscribe(res => {
-      console.log(res);
     });
   }
 }

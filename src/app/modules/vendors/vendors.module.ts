@@ -32,7 +32,7 @@ import { GoogleMapService } from '@app/shared/services/google-map.service';
     VendorsRoutingModule,
     SharedModule,
     AgmCoreModule.forRoot({
-      apiKey: 'AIzaSyB-EsaismaaJDTBDg0F2l-28Z-7zsVCTWU',
+      apiKey: 'AIzaSyB-EsaismaaJDTBDg0F2l-28Z-7zsVCTWU ',
       libraries: ['places']
     })
   ],
@@ -59,6 +59,6 @@ import { GoogleMapService } from '@app/shared/services/google-map.service';
     OrdersComponent, 
     FranchiseComponent, 
     SalesComponent
-  ]
+  ],
 })
 export class VendorsModule { }

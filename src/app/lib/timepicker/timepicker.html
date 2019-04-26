@@ -1,0 +1,76 @@
+<div (click)="onInputClick(hours)"
+     [class.is-timepicker__input--visible]="isTimepickerVisible"
+     class="is-timepicker__input">
+  <input #hours
+         (blur)="checkHours()"
+         (focus)="updateFocus('hours', true)"
+         (keypress)="onlyNumbers($event)"
+         [(ngModel)]="state.hours"
+         class="is-timepicker__input-field is-timepicker__input-number"
+         placeholder="12">
+  <span class="is-timepicker__input-colon">:</span>
+  <input (blur)="checkMinutes()"
+         (focus)="updateFocus('minutes', true)"
+         (keypress)="onlyNumbers($event)"
+         [(ngModel)]="state.minutes"
+         class="is-timepicker__input-field is-timepicker__input-number"
+         placeholder="30">
+  <input (blur)="checkMeridian()"
+         (focus)="updateFocus('meridian', true)"
+         (keypress)="onlyMeridian($event)"
+         [(ngModel)]="state.meridian"
+         class="is-timepicker__input-field is-timepicker__input-text"
+         placeholder="AM"
+         *ngIf="!format24Hour">
+  <i class="is-timepicker__input-icon fa fa-clock-o"></i>
+</div>
+<div [@focusedState]
+     *ngIf="isTimepickerVisible"
+     class="is-timepicker__ui"
+     [class.is-timepicker__ui--format24-hours]="format24Hour"
+     [ngClass]="timepickerPlacementClass">
+  <div class="is-timepicker__ui-left">
+    <div class="is-timepicker__ui-left-row left-row--up">
+      <div (click)="updateBy('hours', 1)"
+           class="is-timepicker__ui-arrow">
+      </div>
+      <div (click)="updateBy('minutes', 1)"
+           class="is-timepicker__ui-arrow">
+      </div>
+    </div>
+    <div class="is-timepicker__ui-left-row is-timepicker__ui-left-row--mid">
+      <span class="is-timepicker__ui-time">
+        {{(state.hours === '') ? '__' : state.hours}}
+      </span>
+      <span class="is-timepicker__ui-time">:</span>
+      <span class="is-timepicker__ui-time">
+        {{(state.minutes === '') ? '__' : state.minutes}}
+      </span>
+    </div>
+    <div class="is-timepicker__ui-left-row left-row--down">
+      <div (click)="updateBy('hours', -1)"
+           class="is-timepicker__ui-arrow is-timepicker__ui-arrow--down">
+      </div>
+      <div (click)="updateBy('minutes', -1)"
+           class="is-timepicker__ui-arrow is-timepicker__ui-arrow--down">
+      </div>
+    </div>
+  </div>
+  <div class="is-timepicker__ui-right"
+       *ngIf="!format24Hour">
+    <span (click)="updateMeridian('AM')"
+          [class.is-timepicker__ui-meridian--selected]="state.isMeridiamAM()"
+          class="is-timepicker__ui-meridian">
+      AM
+    </span>
+    <span (click)="updateMeridian('PM')"
+          [class.is-timepicker__ui-meridian--selected]="state.isMeridiamPM()"
+          class="is-timepicker__ui-meridian">
+      PM
+    </span>
+  </div>
+</div>
+<div (click)="state.inputFocused = false"
+     *ngIf="state.inputFocused"
+     class="is-timepicker__unfocuser">
+</div>

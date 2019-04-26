@@ -1,6 +1,23 @@
 @import '~@angular/cdk/overlay-prebuilt.css';
 @import 'app/styles/main';
 
+@font-face {
+  font-family: Montserrat;
+  src: url("/assets/fonts/Montserrat-Bold.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: RalewayBold;
+  src: url("/assets/fonts/Raleway-Bold.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: RalewayLight;
+  src: url("/assets/fonts/Raleway-Light.ttf") format("truetype");
+}
+
+$font-family: 'RalewayLight', Helvetica, sans-serif;
+
 html,
 body {
   font-family: $font-family;
@@ -33,3 +50,8 @@ button {
   outline: none !important;
   box-sizing: border-box;
 }
+
+.pac-container {
+  margin-top: 5px;
+  z-index: 9999 !important;
+} 
