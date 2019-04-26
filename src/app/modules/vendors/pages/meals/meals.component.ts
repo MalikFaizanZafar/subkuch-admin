@@ -2,6 +2,7 @@ import { Component, OnInit, ElementRef, ViewChild } from "@angular/core";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { FranchiseItemsService } from "../../services/franchiseItems.service";
 import { itemModel } from "../../models/itemModel";
+import { IsButton, IsModalService } from '../../../../lib';
 import { AngularFireStorage } from "@angular/fire/storage";
 import { Observable } from "rxjs";
 import { finalize } from "rxjs/operators";
@@ -76,7 +77,8 @@ export class MealsComponent implements OnInit {
     });
     })
   }
-  onItemSubmit(form: FormGroup) {
+  onItemSubmit(form: FormGroup, btn : IsButton) {
+    btn.startLoading()
     let randomString =
       Math.random()
         .toString(36)
@@ -94,6 +96,7 @@ export class MealsComponent implements OnInit {
         finalize(() => {
           this.downloadURL = fileRef.getDownloadURL();
           this.downloadURL.subscribe(url => {
+            // console.log('url is : ', url)
             if (this.itemForm.valid) {
               let item = this.itemForm.value;
               this.newItem = {
@@ -107,8 +110,9 @@ export class MealsComponent implements OnInit {
                 product: item.isProduct,
                 quanity: item.quantity,
                 category_id: Number(item.category),
-                franchise_id: Number(this.franchiseInfoService.getFranchiseId())
+                franchise_id: Number(localStorage.getItem("franchiseId"))
               };
+              console.log('this.newItem is : ', this.newItem)
               this.franchiseItemsService
                 .addItem(this.newItem)
                 .subscribe(responseData => {
@@ -116,6 +120,7 @@ export class MealsComponent implements OnInit {
                   this.showMeals = true;
                   this.meals.push(this.newItem)
                   console.log("this.newItem : ", this.newItem);
+                  btn.stopLoading()
                   this.itemForm.reset();
                 });
             } else {

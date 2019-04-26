@@ -94,7 +94,7 @@ export class DealsComponent implements OnInit {
                 price: deal.price,
                 deal_image: url,
                 end_date: deal.discountEnd,
-                franchise_id: Number(this.franchiseInfoService.getFranchiseId())
+                franchise_id: Number(localStorage.getItem("franchiseId"))
               };
               this.franchiseDealsService
                 .addDeal(this.newDeal)
