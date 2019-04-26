@@ -18,6 +18,15 @@ export class FranchiseItemsService {
     });
   }
 
+  deleteItems(id: number): Observable<any> {
+    let headers = new HttpHeaders();
+    const token = localStorage.getItem("Authorization");
+    headers = headers.append("Authorization", token);
+    return this.http.delete<any>(`${this.baseURL}/item/${id}`, {
+      headers
+    });
+  }
+
   addItem( item : itemModel): Observable<any> {
     let headers = new HttpHeaders().set('Content-Type', 'application/json');
     const token = localStorage.getItem("Authorization");
@@ -27,6 +36,14 @@ export class FranchiseItemsService {
     });
   }
 
+  editItem( item : itemModel, itemId : any): Observable<any> {
+    let headers = new HttpHeaders().set('Content-Type', 'application/json');
+    const token = localStorage.getItem("Authorization");
+    headers = headers.append("Authorization", token);
+    return this.http.put<any>(`${this.baseURL}/item/itemId`,item, {
+      headers
+    });
+  }
   uploadItemImage( image : any) : Observable<any> {
     var fd = new FormData();
     fd.append('file', image);
