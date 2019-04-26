@@ -27,6 +27,15 @@ export class FranchiseItemsService {
     });
   }
 
+  getCategoriesByName( name : string): Observable<any> {
+    let headers = new HttpHeaders();
+    const token = localStorage.getItem("Authorization");
+    headers = headers.append("Authorization", token);
+    return this.http.get<any>(`${this.baseURL}/item?category=${name}`, {
+      headers
+    });
+  }
+
   deleteItems(id: number): Observable<any> {
     let headers = new HttpHeaders();
     const token = localStorage.getItem("Authorization");

@@ -1,10 +1,11 @@
-import { Component, OnInit, ElementRef, ViewChild  } from "@angular/core";
+import { Component, OnInit, ElementRef, ViewChild } from "@angular/core";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { FranchiseDealsService } from "../../services/franchiseDeals.service";
 import { AngularFireStorage } from "@angular/fire/storage";
 import { Observable } from "rxjs";
 import { finalize } from "rxjs/operators";
 import { dealModel } from "../../models/dealModel";
+import { FranchiseInfoService } from "../../services/franchiseInfo.service";
 
 @Component({
   selector: "deals",
@@ -14,7 +15,7 @@ import { dealModel } from "../../models/dealModel";
 export class DealsComponent implements OnInit {
   deals: any = [];
   dealForm: FormGroup;
-  newDeal: dealModel
+  newDeal: dealModel;
   showDeals: boolean = true;
   editDeal: {};
   deleteDeal;
@@ -22,12 +23,16 @@ export class DealsComponent implements OnInit {
   downloadURL: Observable<string>;
   imageFile;
   @ViewChild("dealImage") dealImage: ElementRef;
-  constructor(private franchiseDealsService: FranchiseDealsService, private storage: AngularFireStorage) {}
+  constructor(
+    private franchiseInfoService: FranchiseInfoService,
+    private franchiseDealsService: FranchiseDealsService,
+    private storage: AngularFireStorage
+  ) {}
 
   ngOnInit() {
     this.franchiseDealsService.getDeals(6).subscribe(responseData => {
       this.deals = responseData.data;
-      console.log('this.deals has : ', this.deals)
+      console.log("this.deals has : ", this.deals);
     });
     this.dealForm = new FormGroup({
       name: new FormControl(null, [Validators.required]),
@@ -37,7 +42,7 @@ export class DealsComponent implements OnInit {
     });
   }
 
-  fileChangeEvent(fileInput : any) {
+  fileChangeEvent(fileInput: any) {
     this.imageFile = fileInput.target.files[0];
   }
   chooseFile() {
@@ -54,14 +59,14 @@ export class DealsComponent implements OnInit {
   }
   onDeleteDealHandler(id) {
     let delDeal = this.deals.filter(deal => deal.id == id);
-    this.deleteDeal = delDeal[0]
+    this.deleteDeal = delDeal[0];
     const delFile = this.storage.storage.refFromURL(this.deleteDeal.dealImage);
     delFile.delete().then(deletedFile => {
       this.franchiseDealsService.deleteDeal(id).subscribe(response => {
-      console.log("Response from Server : ", response);
-      this.deals = this.deals.filter(deal => deal.id != id);
+        console.log("Response from Server : ", response);
+        this.deals = this.deals.filter(deal => deal.id != id);
+      });
     });
-    })
   }
 
   onDealSubmit(form: FormGroup) {
@@ -89,14 +94,14 @@ export class DealsComponent implements OnInit {
                 price: deal.price,
                 deal_image: url,
                 end_date: deal.discountEnd,
-                franchise_id: 6
+                franchise_id: Number(this.franchiseInfoService.getFranchiseId())
               };
               this.franchiseDealsService
                 .addDeal(this.newDeal)
                 .subscribe(responseData => {
                   this.newDeal = responseData.data;
                   this.showDeals = true;
-                  this.deals.push(this.newDeal)
+                  this.deals.push(this.newDeal);
                   console.log("this.newDeal : ", this.newDeal);
                   this.dealForm.reset();
                 });

@@ -5,6 +5,7 @@ import { itemModel } from "../../models/itemModel";
 import { AngularFireStorage } from "@angular/fire/storage";
 import { Observable } from "rxjs";
 import { finalize } from "rxjs/operators";
+import { FranchiseInfoService } from "../../services/franchiseInfo.service";
 
 @Component({
   selector: "meals",
@@ -12,28 +13,7 @@ import { finalize } from "rxjs/operators";
   styleUrls: ["./meals.component.scss"]
 })
 export class MealsComponent implements OnInit {
-  categories = [
-    {
-      name: "Pizza",
-      quantity: 11
-    },
-    {
-      name: "Burgers",
-      quantity: 8
-    },
-    {
-      name: "Chicken",
-      quantity: 4
-    },
-    {
-      name: "Mutton",
-      quantity: 3
-    },
-    {
-      name: "Vegetables",
-      quantity: 5
-    }
-  ];
+  categories = [];
   meals: any = [];
   showMeals: boolean = true;
   itemForm: FormGroup;
@@ -47,6 +27,7 @@ export class MealsComponent implements OnInit {
   imageFile;
   @ViewChild("itemImage") itemImage: ElementRef;
   constructor(
+    private franchiseInfoService : FranchiseInfoService,
     private franchiseItemsService: FranchiseItemsService,
     private storage: AngularFireStorage
   ) {}
@@ -71,7 +52,11 @@ export class MealsComponent implements OnInit {
       });
     });
   }
-
+  getCategoryItems( name : string){
+    this.franchiseItemsService.getCategoriesByName(name).subscribe(nameCategories => {
+      console.log('nameCategories : ', nameCategories)
+    })
+  }
   onEditItemHandler(id) {
     let filterdItems = this.meals.filter(meal => meal.id == id);
     this.editMeal = filterdItems[0];
@@ -122,7 +107,7 @@ export class MealsComponent implements OnInit {
                 product: item.isProduct,
                 quanity: item.quantity,
                 category_id: Number(item.category),
-                franchise_id: 1
+                franchise_id: Number(this.franchiseInfoService.getFranchiseId())
               };
               this.franchiseItemsService
                 .addItem(this.newItem)

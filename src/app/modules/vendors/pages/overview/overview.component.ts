@@ -21,6 +21,7 @@ export class OverviewComponent implements OnInit {
   ngOnInit() {
     this.franchiseInfoService.getFranchiseInfo().subscribe(responseData => {
       this.franchiseInfo = responseData.data
+      this.franchiseInfoService.setFranchiseId(this.franchiseInfo.id);
       if (!this.franchiseInfo.address) {
         this.setEditingMode();
       }
