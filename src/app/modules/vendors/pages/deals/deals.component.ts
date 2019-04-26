@@ -4,6 +4,7 @@ import { FranchiseDealsService } from "../../services/franchiseDeals.service";
 import { AngularFireStorage } from "@angular/fire/storage";
 import { Observable } from "rxjs";
 import { finalize } from "rxjs/operators";
+import { IsButton, IsModalService } from '../../../../lib';
 import { dealModel } from "../../models/dealModel";
 import { FranchiseInfoService } from "../../services/franchiseInfo.service";
 
@@ -69,7 +70,8 @@ export class DealsComponent implements OnInit {
     });
   }
 
-  onDealSubmit(form: FormGroup) {
+  onDealSubmit(form: FormGroup, btn : IsButton) {
+    btn.startLoading();
     let randomString =
       Math.random()
         .toString(36)
@@ -102,6 +104,7 @@ export class DealsComponent implements OnInit {
                   this.newDeal = responseData.data;
                   this.showDeals = true;
                   this.deals.push(this.newDeal);
+                  btn.stopLoading()
                   console.log("this.newDeal : ", this.newDeal);
                   this.dealForm.reset();
                 });
