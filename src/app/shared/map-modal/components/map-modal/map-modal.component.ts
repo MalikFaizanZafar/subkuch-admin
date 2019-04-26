@@ -14,9 +14,10 @@ declare var google: any;
 })
 export class MapModalComponent implements OnInit {
   location: LocationCoordinates;
-  zoom: number = 20;
+  zoom: number = 16;
   currentAddress: string;
   searchControl: FormControl;
+  map_loaded: boolean = false;
 
   @ViewChild("search")
   public searchElementRef: ElementRef;
@@ -44,6 +45,13 @@ export class MapModalComponent implements OnInit {
   this.googleMapService.currentAddress.subscribe(res => {
     this.searchElementRef.nativeElement.value = res;
   })
+  }
+
+  onSave() {
+    this.activeModal.close({
+      location: this.location,
+      address: this.searchElementRef.nativeElement.value
+    });
   }
 
   mapClicked(event: any) {}

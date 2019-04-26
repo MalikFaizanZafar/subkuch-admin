@@ -1,0 +1,184 @@
+@import '../core/core';
+
+$timepicker-width: 130px;
+
+.is-timepicker {
+  display: inline-block;
+  width: 100%;
+
+  &__input {
+    position: relative;
+    display: flex;
+    align-content: center;
+    justify-content: flex-start;
+    height: 32px;
+    margin-bottom: 5px;
+    padding: 0 10px;
+    color: map-get($is-light, 7);
+    border: 1px solid map-get($is-light, 7);
+    border-radius: 3px;
+    transition: border-color .5s, box-shadow .5s;
+
+    &--visible {
+      border-color: $is-blue;
+      box-shadow: 0 0 7px rgba(3, 169, 244, .41);
+    }
+
+    &-colon {
+      margin: 2px;
+      font-size: 13px;
+      line-height: 26px;
+      color: map-get($is-dark, 4);
+    }
+
+    &-field {
+      padding: 0;
+      font-size: 12px;
+      color: map-get($is-dark, 4);
+      border: none;
+    }
+
+    &-icon {
+      position: absolute;
+      top: 50%;
+      right: 10px;
+      transform: translateY(-50%);
+      transition: color .5s;
+      cursor: pointer;
+    }
+
+    &--visible &-icon {
+      color: map-get($is-dark, 4);
+    }
+
+    &-number {
+      width: 15px;
+    }
+
+    &-text {
+      width: 20px;
+      margin-left: 3px;
+    }
+  }
+
+  &__ui {
+    display: flex;
+    justify-content: space-between;
+    width: $timepicker-width;
+    padding: 10px;
+    background-color: #fff;
+    border-radius: 4px;
+    border: 1px solid map-get($is-light, 5);
+    box-shadow: 0 5px 14px 0 rgba(0, 0, 0, .05), 0 0 3px 0 rgba(0, 0, 0, .09);
+    z-index: $z-index-4;
+    position: absolute;
+
+    &--format24-hours {
+      width: auto;
+    }
+
+    &--top {
+      top: 0;
+    }
+
+    &-arrow {
+      position: relative;
+      width: 20px;
+      height: 20px;
+      border-radius: 3px;
+      box-shadow: 0 0 3px 1px rgba(0, 0, 0, .14);
+      cursor: pointer;
+
+      &:active {
+        box-shadow: 0 0 3px 0 rgba(0, 0, 0, .14);
+
+        &::before {
+          border-bottom-color: $is-blue;
+        }
+      }
+
+      &::before {
+        content: ' ';
+        position: absolute;
+        left: 5px;
+        border: 5px solid transparent;
+        border-bottom: 9px solid map-get($is-dark, 4);
+      }
+
+      &--down {
+        transform: rotate(180deg);
+      }
+    }
+
+    &-left {
+      width: 70px;
+      z-index: $z-index-2;
+
+      &-row {
+        display: flex;
+        justify-content: space-between;
+
+        &--mid {
+          margin: 10px 0;
+        }
+      }
+    }
+
+    &-meridian {
+      display: block;
+      width: 22px;
+      height: 22px;
+      margin-bottom: 5px;
+      font-family: 'Roboto Mono';
+      font-size: 10px;
+      line-height: 22px;
+      text-align: center;
+      color: map-get($is-dark, 4);
+      border: 1px solid transparent;
+      border-radius: 50%;
+      cursor: pointer;
+
+      &--selected {
+        color: $is-blue;
+        border-color: $is-blue;
+        border-radius: 50%;
+        box-shadow: inset 0 0 3px 1px rgba(0, 0, 0, .14);
+      }
+    }
+
+    &-right {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-end;
+      width: 25px;
+      z-index: $z-index-2;
+    }
+
+    &-time {
+      display: block;
+      width: 15px;
+      font-family: 'Roboto Mono';
+      font-size: 12px;
+      text-align: center;
+      color: map-get($is-dark, 4);
+
+      &:first-of-type {
+        margin-left: 3px;
+      }
+
+      &:last-of-type {
+        margin-right: 2px;
+      }
+    }
+  }
+
+  &__unfocuser {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: $z-index-3;
+  }
+}

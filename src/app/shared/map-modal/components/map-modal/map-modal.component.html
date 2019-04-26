@@ -1,23 +1,26 @@
-<div class="container-fluid p-5">
-  <div class="row">
-    <div class="col-md-10 pr-0">
-      <div class="form-group location-search__container">
-        <input placeholder="Enter your block & area" 
-                  autocorrect="off" 
-                  autocapitalize="off" 
-                  spellcheck="off" 
-                  type="text" 
-                  class="location-search__input" 
-                  #search 
-                  [formControl]="searchControl">
-      </div>
+<div class="container-fluid p-0">
+  <div class="d-flex justify-content-between w-100 px-4 mt-3">
+    <div class="form-group location-search__container">
+      <input placeholder="Enter your block & area" 
+             autocorrect="off" 
+             autocapitalize="off" 
+             spellcheck="off" 
+             type="text" 
+             class="location-search__input" 
+             #search 
+             [formControl]="searchControl">
     </div>
-    <div class="col-md-2 pr-0">
-      <button type="submit" class="btn btn-primary" is-button (click)="searchLocation()">Search</button>
-    </div>
+    <button type="button"
+            is-button
+            theme="primary"
+            (click)="onSave()">Save address
+    </button> 
   </div>
-  <div class="row">
-    <div class="col-md-12">
+  <div class="row position-relative px-5">
+    <div class="col-md-12 map-container">
+      <div class="col d-flex justify-content-center align-items-center loader-container">
+        <div class="df-loader"></div>
+      </div>
       <agm-map [latitude]="location.latitude" 
                [longitude]="location.longitude" 
                [zoom]="zoom">

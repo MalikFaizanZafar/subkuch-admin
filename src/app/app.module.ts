@@ -27,7 +27,7 @@ import { FranchiseAccountService } from "./modules/vendors/services/franchiseAcc
     SharedModule,
     BrowserAnimationsModule,
     AgmCoreModule.forRoot({
-      apiKey: "AIzaSyB-EsaismaaJDTBDg0F2l-28Z-7zsVCTWU",
+      apiKey: "AIzaSyB-EsaismaaJDTBDg0F2l-28Z-7zsVCTWU ",
       libraries: ["places"]
     }),
     SocialLoginModule,

@@ -21,7 +21,7 @@
                     formControlName="phoneOne">
                 </is-input-container>
               </div>
-              <div class="form-group w-50 pr-3">
+              <div class="form-group w-50">
                 <is-input-container label="Secondary Contact">
                   <input 
                     autocomplete="fakeName"
@@ -44,7 +44,20 @@
                 </is-input-container>
               </div>
             </div>
+            <!-- <div class="form-group w-100 pr-3">
+                <is-input-container label="Address">
+                  <input 
+                    autocomplete="fakeName"
+                    class="login-form__input"
+                    type="email"
+                    placeholder="Enter email"
+                    formControlName="email">
+                </is-input-container>
+              </div> -->
             <div class="w-100">
+              <div>
+                <label class="is-input__label">Address</label>
+              </div>
               <div class="d-flex align-items-center justify-content-between location-search">
                 <div class="h-100 d-flex align-items-center location-search__container">
                   <img class="mx-2 location-search__icon"
@@ -58,37 +71,21 @@
                               class="location-search__input" 
                               #search>
                 </div>
-                <button type="button"
-                        is-button
-                        theme="primary">Find Location
-                </button>
               </div>
             </div>
             <h5 class="mt-4">Opening Status</h5>
             <div class="d-flex justify-content-between mb-3">
               <div class="form-group w-50 mr-5">
-                <is-input-container label="Start">
-                  <input 
-                    autocomplete="fakeName"
-                    class="login-form__input"
-                    type="number"
-                    min="0"
-                    max="24"
-                    placeholder="Enter Start Time"
-                    formControlName="startTime">
-                </is-input-container>
+                <div>
+                  <label class="is-input__label">Start Time</label>
+                </div>
+                <is-timepicker formControlName="startTime"></is-timepicker>
               </div>
               <div class="form-group w-50">
-                <is-input-container label="End">
-                  <input 
-                    autocomplete="fakeName"
-                    class="login-form__input"
-                    type="number"
-                    min="0"
-                    max="24"
-                    placeholder="Enter End Time"
-                    formControlName="endTime">
-                </is-input-container>
+                <div>
+                  <label class="is-input__label">Closinig Time</label>
+                </div>
+                <is-timepicker formControlName="endTime"></is-timepicker>
               </div>
             </div>
             <div class="d-flex justify-content-end">
