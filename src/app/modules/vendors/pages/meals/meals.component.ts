@@ -1,9 +1,15 @@
-import { Component, OnInit, ElementRef, ViewChild, TemplateRef } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  ElementRef,
+  ViewChild,
+  TemplateRef
+} from "@angular/core";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { FranchiseItemsService } from "../../services/franchiseItems.service";
 import { itemModel } from "../../models/itemModel";
-import { IsButton, IsModalService } from '../../../../lib';
-import { IsToasterService } from '../../../../lib/toaster';
+import { IsButton, IsModalService } from "../../../../lib";
+import { IsToasterService } from "../../../../lib/toaster";
 import { AngularFireStorage } from "@angular/fire/storage";
 import { Observable } from "rxjs";
 import { finalize } from "rxjs/operators";
@@ -29,7 +35,6 @@ export class MealsComponent implements OnInit {
   imageFile;
   @ViewChild("itemImage") itemImage: ElementRef;
   constructor(
-    private franchiseInfoService : FranchiseInfoService,
     private franchiseItemsService: FranchiseItemsService,
     private isModal: IsModalService,
     private toaster: IsToasterService,
@@ -56,10 +61,12 @@ export class MealsComponent implements OnInit {
       });
     });
   }
-  getCategoryItems( name : string){
-    this.franchiseItemsService.getCategoriesByName(name).subscribe(nameCategories => {
-      console.log('nameCategories : ', nameCategories)
-    })
+  getCategoryItems(name: string) {
+    this.franchiseItemsService
+      .getCategoriesByName(name)
+      .subscribe(nameCategories => {
+        console.log("nameCategories : ", nameCategories);
+      });
   }
   onEditItemHandler(id) {
     let filterdItems = this.meals.filter(meal => meal.id == id);
@@ -70,25 +77,29 @@ export class MealsComponent implements OnInit {
   }
 
   onDeleteItemHandler(id, deleteDialog: TemplateRef<any>) {
-    const deleteModal = this.isModal.open(deleteDialog, {data: "Are Your Sure you want to Delete this Meal ?"})
+    const deleteModal = this.isModal.open(deleteDialog, {
+      data: "Are Your Sure you want to Delete this Meal ?"
+    });
     deleteModal.onClose.subscribe(res => {
-      console.log('modal res has : ', res)
-      if(res === 'ok') {
+      console.log("modal res has : ", res);
+      if (res === "ok") {
         let delMeal = this.meals.filter(deal => deal.id == id);
-        this.deleteMeal = delMeal[0]
-        const delFile = this.storage.storage.refFromURL(this.deleteMeal.image_url);
+        this.deleteMeal = delMeal[0];
+        const delFile = this.storage.storage.refFromURL(
+          this.deleteMeal.image_url
+        );
         delFile.delete().then(deletedFile => {
           this.franchiseItemsService.deleteItems(id).subscribe(response => {
-          console.log("Response from Server : ", response);
-          this.toaster.popSuccess('Meal Has Been Deleted Successfully !');
-          this.meals = this.meals.filter(deal => deal.id != id);
+            console.log("Response from Server : ", response);
+            this.toaster.popSuccess("Meal Has Been Deleted Successfully");
+            this.meals = this.meals.filter(deal => deal.id != id);
+          });
         });
-        })
       }
-    })
+    });
   }
-  onItemSubmit(form: FormGroup, btn : IsButton) {
-    btn.startLoading()
+  onItemSubmit(form: FormGroup, btn: IsButton) {
+    btn.startLoading();
     let randomString =
       Math.random()
         .toString(36)
@@ -122,15 +133,15 @@ export class MealsComponent implements OnInit {
                 category_id: Number(item.category),
                 franchise_id: Number(localStorage.getItem("franchiseId"))
               };
-              console.log('this.newItem is : ', this.newItem)
+              console.log("this.newItem is : ", this.newItem);
               this.franchiseItemsService
                 .addItem(this.newItem)
                 .subscribe(responseData => {
                   this.newItem = responseData.data;
                   this.showMeals = true;
-                  this.meals.push(this.newItem)
+                  this.meals.push(this.newItem);
                   console.log("this.newItem : ", this.newItem);
-                  btn.stopLoading()
+                  btn.stopLoading();
                   this.itemForm.reset();
                 });
             } else {

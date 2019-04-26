@@ -42,7 +42,7 @@
                         ></i>
                         <i
                           class="fas fa-trash deal__icons__delete"
-                          (click)="onDeleteDealHandler(deal.id)"
+                          (click)="onDeleteDealHandler(deal.id, deleteDialog)"
                         ></i>
                       </div>
                     </div>
@@ -182,3 +182,30 @@
   </is-card-content>
 </is-card>
 <!-- Add Deal Form End -->
+  <!-- Delete Dialog Box -->
+  <ng-template #deleteDialog let-close="close" let-data="data">
+      <div class="p-3">
+        <p>
+          <strong>{{ data }}</strong>
+        </p>
+        <div class="d-flex justify-content-center">
+          <button
+            is-button
+            theme="danger"
+            class="close-btn"
+            (click)="close('ok')"
+          >
+            <span>Ok</span>
+          </button>
+          <button
+            is-button
+            theme="primary"
+            class="close-btn ml-5"
+            (click)="close('Click on Close')"
+          >
+            <span>Cancel</span>
+          </button>
+        </div>
+      </div>
+    </ng-template>
+    <!-- Delete Dialog Box End -->
