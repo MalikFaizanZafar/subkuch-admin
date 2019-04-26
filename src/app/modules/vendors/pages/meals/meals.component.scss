@@ -69,6 +69,21 @@
   }
 }
 
+
+.delete {
+  &__dialog__btn {
+    width: 30%;
+    margin-top: 4%;
+    margin-left: 2%;
+    font-weight: bold;
+    font-size: 20px;
+  }
+  &__message {
+    font-size: 20px;
+    font-weight: bold;
+  }
+}
+
 .meal__icons:hover {
   color: blue;
   cursor: pointer;
