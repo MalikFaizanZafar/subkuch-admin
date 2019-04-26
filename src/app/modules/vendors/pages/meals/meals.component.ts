@@ -1,8 +1,9 @@
-import { Component, OnInit, ElementRef, ViewChild } from "@angular/core";
+import { Component, OnInit, ElementRef, ViewChild, TemplateRef } from "@angular/core";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { FranchiseItemsService } from "../../services/franchiseItems.service";
 import { itemModel } from "../../models/itemModel";
 import { IsButton, IsModalService } from '../../../../lib';
+import { IsToasterService } from '../../../../lib/toaster';
 import { AngularFireStorage } from "@angular/fire/storage";
 import { Observable } from "rxjs";
 import { finalize } from "rxjs/operators";
@@ -30,6 +31,8 @@ export class MealsComponent implements OnInit {
   constructor(
     private franchiseInfoService : FranchiseInfoService,
     private franchiseItemsService: FranchiseItemsService,
+    private isModal: IsModalService,
+    private toaster: IsToasterService,
     private storage: AngularFireStorage
   ) {}
 
@@ -66,15 +69,22 @@ export class MealsComponent implements OnInit {
     console.log("Edit Meal is : ", this.editMeal);
   }
 
-  onDeleteItemHandler(id) {
-    let delMeal = this.meals.filter(deal => deal.id == id);
-    this.deleteMeal = delMeal[0]
-    const delFile = this.storage.storage.refFromURL(this.deleteMeal.image_url);
-    delFile.delete().then(deletedFile => {
-      this.franchiseItemsService.deleteItems(id).subscribe(response => {
-      console.log("Response from Server : ", response);
-      this.meals = this.meals.filter(deal => deal.id != id);
-    });
+  onDeleteItemHandler(id, deleteDialog: TemplateRef<any>) {
+    const deleteModal = this.isModal.open(deleteDialog, {data: "Are Your Sure you want to Delete this Meal ?"})
+    deleteModal.onClose.subscribe(res => {
+      console.log('modal res has : ', res)
+      if(res === 'ok') {
+        let delMeal = this.meals.filter(deal => deal.id == id);
+        this.deleteMeal = delMeal[0]
+        const delFile = this.storage.storage.refFromURL(this.deleteMeal.image_url);
+        delFile.delete().then(deletedFile => {
+          this.franchiseItemsService.deleteItems(id).subscribe(response => {
+          console.log("Response from Server : ", response);
+          this.toaster.popSuccess('Meal Has Been Deleted Successfully !');
+          this.meals = this.meals.filter(deal => deal.id != id);
+        });
+        })
+      }
     })
   }
   onItemSubmit(form: FormGroup, btn : IsButton) {

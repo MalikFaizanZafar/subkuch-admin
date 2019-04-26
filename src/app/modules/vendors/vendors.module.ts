@@ -24,6 +24,7 @@ import { FranchiseSalesService } from './services/franchiseSales.service';
 import { NotificationsService } from 'app/services/notifications.service';
 import { SearchService } from './services/search.service';
 import { GoogleMapService } from '@app/shared/services/google-map.service';
+import { ComponentsComponent } from './components/components.component';
 
 
 @NgModule({
@@ -58,7 +59,7 @@ import { GoogleMapService } from '@app/shared/services/google-map.service';
     EditOverviewComponent, 
     OrdersComponent, 
     FranchiseComponent, 
-    SalesComponent
+    SalesComponent, ComponentsComponent
   ],
 })
 export class VendorsModule { }

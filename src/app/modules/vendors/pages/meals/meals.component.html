@@ -71,7 +71,7 @@
                     <h3 class="card-title w-75">{{ meal.name }}</h3>
                     <div class="d-flex justify-content-around w-25">
                       <i class="fas fa-edit meal__icons" (click)="onEditItemHandler(meal.id)"></i>
-                      <i class="fas fa-trash meal__icons__delete" (click)="onDeleteItemHandler(meal.id)" ></i>
+                      <i class="fas fa-trash meal__icons__delete" (click)="onDeleteItemHandler(meal.id, deleteDialog)" ></i>
                     </div>
                   </div>
                   <p class="card-text">{{ meal.description }}</p>
@@ -556,4 +556,28 @@
         </div>
       </div>
       <!-- Edit Meal Form End -->
+
+  <!-- Delete Dialog Box -->
+  <ng-template #deleteDialog
+             let-close="close"
+             let-data="data">
+  <div class="p-3">
+    <p><strong>{{data}}</strong></p>
+    <div class="d-flex justify-content-center">
+        <button is-button
+        theme="danger"
+        class="close-btn"
+        (click)="close('ok')">
+        <span>Ok</span>
+      </button>
+      <button is-button
+              theme="primary"
+              class="close-btn ml-5"
+              (click)="close('Click on Close')">
+        <span>Cancel</span>
+      </button>
+    </div>
+  </div>
+</ng-template>
+  <!-- Delete Dialog Box End -->
 </div>
