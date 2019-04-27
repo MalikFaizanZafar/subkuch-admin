@@ -25,4 +25,13 @@ export class FranchiseInfoService {
     );
     return this.http.get<any>(`${this.baseURL}`, {headers})
   }
+
+  editFranchiseLogo(editLogoDto) : Observable<any>{
+    let headers = new HttpHeaders()
+    const token = localStorage.getItem('Authorization');
+    headers = headers.append(
+    'Authorization', token
+    );
+    return this.http.post<any>(`${this.baseURL}/logo`, editLogoDto, {headers})
+  }
 }

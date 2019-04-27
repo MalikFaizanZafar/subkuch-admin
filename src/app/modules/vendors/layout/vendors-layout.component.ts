@@ -14,6 +14,8 @@ import { IsButton, IsModalService } from "../../../lib";
 import { IsToasterService } from "../../../lib/toaster";
 import { FranchiseInfoService } from "../services/franchiseInfo.service";
 import { AngularFireStorage } from "@angular/fire/storage";
+import { Observable } from "rxjs";
+import { finalize } from "rxjs/operators";
 
 @Component({
   selector: "app-vendors-layout",
@@ -57,6 +59,7 @@ export class VendorsLayoutComponent implements OnInit {
     }
   ];
   franchiseInfo: any = {};
+  downloadURL: Observable<string>;
   @ViewChild("logoImage") logoImage: ElementRef;
   constructor(
     private router: Router,
@@ -107,33 +110,54 @@ export class VendorsLayoutComponent implements OnInit {
     };
     reader.readAsDataURL(LogoImageFile.target.files[0]);
     // this.franchiseInfo.logo = this.editLogoImageFile
-    console.log("this.editLogoImageFile", this.editLogoImageFile);
   }
   onEditLogoHandler(editLogoDialog: TemplateRef<any>) {
     const editLogoDlg = this.isModal.open(editLogoDialog);
     editLogoDlg.onClose.subscribe(res => {
       if (res === "ok") {
         console.log("Edit Dialog Ok");
-        let randomString =
-          Math.random()
-            .toString(36)
-            .substring(2, 15) +
-          Math.random()
-            .toString(36)
-            .substring(2, 15);
-        const filePath = "items/" + randomString + "-" + this.editLogoImageFile.name;
-        const fileRef = this.storage.ref(filePath);
-        const task = this.storage.upload(filePath, this.editLogoImageFile);
-        
-        // const delFile = this.storage.storage.refFromURL(
-        //   this.franchiseInfo.logo
-        // );
       }
     });
   }
   onEditLogoSubmit() {
     if (this.editLogoForm.valid) {
-      console.log("Edit Logo Form is valid", this.editLogoForm);
+      let randomString =
+        Math.random()
+          .toString(36)
+          .substring(2, 15) +
+        Math.random()
+          .toString(36)
+          .substring(2, 15);
+      const filePath =
+        "logos/" + randomString + "-" + this.editLogoImageFile.name;
+      const fileRef = this.storage.ref(filePath);
+      const task = this.storage.upload(filePath, this.editLogoImageFile);
+      task
+        .snapshotChanges()
+        .pipe(
+          finalize(() => {
+            this.downloadURL = fileRef.getDownloadURL();
+            this.downloadURL.subscribe(url => {
+                let newEditPostDto = {
+                  image: url,
+                  franchise_id: Number(localStorage.getItem("franchiseId"))
+                };
+                this.franchiseInfoService
+                  .editFranchiseLogo(newEditPostDto)
+                  .subscribe(editLogoResponse => {
+                    console.log("editLogoResponse is : ", editLogoResponse.data);
+                    const delFile = this.storage.storage.refFromURL(
+                      this.franchiseInfo.logo
+                    );
+                    delFile.delete().then(deletedFile => {
+                      this.franchiseInfo.logo = editLogoResponse.data.franchise_logo
+                    })
+                    this.toaster.popSuccess("Franchise Logo Updated Successfully");
+                  });
+            });
+          })
+        )
+        .subscribe();
     } else {
       console.log("Edit Logo Form is Not valid");
     }
