@@ -59,6 +59,11 @@ export class VendorsLayoutComponent implements OnInit {
       icon: "fa-bars",
       label: "Sales",
       link: "sales/"
+    },
+    {
+      icon: "fa-bars",
+      label: "Reviews",
+      link: "reviews/"
     }
   ];
   franchiseInfo: any = {};

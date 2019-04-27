@@ -8,6 +8,7 @@ import { MealsComponent } from './pages/meals/meals.component';
 import { FranchiseComponent } from './pages/franchise/franchise.component';
 import { SalesComponent } from './pages/sales/sales.component';
 import { OrdersComponent } from './pages/orders/orders.component';
+import { ReviewsComponent } from './pages/reviews/reviews.component';
 
 const routes: Routes = [
   { path: '', component: VendorsLayoutComponent, children: [
@@ -17,7 +18,8 @@ const routes: Routes = [
     { path: 'meals', component: MealsComponent},
     { path: 'orders', component: OrdersComponent},
     { path: 'franchise', component: FranchiseComponent},
-    { path: 'sales', component: SalesComponent}
+    { path: 'sales', component: SalesComponent},
+    { path: 'reviews', component: ReviewsComponent}
   ]}
 ];
 

@@ -25,6 +25,7 @@ import { NotificationsService } from 'app/services/notifications.service';
 import { SearchService } from './services/search.service';
 import { GoogleMapService } from '@app/shared/services/google-map.service';
 import { ComponentsComponent } from './components/components.component';
+import { ReviewsComponent } from './pages/reviews/reviews.component';
 
 
 @NgModule({
@@ -59,7 +60,7 @@ import { ComponentsComponent } from './components/components.component';
     EditOverviewComponent, 
     OrdersComponent, 
     FranchiseComponent, 
-    SalesComponent, ComponentsComponent
+    SalesComponent, ComponentsComponent, ReviewsComponent
   ],
 })
 export class VendorsModule { }
