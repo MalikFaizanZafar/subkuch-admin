@@ -256,3 +256,23 @@ section .section-title {
 #footer ul.quick-links li:hover a i {
   font-weight: 700;
 }
+
+.franchise__logo__edit__icon {
+  font-size:23px;
+  color: #000;
+}
+.franchise__logo__edit__icon:hover {
+  font-size:25px;
+  color: blue;
+  cursor: pointer;
+}
+
+.franchise__banner__edit__icon {
+  font-size:30px;
+  color: #000;
+}
+.franchise__banner__edit__icon:hover {
+  font-size:32px;
+  color: blue;
+  cursor: pointer;
+}
