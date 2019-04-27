@@ -1,10 +1,11 @@
 <div class="h-100 overflow-hidden">
-<header class="container-fluid d-flex align-items-center flex-shrink-0 header w-100 py-3">
+  <header
+    class="container-fluid d-flex align-items-center flex-shrink-0 header w-100 py-3"
+  >
     <div class="w-100 d-flex justify-content-between align-items-center">
       <div>
         <a href="#">
-          <img src="assets/subquch-light-logo.png"
-                class="logo">
+          <img src="assets/subquch-light-logo.png" class="logo" />
         </a>
       </div>
       <div class="w-15 d-flex justify-content-end">
@@ -12,50 +13,135 @@
         <i class="fas fa-cog text-white pr-4"></i>
         <i class="fas fa-user text-white pr-2"></i>
       </div>
-    </div> 
-</header>
+    </div>
+  </header>
   <div class="h-100 col p-0 d-flex">
     <is-sidebar
       [autoGenerateItems]="autoGenerateLinks"
       [topbar]="topbar"
       [disableButton]="true"
-      [open]="true">
+      [open]="true"
+    >
     </is-sidebar>
 
     <main class="col overflow-auto main-content">
       <is-card>
         <is-card-content class="p-0">
-          <div class="position-relative d-flex align-items-center bg_image_1" *ngIf="franchiseInfo" [ngStyle]="{'background-image': 'url(' + getFranshiseBanner() + ')'}">
+          <div
+            class="position-relative d-flex align-items-center bg_image_1"
+            *ngIf="franchiseInfo"
+            [ngStyle]="{
+              'background-image': 'url(' + getFranshiseBanner() + ')'
+            }"
+          >
             <div class="w-50 d-flex align-items-center justify-content-start">
-                <div class="w-25 d-flex justify-content-end ml-3 align-items-center">
-                    <i class="fa fa-edit franchise__logo__edit__icon" ></i>
-                  <img
-                    *ngIf="franchiseInfo"
-                    class="franchise__logo__image"
-                    [src]="franchiseInfo.logo || 'https://via.placeholder.com/80/575d6be6/FFFFFF/?text=Logo'"
-                    alt=""
-                    height="80"
-                    width="80"
-                  />
-                </div>
-                <div class="w-25 d-flex justify-content-start">
-                  <div class="row">
-                    <div class="col-12 ml-2">
-                        <span class="fa fa-star checked star_icons px-1" *ngFor="let rating of ratingArray"></span>
-                        <span class="text-white px-1">(41)</span>
-                        <span class="text-white px-1">Reviews</span>
-                    </div>
-                    <div class="col-12 ml-2">
-                        <h4 class="text-white d-block" *ngIf="franchiseInfo">{{franchiseInfo.brandName}}</h4>
-                    </div>
+              <div
+                class="w-25 d-flex justify-content-end ml-3 align-items-center"
+              >
+                <i
+                  class="fa fa-edit franchise__logo__edit__icon"
+                  (click)="onEditLogoHandler(editLogoDialog)"
+                ></i>
+                <img
+                  *ngIf="franchiseInfo"
+                  class="franchise__logo__image"
+                  [src]="
+                    franchiseInfo.logo ||
+                    'https://via.placeholder.com/80/575d6be6/FFFFFF/?text=Logo'
+                  "
+                  alt=""
+                  height="80"
+                  width="80"
+                />
+              </div>
+              <div class="w-25 d-flex justify-content-start">
+                <div class="row">
+                  <div class="col-12 ml-2">
+                    <span
+                      class="fa fa-star checked star_icons px-1"
+                      *ngFor="let rating of ratingArray"
+                    ></span>
+                    <span class="text-white px-1">(41)</span>
+                    <span class="text-white px-1">Reviews</span>
                   </div>
-                    
+                  <div class="col-12 ml-2">
+                    <h4 class="text-white d-block" *ngIf="franchiseInfo">
+                      {{ franchiseInfo.brandName }}
+                    </h4>
+                  </div>
                 </div>
+              </div>
             </div>
             <div class="w-50 d-flex align-items-center justify-content-end">
-              <i class="fa fa-edit fa-2x text_blue franchise__banner__edit__icon mr-4" ></i>
+              <i
+                class="fa fa-edit fa-2x text_blue franchise__banner__edit__icon mr-4"
+              ></i>
             </div>
           </div>
+          <ng-template #editLogoDialog let-close="close" let-data="data">
+            <div>
+              <div
+                class="card-header bg-dark text-white font-weight-bold rounded-0"
+              >
+                Edit Franchise Logo 
+              </div>
+              <form
+                class="px-3 py-5"
+                [formGroup]="editLogoForm"
+                (ngSubmit)="onEditLogoSubmit()"
+                #edtLogoForm="ngForm"
+              >
+                <div
+                  class="form-group d-flex justify-content-around align-items-center"
+                >
+                <img
+                  [src]="tempEditLogoImage"
+                  alt="Franchise Logo"
+                  class="edit__logo__dialog__image"
+                  (click)="onEditLogoChooseImage()"
+                />
+                  <input
+                    type="file"
+                    class="form-control ml-3"
+                    id="category_name"
+                    formControlName="editLogoImage"
+                    style="display:none;"
+                    #logoImage
+                    (change)="onEditLogoFileChoosen($event)"
+                  />
+                </div>
+                <div
+                  *ngIf="
+                  editLogoForm.hasError('required', 'editLogoImage') &&
+                  edtLogoForm.submitted
+                  "
+                  class="form-group d-flex justify-content-start align-items-center item-form__input_error"
+                >
+                  Image is required
+                </div>
+                <div class="d-flex justify-content-center">
+                  <button
+                    is-button
+                    theme="danger"
+                    class="close-btn w-25 mb-4 add__category__dialog__btn"
+                    (click)="close('save')"
+                    type="submit"
+                    #catSubmitBtn
+                  >
+                    <span>Save</span>
+                  </button>
+                  <button
+                    is-button
+                    theme="primary"
+                    class="close-btn w-25 mb-4 add__category__dialog__btn"
+                    (click)="close('Click on Close')"
+                  >
+                    <span>Cancel</span>
+                  </button>
+                </div>
+              </form>
+            </div>
+          </ng-template>
         </is-card-content>
       </is-card>
       <div class="container-fluid mt-2 px-0">

@@ -13,7 +13,6 @@ import { IsToasterService } from "../../../../lib/toaster";
 import { AngularFireStorage } from "@angular/fire/storage";
 import { Observable } from "rxjs";
 import { finalize } from "rxjs/operators";
-import { FranchiseInfoService } from "../../services/franchiseInfo.service";
 
 @Component({
   selector: "meals",
