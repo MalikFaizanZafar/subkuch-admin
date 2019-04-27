@@ -107,10 +107,11 @@
 }
 
 .bg_image_1 {
-  // background-image: url('https://images.pexels.com/photos/941869/pexels-photo-941869.jpeg');
   height: 200px;
-  background-attachment: scroll;
-  background-size: cover;
+  background-size: cover; /* or contain depending on what you want */
+  background-position:  center center;
+  background-repeat: no-repeat;
+  padding: 0;
 }
 .main__edit__icon {
   cursor: pointer;
