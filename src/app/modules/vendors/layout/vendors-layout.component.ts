@@ -28,9 +28,12 @@ export class VendorsLayoutComponent implements OnInit {
   user: MemberDetails;
   editBtnEnabled: boolean;
   editLogoForm: FormGroup;
+  editBannerForm: FormGroup;
   ratingArray: string[] = ["1", "2", "3", "4"];
   editLogoImageFile;
   tempEditLogoImage;
+  editBannerImageFile;
+  tempEditBannerImage;
   autoGenerateLinks = [
     {
       label: "Overview",
@@ -61,6 +64,7 @@ export class VendorsLayoutComponent implements OnInit {
   franchiseInfo: any = {};
   downloadURL: Observable<string>;
   @ViewChild("logoImage") logoImage: ElementRef;
+  @ViewChild("bannerImage") bannerImage: ElementRef;
   constructor(
     private router: Router,
     private franchiseInfoService: FranchiseInfoService,
@@ -74,9 +78,13 @@ export class VendorsLayoutComponent implements OnInit {
     this.editLogoForm = new FormGroup({
       editLogoImage: new FormControl(null, [Validators.required])
     });
+    this.editBannerForm = new FormGroup({
+      editBannerImage: new FormControl(null, [Validators.required])
+    });
     this.franchiseInfoService.getFranchiseInfo().subscribe(responseData => {
       this.franchiseInfo = responseData.data;
       this.tempEditLogoImage = this.franchiseInfo.logo;
+      this.tempEditBannerImage = this.franchiseInfo.welcomeImage;
     });
     this.editMainService.editEnable.subscribe(val => {
       this.editBtnEnabled = val;
@@ -98,6 +106,9 @@ export class VendorsLayoutComponent implements OnInit {
   onEditLogoChooseImage() {
     this.logoImage.nativeElement.click();
   }
+  onEditBannerChooseImage() {
+    this.bannerImage.nativeElement.click();
+  }
   onEditLogoFileChoosen(LogoImageFile: any) {
     const self = this;
     this.editLogoImageFile = LogoImageFile.target.files[0];
@@ -111,9 +122,29 @@ export class VendorsLayoutComponent implements OnInit {
     reader.readAsDataURL(LogoImageFile.target.files[0]);
     // this.franchiseInfo.logo = this.editLogoImageFile
   }
+  onEditBannerFileChoosen(BannerImageFile: any) {
+    const self = this;
+    this.editBannerImageFile = BannerImageFile.target.files[0];
+    var input = event.target;
+
+    var reader = new FileReader();
+    reader.onload = function() {
+      var dataURL = reader.result;
+      self.tempEditBannerImage = dataURL;
+    };
+    reader.readAsDataURL(BannerImageFile.target.files[0]);
+  }
   onEditLogoHandler(editLogoDialog: TemplateRef<any>) {
     const editLogoDlg = this.isModal.open(editLogoDialog);
     editLogoDlg.onClose.subscribe(res => {
+      if (res === "ok") {
+        console.log("Edit Dialog Ok");
+      }
+    });
+  }
+  onEditBannerHandler(editBannerDialog: TemplateRef<any>) {
+    const editBannerDlg = this.isModal.open(editBannerDialog);
+    editBannerDlg.onClose.subscribe(res => {
       if (res === "ok") {
         console.log("Edit Dialog Ok");
       }
@@ -138,28 +169,81 @@ export class VendorsLayoutComponent implements OnInit {
           finalize(() => {
             this.downloadURL = fileRef.getDownloadURL();
             this.downloadURL.subscribe(url => {
-                let newEditPostDto = {
-                  image: url,
-                  franchise_id: Number(localStorage.getItem("franchiseId"))
-                };
-                this.franchiseInfoService
-                  .editFranchiseLogo(newEditPostDto)
-                  .subscribe(editLogoResponse => {
-                    console.log("editLogoResponse is : ", editLogoResponse.data);
-                    const delFile = this.storage.storage.refFromURL(
-                      this.franchiseInfo.logo
-                    );
-                    delFile.delete().then(deletedFile => {
-                      this.franchiseInfo.logo = editLogoResponse.data.franchise_logo
-                    })
-                    this.toaster.popSuccess("Franchise Logo Updated Successfully");
+              let newEditPostDto = {
+                image: url,
+                franchise_id: Number(localStorage.getItem("franchiseId"))
+              };
+              this.franchiseInfoService
+                .editFranchiseLogo(newEditPostDto)
+                .subscribe(editLogoResponse => {
+                  console.log("editLogoResponse is : ", editLogoResponse.data);
+                  const delFile = this.storage.storage.refFromURL(
+                    this.franchiseInfo.logo
+                  );
+                  delFile.delete().then(deletedFile => {
+                    this.franchiseInfo.logo =
+                      editLogoResponse.data.franchise_logo;
                   });
+                  this.toaster.popSuccess(
+                    "Franchise Logo Updated Successfully"
+                  );
+                });
             });
           })
         )
         .subscribe();
     } else {
       console.log("Edit Logo Form is Not valid");
+    }
+  }
+
+  onEditBannerSubmit() {
+    if (this.editBannerForm.valid) {
+      let randomString =
+        Math.random()
+          .toString(36)
+          .substring(2, 15) +
+        Math.random()
+          .toString(36)
+          .substring(2, 15);
+      const filePath =
+        "banners/" + randomString + "-" + this.editBannerImageFile.name;
+      const fileRef = this.storage.ref(filePath);
+      const task = this.storage.upload(filePath, this.editBannerImageFile);
+      task
+        .snapshotChanges()
+        .pipe(
+          finalize(() => {
+            this.downloadURL = fileRef.getDownloadURL();
+            this.downloadURL.subscribe(url => {
+              let newEditPostDto = {
+                image: url,
+                franchise_id: Number(localStorage.getItem("franchiseId"))
+              };
+              this.franchiseInfoService
+                .editFranchiseBanner(newEditPostDto)
+                .subscribe(editBannerResponse => {
+                  console.log(
+                    "editBannerResponse is : ",
+                    editBannerResponse.data
+                  );
+                  const delFile = this.storage.storage.refFromURL(
+                    this.franchiseInfo.welcomeImage
+                  );
+                  delFile.delete().then(deletedFile => {
+                    this.franchiseInfo.welcomeImage =
+                      editBannerResponse.data.welcome_image;
+                  });
+                  this.toaster.popSuccess(
+                    "Franchise Banner Updated Successfully"
+                  );
+                });
+            });
+          })
+        )
+        .subscribe();
+    } else {
+      console.log("Edit Banner Form is Not valid");
     }
   }
 }
