@@ -60,7 +60,7 @@ export class MealsComponent implements OnInit {
     });
     this.franchiseItemsService.getCategories().subscribe(responseData => {
       this.categories = responseData.data;
-      this.franchiseItemsService.getItems(50).subscribe(itemresponseData => {
+      this.franchiseItemsService.getItems(Number(localStorage.getItem("franchiseId"))).subscribe(itemresponseData => {
         this.meals = itemresponseData.data;
         console.log('this.meals has : ', this.meals)
       });

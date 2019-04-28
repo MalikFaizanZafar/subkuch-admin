@@ -13,7 +13,6 @@ import { finalize } from "rxjs/operators";
 import { IsButton, IsModalService } from "../../../../lib";
 import { IsToasterService } from "../../../../lib/toaster";
 import { dealModel } from "../../models/dealModel";
-import { FranchiseInfoService } from "../../services/franchiseInfo.service";
 
 @Component({
   selector: "deals",

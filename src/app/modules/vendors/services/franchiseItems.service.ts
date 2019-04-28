@@ -13,7 +13,7 @@ export class FranchiseItemsService {
     let headers = new HttpHeaders();
     const token = localStorage.getItem("Authorization");
     headers = headers.append("Authorization", token);
-    return this.http.get<any>(`${this.baseURL}/item`, {
+    return this.http.get<any>(`${this.baseURL}/item/franchise/${id}`, {
       headers
     });
   }
