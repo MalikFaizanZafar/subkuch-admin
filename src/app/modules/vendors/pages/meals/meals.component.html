@@ -368,9 +368,9 @@
       <h1 class="text-dark">Edit Meal</h1>
       <form
         class="ml-5"
-        [formGroup]="itemForm"
-        (ngSubmit)="onEItemSubmit(formDir)"
-        #formDir="ngForm"
+        [formGroup]="eitemForm"
+        (ngSubmit)="onEItemSubmit(eformDir, esubmitBtn)"
+        #eformDir="ngForm"
       >
         <div class="form-group row">
           <label for="inputEmail3" class="col-sm-2 col-form-label text-dark"
@@ -382,13 +382,12 @@
               class="form-control"
               style="height:40px;"
               placeholder="Enter Title"
-              formControlName="title"
-              [value]="editMeal.name"
+              formControlName="etitle"
             />
           </div>
         </div>
         <div
-          *ngIf="itemForm.hasError('required', 'title') && formDir.submitted"
+          *ngIf="eitemForm.hasError('required', 'title') && eformDir.submitted"
           class="item-form__input_error"
         >
           Title is required
@@ -398,8 +397,7 @@
             class="form-check-input"
             type="checkbox"
             id="defaultCheck1"
-            formControlName="isAvailable"
-            [value]="editMeal.isAvailable"
+            formControlName="eisAvailable"
           />
           <label class="form-check-label text-dark" for="defaultCheck1">
             Is Available ?
@@ -413,11 +411,10 @@
             <select
               id="inputState"
               class="form-control"
-              formControlName="category"
+              formControlName="ecategory"
               placeholder="Choose Category"
             >
               <option
-                [selected]="editMeal.category.name"
                 *ngFor="let category of categories"
                 >{{ category.name }}</option
               >
@@ -425,7 +422,7 @@
           </div>
         </div>
         <div
-          *ngIf="itemForm.hasError('required', 'category') && formDir.submitted"
+          *ngIf="eitemForm.hasError('required', 'ecategory') && eformDir.submitted"
           class="item-form__input_error"
         >
           Item Category is required
@@ -440,13 +437,12 @@
               class="form-control"
               style="height:40px;"
               placeholder="Enter Price"
-              formControlName="price"
-              [value]="editMeal.price"
+              formControlName="eprice"
             />
           </div>
         </div>
         <div
-          *ngIf="itemForm.hasError('required', 'price') && formDir.submitted"
+          *ngIf="eitemForm.hasError('required', 'eprice') && eformDir.submitted"
           class="item-form__input_error"
         >
           Price is required
@@ -461,13 +457,12 @@
               class="form-control"
               style="height:40px;"
               placeholder="Enter Discount"
-              formControlName="discount"
-              [value]="editMeal.discount"
+              formControlName="ediscount"
             />
           </div>
         </div>
         <div
-          *ngIf="itemForm.hasError('required', 'discount') && formDir.submitted"
+          *ngIf="eitemForm.hasError('required', 'ediscount') && eformDir.submitted"
           class="item-form__input_error"
         >
           Discount is required
@@ -482,14 +477,13 @@
               class="form-control"
               style="height:40px;"
               placeholder="Enter Discount End Date"
-              formControlName="discountEnd"
-              [value]="getFormattedDate(editMeal.endDate)"
+              formControlName="ediscountEnd"
             />
           </div>
         </div>
         <div
           *ngIf="
-            itemForm.hasError('required', 'discountEnd') && formDir.submitted
+            eitemForm.hasError('required', 'ediscountEnd') && eformDir.submitted
           "
           class="item-form__input_error"
         >
@@ -500,8 +494,7 @@
             class="form-check-input"
             type="checkbox"
             id="defaultCheck1"
-            formControlName="isProduct"
-            [value]="editMeal.isProduct"
+            formControlName="eisProduct"
           />
           <label class="form-check-label text-dark" for="defaultCheck1">
             Is Product ?
@@ -509,7 +502,7 @@
         </div>
         <div
           class="form-group row"
-          *ngIf="!itemForm.hasError('required', 'isProduct')"
+          *ngIf="eitemForm.hasError('required', 'eisProduct')"
         >
           <label for="inputPassword3" class="col-sm-2 col-form-label text-dark"
             >Quantity</label
@@ -520,16 +513,15 @@
               class="form-control"
               style="height:40px;"
               placeholder="Enter Quantity"
-              formControlName="quantity"
-              [value]="editMeal.quantity"
+              formControlName="equantity"
             />
           </div>
         </div>
         <div
           *ngIf="
-            itemForm.hasError('required', 'quantity') &&
-            formDir.submitted &&
-            !itemForm.hasError('required', 'isProduct')
+            eitemForm.hasError('required', 'equantity') &&
+            eformDir.submitted &&
+            eitemForm.hasError('required', 'eisProduct')
           "
           class="item-form__input_error"
         >
@@ -544,8 +536,7 @@
             <textarea
               class="form-control"
               rows="2"
-              formControlName="description"
-              [value]="editMeal.description"
+              formControlName="edescription"
             ></textarea>
           </div>
         </div>
@@ -557,24 +548,24 @@
             type="file"
             class="form-control-file"
             style="display:none;"
-            #itemImage
+            #eitemImage
             accept=".jpeg,.png"
-            formControlName="attachment"
-            (change)="fileChangeEvent($event)"
+            formControlName="eattachment"
+            (change)="efileChangeEvent($event)"
           />
           <img
-            [src]="tempMealImageFile"
+            [src]="etempMealImageFile || editMeal.image_url"
             alt=""
             style="height:200px; width:200px; margin-left: 6%;"
           />
-          <i class="fas fa-edit meal__icons ml-3" (click)="chooseFile()"></i>
-          <p class="lead w-25 mt-3 ml-3" *ngIf="this.imageFile">
-            {{ this.imageFile.name }}
+          <i class="fas fa-edit meal__icons ml-3" (click)="echooseFile()"></i>
+          <p class="lead w-25 mt-3 ml-3" *ngIf="this.eimageFile">
+            {{ this.eimageFile.name }}
           </p>
         </div>
         <div
           *ngIf="
-            itemForm.hasError('required', 'attachment') && formDir.submitted
+            eitemForm.hasError('required', 'eattachment') && eformDir.submitted
           "
           class="item-form__input_error"
         >
@@ -582,7 +573,7 @@
         </div>
         <div class="form-group row">
           <div class="col-sm-10">
-            <button type="submit" class="btn btn-primary btn-lg">Submit</button>
+            <button type="submit" class="btn btn-primary btn-lg" is-button #esubmitBtn>Submit</button>
           </div>
         </div>
       </form>

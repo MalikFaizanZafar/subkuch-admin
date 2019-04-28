@@ -72,7 +72,7 @@ export class FranchiseItemsService {
     });
   }
 
-  editItem( item : itemModel, itemId : any): Observable<any> {
+  editItem( item : itemModel, itemId : Number): Observable<any> {
     let headers = new HttpHeaders().set('Content-Type', 'application/json');
     const token = localStorage.getItem("Authorization");
     headers = headers.append("Authorization", token);
