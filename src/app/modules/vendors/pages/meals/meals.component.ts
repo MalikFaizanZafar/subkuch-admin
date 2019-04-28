@@ -154,15 +154,15 @@ export class MealsComponent implements OnInit {
     // console.log('url is : ', url)
     if (this.itemForm.valid) {
       let randomString =
-      Math.random()
-        .toString(36)
-        .substring(2, 15) +
-      Math.random()
-        .toString(36)
-        .substring(2, 15);
-    const filePath = "items/" + randomString + "-" + this.imageFile.name;
-    const fileRef = this.storage.ref(filePath);
-    const task = this.storage.upload(filePath, this.imageFile);
+        Math.random()
+          .toString(36)
+          .substring(2, 15) +
+        Math.random()
+          .toString(36)
+          .substring(2, 15);
+      const filePath = "items/" + randomString + "-" + this.imageFile.name;
+      const fileRef = this.storage.ref(filePath);
+      const task = this.storage.upload(filePath, this.imageFile);
       btn.startLoading();
       task
         .snapshotChanges()
@@ -204,59 +204,58 @@ export class MealsComponent implements OnInit {
     }
   }
   onEItemSubmit(form: FormGroup) {
-    let randomString =
-      Math.random()
-        .toString(36)
-        .substring(2, 15) +
-      Math.random()
-        .toString(36)
-        .substring(2, 15);
-    const filePath = "items/" + randomString + "-" + this.imageFile.name;
-    const fileRef = this.storage.ref(filePath);
-    const task = this.storage.upload(filePath, this.imageFile);
-    const self = this;
-    console.log("eitemForm is ", self.eitemForm.value);
-    // task
-    //   .snapshotChanges()
-    //   .pipe(
-    //     finalize(() => {
-    //       this.downloadURL = fileRef.getDownloadURL();
-    //       this.downloadURL.subscribe(url => {
-    //         if (this.eitemForm.valid) {
-    //           console.log('eitemForm is ', self.eitemForm.value)
-    //           // let item = this.eitemForm.value;
-    //           // this.newItem = {
-    //           //   name: item.title,
-    //           //   description: item.description,
-    //           //   price: item.price,
-    //           //   image_url: url,
-    //           //   discount: item.discount,
-    //           //   discount_end_date: item.discountEnd,
-    //           //   available: item.isAvailable,
-    //           //   product: item.isProduct,
-    //           //   quanity: item.quantity,
-    //           //   category_id: Number(item.category),
-    //           //   franchise_id: 1
-    //           // };
-    //           // this.franchiseItemsService
-    //           //   .editItem(this.newItem, self.editMeal.id)
-    //           //   .subscribe(responseData => {
-    //           //     this.newItem = responseData.data;
-    //           //     this.showEditMeal = false;
-    //           //     this.showMeals = true;
-    //           //     this.storage.storage.refFromURL(
-    //           //       this.editMeal.image_url
-    //           //     ).delete()
-    //           //     console.log("this.newItem : ", this.newItem);
-    //           //     this.eitemForm.reset();
-    //           //   });
-    //         } else {
-    //           return;
-    //         }
-    //       });
-    //     })
-    //   )
-    //   .subscribe();
+    if (this.eitemForm.valid) {
+      let randomString =
+        Math.random()
+          .toString(36)
+          .substring(2, 15) +
+        Math.random()
+          .toString(36)
+          .substring(2, 15);
+      const filePath = "items/" + randomString + "-" + this.imageFile.name;
+      const fileRef = this.storage.ref(filePath);
+      const task = this.storage.upload(filePath, this.imageFile);
+      const self = this;
+      console.log("eitemForm is ", self.eitemForm.value);
+      task
+        .snapshotChanges()
+        .pipe(
+          finalize(() => {
+            this.downloadURL = fileRef.getDownloadURL();
+            this.downloadURL.subscribe(url => {
+              let item = this.eitemForm.value;
+              this.newItem = {
+                name: item.title,
+                description: item.description,
+                price: item.price,
+                image_url: url,
+                discount: item.discount,
+                discount_end_date: item.discountEnd,
+                available: item.isAvailable,
+                product: item.isProduct,
+                quanity: item.quantity,
+                category_id: Number(item.category),
+                franchise_id: 1
+              };
+              this.franchiseItemsService
+                .editItem(this.newItem, self.editMeal.id)
+                .subscribe(responseData => {
+                  this.newItem = responseData.data;
+                  this.showEditMeal = false;
+                  this.showMeals = true;
+                  this.storage.storage
+                    .refFromURL(this.editMeal.image_url)
+                    .delete();
+                  console.log("this.newItem : ", this.newItem);
+                  this.eitemForm.reset();
+                });
+            });
+          })
+        )
+        .subscribe();
+    } else {
+      return;
+    }
   }
   fileChangeEvent(fileInput: any) {
     let self = this;
