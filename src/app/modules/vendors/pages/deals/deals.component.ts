@@ -48,7 +48,7 @@ export class DealsComponent implements OnInit {
     });
     this.dealForm = new FormGroup({
       name: new FormControl(null, [Validators.required]),
-      price: new FormControl(1),
+      price: new FormControl(null, [Validators.required]),
       discountEnd: new FormControl(null, [Validators.required]),
       attachment: new FormControl(null, [Validators.required])
     });
@@ -117,49 +117,48 @@ export class DealsComponent implements OnInit {
   }
 
   onDealSubmit(form: FormGroup, btn: IsButton) {
-    btn.startLoading();
-    let randomString =
-      Math.random()
-        .toString(36)
-        .substring(2, 15) +
-      Math.random()
-        .toString(36)
-        .substring(2, 15);
-    const filePath = "deals/" + randomString + "-" + this.imageFile.name;
-    const fileRef = this.storage.ref(filePath);
-    const task = this.storage.upload(filePath, this.imageFile);
-
-    task
+    if (this.dealForm.valid) {
+      btn.startLoading();
+      let randomString =
+        Math.random()
+          .toString(36)
+          .substring(2, 15) +
+        Math.random()
+          .toString(36)
+          .substring(2, 15);
+      const filePath = "deals/" + randomString + "-" + this.imageFile.name;
+      const fileRef = this.storage.ref(filePath);
+      const task = this.storage.upload(filePath, this.imageFile);
+      task
       .snapshotChanges()
       .pipe(
         finalize(() => {
           this.downloadURL = fileRef.getDownloadURL();
           this.downloadURL.subscribe(url => {
-            if (this.dealForm.valid) {
-              let deal = this.dealForm.value;
-              this.newDeal = {
-                name: deal.name,
-                price: deal.price,
-                deal_image: url,
-                end_date: deal.discountEnd,
-                franchise_id: Number(localStorage.getItem("franchiseId"))
-              };
-              this.franchiseDealsService
-                .addDeal(this.newDeal)
-                .subscribe(responseData => {
-                  this.newDeal = responseData.data;
-                  this.showDeals = true;
-                  this.deals.push(this.newDeal);
-                  btn.stopLoading();
-                  console.log("this.newDeal : ", this.newDeal);
-                  this.dealForm.reset();
-                });
-            } else {
-              return;
-            }
+            let deal = this.dealForm.value;
+            this.newDeal = {
+              name: deal.name,
+              price: deal.price,
+              deal_image: url,
+              end_date: deal.discountEnd,
+              franchise_id: Number(localStorage.getItem("franchiseId"))
+            };
+            this.franchiseDealsService
+              .addDeal(this.newDeal)
+              .subscribe(responseData => {
+                this.newDeal = responseData.data;
+                this.showDeals = true;
+                this.deals.push(this.newDeal);
+                btn.stopLoading();
+                console.log("this.newDeal : ", this.newDeal);
+                this.dealForm.reset();
+              });
           });
         })
       )
       .subscribe();
+    } else {
+      console.log("Form is not Valid")
+    }
   }
 }

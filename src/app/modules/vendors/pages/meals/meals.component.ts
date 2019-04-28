@@ -92,7 +92,6 @@ export class MealsComponent implements OnInit {
   }
   onAddCategory() {
     if (this.categoryForm.valid) {
-      console.log("valid form ", this.categoryForm.value);
       let category = this.categoryForm.value;
       let newCategory = {
         name: category.categoryName,
