@@ -3,7 +3,7 @@
     class="d-flex justify-content-between w-100 align-items-center"
   >
     <div class="d-flex align-items-center w-25 justify-content-left">
-      <h4 class="text-dark w-50">Offered Meals (07)</h4>
+      <h4 class="text-dark w-50">Offered Meals ( {{ meals.length }} )</h4>
     </div>
     <div class="w-25 d-flex justify-content-end">
       <button
@@ -27,13 +27,24 @@
       </h6>
       <ul class="list-group mt-2">
         <li
-          class="list-group-item d-flex justify-content-start align-items-center text-muted bg-transparent "
+          class="d-flex justify-content-center align-items-center mt-5"
+          *ngIf="categories.length === 0"
+        >
+          <h3>Click + to add Categories</h3>
+        </li>
+        <li
+          class="list-group-item d-flex justify-content-start align-items-center text-muted bg-transparent  mt-1 category__list__item "
           *ngFor="let category of categories"
         >
+        <i
+            class="fas fa-trash category__icons__delete mr-2"
+            (click)="onDeleteCategoryHandler(category.id, deleteCategoryDialog)"
+          ></i>
           <span
             class="categories__item"
             (click)="getCategoryItems(category.name)"
-            >{{ category.name }}</span
+            >{{ category.name }}
+            </span
           >
         </li>
       </ul>
@@ -58,15 +69,13 @@
           </div>
         </div>
       </div>
-      <div class="row mt-4 mb-4">
-        <div class="col-md-3">
-          <div class="row">
-            <h5 class="text-dark ml-2">Garlic Bread</h5>
-            <h6 class=" pl-1">(07)</h6>
-          </div>
-        </div>
+      <div
+        class="d-flex justify-content-center align-items-center mt-5"
+        *ngIf="meals.length === 0"
+      >
+        <h3>Click "Add Meal" to add Meal Items</h3>
       </div>
-      <div class="row">
+      <div class="row mt-5" *ngIf="meals">
         <div class="col-md-6 mb-5" *ngFor="let meal of meals">
           <div class="card rounded shadow  mb-3 meal__card">
             <div class="row no-gutters">
@@ -301,14 +310,6 @@
             ></textarea>
           </div>
         </div>
-        <div
-          *ngIf="
-            itemForm.hasError('required', 'description') && formDir.submitted
-          "
-          class="item-form__input_error"
-        >
-          Description is required
-        </div>
         <div class="form-group w-100 d-flex align-items-center">
           <label for="exampleFormControlFile1" class="text-dark"
             >Attachments</label
@@ -367,9 +368,9 @@
       <h1 class="text-dark">Edit Meal</h1>
       <form
         class="ml-5"
-        [formGroup]="itemForm"
-        (ngSubmit)="onEItemSubmit(formDir, editMeal.id)"
-        #formDir="ngForm"
+        [formGroup]="eitemForm"
+        (ngSubmit)="onEItemSubmit(eformDir, esubmitBtn)"
+        #eformDir="ngForm"
       >
         <div class="form-group row">
           <label for="inputEmail3" class="col-sm-2 col-form-label text-dark"
@@ -381,13 +382,12 @@
               class="form-control"
               style="height:40px;"
               placeholder="Enter Title"
-              formControlName="title"
-              [value]="editMeal.name"
+              formControlName="etitle"
             />
           </div>
         </div>
         <div
-          *ngIf="itemForm.hasError('required', 'title') && formDir.submitted"
+          *ngIf="eitemForm.hasError('required', 'title') && eformDir.submitted"
           class="item-form__input_error"
         >
           Title is required
@@ -397,8 +397,7 @@
             class="form-check-input"
             type="checkbox"
             id="defaultCheck1"
-            formControlName="isAvailable"
-            [value]="editMeal.isAvailable"
+            formControlName="eisAvailable"
           />
           <label class="form-check-label text-dark" for="defaultCheck1">
             Is Available ?
@@ -412,15 +411,18 @@
             <select
               id="inputState"
               class="form-control"
-              formControlName="category"
+              formControlName="ecategory"
               placeholder="Choose Category"
             >
-              <option [selected]="editMeal.category.name" *ngFor="let category of categories">{{category.name}}</option>
+              <option
+                *ngFor="let category of categories"
+                >{{ category.name }}</option
+              >
             </select>
           </div>
         </div>
         <div
-          *ngIf="itemForm.hasError('required', 'category') && formDir.submitted"
+          *ngIf="eitemForm.hasError('required', 'ecategory') && eformDir.submitted"
           class="item-form__input_error"
         >
           Item Category is required
@@ -435,13 +437,12 @@
               class="form-control"
               style="height:40px;"
               placeholder="Enter Price"
-              formControlName="price"
-              [value]="editMeal.price"
+              formControlName="eprice"
             />
           </div>
         </div>
         <div
-          *ngIf="itemForm.hasError('required', 'price') && formDir.submitted"
+          *ngIf="eitemForm.hasError('required', 'eprice') && eformDir.submitted"
           class="item-form__input_error"
         >
           Price is required
@@ -456,13 +457,12 @@
               class="form-control"
               style="height:40px;"
               placeholder="Enter Discount"
-              formControlName="discount"
-              [value]="editMeal.discount"
+              formControlName="ediscount"
             />
           </div>
         </div>
         <div
-          *ngIf="itemForm.hasError('required', 'discount') && formDir.submitted"
+          *ngIf="eitemForm.hasError('required', 'ediscount') && eformDir.submitted"
           class="item-form__input_error"
         >
           Discount is required
@@ -477,14 +477,13 @@
               class="form-control"
               style="height:40px;"
               placeholder="Enter Discount End Date"
-              formControlName="discountEnd"
-              [value]="getFormattedDate(editMeal.endDate)"
+              formControlName="ediscountEnd"
             />
           </div>
         </div>
         <div
           *ngIf="
-            itemForm.hasError('required', 'discountEnd') && formDir.submitted
+            eitemForm.hasError('required', 'ediscountEnd') && eformDir.submitted
           "
           class="item-form__input_error"
         >
@@ -495,8 +494,7 @@
             class="form-check-input"
             type="checkbox"
             id="defaultCheck1"
-            formControlName="isProduct"
-            [value]="editMeal.isProduct"
+            formControlName="eisProduct"
           />
           <label class="form-check-label text-dark" for="defaultCheck1">
             Is Product ?
@@ -504,7 +502,7 @@
         </div>
         <div
           class="form-group row"
-          *ngIf="!itemForm.hasError('required', 'isProduct')"
+          *ngIf="eitemForm.hasError('required', 'eisProduct')"
         >
           <label for="inputPassword3" class="col-sm-2 col-form-label text-dark"
             >Quantity</label
@@ -515,16 +513,15 @@
               class="form-control"
               style="height:40px;"
               placeholder="Enter Quantity"
-              formControlName="quantity"
-              [value]="editMeal.quantity"
+              formControlName="equantity"
             />
           </div>
         </div>
         <div
           *ngIf="
-            itemForm.hasError('required', 'quantity') &&
-            formDir.submitted &&
-            !itemForm.hasError('required', 'isProduct')
+            eitemForm.hasError('required', 'equantity') &&
+            eformDir.submitted &&
+            eitemForm.hasError('required', 'eisProduct')
           "
           class="item-form__input_error"
         >
@@ -539,18 +536,9 @@
             <textarea
               class="form-control"
               rows="2"
-              formControlName="description"
-              [value]="editMeal.description"
+              formControlName="edescription"
             ></textarea>
           </div>
-        </div>
-        <div
-          *ngIf="
-            itemForm.hasError('required', 'description') && formDir.submitted
-          "
-          class="item-form__input_error"
-        >
-          Description is required
         </div>
         <div class="form-group w-100 d-flex align-items-center">
           <label for="exampleFormControlFile1" class="text-dark"
@@ -560,24 +548,24 @@
             type="file"
             class="form-control-file"
             style="display:none;"
-            #itemImage
+            #eitemImage
             accept=".jpeg,.png"
-            formControlName="attachment"
-            (change)="fileChangeEvent($event)"
+            formControlName="eattachment"
+            (change)="efileChangeEvent($event)"
           />
           <img
-            [src]="tempMealImageFile"
+            [src]="etempMealImageFile || editMeal.image_url"
             alt=""
             style="height:200px; width:200px; margin-left: 6%;"
           />
-          <i class="fas fa-edit meal__icons ml-3" (click)="chooseFile()"></i>
-          <p class="lead w-25 mt-3 ml-3" *ngIf="this.imageFile">
-            {{ this.imageFile.name }}
+          <i class="fas fa-edit meal__icons ml-3" (click)="echooseFile()"></i>
+          <p class="lead w-25 mt-3 ml-3" *ngIf="this.eimageFile">
+            {{ this.eimageFile.name }}
           </p>
         </div>
         <div
           *ngIf="
-            itemForm.hasError('required', 'attachment') && formDir.submitted
+            eitemForm.hasError('required', 'eattachment') && eformDir.submitted
           "
           class="item-form__input_error"
         >
@@ -585,7 +573,7 @@
         </div>
         <div class="form-group row">
           <div class="col-sm-10">
-            <button type="submit" class="btn btn-primary btn-lg">Submit</button>
+            <button type="submit" class="btn btn-primary btn-lg" is-button #esubmitBtn>Submit</button>
           </div>
         </div>
       </form>
@@ -621,7 +609,35 @@
   </ng-template>
   <!-- Delete Dialog Box End -->
 
-  <!-- Delete Dialog Box -->
+    <!-- Delete Category Dialog Box -->
+    <ng-template #deleteCategoryDialog let-close="close" let-data="data">
+        <div class="p-3">
+          <p>
+            <strong class="delete__message">{{ data }}</strong>
+          </p>
+          <div class="d-flex justify-content-center">
+            <button
+              is-button
+              theme="danger"
+              class="close-btn delete__dialog__btn"
+              (click)="close('ok')"
+            >
+              <span>Ok</span>
+            </button>
+            <button
+              is-button
+              theme="primary"
+              class="close-btn delete__dialog__btn"
+              (click)="close('Click on Close')"
+            >
+              <span>Cancel</span>
+            </button>
+          </div>
+        </div>
+      </ng-template>
+      <!-- Delete Category Dialog Box End -->
+
+  <!-- Add Category Box -->
   <ng-template #addCategoryDialog let-close="close" let-data="data">
     <div>
       <div class="card-header bg-dark text-white font-weight-bold rounded-0">
@@ -646,33 +662,36 @@
           />
         </div>
         <div
-          *ngIf="categoryForm.hasError('required', 'categoryName') && catform.submitted"
+          *ngIf="
+            categoryForm.hasError('required', 'categoryName') &&
+            catform.submitted
+          "
           class="form-group d-flex justify-content-start align-items-center item-form__input_error"
         >
           Name is required
         </div>
         <div class="d-flex justify-content-center">
-            <button
-              is-button
-              theme="danger"
-              class="close-btn w-25 mb-4 add__category__dialog__btn"
-              (click)="close('save')"
-              type="submit"
-              #catSubmitBtn
-            >
-              <span>Save</span>
-            </button>
-            <button
-              is-button
-              theme="primary"
-              class="close-btn w-25 mb-4 add__category__dialog__btn"
-              (click)="close('Click on Close')"
-            >
-              <span>Cancel</span>
-            </button>
-          </div>
+          <button
+            is-button
+            theme="danger"
+            class="close-btn w-25 mb-4 add__category__dialog__btn"
+            (click)="close('save')"
+            type="submit"
+            #catSubmitBtn
+          >
+            <span>Save</span>
+          </button>
+          <button
+            is-button
+            theme="primary"
+            class="close-btn w-25 mb-4 add__category__dialog__btn"
+            (click)="close('Click on Close')"
+          >
+            <span>Cancel</span>
+          </button>
+        </div>
       </form>
     </div>
   </ng-template>
-  <!-- Delete Dialog Box End -->
+  <!-- Add Category Box End -->
 </is-card>

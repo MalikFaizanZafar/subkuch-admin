@@ -1,4 +1,5 @@
 export interface itemModel {
+  id?: Number,
   name : String,
   description: String,
   price : Number,

@@ -34,7 +34,10 @@ export class MealsComponent implements OnInit {
   downloadURL: Observable<string>;
   imageFile;
   tempMealImageFile;
+  eimageFile;
+  etempMealImageFile;
   @ViewChild("itemImage") itemImage: ElementRef;
+  @ViewChild("eitemImage") eitemImage: ElementRef;
   constructor(
     private franchiseItemsService: FranchiseItemsService,
     private isModal: IsModalService,
@@ -52,19 +55,23 @@ export class MealsComponent implements OnInit {
       quantity: new FormControl(null, [Validators.required]),
       discount: new FormControl(null, [Validators.required]),
       discountEnd: new FormControl(null, [Validators.required]),
-      description: new FormControl(null, [Validators.required]),
+      description: new FormControl(null),
       attachment: new FormControl(null, [Validators.required])
     });
     this.categoryForm = new FormGroup({
       categoryName: new FormControl(null, [Validators.required])
     });
-    this.franchiseItemsService.getCategories().subscribe(responseData => {
-      this.categories = responseData.data;
-      this.franchiseItemsService.getItems(50).subscribe(itemresponseData => {
-        this.meals = itemresponseData.data;
-        console.log('this.meals has : ', this.meals)
+    this.franchiseItemsService
+      .getCategories(Number(localStorage.getItem("franchiseId")))
+      .subscribe(responseData => {
+        this.categories = responseData.data;
+        this.franchiseItemsService
+          .getItems(Number(localStorage.getItem("franchiseId")))
+          .subscribe(itemresponseData => {
+            this.meals = itemresponseData.data;
+            console.log("this.meals has : ", this.meals);
+          });
       });
-    });
   }
   getCategoryItems(name: string) {
     this.franchiseItemsService
@@ -73,33 +80,34 @@ export class MealsComponent implements OnInit {
         console.log("nameCategories : ", nameCategories);
       });
   }
-  addCategoryHandler(addCategoryDialog: TemplateRef<any>){
+  addCategoryHandler(addCategoryDialog: TemplateRef<any>) {
     const addCategoryDlg = this.isModal.open(addCategoryDialog);
     if (this.categoryForm.valid) {
-      console.log("valid form ", this.categoryForm.value)
+      console.log("valid form ", this.categoryForm.value);
       addCategoryDlg.onClose.subscribe(res => {
-        if(res === 'save') {
-          this.onAddCategory()
-        }else {
-          console.log("Form not Valid")
+        if (res === "save") {
+          this.onAddCategory();
+        } else {
+          console.log("Form not Valid");
         }
-      })
-     }
+      });
+    }
   }
   onAddCategory() {
     if (this.categoryForm.valid) {
-     console.log("valid form ", this.categoryForm.value)
-     let category = this.categoryForm.value;
-     let newCategory = {
-       name : category.categoryName,
-       type : "Type",
-       franchise_id: Number(localStorage.getItem("franchiseId"))
-     }
-     this.franchiseItemsService.addCategory(newCategory).subscribe(categoryResponse => {
-       console.log('newCat is : ', categoryResponse.data)
-       this.categories.push(categoryResponse.data)
-       this.categoryForm.reset()
-     })
+      let category = this.categoryForm.value;
+      let newCategory = {
+        name: category.categoryName,
+        type: "Type",
+        franchise_id: Number(localStorage.getItem("franchiseId"))
+      };
+      this.franchiseItemsService
+        .addCategory(newCategory)
+        .subscribe(categoryResponse => {
+          console.log("newCat is : ", categoryResponse.data);
+          this.categories.push(categoryResponse.data);
+          this.categoryForm.reset();
+        });
     }
   }
   onEditItemHandler(id) {
@@ -108,7 +116,19 @@ export class MealsComponent implements OnInit {
     this.showEditMeal = true;
     this.showMeals = false;
     console.log("Edit Meal is : ", this.editMeal);
-    this.tempMealImageFile = this.editMeal.image_url
+    this.tempMealImageFile = this.editMeal.image_url;
+    this.eitemForm = new FormGroup({
+      etitle: new FormControl(this.editMeal.name, [Validators.required]),
+      eisAvailable: new FormControl(this.editMeal.isAvailable),
+      ecategory: new FormControl(this.editMeal.category, [Validators.required]),
+      eprice: new FormControl(this.editMeal.price, [Validators.required]),
+      eisProduct: new FormControl(this.editMeal.isProduct, [Validators.requiredTrue]),
+      equantity: new FormControl(this.editMeal.quantity, [Validators.required]),
+      ediscount: new FormControl(this.editMeal.discount, [Validators.required]),
+      ediscountEnd: new FormControl(this.editMeal.discountEnd, [Validators.required]),
+      edescription: new FormControl(this.editMeal.description),
+      eattachment: new FormControl(null, [Validators.required])
+    });
   }
 
   onDeleteItemHandler(id, deleteDialog: TemplateRef<any>) {
@@ -124,7 +144,7 @@ export class MealsComponent implements OnInit {
           this.deleteMeal.image_url
         );
         delFile.delete().then(deletedFile => {
-          this.franchiseItemsService.deleteItems(id).subscribe(response => {
+          this.franchiseItemsService.deleteItem(id).subscribe(response => {
             console.log("Response from Server : ", response);
             this.toaster.popSuccess("Meal Has Been Deleted Successfully");
             this.meals = this.meals.filter(deal => deal.id != id);
@@ -133,27 +153,44 @@ export class MealsComponent implements OnInit {
       }
     });
   }
+  onDeleteCategoryHandler(id, deleteDialog: TemplateRef<any>) {
+    const deleteModal = this.isModal.open(deleteDialog, {
+      data: "Are Your Sure you want to Delete this Category ?"
+    });
+    deleteModal.onClose.subscribe(res => {
+      console.log("modal res has : ", res);
+      if (res === "ok") {
+        console.log(" category delete id : ", id);
+        this.franchiseItemsService.deleteCategory(id).subscribe(response => {
+          console.log("Response from Server : ", response);
+          this.toaster.popSuccess("Category Has Been Deleted Successfully");
+          this.categories = this.categories.filter(
+            categories => categories.id != id
+          );
+        });
+      }
+    });
+  }
   onItemSubmit(form: FormGroup, btn: IsButton) {
-    btn.startLoading();
-    let randomString =
-      Math.random()
-        .toString(36)
-        .substring(2, 15) +
-      Math.random()
-        .toString(36)
-        .substring(2, 15);
-    const filePath = "items/" + randomString + "-" + this.imageFile.name;
-    const fileRef = this.storage.ref(filePath);
-    const task = this.storage.upload(filePath, this.imageFile);
-
-    task
-      .snapshotChanges()
-      .pipe(
-        finalize(() => {
-          this.downloadURL = fileRef.getDownloadURL();
-          this.downloadURL.subscribe(url => {
-            // console.log('url is : ', url)
-            if (this.itemForm.valid) {
+    // console.log('url is : ', url)
+    if (this.itemForm.valid) {
+      let randomString =
+        Math.random()
+          .toString(36)
+          .substring(2, 15) +
+        Math.random()
+          .toString(36)
+          .substring(2, 15);
+      const filePath = "items/" + randomString + "-" + this.imageFile.name;
+      const fileRef = this.storage.ref(filePath);
+      const task = this.storage.upload(filePath, this.imageFile);
+      btn.startLoading();
+      task
+        .snapshotChanges()
+        .pipe(
+          finalize(() => {
+            this.downloadURL = fileRef.getDownloadURL();
+            this.downloadURL.subscribe(url => {
               let item = this.itemForm.value;
               this.newItem = {
                 name: item.title,
@@ -179,66 +216,75 @@ export class MealsComponent implements OnInit {
                   btn.stopLoading();
                   this.itemForm.reset();
                 });
-            } else {
-              return;
-            }
-          });
-        })
-      )
-      .subscribe();
+            });
+          })
+        )
+        .subscribe();
+    } else {
+      console.log("Form is not Valid");
+    }
   }
-  onEItemSubmit(form: FormGroup, mealId: any) {
-    let randomString =
-      Math.random()
-        .toString(36)
-        .substring(2, 15) +
-      Math.random()
-        .toString(36)
-        .substring(2, 15);
-    const filePath = "items/" + randomString + "-" + this.imageFile.name;
-    const fileRef = this.storage.ref(filePath);
-    const task = this.storage.upload(filePath, this.imageFile);
-
-    task
-      .snapshotChanges()
-      .pipe(
-        finalize(() => {
-          this.downloadURL = fileRef.getDownloadURL();
-          this.downloadURL.subscribe(url => {
-            if (this.itemForm.valid) {
-              let item = this.itemForm.value;
-              this.newItem = {
-                name: item.title,
-                description: item.description,
-                price: item.price,
+  onEItemSubmit(form: FormGroup, btn: IsButton) {
+    console.log("this.etemForm is : ", this.eitemForm.value)
+    if (this.eitemForm.valid) {
+      btn.startLoading();
+      let randomString =
+        Math.random()
+          .toString(36)
+          .substring(2, 15) +
+        Math.random()
+          .toString(36)
+          .substring(2, 15);
+      const filePath = "items/" + randomString + "-" + this.eimageFile.name;
+      const fileRef = this.storage.ref(filePath);
+      const task = this.storage.upload(filePath, this.eimageFile);
+      const self = this;
+      task
+        .snapshotChanges()
+        .pipe(
+          finalize(() => {
+            this.downloadURL = fileRef.getDownloadURL();
+            this.downloadURL.subscribe(url => {
+              let item = this.eitemForm.value;
+              let enewItem = {
+                name: item.etitle,
+                description: item.edescription,
+                price: item.eprice,
                 image_url: url,
-                discount: item.discount,
-                discount_end_date: item.discountEnd,
-                available: item.isAvailable,
-                product: item.isProduct,
-                quanity: item.quantity,
-                category_id: Number(item.category),
-                franchise_id: 1
+                discount: item.ediscount,
+                discount_end_date: item.ediscountEnd,
+                available: item.eisAvailable,
+                product: item.eisProduct,
+                quanity: item.equantity,
+                category_id: Number(item.ecategory),
+                franchise_id: Number(localStorage.getItem("franchiseId"))
               };
+              console.log("enewItem is ", enewItem);
               this.franchiseItemsService
-                .editItem(this.newItem, mealId)
+                .editItem(enewItem, self.editMeal.id)
                 .subscribe(responseData => {
                   this.newItem = responseData.data;
                   this.showEditMeal = false;
                   this.showMeals = true;
                   console.log("this.newItem : ", this.newItem);
-                  this.itemForm.reset();
+                  this.storage.storage
+                    .refFromURL(this.editMeal.image_url)
+                    .delete();
+                  btn.stopLoading();
+                  this.toaster.popSuccess("Meal has been Edited Successfully");
+                  this.eitemForm.reset();
                 });
-            } else {
-              return;
-            }
-          });
-        })
-      )
-      .subscribe();
+            });
+          })
+        )
+        .subscribe();
+    } else {
+      console.log("eItemForm is not valid")
+      return;
+    }
   }
   fileChangeEvent(fileInput: any) {
-    let self = this
+    let self = this;
     this.imageFile = fileInput.target.files[0];
     var reader = new FileReader();
     reader.onload = function() {
@@ -251,8 +297,22 @@ export class MealsComponent implements OnInit {
     console.log("choose an image");
     this.itemImage.nativeElement.click();
   }
-  getFormattedDate( mealDate : Date) {
-    const dateObj = new Date(mealDate)
-    return `${dateObj.getMonth()}/${dateObj.getDay()}/${dateObj.getFullYear()}`
+  efileChangeEvent(fileInput: any) {
+    let self = this;
+    this.eimageFile = fileInput.target.files[0];
+    var reader = new FileReader();
+    reader.onload = function() {
+      var dataURL = reader.result;
+      self.etempMealImageFile = dataURL;
+    };
+    reader.readAsDataURL(fileInput.target.files[0]);
+  }
+  echooseFile() {
+    console.log("choose an image");
+    this.eitemImage.nativeElement.click();
+  }
+  getFormattedDate(mealDate: Date) {
+    const dateObj = new Date(mealDate);
+    return `${dateObj.getMonth()}/${dateObj.getDay()}/${dateObj.getFullYear()}`;
   }
 }

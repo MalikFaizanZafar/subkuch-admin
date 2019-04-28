@@ -13,7 +13,6 @@ import { finalize } from "rxjs/operators";
 import { IsButton, IsModalService } from "../../../../lib";
 import { IsToasterService } from "../../../../lib/toaster";
 import { dealModel } from "../../models/dealModel";
-import { FranchiseInfoService } from "../../services/franchiseInfo.service";
 
 @Component({
   selector: "deals",
@@ -23,14 +22,18 @@ import { FranchiseInfoService } from "../../services/franchiseInfo.service";
 export class DealsComponent implements OnInit {
   deals: any = [];
   dealForm: FormGroup;
+  editDealForm: FormGroup;
   newDeal: dealModel;
   showDeals: boolean = true;
-  editDeal: {};
+  editDeal;
   deleteDeal;
   showEditDeal: boolean = false;
   downloadURL: Observable<string>;
   imageFile;
+  eimageFile;
+  tempDealImageFile;
   @ViewChild("dealImage") dealImage: ElementRef;
+  @ViewChild("edealImage") edealImage: ElementRef;
   constructor(
     private franchiseDealsService: FranchiseDealsService,
     private isModal: IsModalService,
@@ -39,13 +42,13 @@ export class DealsComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.franchiseDealsService.getDeals(6).subscribe(responseData => {
+    this.franchiseDealsService.getDeals(Number(localStorage.getItem("franchiseId"))).subscribe(responseData => {
       this.deals = responseData.data;
       console.log("this.deals has : ", this.deals);
     });
     this.dealForm = new FormGroup({
       name: new FormControl(null, [Validators.required]),
-      price: new FormControl(1),
+      price: new FormControl(null, [Validators.required]),
       discountEnd: new FormControl(null, [Validators.required]),
       attachment: new FormControl(null, [Validators.required])
     });
@@ -54,17 +57,42 @@ export class DealsComponent implements OnInit {
   fileChangeEvent(fileInput: any) {
     this.imageFile = fileInput.target.files[0];
   }
+  editDealImageChangeEvent(fileInput: any) {
+    this.eimageFile = fileInput.target.files[0];
+    const self = this
+    var reader = new FileReader();
+    reader.onload = function() {
+      var dataURL = reader.result;
+      self.tempDealImageFile = dataURL;
+    };
+    reader.readAsDataURL(fileInput.target.files[0]);
+  }
   chooseFile() {
     console.log("choose an image");
     this.dealImage.nativeElement.click();
   }
-
-  onEditDealHandler(id) {
+  echooseFile() {
+    this.edealImage.nativeElement.click();
+  }
+  onEditDealHandler(id, editMealDialog: TemplateRef<any> ) {
     let filterdDeals = this.deals.filter(meal => meal.id == id);
     this.editDeal = filterdDeals[0];
+    this.tempDealImageFile = this.editDeal.dealImage
     // this.showEditDeal = true;
     // this.showDeals = false;
     console.log("Edit Deal is : ", this.editDeal);
+    this.editDealForm = new FormGroup({
+      ename: new FormControl(null, [Validators.required]),
+      eprice: new FormControl(1),
+      ediscountEnd: new FormControl(null, [Validators.required]),
+      eattachment: new FormControl(null, [Validators.required])
+    });
+    const deleteModal = this.isModal.open(editMealDialog);
+    deleteModal.onClose.subscribe(res => {
+      if(res === 'ok') {
+        console.log('res is ok')
+      }
+    })
   }
   onDeleteDealHandler(id, deleteDialog: TemplateRef<any>) {
     const deleteModal = this.isModal.open(deleteDialog, {
@@ -89,49 +117,48 @@ export class DealsComponent implements OnInit {
   }
 
   onDealSubmit(form: FormGroup, btn: IsButton) {
-    btn.startLoading();
-    let randomString =
-      Math.random()
-        .toString(36)
-        .substring(2, 15) +
-      Math.random()
-        .toString(36)
-        .substring(2, 15);
-    const filePath = "deals/" + randomString + "-" + this.imageFile.name;
-    const fileRef = this.storage.ref(filePath);
-    const task = this.storage.upload(filePath, this.imageFile);
-
-    task
+    if (this.dealForm.valid) {
+      btn.startLoading();
+      let randomString =
+        Math.random()
+          .toString(36)
+          .substring(2, 15) +
+        Math.random()
+          .toString(36)
+          .substring(2, 15);
+      const filePath = "deals/" + randomString + "-" + this.imageFile.name;
+      const fileRef = this.storage.ref(filePath);
+      const task = this.storage.upload(filePath, this.imageFile);
+      task
       .snapshotChanges()
       .pipe(
         finalize(() => {
           this.downloadURL = fileRef.getDownloadURL();
           this.downloadURL.subscribe(url => {
-            if (this.dealForm.valid) {
-              let deal = this.dealForm.value;
-              this.newDeal = {
-                name: deal.name,
-                price: deal.price,
-                deal_image: url,
-                end_date: deal.discountEnd,
-                franchise_id: Number(localStorage.getItem("franchiseId"))
-              };
-              this.franchiseDealsService
-                .addDeal(this.newDeal)
-                .subscribe(responseData => {
-                  this.newDeal = responseData.data;
-                  this.showDeals = true;
-                  this.deals.push(this.newDeal);
-                  btn.stopLoading();
-                  console.log("this.newDeal : ", this.newDeal);
-                  this.dealForm.reset();
-                });
-            } else {
-              return;
-            }
+            let deal = this.dealForm.value;
+            this.newDeal = {
+              name: deal.name,
+              price: deal.price,
+              deal_image: url,
+              end_date: deal.discountEnd,
+              franchise_id: Number(localStorage.getItem("franchiseId"))
+            };
+            this.franchiseDealsService
+              .addDeal(this.newDeal)
+              .subscribe(responseData => {
+                this.newDeal = responseData.data;
+                this.showDeals = true;
+                this.deals.push(this.newDeal);
+                btn.stopLoading();
+                console.log("this.newDeal : ", this.newDeal);
+                this.dealForm.reset();
+              });
           });
         })
       )
       .subscribe();
+    } else {
+      console.log("Form is not Valid")
+    }
   }
 }

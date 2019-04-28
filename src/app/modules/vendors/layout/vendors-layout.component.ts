@@ -83,6 +83,7 @@ export class VendorsLayoutComponent implements OnInit {
     });
     this.franchiseInfoService.getFranchiseInfo().subscribe(responseData => {
       this.franchiseInfo = responseData.data;
+      console.log('this.franchiseInfo : ', this.franchiseInfo)
       this.tempEditLogoImage = this.franchiseInfo.logo;
       this.tempEditBannerImage = this.franchiseInfo.welcomeImage;
     });
@@ -177,13 +178,17 @@ export class VendorsLayoutComponent implements OnInit {
                 .editFranchiseLogo(newEditPostDto)
                 .subscribe(editLogoResponse => {
                   console.log("editLogoResponse is : ", editLogoResponse.data);
-                  const delFile = this.storage.storage.refFromURL(
-                    this.franchiseInfo.logo
-                  );
-                  delFile.delete().then(deletedFile => {
-                    this.franchiseInfo.logo =
-                      editLogoResponse.data.franchise_logo;
-                  });
+                  if(this.franchiseInfo.logo != null) {
+                    const delFile = this.storage.storage.refFromURL(
+                      this.franchiseInfo.logo
+                    );
+                    delFile.delete().then(deletedFile => {
+                      this.franchiseInfo.logo =
+                        editLogoResponse.data.franchise_logo;
+                    });
+                  } else {
+                    console.log('No Log for this franchise exists Yet')
+                  }
                   this.toaster.popSuccess(
                     "Franchise Logo Updated Successfully"
                   );
@@ -227,13 +232,17 @@ export class VendorsLayoutComponent implements OnInit {
                     "editBannerResponse is : ",
                     editBannerResponse.data
                   );
-                  const delFile = this.storage.storage.refFromURL(
-                    this.franchiseInfo.welcomeImage
-                  );
-                  delFile.delete().then(deletedFile => {
-                    this.franchiseInfo.welcomeImage =
-                      editBannerResponse.data.welcome_image;
-                  });
+                  if(this.franchiseInfo.welcomeImage != null) {
+                    const delFile = this.storage.storage.refFromURL(
+                      this.franchiseInfo.welcomeImage
+                    );
+                    delFile.delete().then(deletedFile => {
+                      this.franchiseInfo.welcomeImage =
+                        editBannerResponse.data.welcome_image;
+                    });
+                  }else {
+                    console.log('No Banner for this franchise exists Yet')
+                  }
                   this.toaster.popSuccess(
                     "Franchise Banner Updated Successfully"
                   );

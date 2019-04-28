@@ -16,16 +16,16 @@ export class FranchiseItemsService {
     let headers = new HttpHeaders();
     const token = localStorage.getItem("Authorization");
     headers = headers.append("Authorization", token);
-    return this.http.get<any>(`${this.baseURL}/item`, {
+    return this.http.get<any>(`${this.baseURL}/item/franchise/${id}`, {
       headers
     });
   }
 
-  getCategories(): Observable<any> {
+  getCategories(id): Observable<any> {
     let headers = new HttpHeaders();
     const token = localStorage.getItem("Authorization");
     headers = headers.append("Authorization", token);
-    return this.http.get<any>(`${this.baseURL}/itemcategory`, {
+    return this.http.get<any>(`${this.baseURL}/itemcategory/franchise/${id}`, {
       headers
     });
   }
@@ -48,11 +48,20 @@ export class FranchiseItemsService {
     });
   }
 
-  deleteItems(id: number): Observable<any> {
+  deleteItem(id: number): Observable<any> {
     let headers = new HttpHeaders();
     const token = localStorage.getItem("Authorization");
     headers = headers.append("Authorization", token);
     return this.http.delete<any>(`${this.baseURL}/item/${id}`, {
+      headers
+    });
+  }
+
+  deleteCategory(id: number): Observable<any> {
+    let headers = new HttpHeaders();
+    const token = localStorage.getItem("Authorization");
+    headers = headers.append("Authorization", token);
+    return this.http.delete<any>(`${this.baseURL}/itemcategory/${id}`, {
       headers
     });
   }
@@ -66,11 +75,11 @@ export class FranchiseItemsService {
     });
   }
 
-  editItem( item : itemModel, itemId : any): Observable<any> {
+  editItem( item : itemModel, itemId : Number): Observable<any> {
     let headers = new HttpHeaders().set('Content-Type', 'application/json');
     const token = localStorage.getItem("Authorization");
     headers = headers.append("Authorization", token);
-    return this.http.put<any>(`${this.baseURL}/item/itemId`,item, {
+    return this.http.put<any>(`${this.baseURL}/item/${itemId}`,item, {
       headers
     });
   }
