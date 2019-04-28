@@ -27,12 +27,13 @@ export class MealsComponent implements OnInit {
   categoryForm: FormGroup;
   eitemForm: FormGroup;
   newItem: itemModel;
-  editMeal: {};
+  editMeal;
   deleteMeal;
   showEditMeal: boolean = false;
   itemUrl: String = "";
   downloadURL: Observable<string>;
   imageFile;
+  tempMealImageFile;
   @ViewChild("itemImage") itemImage: ElementRef;
   constructor(
     private franchiseItemsService: FranchiseItemsService,
@@ -44,7 +45,7 @@ export class MealsComponent implements OnInit {
   ngOnInit() {
     this.itemForm = new FormGroup({
       title: new FormControl(null, [Validators.required]),
-      isAvailable: new FormControl(1),
+      isAvailable: new FormControl(null),
       category: new FormControl(null, [Validators.required]),
       price: new FormControl(null, [Validators.required]),
       isProduct: new FormControl(null, [Validators.requiredTrue]),
@@ -61,6 +62,7 @@ export class MealsComponent implements OnInit {
       this.categories = responseData.data;
       this.franchiseItemsService.getItems(50).subscribe(itemresponseData => {
         this.meals = itemresponseData.data;
+        console.log('this.meals has : ', this.meals)
       });
     });
   }
@@ -106,6 +108,7 @@ export class MealsComponent implements OnInit {
     this.showEditMeal = true;
     this.showMeals = false;
     console.log("Edit Meal is : ", this.editMeal);
+    this.tempMealImageFile = this.editMeal.image_url
   }
 
   onDeleteItemHandler(id, deleteDialog: TemplateRef<any>) {
@@ -235,10 +238,21 @@ export class MealsComponent implements OnInit {
       .subscribe();
   }
   fileChangeEvent(fileInput: any) {
+    let self = this
     this.imageFile = fileInput.target.files[0];
+    var reader = new FileReader();
+    reader.onload = function() {
+      var dataURL = reader.result;
+      self.tempMealImageFile = dataURL;
+    };
+    reader.readAsDataURL(fileInput.target.files[0]);
   }
   chooseFile() {
     console.log("choose an image");
     this.itemImage.nativeElement.click();
+  }
+  getFormattedDate( mealDate : Date) {
+    const dateObj = new Date(mealDate)
+    return `${dateObj.getMonth()}/${dateObj.getDay()}/${dateObj.getFullYear()}`
   }
 }

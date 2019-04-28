@@ -16,9 +16,10 @@ export class OrdersComponent implements OnInit {
   constructor(private franchiseOrdersService : FranchiseOrdersService, private router : Router,
     private notificationsService : NotificationsService ) { }
 
-  async ngOnInit() {
-    await this.franchiseOrdersService.getOrders(1).subscribe(responseData => {
+  ngOnInit() {
+    this.franchiseOrdersService.getOrders(1).subscribe(responseData => {
       this.orders = responseData.data
+      console.log('this.orders is : ', this.orders)
     })
     this.currentUrl =  this.router.url
     this.notificationsService.getPermission()

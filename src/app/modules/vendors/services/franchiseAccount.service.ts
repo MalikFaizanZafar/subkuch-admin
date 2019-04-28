@@ -12,7 +12,7 @@ export class FranchiseAccountService {
     let headers = new HttpHeaders().set('Content-Type', 'application/json');
     const token = localStorage.getItem("Authorization");
     headers = headers.append("Authorization", token);
-    return this.http.post<any>(`${this.baseURL}/franchise/56/account`,deviceToken, {
+    return this.http.post<any>(`${this.baseURL}/franchise/${localStorage.getItem('franchiseId')}/account`,deviceToken, {
       headers
     });
   }

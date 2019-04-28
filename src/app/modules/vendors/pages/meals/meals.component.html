@@ -396,7 +396,6 @@
           <input
             class="form-check-input"
             type="checkbox"
-            value=""
             id="defaultCheck1"
             formControlName="isAvailable"
             [value]="editMeal.isAvailable"
@@ -416,9 +415,7 @@
               formControlName="category"
               placeholder="Choose Category"
             >
-              <option value="1">Pizza</option>
-              <option value="2">Burger</option>
-              <option value="3">Chicken</option>
+              <option [selected]="editMeal.category.name" *ngFor="let category of categories">{{category.name}}</option>
             </select>
           </div>
         </div>
@@ -481,7 +478,7 @@
               style="height:40px;"
               placeholder="Enter Discount End Date"
               formControlName="discountEnd"
-              [value]="editMeal.endDate"
+              [value]="getFormattedDate(editMeal.endDate)"
             />
           </div>
         </div>
@@ -497,7 +494,6 @@
           <input
             class="form-check-input"
             type="checkbox"
-            value=""
             id="defaultCheck1"
             formControlName="isProduct"
             [value]="editMeal.isProduct"
@@ -570,7 +566,7 @@
             (change)="fileChangeEvent($event)"
           />
           <img
-            [src]="editMeal.image_url"
+            [src]="tempMealImageFile"
             alt=""
             style="height:200px; width:200px; margin-left: 6%;"
           />
