@@ -109,6 +109,18 @@ export class MealsComponent implements OnInit {
     this.showMeals = false;
     console.log("Edit Meal is : ", this.editMeal);
     this.tempMealImageFile = this.editMeal.image_url
+    this.eitemForm = new FormGroup({
+      etitle: new FormControl(null, [Validators.required]),
+      eisAvailable: new FormControl(null),
+      ecategory: new FormControl(null, [Validators.required]),
+      eprice: new FormControl(null, [Validators.required]),
+      eisProduct: new FormControl(null, [Validators.requiredTrue]),
+      equantity: new FormControl(null, [Validators.required]),
+      ediscount: new FormControl(null, [Validators.required]),
+      ediscountEnd: new FormControl(null, [Validators.required]),
+      edescription: new FormControl(null, [Validators.required]),
+      eattachment: new FormControl(null, [Validators.required])
+    });
   }
 
   onDeleteItemHandler(id, deleteDialog: TemplateRef<any>) {
@@ -187,7 +199,7 @@ export class MealsComponent implements OnInit {
       )
       .subscribe();
   }
-  onEItemSubmit(form: FormGroup, mealId: any) {
+  onEItemSubmit(form: FormGroup) {
     let randomString =
       Math.random()
         .toString(36)
@@ -198,44 +210,49 @@ export class MealsComponent implements OnInit {
     const filePath = "items/" + randomString + "-" + this.imageFile.name;
     const fileRef = this.storage.ref(filePath);
     const task = this.storage.upload(filePath, this.imageFile);
-
-    task
-      .snapshotChanges()
-      .pipe(
-        finalize(() => {
-          this.downloadURL = fileRef.getDownloadURL();
-          this.downloadURL.subscribe(url => {
-            if (this.itemForm.valid) {
-              let item = this.itemForm.value;
-              this.newItem = {
-                name: item.title,
-                description: item.description,
-                price: item.price,
-                image_url: url,
-                discount: item.discount,
-                discount_end_date: item.discountEnd,
-                available: item.isAvailable,
-                product: item.isProduct,
-                quanity: item.quantity,
-                category_id: Number(item.category),
-                franchise_id: 1
-              };
-              this.franchiseItemsService
-                .editItem(this.newItem, mealId)
-                .subscribe(responseData => {
-                  this.newItem = responseData.data;
-                  this.showEditMeal = false;
-                  this.showMeals = true;
-                  console.log("this.newItem : ", this.newItem);
-                  this.itemForm.reset();
-                });
-            } else {
-              return;
-            }
-          });
-        })
-      )
-      .subscribe();
+    const self = this
+    console.log('eitemForm is ', self.eitemForm.value)
+    // task
+    //   .snapshotChanges()
+    //   .pipe(
+    //     finalize(() => {
+    //       this.downloadURL = fileRef.getDownloadURL();
+    //       this.downloadURL.subscribe(url => {
+    //         if (this.eitemForm.valid) {
+    //           console.log('eitemForm is ', self.eitemForm.value)
+    //           // let item = this.eitemForm.value;
+    //           // this.newItem = {
+    //           //   name: item.title,
+    //           //   description: item.description,
+    //           //   price: item.price,
+    //           //   image_url: url,
+    //           //   discount: item.discount,
+    //           //   discount_end_date: item.discountEnd,
+    //           //   available: item.isAvailable,
+    //           //   product: item.isProduct,
+    //           //   quanity: item.quantity,
+    //           //   category_id: Number(item.category),
+    //           //   franchise_id: 1
+    //           // };
+    //           // this.franchiseItemsService
+    //           //   .editItem(this.newItem, self.editMeal.id)
+    //           //   .subscribe(responseData => {
+    //           //     this.newItem = responseData.data;
+    //           //     this.showEditMeal = false;
+    //           //     this.showMeals = true;
+    //           //     this.storage.storage.refFromURL(
+    //           //       this.editMeal.image_url
+    //           //     ).delete()
+    //           //     console.log("this.newItem : ", this.newItem);
+    //           //     this.eitemForm.reset();
+    //           //   });
+    //         } else {
+    //           return;
+    //         }
+    //       });
+    //     })
+    //   )
+    //   .subscribe();
   }
   fileChangeEvent(fileInput: any) {
     let self = this

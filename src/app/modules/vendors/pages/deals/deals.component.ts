@@ -23,14 +23,18 @@ import { FranchiseInfoService } from "../../services/franchiseInfo.service";
 export class DealsComponent implements OnInit {
   deals: any = [];
   dealForm: FormGroup;
+  editDealForm: FormGroup;
   newDeal: dealModel;
   showDeals: boolean = true;
-  editDeal: {};
+  editDeal;
   deleteDeal;
   showEditDeal: boolean = false;
   downloadURL: Observable<string>;
   imageFile;
+  eimageFile;
+  tempDealImageFile;
   @ViewChild("dealImage") dealImage: ElementRef;
+  @ViewChild("edealImage") edealImage: ElementRef;
   constructor(
     private franchiseDealsService: FranchiseDealsService,
     private isModal: IsModalService,
@@ -54,17 +58,42 @@ export class DealsComponent implements OnInit {
   fileChangeEvent(fileInput: any) {
     this.imageFile = fileInput.target.files[0];
   }
+  editDealImageChangeEvent(fileInput: any) {
+    this.eimageFile = fileInput.target.files[0];
+    const self = this
+    var reader = new FileReader();
+    reader.onload = function() {
+      var dataURL = reader.result;
+      self.tempDealImageFile = dataURL;
+    };
+    reader.readAsDataURL(fileInput.target.files[0]);
+  }
   chooseFile() {
     console.log("choose an image");
     this.dealImage.nativeElement.click();
   }
-
-  onEditDealHandler(id) {
+  echooseFile() {
+    this.edealImage.nativeElement.click();
+  }
+  onEditDealHandler(id, editMealDialog: TemplateRef<any> ) {
     let filterdDeals = this.deals.filter(meal => meal.id == id);
     this.editDeal = filterdDeals[0];
+    this.tempDealImageFile = this.editDeal.dealImage
     // this.showEditDeal = true;
     // this.showDeals = false;
     console.log("Edit Deal is : ", this.editDeal);
+    this.editDealForm = new FormGroup({
+      ename: new FormControl(null, [Validators.required]),
+      eprice: new FormControl(1),
+      ediscountEnd: new FormControl(null, [Validators.required]),
+      eattachment: new FormControl(null, [Validators.required])
+    });
+    const deleteModal = this.isModal.open(editMealDialog);
+    deleteModal.onClose.subscribe(res => {
+      if(res === 'ok') {
+        console.log('res is ok')
+      }
+    })
   }
   onDeleteDealHandler(id, deleteDialog: TemplateRef<any>) {
     const deleteModal = this.isModal.open(deleteDialog, {
