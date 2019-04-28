@@ -50,7 +50,6 @@ export class GoogleMapService {
       if (status === google.maps.GeocoderStatus.OK) {
         if (results.length > 0 ) {
           self.address = results[0];  
-          console.log(self.address);
         } else {
           alert('No results found');
         }

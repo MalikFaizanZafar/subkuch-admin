@@ -3,10 +3,12 @@ import { Observable } from 'rxjs';
 import { AvailableServicesResponse } from '../models/availableServices';
 import { Injectable } from '@angular/core';
 import { VendorUser } from '../models/vendor-members';
+import { environment } from '../../../../environments/environment';
 
+const baseUrl = environment.baseUrl;
 const API_URL = {
-  service: '/api/auth/service?size=30',
-  signup: '/api/auth/signup'
+  service: `${baseUrl}/api/auth/service?size=30`,
+  signup: `${baseUrl}/api/auth/signup`
 };
 
 @Injectable()

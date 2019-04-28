@@ -1,6 +1,11 @@
 @import 'palette';
 
 :host {
+  .logo {
+    height: 40px;
+    width: auto;
+  }
+
   option[default] {
     display: none;
   }

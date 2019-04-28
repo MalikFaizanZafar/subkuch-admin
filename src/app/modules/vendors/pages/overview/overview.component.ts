@@ -20,13 +20,24 @@ export class OverviewComponent implements OnInit {
 
   ngOnInit() {
     this.franchiseInfoService.getFranchiseInfo().subscribe(responseData => {
-      this.franchiseInfo = responseData.data
-      console.log('this.franchiseInfo : ', this.franchiseInfo)
+      this.franchiseInfo = responseData.data;
+
       localStorage.setItem("franchiseId",this.franchiseInfo.id)
       if (!this.franchiseInfo.address) {
         this.setEditingMode();
       }
     })
+  }
+
+  get startTime() {
+    const time = new Date(this.franchiseInfo.startTime);
+    return `${time.getHours()}:00`
+  }
+
+  
+  get endTime() {
+    const time = new Date(this.franchiseInfo.endTime);
+    return `${time.getHours()}:00`
   }
 
   setEditingMode() {

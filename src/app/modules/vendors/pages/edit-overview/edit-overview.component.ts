@@ -4,18 +4,27 @@ import {
   EventEmitter,
   Output,
   ElementRef,
-  ViewChild
+  ViewChild,
+  Input
 } from "@angular/core";
-import { FormGroup, FormControl, Validators } from "@angular/forms";
+import { FormGroup, FormControl, Validators, NgForm } from "@angular/forms";
 import { UserDetailsService } from "../../services/userDetails.service";
 import { IsModalService, IsModalSize } from "app/lib/modal";
 import { GoogleMapService } from "@app/shared/services/google-map.service";
 import { MapsAPILoader } from "@agm/core";
 import { LocationCoordinates } from "@app/shared/models/coordinates";
-import { LocationSelectorComponent } from "../../modal/location-selector/location-selector/location-selector.component";
 import { MapModalComponent } from "@app/shared/map-modal/components/map-modal/map-modal.component";
 import { SearchService } from "../../services/search.service";
+import { FranchiseInfoService } from "../../services/franchiseInfo.service";
+import { IsToasterService, IsToastPosition } from "../../../../lib/toaster";
 
+interface FranchiseContact {
+  email?: string;
+  franchiseContactId?: number;
+  franchiseContactPersonName?: string;
+  franchiseContactPersonPhone?: string;
+  franchiseId?: number;
+}
 declare var google: any;
 const startTime: Date = new Date();
 startTime.setHours(9);
@@ -29,6 +38,8 @@ endTime.setMinutes(0);
   styleUrls: ["./edit-overview.component.scss"]
 })
 export class EditOverviewComponent implements OnInit {
+  @Input()
+  data: any;
   overviewForm: FormGroup;
   dragging: boolean;
   loaded: boolean;
@@ -44,22 +55,25 @@ export class EditOverviewComponent implements OnInit {
   @Output() overviewEditedCancelled: EventEmitter<any> = new EventEmitter();
 
   constructor(
-    private userDetailsService: UserDetailsService,
+    private toast: IsToasterService,
     private mapsApiLoader: MapsAPILoader,
     private googleMapService: GoogleMapService,
     private modal: IsModalService,
-    private searchService: SearchService
+    private franchiseServcie: FranchiseInfoService
   ) {}
 
   ngOnInit() {
     this.overviewForm = new FormGroup({
-      welcomeParagraph: new FormControl(null, [Validators.required]),
-      phoneOne: new FormControl(null, [Validators.required]),
-      phoneTwo: new FormControl(null),
-      email: new FormControl(null, [Validators.required]),
-      location: new FormControl(null, [Validators.required]),
-      startTime: new FormControl(startTime, [Validators.required]),
-      endTime: new FormControl(endTime, [Validators.required])
+      welcomeParagraph: new FormControl(this.data.welcomeNote || '', [Validators.required]),
+      contactOne: new FormControl( this.data.contact[0]? this.data.contact[0].franchiseContactPersonName || '': '', [Validators.required]),
+      contactTwo: new FormControl( this.data.contact[1] ? this.data.contact[1].franchiseContactPersonName || '': ''),
+      phoneOne: new FormControl( this.data.contact[0]? this.data.contact[0].franchiseContactPersonPhone || '': '', [Validators.required]),
+      phoneTwo: new FormControl( this.data.contact[1] ? this.data.contact[1].franchiseContactPersonPhone || '': ''),
+      emailOne: new FormControl(this.data.contact[0] ? this.data.contact[0].email || '' : '', [Validators.required]),
+      emailTwo: new FormControl(this.data.contact[1]? this.data.contact[1].email || '': ''),
+      location: new FormControl(this.data.address || '', [Validators.required]),
+      startTime: new FormControl(new Date(this.data.startTime) || startTime, [Validators.required]),
+      endTime: new FormControl(new Date(this.data.endTime )|| endTime, [Validators.required])
     });
     this.mapsApiLoader.load().then(() => {
       let autocomplete = new google.maps.places.Autocomplete(
@@ -76,44 +90,84 @@ export class EditOverviewComponent implements OnInit {
       this.searchElementRef.nativeElement.value = res;
     });
 
-    this.setUserCurrentLocation();
+    if (!this.data.address) {
+      this.setUserCurrentLocation();
+    } else {
+      this.currentPostion = {
+        latitude: this.data.latitude,
+        longitude: this.data.longitude
+      };
+      this.searchElementRef.nativeElement.value = this.data.address;
+    }
   }
 
-  submitHandler() {
+  submitHandler(form: NgForm) {
+    if(form.invalid) {
+      return;
+    }
     let overviewData = {
       welcomeParagraph: this.overviewForm.get("welcomeParagraph").value,
-      contact: {
-        phone: [
-          this.overviewForm.get("phoneOne").value,
-          this.overviewForm.get("phoneTwo").value
-        ],
-        email: [this.overviewForm.get("email").value]
-      },
-      openingStatus: {
-        start: this.overviewForm.get("startTime").value,
-        end: this.overviewForm.get("endTime").value
-      }
+      contact: [
+         {
+          email: this.overviewForm.get("emailOne").value, 
+          phone: this.overviewForm.get("phoneOne").value,
+         },
+        {
+          email: this.overviewForm.get("emailTwo").value,
+          phone: this.overviewForm.get("phoneTwo").value
+        }
+      ],
+      start: this.overviewForm.get("startTime").value,
+      end: this.overviewForm.get("endTime").value,
+      address: this.currentAddress,
+      longitude: this.currentPostion.longitude,
+      latitude: this.currentPostion.latitude,
+      welcomeNote: this.overviewForm.get('welcomeParagraph').value
     };
-    let id = localStorage.getItem("user");
-    this.userDetailsService
-      .addUserOverview(id, overviewData)
+    const contacts: FranchiseContact[] = [];
+    const contact1: FranchiseContact = {
+      email: this.overviewForm.get("emailOne").value,
+      franchiseContactPersonName: this.overviewForm.get("contactOne").value,
+      franchiseContactPersonPhone: this.overviewForm.get("phoneOne").value,
+      franchiseId: this.data.id,
+      franchiseContactId: this.data.contact[0] ? this.data.contact[0].franchiseContactId: null
+    }
+    contacts.push(contact1);  
+
+    if (this.overviewForm.get("emailTwo").value || 
+        this.overviewForm.get("phoneTwo").value || 
+        this.overviewForm.get("contactTwo").value) {
+        const contact2: FranchiseContact = {
+        email: this.overviewForm.get("emailTwo").value,
+        franchiseContactPersonName: this.overviewForm.get("contactTwo").value,
+        franchiseContactPersonPhone: this.overviewForm.get("phoneTwo").value,
+        franchiseId: this.data.id,
+        franchiseContactId: this.data.contact[1] ? this.data.contact[1].franchiseContactId: null
+      }
+      contacts.push(contact2);
+    }  
+    this.data.address = this.searchElementRef.nativeElement.value;
+    this.data.latitude = `${overviewData.latitude}`;
+    this.data.longitude = `${overviewData.longitude}`;
+    this.data.welcomeNote = overviewData.welcomeNote;
+    this.data.startTime = new Date(overviewData.start);
+    this.data.endTime = new Date(overviewData.end);
+    this.data.contact = contacts;
+    
+    this.franchiseServcie.updateFranchiseInfo(this.data.id, this.data)
       .pipe()
       .subscribe(overview => {
-        console.log("Response is : ", overview);
+        this.toast.popSuccess('Franchise info updated successfully', {
+          position: IsToastPosition.BottomRight
+        });
         this.overviewEdited.emit(null);
+        this.overviewForm.reset();
       });
-    this.overviewForm.reset();
   }
 
   cancelEditing() {
     this.overviewForm.reset();
     this.overviewEditedCancelled.emit(null);
-  }
-
-  onLocationTouch() {
-    this.modal.open(LocationSelectorComponent, {
-      size: IsModalSize.Large
-    });
   }
 
   handleDragEnter() {

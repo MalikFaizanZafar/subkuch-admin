@@ -2,9 +2,11 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { LocationCoordinates } from '@app/shared/models/coordinates';
 import { Observable } from 'rxjs';
+import { environment } from '../../../../environments/environment';
 
+const baseUrl = environment.baseUrl;
 const API_URL = {
-  SEARCH: '/api/franchise/filter'
+  SEARCH: `${baseUrl}/api/franchise/filter`
 }
 
 const DefaultDistance = 30;

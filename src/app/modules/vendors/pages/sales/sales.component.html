@@ -1,8 +1,6 @@
 <div class="container-fluid mt-3 bg-white text-dark">
   <is-grid
     [value]="sales"
-    (rowCollapse)="isGridrowCollapseHandler($event)"
-    (rowExpand)="isGridrowExpandHandler($event)"
   >
     <is-grid-column field="user" header="User" styleClass="text-dark">
       <ng-template let-order="rowData" isGridTemplate="body">

@@ -5,7 +5,7 @@ import { dealModel } from "../models/dealModel";
 
 @Injectable()
 export class FranchiseDealsService {
-  baseURL: string = "http://localhost:8080/api";
+  baseURL: string = "/api";
 
   constructor(private http: HttpClient) {}
 

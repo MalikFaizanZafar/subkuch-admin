@@ -29,7 +29,7 @@ export class VendorsLayoutComponent implements OnInit {
   editBtnEnabled: boolean;
   editLogoForm: FormGroup;
   editBannerForm: FormGroup;
-  ratingArray: string[] = ["1", "2", "3", "4"];
+  ratingArray: string[] = ["1", "2", "3", "4", "5"];
   editLogoImageFile;
   tempEditLogoImage;
   editBannerImageFile;
@@ -37,21 +37,17 @@ export class VendorsLayoutComponent implements OnInit {
   autoGenerateLinks = [
     {
       label: "Overview",
-      icon: "fa-table",
       link: "overview/"
     },
     {
-      icon: "fa-bars",
       label: "Deals",
       link: "deals/"
     },
     {
-      icon: "fa-bars",
       label: "Meals",
       link: "meals/"
     },
     {
-      icon: "fa-bars",
       label: "Orders",
       link: "orders/"
     },
@@ -61,7 +57,6 @@ export class VendorsLayoutComponent implements OnInit {
       link: "sales/"
     },
     {
-      icon: "fa-bars",
       label: "Reviews",
       link: "reviews/"
     }

@@ -38,25 +38,27 @@ export class LoginComponent implements OnInit {
       btn.startLoading();
       let user = this.loginForm.value;
       this.franchiseAuthService.login(user.username, user.password).subscribe(res => {
-        localStorage.setItem('Authorization', `${res.tokenType} ${res.accessToken}`)
-        this.router.navigate(['/vendors']);
+        localStorage.setItem('Authorization', `${res.tokenType} ${res.accessToken}`);
         this.toaster.popSuccess('Logged In Successfully');
         btn.stopLoading();
+        this.router.navigate(['/vendors']);
       }, (err) => {
-        if(err.error.error = 'UnAuthorized'){
+        if(err.status = 401){
           this.unAuthorized = true
           btn.stopLoading();
+          return;
         }
         if (err.error.indexOf('verified') > -1) {
           this.isModal.open(veirfyTemplate, {data: err.error})
+          btn.stopLoading();
+          return;
         }
 
         if (err.error.indexOf('active') > -1) {
           this.isModal.open(activeTemplate, {data: err.error})
+          btn.stopLoading();
+          return;
         }
-        btn.stopLoading();
-        // if 
-        // this.isModal.open()
       })
     } else {
       return;

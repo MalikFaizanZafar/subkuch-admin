@@ -20,40 +20,66 @@
       {{ franchiseInfo.address || "Your Address" }}
     </p>
 
-    <h4 class="mt-4">Contact Info</h4>
-    <div class="d-flex justify-content-start w-50 mt-2"  *ngFor="let contact of franchiseInfo.contact">
-      <h4 class="w-25">
+    <h3 class="mt-4">Contact Info</h3>
+    <div class="d-flex justify-content-start w-100 mt-2"  *ngFor="let contact of franchiseInfo.contact">
+      <div class="col-4 pl-0">
           <div class="d-flex align-items-center">
-              <i class="fa fa-user mr-2" aria-hidden="true" style="font-size: 25px;"></i>
+              <i class="fa fa-user mr-2" aria-hidden="true"></i>
               <span>
                   {{
                     contact.franchiseContactPersonName || "Your Name will be added here"
                   }}
               </span>
           </div>
-      </h4>
-      <h5 class="w-25">
+        </div>
+      <div class="col-4 pl-0">
         <div class="d-flex align-items-center">
-            <i class="fa fa-mobile mr-2" aria-hidden="true" style="font-size: 25px;"></i>
+            <i class="fa fa-mobile mr-2" aria-hidden="true"></i>
             <span>
                 {{
                   contact.franchiseContactPersonPhone || "Your contact will be added here"
                 }}
             </span>
         </div>
-      </h5>
-      <h5 class="w-25">
+      </div>
+      <div class="col-4 pl-0 pr-0">
           <div class="d-flex align-items-center">
-              <i class="fa fa-envelope mr-2" aria-hidden="true" style="font-size: 25px;"></i>
+              <i class="fa fa-envelope mr-2" aria-hidden="true"></i>
               <span>
                   {{
                     contact.email || "Your Email will be added here"
                   }}
               </span>
           </div>
-      </h5>
+      </div>
     </div>
+
+    <h3 class="mt-4">Status</h3>
+    <div class="w-50 d-flex" *ngIf="franchiseInfo">
+      <h5 class="mr-3">
+        <strong>Opening Time</strong>
+      </h5> 
+      <div>{{ startTime }}</div>
+    </div>
+    <div class="w-50 d-flex" *ngIf="franchiseInfo">
+        <h5 class="mr-3">
+          <strong>Closing Time</strong>
+        </h5> 
+        <div>{{ endTime }}</div>
+    </div>
+
+    <h3 class="mt-4">General Info</h3>
+    <div class="w-50 d-flex" *ngIf="franchiseInfo">
+      <h5 class="mr-3">
+        <strong>Commission</strong>
+      </h5> 
+      <div>{{ franchiseInfo.commission }} %</div>
+    </div>
+
   </is-card-content>
 </is-card>
 
-<edit-overview *ngIf="isEditingMode"></edit-overview>
+<edit-overview *ngIf="isEditingMode" 
+               [data]="franchiseInfo" 
+               (overviewEdited)="overviewEditedHandler()"
+               (overviewEditedCancelled)="cancelEditing()"></edit-overview>

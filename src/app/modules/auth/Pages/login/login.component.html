@@ -2,7 +2,11 @@
   <div class="container d-flex justify-content-between align-items-center">
     <div class="w-100 d-flex justify-content-between">
       <div class="w-25 justify-content-start d-flex">
-        <h1>SubKuch Logo</h1>
+          <div>
+              <a href="#">
+                <img src="assets/subquch-light-logo.png" class="logo" />
+              </a>
+            </div>
       </div>
     </div>
   </div>
@@ -18,25 +22,25 @@
           <form autocomplete="off" [formGroup]="loginForm" (ngSubmit)="onLoginSubmit(formDir, submitBtn, verifyTemplate, activeTemplate)" #formDir="ngForm">
 
             <div class="form-group"
-              [class.mb-1]="(loginForm.hasError('required', 'username') || loginForm.hasError('username', 'username')) && formDir.submitted">
+              [class.mb-1]="loginForm.controls['username'].errors && loginForm.controls['username'].errors.required  && formDir.submitted">
               <is-input-container>
                 <input autocomplete="username" class="sign__input" type="text" placeholder="Enter username"
                   formControlName="username">
               </is-input-container>
             </div>
-            <div *ngIf="loginForm.hasError('required', 'username') && formDir.submitted" class="sign__input_error">
+            <div *ngIf="loginForm.controls['username'].errors && loginForm.controls['username'].errors.required && formDir.submitted" class="sign__input_error">
               Username is required
             </div>
 
             <div class="form-group"
-                 [class.mb-1]="loginForm.controls.password.errors && formDir.submitted">
+                 [class.mb-1]="loginForm.controls['password'].errors && loginForm.controls['password'].errors.required && formDir.submitted">
               <is-input-container>
                 <input autocomplete="contact" class="sign__input" type="password" placeholder="Enter password"
                   formControlName="password">
               </is-input-container>
             </div>
 
-            <div *ngIf="loginForm.hasError('required', 'password') && formDir.submitted" class="sign__input_error">
+            <div *ngIf="loginForm.controls['password'].errors && loginForm.controls['password'].errors.required && formDir.submitted" class="sign__input_error">
               Password is required
             </div>
 
