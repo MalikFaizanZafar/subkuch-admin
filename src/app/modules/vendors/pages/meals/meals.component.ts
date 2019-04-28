@@ -58,7 +58,7 @@ export class MealsComponent implements OnInit {
     this.categoryForm = new FormGroup({
       categoryName: new FormControl(null, [Validators.required])
     });
-    this.franchiseItemsService.getCategories().subscribe(responseData => {
+    this.franchiseItemsService.getCategories(Number(localStorage.getItem("franchiseId"))).subscribe(responseData => {
       this.categories = responseData.data;
       this.franchiseItemsService.getItems(Number(localStorage.getItem("franchiseId"))).subscribe(itemresponseData => {
         this.meals = itemresponseData.data;
