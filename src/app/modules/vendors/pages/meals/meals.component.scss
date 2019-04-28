@@ -69,7 +69,24 @@
   }
 }
 
+.category__icons {
+  color: black;
+  font-size: 9px;
+  &__delete {
+    color: black;
+    font-size: 12px;
+  }
+  &__delete:hover {
+    color: red;
+    cursor: pointer;
+  }
+}
 
+.category__list__item:hover {
+  color: blue;
+  letter-spacing: 0.5px;
+  transition: 0.1s;
+}
 .delete {
   &__dialog__btn {
     width: 30%;

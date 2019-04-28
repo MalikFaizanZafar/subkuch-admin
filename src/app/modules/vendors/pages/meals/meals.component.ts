@@ -141,11 +141,27 @@ export class MealsComponent implements OnInit {
           this.deleteMeal.image_url
         );
         delFile.delete().then(deletedFile => {
-          this.franchiseItemsService.deleteItems(id).subscribe(response => {
+          this.franchiseItemsService.deleteItem(id).subscribe(response => {
             console.log("Response from Server : ", response);
             this.toaster.popSuccess("Meal Has Been Deleted Successfully");
             this.meals = this.meals.filter(deal => deal.id != id);
           });
+        });
+      }
+    });
+  }
+  onDeleteCategoryHandler(id, deleteDialog: TemplateRef<any>) {
+    const deleteModal = this.isModal.open(deleteDialog, {
+      data: "Are Your Sure you want to Delete this Category ?"
+    });
+    deleteModal.onClose.subscribe(res => {
+      console.log("modal res has : ", res);
+      if( res === 'ok') {
+        console.log(' category delete id : ', id)
+        this.franchiseItemsService.deleteCategory(id).subscribe(response => {
+          console.log("Response from Server : ", response);
+          this.toaster.popSuccess("Category Has Been Deleted Successfully");
+          this.categories = this.categories.filter(categories => categories.id != id);
         });
       }
     });
