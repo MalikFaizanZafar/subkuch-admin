@@ -235,7 +235,7 @@ export class MealsComponent implements OnInit {
                 product: item.isProduct,
                 quanity: item.quantity,
                 category_id: Number(item.category),
-                franchise_id: 1
+                franchise_id: Number(localStorage.getItem("franchiseId"))
               };
               this.franchiseItemsService
                 .editItem(this.newItem, self.editMeal.id)

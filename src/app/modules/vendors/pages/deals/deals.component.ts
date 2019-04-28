@@ -42,7 +42,7 @@ export class DealsComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.franchiseDealsService.getDeals(6).subscribe(responseData => {
+    this.franchiseDealsService.getDeals(Number(localStorage.getItem("franchiseId"))).subscribe(responseData => {
       this.deals = responseData.data;
       console.log("this.deals has : ", this.deals);
     });
