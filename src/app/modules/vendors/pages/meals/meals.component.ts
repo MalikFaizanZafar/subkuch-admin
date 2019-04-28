@@ -156,12 +156,14 @@ export class MealsComponent implements OnInit {
     });
     deleteModal.onClose.subscribe(res => {
       console.log("modal res has : ", res);
-      if( res === 'ok') {
-        console.log(' category delete id : ', id)
+      if (res === "ok") {
+        console.log(" category delete id : ", id);
         this.franchiseItemsService.deleteCategory(id).subscribe(response => {
           console.log("Response from Server : ", response);
           this.toaster.popSuccess("Category Has Been Deleted Successfully");
-          this.categories = this.categories.filter(categories => categories.id != id);
+          this.categories = this.categories.filter(
+            categories => categories.id != id
+          );
         });
       }
     });
