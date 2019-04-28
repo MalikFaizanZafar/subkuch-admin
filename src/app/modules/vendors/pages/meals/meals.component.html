@@ -3,7 +3,7 @@
     class="d-flex justify-content-between w-100 align-items-center"
   >
     <div class="d-flex align-items-center w-25 justify-content-left">
-      <h4 class="text-dark w-50">Offered Meals ( {{meals.length}} )</h4>
+      <h4 class="text-dark w-50">Offered Meals ( {{ meals.length }} )</h4>
     </div>
     <div class="w-25 d-flex justify-content-end">
       <button
@@ -26,6 +26,12 @@
         </button>
       </h6>
       <ul class="list-group mt-2">
+        <li
+          class="d-flex justify-content-center align-items-center mt-5"
+          *ngIf="categories.length === 0"
+        >
+          <h3>Click + to add Categories</h3>
+        </li>
         <li
           class="list-group-item d-flex justify-content-start align-items-center text-muted bg-transparent "
           *ngFor="let category of categories"
@@ -58,9 +64,12 @@
           </div>
         </div>
       </div>
-        <div class="d-flex justify-content-center align-items-center mt-5" *ngIf="meals.length === 0">
-          <h3>Click on "Add Meal" to add some Meal Items</h3>
-        </div>
+      <div
+        class="d-flex justify-content-center align-items-center mt-5"
+        *ngIf="meals.length === 0"
+      >
+        <h3>Click "Add Meal" to add Meal Items</h3>
+      </div>
       <div class="row mt-5" *ngIf="meals">
         <div class="col-md-6 mb-5" *ngFor="let meal of meals">
           <div class="card rounded shadow  mb-3 meal__card">
@@ -402,7 +411,11 @@
               formControlName="category"
               placeholder="Choose Category"
             >
-              <option [selected]="editMeal.category.name" *ngFor="let category of categories">{{category.name}}</option>
+              <option
+                [selected]="editMeal.category.name"
+                *ngFor="let category of categories"
+                >{{ category.name }}</option
+              >
             </select>
           </div>
         </div>
@@ -625,31 +638,34 @@
           />
         </div>
         <div
-          *ngIf="categoryForm.hasError('required', 'categoryName') && catform.submitted"
+          *ngIf="
+            categoryForm.hasError('required', 'categoryName') &&
+            catform.submitted
+          "
           class="form-group d-flex justify-content-start align-items-center item-form__input_error"
         >
           Name is required
         </div>
         <div class="d-flex justify-content-center">
-            <button
-              is-button
-              theme="danger"
-              class="close-btn w-25 mb-4 add__category__dialog__btn"
-              (click)="close('save')"
-              type="submit"
-              #catSubmitBtn
-            >
-              <span>Save</span>
-            </button>
-            <button
-              is-button
-              theme="primary"
-              class="close-btn w-25 mb-4 add__category__dialog__btn"
-              (click)="close('Click on Close')"
-            >
-              <span>Cancel</span>
-            </button>
-          </div>
+          <button
+            is-button
+            theme="danger"
+            class="close-btn w-25 mb-4 add__category__dialog__btn"
+            (click)="close('save')"
+            type="submit"
+            #catSubmitBtn
+          >
+            <span>Save</span>
+          </button>
+          <button
+            is-button
+            theme="primary"
+            class="close-btn w-25 mb-4 add__category__dialog__btn"
+            (click)="close('Click on Close')"
+          >
+            <span>Cancel</span>
+          </button>
+        </div>
       </form>
     </div>
   </ng-template>

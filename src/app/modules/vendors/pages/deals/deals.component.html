@@ -3,7 +3,7 @@
     class="d-flex justify-content-between w-100 align-items-center"
   >
     <div class="d-flex align-items-center w-25 justify-content-left">
-      <h4 class="text-dark w-50">Offered Deals ( {{deals.length}} )</h4>
+      <h4 class="text-dark w-50">Offered Deals ( {{ deals.length }} )</h4>
     </div>
     <div class="w-25 d-flex justify-content-end">
       <button
@@ -19,7 +19,13 @@
   </is-card-header>
 
   <is-card-content>
-    <div class="row">
+    <div
+      class="d-flex justify-content-center align-items-center mt-5"
+      *ngIf="deals.length === 0"
+    >
+      <h3>Click "Add Deal" to add Deal Items</h3>
+    </div>
+    <div class="row mt-5">
       <div class="col-md-4 mb-3" *ngFor="let deal of deals">
         <div class="card rounded shadow  mb-3 deal__card">
           <div class="row no-gutters">
