@@ -29,10 +29,9 @@
           <div
             class="position-relative d-flex align-items-center bg_image_1"
             *ngIf="franchiseInfo"
-            [ngStyle]="{
-              'background-image': 'url(' + getFranshiseBanner() + ')'
-            }"
+            
           >
+          <img style="position: absolute; height: 100%; width: 100%;" [src]="getFranshiseBanner()" *ngIf="franchiseInfo">
             <div class="w-50 d-flex align-items-center justify-content-start">
               <div
                 class="w-25 d-flex justify-content-end ml-3 align-items-center"
@@ -44,6 +43,7 @@
                 ></i>
                 <img
                   *ngIf="franchiseInfo"
+                  style="z-index: 1;"
                   class="franchise__logo__image"
                   [src]="
                     franchiseInfo.logo ||
