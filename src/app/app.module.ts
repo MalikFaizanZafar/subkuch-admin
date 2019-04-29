@@ -15,10 +15,12 @@ import { SocialLoginModule, AuthServiceConfig } from "angularx-social-login";
 import { AuthConfig } from "./modules/auth/auth.config";
 import { NotificationsService } from "./services/notifications.service";
 import { FranchiseAccountService } from "./modules/vendors/services/franchiseAccount.service";
+import { AddCategoryDialogComponent } from "./modules/vendors/components/add-category-dialog/add-category-dialog.component";
+import { FranchiseItemsService } from "./modules/vendors/services/franchiseItems.service";
 
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, AddCategoryDialogComponent],
   imports: [
     AppRoutingModule,
     BrowserModule,
@@ -49,9 +51,10 @@ import { FranchiseAccountService } from "./modules/vendors/services/franchiseAcc
     },
     NotificationsService,
     FranchiseAccountService,
-    GoogleMapsAPIWrapper
+    GoogleMapsAPIWrapper,
+    FranchiseItemsService
   ],
   bootstrap: [AppComponent],
-  entryComponents: []
+  entryComponents: [AddCategoryDialogComponent]
 })
 export class AppModule {}

@@ -21,7 +21,7 @@
     <div class="col-md-3 pt-3 categories-container ">
       <h6 class="font-weight-bold d-flex justify-content-between align-items-center">
         CATEGORIES
-        <i class="fa fa-plus-circle fa-2x icon-color" (click)="addCategoryHandler(addCategoryDialog)"></i>
+        <i class="fa fa-plus-circle fa-2x icon-color" (click)="addCategoryHandler()"></i>
         <!-- <button is-button (click)="addCategoryHandler(addCategoryDialog)">
           
         </button> -->
@@ -617,62 +617,4 @@
         </div>
       </ng-template>
       <!-- Delete Category Dialog Box End -->
-
-  <!-- Add Category Box -->
-  <ng-template #addCategoryDialog let-close="close" let-data="data">
-    <div>
-      <div class="card-header bg-dark text-white font-weight-bold rounded-0">
-        Add Category
-      </div>
-      <form
-        class="px-3 py-5"
-        [formGroup]="categoryForm"
-        (ngSubmit)="onAddCategory()"
-        #catform="ngForm"
-      >
-        <div
-          class="form-group d-flex justify-content-around align-items-center"
-        >
-          <label for="category_name">Name </label>
-          <input
-            type="email"
-            class="form-control ml-3"
-            id="category_name"
-            formControlName="categoryName"
-            placeholder="Enter name"
-          />
-        </div>
-        <div
-          *ngIf="
-            categoryForm.hasError('required', 'categoryName') &&
-            catform.submitted
-          "
-          class="form-group d-flex justify-content-start align-items-center item-form__input_error"
-        >
-          Name is required
-        </div>
-        <div class="d-flex justify-content-center">
-          <button
-            is-button
-            theme="danger"
-            class="close-btn w-25 mb-4 add__category__dialog__btn"
-            (click)="close('save')"
-            type="submit"
-            #catSubmitBtn
-          >
-            <span>Save</span>
-          </button>
-          <button
-            is-button
-            theme="primary"
-            class="close-btn w-25 mb-4 add__category__dialog__btn"
-            (click)="close('Click on Close')"
-          >
-            <span>Cancel</span>
-          </button>
-        </div>
-      </form>
-    </div>
-  </ng-template>
-  <!-- Add Category Box End -->
 </is-card>

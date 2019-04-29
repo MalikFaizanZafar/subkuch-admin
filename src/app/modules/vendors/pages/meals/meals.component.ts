@@ -13,6 +13,7 @@ import { IsToasterService } from "../../../../lib/toaster";
 import { AngularFireStorage } from "@angular/fire/storage";
 import { Observable } from "rxjs";
 import { finalize } from "rxjs/operators";
+import { AddCategoryDialogComponent } from "../../components/add-category-dialog/add-category-dialog.component";
 
 @Component({
   selector: "meals",
@@ -84,24 +85,11 @@ export class MealsComponent implements OnInit {
         console.log("nameCategories : ", nameCategories);
       });
   }
-  addCategoryHandler(addCategoryDialog: TemplateRef<any>) {
-    const addCategoryDlg = this.isModal.open(addCategoryDialog);
-    if (this.categoryForm.valid) {
-      console.log("valid form ", this.categoryForm.value);
-      addCategoryDlg.onClose.subscribe(res => {
-        if (res === "save") {
-          this.onAddCategory();
-        } else {
-          console.log("Form not Valid");
-        }
-      });
-    }
-  }
-  onAddCategory() {
-    if (this.categoryForm.valid) {
-      let category = this.categoryForm.value;
+  addCategoryHandler() {
+    let addCategoryDialogOpenRef = this.isModal.open(AddCategoryDialogComponent);
+    addCategoryDialogOpenRef.onClose.subscribe(res => {
       let newCategory = {
-        name: category.categoryName,
+        name: res.categoryName,
         type: "Type",
         franchise_id: Number(localStorage.getItem("franchiseId"))
       };
@@ -110,9 +98,8 @@ export class MealsComponent implements OnInit {
         .subscribe(categoryResponse => {
           console.log("newCat is : ", categoryResponse.data);
           this.categories.push(categoryResponse.data);
-          this.categoryForm.reset();
         });
-    }
+    })
   }
   onEditItemHandler(id) {
     let filterdItems = this.meals.filter(meal => meal.id == id);
