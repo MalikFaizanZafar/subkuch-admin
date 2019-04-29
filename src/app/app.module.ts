@@ -4,14 +4,13 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { AngularFireModule } from "@angular/fire";
 import { AngularFireDatabaseModule } from "@angular/fire/database";
 import { AngularFireAuthModule } from "@angular/fire/auth";
-import { AngularFireStorageModule } from '@angular/fire/storage';
+import { AngularFireStorageModule, StorageBucket } from '@angular/fire/storage';
 import { AgmCoreModule, GoogleMapsAPIWrapper } from "@agm/core";
 
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 import { CoreModule } from "./core/core.module";
 import { SharedModule } from "./shared/shared.module";
-import { LocationSelectorComponent } from "./modules/vendors/modal/location-selector/location-selector/location-selector.component";
 import { SocialLoginModule, AuthServiceConfig } from "angularx-social-login";
 import { AuthConfig } from "./modules/auth/auth.config";
 import { NotificationsService } from "./services/notifications.service";
@@ -19,7 +18,7 @@ import { FranchiseAccountService } from "./modules/vendors/services/franchiseAcc
 
 
 @NgModule({
-  declarations: [AppComponent, LocationSelectorComponent],
+  declarations: [AppComponent],
   imports: [
     AppRoutingModule,
     BrowserModule,
@@ -50,9 +49,9 @@ import { FranchiseAccountService } from "./modules/vendors/services/franchiseAcc
     },
     NotificationsService,
     FranchiseAccountService,
-    GoogleMapsAPIWrapper 
+    GoogleMapsAPIWrapper
   ],
   bootstrap: [AppComponent],
-  entryComponents: [LocationSelectorComponent]
+  entryComponents: []
 })
 export class AppModule {}

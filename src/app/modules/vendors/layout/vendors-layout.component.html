@@ -18,7 +18,6 @@
   <div class="h-100 col p-0 d-flex">
     <is-sidebar
       [autoGenerateItems]="autoGenerateLinks"
-      [topbar]="topbar"
       [disableButton]="true"
       [open]="true"
     >
@@ -39,6 +38,7 @@
                 class="w-25 d-flex justify-content-end ml-3 align-items-center"
               >
                 <i
+                  *ngIf="editBtnEnabled"
                   class="fa fa-edit franchise__logo__edit__icon"
                   (click)="onEditLogoHandler(editLogoDialog)"
                 ></i>
@@ -58,11 +58,12 @@
                 <div class="row">
                   <div class="col-12 ml-2">
                     <span
-                      class="fa fa-star checked star_icons px-1"
+                      class="fa fa-star star_icons px-1"
                       *ngFor="let rating of ratingArray"
+                      [class.checked]="rating <=  franchiseInfo.rating"
                     ></span>
-                    <span class="text-white px-1">(41)</span>
-                    <span class="text-white px-1">Reviews</span>
+                    <!-- <span class="text-white px-1">(41)</span>
+                    <span class="text-white px-1">Reviews</span> -->
                   </div>
                   <div class="col-12 ml-2">
                     <h4 class="text-white d-block" *ngIf="franchiseInfo">
@@ -74,6 +75,7 @@
             </div>
             <div class="w-50 d-flex align-items-center justify-content-end">
               <i
+                *ngIf="editBtnEnabled"
                 class="fa fa-edit fa-2x text_blue franchise__banner__edit__icon mr-4"
                 (click)="onEditBannerHandler(editBannerDialog)"
               ></i>

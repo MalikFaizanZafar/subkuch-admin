@@ -3,16 +3,21 @@
     
   <div class="row">
       <div class="col-md-12">
-          <h5 class="mt-4">Welcome Note</h5>
-        <form action="" class="d-flex" (ngSubmit)="submitHandler()" [formGroup]="overviewForm">
+          <h5 class="mt-4">Welcome Note*</h5>
+        <form action="" class="d-flex" (ngSubmit)="submitHandler(formDir)" [formGroup]="overviewForm" #formDir="ngForm">
           <div class="w-100">
             <div class="form-group">
               <textarea class="form-control" rows="5" formControlName="welcomeParagraph"></textarea>
+              <div
+                  *ngIf="overviewForm.controls['welcomeParagraph'].errors && overviewForm.controls['welcomeParagraph'].errors.required && formDir.submitted"
+                  class="overview__input_error">
+                  Welcome Note is required
+                </div>
             </div>
             <h5 class="mt-4">Contact Info</h5>
             <div class="d-flex justify-content-between w-100">
-              <div class="form-group w-50 pr-3">
-                <is-input-container label="Primary Contact">
+              <div class="form-group col-4 pl-0">
+                <is-input-container label="Primary Contact*">
                   <input 
                     autocomplete="fakeName"
                     class="login-form__input"
@@ -20,29 +25,77 @@
                     placeholder="Enter Cell 1"
                     formControlName="phoneOne">
                 </is-input-container>
+                <div
+                  *ngIf="overviewForm.controls['phoneOne'].errors && overviewForm.controls['phoneOne'].errors.required && formDir.submitted"
+                  class="overview__input_error">
+                  Primary contact is required
               </div>
-              <div class="form-group w-50">
-                <is-input-container label="Secondary Contact">
-                  <input 
-                    autocomplete="fakeName"
-                    class="login-form__input"
-                    type="text"
-                    placeholder="Enter Cell 2"
-                    formControlName="phoneTwo">
-                </is-input-container>
+              </div>
+              <div class="form-group col-4 pl-0">
+                  <is-input-container label="Primary Email*">
+                      <input 
+                        autocomplete="fakeName"
+                        class="login-form__input"
+                        type="email"
+                        placeholder="Enter email"
+                        formControlName="emailOne">
+                    </is-input-container>
+                <div
+                  *ngIf="overviewForm.controls['emailOne'].errors && overviewForm.controls['emailOne'].errors.required && formDir.submitted"
+                  class="overview__input_error">
+                  Primary email is required
+                </div>
+              </div>
+              <div class="form-group col-4 pl-0 pr-0">
+                  <is-input-container label="Contact Person*">
+                      <input 
+                        autocomplete="fakeName"
+                        class="login-form__input"
+                        type="text"
+                        placeholder="Person Name"
+                        formControlName="contactOne">
+                    </is-input-container>
+                <div
+                  *ngIf="overviewForm.controls['contactOne'].errors && overviewForm.controls['contactOne'].errors.required && formDir.submitted"
+                  class="overview__input_error">
+                  Primary contact person is required
+              </div>
               </div>
             </div>
             <div class="d-flex justify-content-between w-100">
-              <div class="form-group w-50 pr-3">
-                <is-input-container label="Primary Email">
+              <div class="form-group pl-0 col-4">
+                  <is-input-container label="Secondary Contact">
+                      <input 
+                        autocomplete="fakeName"
+                        class="login-form__input"
+                        type="text"
+                        placeholder="Enter Cell 2"
+                        formControlName="phoneTwo">
+                    </is-input-container>
+              </div>
+
+              <div class="form-group pl-0 col-4">
+                <is-input-container label="Secondary Email">
                   <input 
                     autocomplete="fakeName"
                     class="login-form__input"
                     type="email"
                     placeholder="Enter email"
-                    formControlName="email">
+                    formControlName="emailTwo">
                 </is-input-container>
               </div>
+
+              
+              <div class="form-group pl-0 pr-0 col-4">
+                  <is-input-container label="Contact Persom">
+                    <input 
+                      autocomplete="fakeName"
+                      class="login-form__input"
+                      type="text"
+                      placeholder="Person Name"
+                      formControlName="contactTwo">
+                  </is-input-container>
+                </div>
             </div>
             <!-- <div class="form-group w-100 pr-3">
                 <is-input-container label="Address">
@@ -56,7 +109,7 @@
               </div> -->
             <div class="w-100">
               <div>
-                <label class="is-input__label">Address</label>
+                <label class="is-input__label">Address*</label>
               </div>
               <div class="d-flex align-items-center justify-content-between location-search">
                 <div class="h-100 d-flex align-items-center location-search__container">

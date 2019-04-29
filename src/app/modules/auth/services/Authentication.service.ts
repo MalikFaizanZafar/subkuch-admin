@@ -1,9 +1,11 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
+import { environment } from '../../../../environments/environment';
 
+const baseUrl = environment.baseUrl;
 @Injectable()
 export class SocialAuthService {
-  private URL : string = "http://localhost:8080/api/auth/signup/fb"
+  private URL : string = "/api/auth/signup/fb"
   private resetURL : string ;
 
   constructor(private http : HttpClient){}
@@ -41,7 +43,7 @@ export class SocialAuthService {
 
   forgotPassowrd( email : String){
     let emailStr = Object.values(email)[0]
-    this.http.get(`http://localhost:8080/api/auth/login/forgot-password?email=${emailStr}`, {responseType: 'text'}).subscribe(data => {
+    this.http.get(`${baseUrl}/api/auth/login/forgot-password?email=${emailStr}`, {responseType: 'text'}).subscribe(data => {
       // console.log('forgot-password returned : ', data);
       this.resetURL = data;
     })

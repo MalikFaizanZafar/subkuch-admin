@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "codefix": {
+    "subkuch": {
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
@@ -11,7 +11,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/codefix",
+            "outputPath": "dist",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -56,18 +56,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "codefix:build"
+            "browserTarget": "subkuch:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "codefix:build:production"
+              "browserTarget": "subkuch:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "codefix:build"
+            "browserTarget": "subkuch:build"
           }
         },
         "test": {
@@ -91,7 +91,7 @@
         }
       }
     },
-    "codefix-e2e": {
+    "subkuch-e2e": {
       "root": "e2e/",
       "projectType": "application",
       "prefix": "",
@@ -100,11 +100,11 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "codefix:serve"
+            "devServerTarget": "subkuch:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "codefix:serve:production"
+              "devServerTarget": "subkuch:serve:production"
             }
           }
         },
@@ -118,7 +118,7 @@
       }
     }
   },
-  "defaultProject": "codefix",
+  "defaultProject": "subkuch",
   "cli": {
   }
 }

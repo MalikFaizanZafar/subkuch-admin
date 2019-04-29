@@ -2,7 +2,11 @@
   <div class="container d-flex justify-content-between align-items-center">
     <div class="w-100 d-flex justify-content-between">
       <div class="w-25 justify-content-start d-flex">
-        <h1>SubKuch Logo</h1>
+          <div>
+              <a href="#">
+                <img src="assets/subquch-light-logo.png" class="logo" />
+              </a>
+            </div>
       </div>
     </div>
   </div>
@@ -17,7 +21,7 @@
           </h3>
           <form autocomplete="off" [formGroup]="signupForm" (ngSubmit)="onSubmit(formDir, submitBtn, signUpTemplate)" #formDir="ngForm">
             <div class="form-group"
-              [class.mb-1]="(signupForm.hasError('required', 'service') || signupForm.hasError('service', 'service') || signupForm.controls.service.value === 0) && formDir.submitted">
+              [class.mb-1]="(signupForm.controls['service'].errors.required || signupForm.controls.service.value === 0) && formDir.submitted">
               <select class="form-control" formControlName="service">
                 <option value="0" default selected>Select service...</option>
                 <option *ngFor="let service of availableServices" value="{{service.id}}">{{service.name}}
@@ -26,55 +30,55 @@
             </div>
 
             <div
-              *ngIf="(signupForm.hasError('required', 'service')|| signupForm.controls.service.value === 0) && formDir.submitted"
+              *ngIf="signupForm.controls['service'].errors && (signupForm.controls['service'].errors.required || signupForm.controls.service.value === 0) && formDir.submitted"
               class="sign__input_error">
               Service is required
             </div>
 
             <div class="form-group"
-              [class.mb-1]="(signupForm.hasError('required', 'brandName') || signupForm.hasError('brandName', 'brandName')) && formDir.submitted">
+              [class.mb-1]="signupForm.controls['brandName'].errors && signupForm.controls['brandName'].errors.required  && formDir.submitted">
               <is-input-container>
                 <input autocomplete="username" class="sign__input" type="text" placeholder="Enter Brand name"
                   formControlName="brandName">
               </is-input-container>
             </div>
 
-            <div *ngIf="signupForm.hasError('required', 'brandName') && formDir.submitted" class="sign__input_error">
+            <div *ngIf="signupForm.controls['brandName'].errors && signupForm.controls['brandName'].errors.required && formDir.submitted" class="sign__input_error">
               Brand name is required
             </div>
 
             <div class="form-group"
-              [class.mb-1]="(signupForm.hasError('required', 'username') || signupForm.hasError('username', 'username')) && formDir.submitted">
+              [class.mb-1]=" signupForm.controls['username'].errors && signupForm.controls['username'].errors.required && formDir.submitted">
               <is-input-container>
                 <input autocomplete="username" class="sign__input" type="text" placeholder="Enter username"
                   formControlName="username">
               </is-input-container>
             </div>
-            <div *ngIf="signupForm.hasError('required', 'username') && formDir.submitted" class="sign__input_error">
+            <div *ngIf="signupForm.controls['username'].errors && signupForm.controls['username'].errors.required && formDir.submitted" class="sign__input_error">
               Username is required
             </div>
 
             <div class="form-group"
-              [class.mb-1]="(signupForm.hasError('required', 'email') || signupForm.hasError('email', 'eamil')) && formDir.submitted">
+              [class.mb-1]="signupForm.controls['email'].errors && signupForm.controls['email'].errors.required && formDir.submitted">
               <is-input-container>
                 <input autocomplete="username" class="sign__input" type="email" placeholder="Enter Email id"
                   formControlName="email">
               </is-input-container>
             </div>
 
-            <div *ngIf="signupForm.hasError('required', 'email') && formDir.submitted" class="sign__input_error">
+            <div *ngIf="signupForm.controls['email'].errors && signupForm.controls['email'].errors.required && formDir.submitted" class="sign__input_error">
               Email id is required
             </div>
 
             <div class="form-group"
-              [class.mb-1]="(signupForm.hasError('required', 'contact') || signupForm.hasError('contact', 'contact')) && formDir.submitted">
+              [class.mb-1]="signupForm.controls['contact'].errors && signupForm.controls['contact'].errors.required && formDir.submitted">
               <is-input-container>
                 <input autocomplete="contact" class="sign__input" type="text" placeholder="Enter contact number"
                   formControlName="contact">
               </is-input-container>
             </div>
 
-            <div *ngIf="signupForm.hasError('required', 'contact') && formDir.submitted" class="sign__input_error">
+            <div *ngIf="signupForm.controls['contact'].errors && signupForm.controls['contact'].errors.required && formDir.submitted" class="sign__input_error">
               Contact number is required
             </div>
 
@@ -86,7 +90,7 @@
               </is-input-container>
             </div>
 
-            <div *ngIf="signupForm.hasError('required', 'password') && formDir.submitted" class="sign__input_error">
+            <div *ngIf="signupForm.controls['password'].errors && signupForm.controls['password'].errors.required && formDir.submitted" class="sign__input_error">
               Password is required
             </div>
 
@@ -102,7 +106,7 @@
               </is-input-container>
             </div>
 
-            <div *ngIf="signupForm.hasError('required', 'confirmPassword') && formDir.submitted" class="sign__input_error">
+            <div *ngIf="signupForm.controls['confirmPassword'].errors && signupForm.controls['confirmPassword'].errors.required && formDir.submitted" class="sign__input_error">
               Confirm Password is required
             </div>
 

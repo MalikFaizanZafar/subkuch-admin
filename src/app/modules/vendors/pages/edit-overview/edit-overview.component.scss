@@ -4,6 +4,14 @@
 :host {
   background: map-get($is-light, 1);
 
+  .overview {
+    &__input {
+      &_error {
+        color: $is-red;
+        font-size: 11px;
+      }
+    }
+  }
   .logo {
     height: 40px;
     width: auto;

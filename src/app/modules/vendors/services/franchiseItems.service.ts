@@ -2,10 +2,13 @@ import { Injectable } from "@angular/core";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { itemModel } from "../models/itemModel";
+import { environment } from '../../../../environments/environment';
+
+const baseUrl = environment.baseUrl;
 
 @Injectable()
 export class FranchiseItemsService {
-  baseURL: string = "http://localhost:8080/api/auth";
+  baseURL: string = `${baseUrl}/api/auth`;
 
   constructor(private http: HttpClient) {}
 
