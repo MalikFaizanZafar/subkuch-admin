@@ -565,7 +565,7 @@
         </div>
         <div
           *ngIf="
-            eitemForm.hasError('required', 'eattachment') && eformDir.submitted
+            eitemForm.hasError('required', 'eattachment') && eformDir.submitted || !editMeal.image_url
           "
           class="item-form__input_error"
         >

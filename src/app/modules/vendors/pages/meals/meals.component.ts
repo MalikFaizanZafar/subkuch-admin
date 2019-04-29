@@ -36,6 +36,7 @@ export class MealsComponent implements OnInit {
   tempMealImageFile;
   eimageFile;
   etempMealImageFile;
+  imageFileEdited: boolean = false;
   @ViewChild("itemImage") itemImage: ElementRef;
   @ViewChild("eitemImage") eitemImage: ElementRef;
   constructor(
@@ -116,18 +117,21 @@ export class MealsComponent implements OnInit {
     this.showEditMeal = true;
     this.showMeals = false;
     console.log("Edit Meal is : ", this.editMeal);
+    const dateObj = this.editMeal.endDate.split("T")[0];
     this.tempMealImageFile = this.editMeal.image_url;
     this.eitemForm = new FormGroup({
       etitle: new FormControl(this.editMeal.name, [Validators.required]),
       eisAvailable: new FormControl(this.editMeal.isAvailable),
       ecategory: new FormControl(this.editMeal.category, [Validators.required]),
       eprice: new FormControl(this.editMeal.price, [Validators.required]),
-      eisProduct: new FormControl(this.editMeal.isProduct, [Validators.requiredTrue]),
+      eisProduct: new FormControl(this.editMeal.isProduct, [
+        Validators.requiredTrue
+      ]),
       equantity: new FormControl(this.editMeal.quantity, [Validators.required]),
       ediscount: new FormControl(this.editMeal.discount, [Validators.required]),
-      ediscountEnd: new FormControl(this.editMeal.discountEnd, [Validators.required]),
+      ediscountEnd: new FormControl(dateObj, [Validators.required]),
       edescription: new FormControl(this.editMeal.description),
-      eattachment: new FormControl(null, [Validators.required])
+      eattachment: new FormControl(null)
     });
   }
 
@@ -225,61 +229,98 @@ export class MealsComponent implements OnInit {
     }
   }
   onEItemSubmit(form: FormGroup, btn: IsButton) {
-    console.log("this.etemForm is : ", this.eitemForm.value)
+    console.log("this.etemForm is : ", this.eitemForm.value);
     if (this.eitemForm.valid) {
-      btn.startLoading();
-      let randomString =
-        Math.random()
-          .toString(36)
-          .substring(2, 15) +
-        Math.random()
-          .toString(36)
-          .substring(2, 15);
-      const filePath = "items/" + randomString + "-" + this.eimageFile.name;
-      const fileRef = this.storage.ref(filePath);
-      const task = this.storage.upload(filePath, this.eimageFile);
-      const self = this;
-      task
-        .snapshotChanges()
-        .pipe(
-          finalize(() => {
-            this.downloadURL = fileRef.getDownloadURL();
-            this.downloadURL.subscribe(url => {
-              let item = this.eitemForm.value;
-              let enewItem = {
-                name: item.etitle,
-                description: item.edescription,
-                price: item.eprice,
-                image_url: url,
-                discount: item.ediscount,
-                discount_end_date: item.ediscountEnd,
-                available: item.eisAvailable,
-                product: item.eisProduct,
-                quanity: item.equantity,
-                category_id: Number(item.ecategory),
-                franchise_id: Number(localStorage.getItem("franchiseId"))
-              };
-              console.log("enewItem is ", enewItem);
-              this.franchiseItemsService
-                .editItem(enewItem, self.editMeal.id)
-                .subscribe(responseData => {
-                  this.newItem = responseData.data;
-                  this.showEditMeal = false;
-                  this.showMeals = true;
-                  console.log("this.newItem : ", this.newItem);
-                  this.storage.storage
-                    .refFromURL(this.editMeal.image_url)
-                    .delete();
-                  btn.stopLoading();
-                  this.toaster.popSuccess("Meal has been Edited Successfully");
-                  this.eitemForm.reset();
-                });
-            });
-          })
-        )
-        .subscribe();
+      if (this.imageFileEdited) {
+        console.log('imageFile Edited : ', true)
+        btn.startLoading();
+        let randomString =
+          Math.random()
+            .toString(36)
+            .substring(2, 15) +
+          Math.random()
+            .toString(36)
+            .substring(2, 15);
+        const filePath = "items/" + randomString + "-" + this.eimageFile.name;
+        const fileRef = this.storage.ref(filePath);
+        const task = this.storage.upload(filePath, this.eimageFile);
+        const self = this;
+        task
+          .snapshotChanges()
+          .pipe(
+            finalize(() => {
+              this.downloadURL = fileRef.getDownloadURL();
+              this.downloadURL.subscribe(url => {
+                let item = this.eitemForm.value;
+                let enewItem = {
+                  name: item.etitle,
+                  description: item.edescription,
+                  price: item.eprice,
+                  image_url: url,
+                  discount: item.ediscount,
+                  discount_end_date: item.ediscountEnd,
+                  available: item.eisAvailable,
+                  product: item.eisProduct,
+                  quanity: item.equantity,
+                  category_id: Number(item.ecategory),
+                  franchise_id: Number(localStorage.getItem("franchiseId"))
+                };
+                this.franchiseItemsService
+                  .editItem(enewItem, self.editMeal.id)
+                  .subscribe(responseData => {
+                    this.newItem = responseData.data;
+                    this.showEditMeal = false;
+                    this.showMeals = true;
+                    console.log("this.newItem : ", this.newItem);
+                    // console.log("this.editMeal.image_url : ", this.editMeal.image_url);
+                    let deleteImageUrl = this.editMeal.image_url
+                    this.storage.storage
+                      .refFromURL(deleteImageUrl)
+                      .delete();
+                    btn.stopLoading();
+                    this.toaster.popSuccess(
+                      "Meal has been Edited Successfully"
+                    );
+                    this.imageFileEdited = false;
+                    this.eitemForm.reset();
+                  });
+              });
+            })
+          )
+          .subscribe();
+      } else {
+        console.log('imageFile Edited : ', false)
+        let item = this.eitemForm.value;
+        let enewItem = {
+          name: item.etitle,
+          description: item.edescription,
+          price: item.eprice,
+          image_url: this.editMeal.image_url,
+          discount: item.ediscount,
+          discount_end_date: item.ediscountEnd,
+          available: item.eisAvailable,
+          product: item.eisProduct,
+          quanity: item.equantity,
+          category_id: Number(item.ecategory),
+          franchise_id: Number(localStorage.getItem("franchiseId"))
+        };
+        console.log("enewItem is ", enewItem);
+        this.franchiseItemsService
+          .editItem(enewItem, this.editMeal.id)
+          .subscribe(responseData => {
+            this.newItem = responseData.data;
+            this.showEditMeal = false;
+            this.showMeals = true;
+            console.log("this.newItem : ", this.newItem);
+            this.storage.storage.refFromURL(this.editMeal.image_url).delete();
+            btn.stopLoading();
+            this.toaster.popSuccess("Meal has been Edited Successfully");
+            this.imageFileEdited = false;
+            this.eitemForm.reset();
+          });
+      }
     } else {
-      console.log("eItemForm is not valid")
+      console.log("eItemForm is not valid");
       return;
     }
   }
@@ -306,13 +347,10 @@ export class MealsComponent implements OnInit {
       self.etempMealImageFile = dataURL;
     };
     reader.readAsDataURL(fileInput.target.files[0]);
+    this.imageFileEdited = true;
   }
   echooseFile() {
     console.log("choose an image");
     this.eitemImage.nativeElement.click();
-  }
-  getFormattedDate(mealDate: Date) {
-    const dateObj = new Date(mealDate);
-    return `${dateObj.getMonth()}/${dateObj.getDay()}/${dateObj.getFullYear()}`;
   }
 }
