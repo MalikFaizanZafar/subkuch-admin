@@ -39,6 +39,8 @@ export class MealsComponent implements OnInit {
   imageFileEdited: boolean = false;
   @ViewChild("itemImage") itemImage: ElementRef;
   @ViewChild("eitemImage") eitemImage: ElementRef;
+  selectedIndex: number = null;
+
   constructor(
     private franchiseItemsService: FranchiseItemsService,
     private isModal: IsModalService,
@@ -49,11 +51,11 @@ export class MealsComponent implements OnInit {
   ngOnInit() {
     this.itemForm = new FormGroup({
       title: new FormControl(null, [Validators.required]),
-      isAvailable: new FormControl(null),
+      isAvailable: new FormControl(false),
       category: new FormControl(null, [Validators.required]),
       price: new FormControl(null, [Validators.required]),
-      isProduct: new FormControl(null, [Validators.requiredTrue]),
-      quantity: new FormControl(null, [Validators.required]),
+      isProduct: new FormControl(false),
+      quantity: new FormControl(null),
       discount: new FormControl(null, [Validators.required]),
       discountEnd: new FormControl(null, [Validators.required]),
       description: new FormControl(null),
@@ -74,7 +76,8 @@ export class MealsComponent implements OnInit {
           });
       });
   }
-  getCategoryItems(name: string) {
+  getCategoryItems(name: string, index: number) {
+    this.selectedIndex = index;
     this.franchiseItemsService
       .getCategoriesByName(name)
       .subscribe(nameCategories => {
@@ -116,18 +119,16 @@ export class MealsComponent implements OnInit {
     this.editMeal = filterdItems[0];
     this.showEditMeal = true;
     this.showMeals = false;
-    console.log("Edit Meal is : ", this.editMeal);
     const dateObj = this.editMeal.endDate.split("T")[0];
     this.tempMealImageFile = this.editMeal.image_url;
+    console.log(this.editMeal.isProduct);
     this.eitemForm = new FormGroup({
       etitle: new FormControl(this.editMeal.name, [Validators.required]),
-      eisAvailable: new FormControl(this.editMeal.isAvailable),
+      eisAvailable: new FormControl(this.editMeal.isAvailable || false),
       ecategory: new FormControl(this.editMeal.category, [Validators.required]),
       eprice: new FormControl(this.editMeal.price, [Validators.required]),
-      eisProduct: new FormControl(this.editMeal.isProduct, [
-        Validators.requiredTrue
-      ]),
-      equantity: new FormControl(this.editMeal.quantity, [Validators.required]),
+      eisProduct: new FormControl(this.editMeal.isProduct || false),
+      equantity: new FormControl(this.editMeal.quantity),
       ediscount: new FormControl(this.editMeal.discount, [Validators.required]),
       ediscountEnd: new FormControl(dateObj, [Validators.required]),
       edescription: new FormControl(this.editMeal.description),
