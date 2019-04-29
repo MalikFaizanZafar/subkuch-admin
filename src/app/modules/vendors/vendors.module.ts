@@ -26,6 +26,7 @@ import { SearchService } from './services/search.service';
 import { GoogleMapService } from '@app/shared/services/google-map.service';
 import { ComponentsComponent } from './components/components.component';
 import { ReviewsComponent } from './pages/reviews/reviews.component';
+import { environment } from 'environments/environment';
 
 
 @NgModule({
@@ -33,10 +34,7 @@ import { ReviewsComponent } from './pages/reviews/reviews.component';
     CommonModule,
     VendorsRoutingModule,
     SharedModule,
-    AgmCoreModule.forRoot({
-      apiKey: 'AIzaSyB-EsaismaaJDTBDg0F2l-28Z-7zsVCTWU ',
-      libraries: ['places']
-    })
+    AgmCoreModule.forRoot(environment.googleMapsAPI)
   ],
   providers: [
     AuthService,

@@ -5,6 +5,7 @@ import { GoogleMapService } from '@app/shared/services/google-map.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AgmCoreModule } from '@agm/core';
 import { NgxDfCustom } from '@app/shared/ngx-custom.module';
+import { environment } from 'environments/environment';
 
 @NgModule({
   imports: [
@@ -12,10 +13,7 @@ import { NgxDfCustom } from '@app/shared/ngx-custom.module';
     FormsModule,
     ReactiveFormsModule,
     NgxDfCustom,
-    AgmCoreModule.forRoot({
-      apiKey: 'AIzaSyB-EsaismaaJDTBDg0F2l-28Z-7zsVCTWU ',
-      libraries: ["places"]
-    }),
+    AgmCoreModule.forRoot(environment.googleMapsAPI),
   ],
   declarations: [MapModalComponent],
   entryComponents: [MapModalComponent],
