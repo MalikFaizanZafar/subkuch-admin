@@ -17,7 +17,7 @@ export class OrdersComponent implements OnInit {
     private notificationsService : NotificationsService ) { }
 
   ngOnInit() {
-    this.franchiseOrdersService.getOrders(1).subscribe(responseData => {
+    this.franchiseOrdersService.getOrders(Number(localStorage.getItem("franchiseId"))).subscribe(responseData => {
       this.orders = responseData.data
       console.log('this.orders is : ', this.orders)
     })
