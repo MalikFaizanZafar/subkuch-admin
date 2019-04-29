@@ -35,4 +35,12 @@ export class FranchiseDealsService {
       headers
     });
   }
+  editDeal(deal: dealModel, id : Number): Observable<any> {
+    let headers = new HttpHeaders().set("Content-Type", "application/json");
+    const token = localStorage.getItem("Authorization");
+    headers = headers.append("Authorization", token);
+    return this.http.put<any>(`${this.baseURL}/deal/${id}`, deal, {
+      headers
+    });
+  }
 }

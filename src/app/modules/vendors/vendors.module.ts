@@ -26,7 +26,6 @@ import { SearchService } from './services/search.service';
 import { GoogleMapService } from '@app/shared/services/google-map.service';
 import { ComponentsComponent } from './components/components.component';
 import { ReviewsComponent } from './pages/reviews/reviews.component';
-import { AddCategoryDialogComponent } from './components/add-category-dialog/add-category-dialog.component';
 
 
 @NgModule({

@@ -17,29 +17,20 @@ import { NotificationsService } from "./services/notifications.service";
 import { FranchiseAccountService } from "./modules/vendors/services/franchiseAccount.service";
 import { AddCategoryDialogComponent } from "./modules/vendors/components/add-category-dialog/add-category-dialog.component";
 import { FranchiseItemsService } from "./modules/vendors/services/franchiseItems.service";
-
+import { EditDealDialogBoxComponent } from "./modules/vendors/components/edit-deal-dialog-box/edit-deal-dialog-box.component";
+import { environment } from '../environments/environment';
 
 @NgModule({
-  declarations: [AppComponent, AddCategoryDialogComponent],
+  declarations: [AppComponent, AddCategoryDialogComponent, EditDealDialogBoxComponent],
   imports: [
     AppRoutingModule,
     BrowserModule,
     CoreModule,
     SharedModule,
     BrowserAnimationsModule,
-    AgmCoreModule.forRoot({
-      apiKey: "AIzaSyB-EsaismaaJDTBDg0F2l-28Z-7zsVCTWU ",
-      libraries: ["places"]
-    }),
+    AgmCoreModule.forRoot(environment.googleMapsAPI),
     SocialLoginModule,
-    AngularFireModule.initializeApp({
-      apiKey: "AIzaSyBVuIpEpE4Ke9xam26eRzVZItTslj6iTMY",
-      authDomain: "subquch-d4369.firebaseapp.com",
-      databaseURL: "https://subquch-d4369.firebaseio.com",
-      projectId: "subquch-d4369",
-      storageBucket: "gs://subquch-d4369.appspot.com",
-      messagingSenderId: "54989238851"
-    }),
+    AngularFireModule.initializeApp(environment.firebase),
     AngularFireDatabaseModule,
     AngularFireAuthModule,
     AngularFireStorageModule
@@ -55,6 +46,6 @@ import { FranchiseItemsService } from "./modules/vendors/services/franchiseItems
     FranchiseItemsService
   ],
   bootstrap: [AppComponent],
-  entryComponents: [AddCategoryDialogComponent]
+  entryComponents: [AddCategoryDialogComponent, EditDealDialogBoxComponent]
 })
 export class AppModule {}

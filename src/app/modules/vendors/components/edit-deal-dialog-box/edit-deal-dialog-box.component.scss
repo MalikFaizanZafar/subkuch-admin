@@ -1,0 +1,17 @@
+.deal__icons {
+  color: black;
+  font-size: 20px;
+  &__delete {
+    color: black;
+    font-size: 20px;
+  }
+  &__delete:hover {
+    color: red;
+    cursor: pointer;
+  }
+}
+
+.deal__icons:hover {
+  color: blue;
+  cursor: pointer;
+}

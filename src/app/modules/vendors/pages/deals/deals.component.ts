@@ -13,6 +13,7 @@ import { finalize } from "rxjs/operators";
 import { IsButton, IsModalService } from "../../../../lib";
 import { IsToasterService } from "../../../../lib/toaster";
 import { dealModel } from "../../models/dealModel";
+import { EditDealDialogBoxComponent } from "../../components/edit-deal-dialog-box/edit-deal-dialog-box.component";
 
 @Component({
   selector: "deals",
@@ -42,10 +43,12 @@ export class DealsComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.franchiseDealsService.getDeals(Number(localStorage.getItem("franchiseId"))).subscribe(responseData => {
-      this.deals = responseData.data;
-      console.log("this.deals has : ", this.deals);
-    });
+    this.franchiseDealsService
+      .getDeals(Number(localStorage.getItem("franchiseId")))
+      .subscribe(responseData => {
+        this.deals = responseData.data;
+        console.log("this.deals has : ", this.deals);
+      });
     this.dealForm = new FormGroup({
       name: new FormControl(null, [Validators.required]),
       price: new FormControl(null, [Validators.required]),
@@ -59,7 +62,7 @@ export class DealsComponent implements OnInit {
   }
   editDealImageChangeEvent(fileInput: any) {
     this.eimageFile = fileInput.target.files[0];
-    const self = this
+    const self = this;
     var reader = new FileReader();
     reader.onload = function() {
       var dataURL = reader.result;
@@ -74,25 +77,33 @@ export class DealsComponent implements OnInit {
   echooseFile() {
     this.edealImage.nativeElement.click();
   }
-  onEditDealHandler(id, editMealDialog: TemplateRef<any> ) {
+  onEditDealHandler(id) {
     let filterdDeals = this.deals.filter(meal => meal.id == id);
     this.editDeal = filterdDeals[0];
-    this.tempDealImageFile = this.editDeal.dealImage
-    // this.showEditDeal = true;
-    // this.showDeals = false;
-    console.log("Edit Deal is : ", this.editDeal);
-    this.editDealForm = new FormGroup({
-      ename: new FormControl(null, [Validators.required]),
-      eprice: new FormControl(1),
-      ediscountEnd: new FormControl(null, [Validators.required]),
-      eattachment: new FormControl(null, [Validators.required])
+    const deleteModal = this.isModal.open(EditDealDialogBoxComponent, {
+      data: this.editDeal
     });
-    const deleteModal = this.isModal.open(editMealDialog);
     deleteModal.onClose.subscribe(res => {
-      if(res === 'ok') {
-        console.log('res is ok')
-      }
-    })
+      console.log("Edited Deal is : ", res);
+      this.franchiseDealsService
+        .editDeal(res, this.editDeal.id)
+        .subscribe(responseData => {
+          this.newDeal = responseData.data;
+          this.showDeals = true;
+          console.log("this.editDeal :", this.editDeal)
+          const editDealIndex = this.deals.map(deal => deal.id).indexOf(this.editDeal.id)
+          console.log("editDealIndex :", editDealIndex)
+          this.deals[editDealIndex] = this.newDeal;
+          console.log(
+            "this.deals[editMealIndex] is  :",
+            this.deals[editDealIndex]
+          );
+          let deleteImageUrl = this.editDeal.dealImage;
+          console.log("deleteImageUrl : ", deleteImageUrl)
+          this.storage.storage.refFromURL(deleteImageUrl).delete();
+          console.log("this.newDeal : ", this.newDeal);
+        });
+    });
   }
   onDeleteDealHandler(id, deleteDialog: TemplateRef<any>) {
     const deleteModal = this.isModal.open(deleteDialog, {
@@ -130,35 +141,35 @@ export class DealsComponent implements OnInit {
       const fileRef = this.storage.ref(filePath);
       const task = this.storage.upload(filePath, this.imageFile);
       task
-      .snapshotChanges()
-      .pipe(
-        finalize(() => {
-          this.downloadURL = fileRef.getDownloadURL();
-          this.downloadURL.subscribe(url => {
-            let deal = this.dealForm.value;
-            this.newDeal = {
-              name: deal.name,
-              price: deal.price,
-              deal_image: url,
-              end_date: deal.discountEnd,
-              franchise_id: Number(localStorage.getItem("franchiseId"))
-            };
-            this.franchiseDealsService
-              .addDeal(this.newDeal)
-              .subscribe(responseData => {
-                this.newDeal = responseData.data;
-                this.showDeals = true;
-                this.deals.push(this.newDeal);
-                btn.stopLoading();
-                console.log("this.newDeal : ", this.newDeal);
-                this.dealForm.reset();
-              });
-          });
-        })
-      )
-      .subscribe();
+        .snapshotChanges()
+        .pipe(
+          finalize(() => {
+            this.downloadURL = fileRef.getDownloadURL();
+            this.downloadURL.subscribe(url => {
+              let deal = this.dealForm.value;
+              this.newDeal = {
+                name: deal.name,
+                price: deal.price,
+                deal_image: url,
+                end_date: deal.discountEnd,
+                franchise_id: Number(localStorage.getItem("franchiseId"))
+              };
+              this.franchiseDealsService
+                .addDeal(this.newDeal)
+                .subscribe(responseData => {
+                  this.newDeal = responseData.data;
+                  this.showDeals = true;
+                  this.deals.push(this.newDeal);
+                  btn.stopLoading();
+                  console.log("this.newDeal : ", this.newDeal);
+                  this.dealForm.reset();
+                });
+            });
+          })
+        )
+        .subscribe();
     } else {
-      console.log("Form is not Valid")
+      console.log("Form is not Valid");
     }
   }
 }
