@@ -273,6 +273,10 @@ export class MealsComponent implements OnInit {
                     this.showMeals = true;
                     console.log("this.newItem : ", this.newItem);
                     // console.log("this.editMeal.image_url : ", this.editMeal.image_url);
+                    const editMealIndex = this.meals.map(meal => meal.id).indexOf(self.editMeal.id)
+                    console.log("editMealIndex :", editMealIndex)
+                    this.meals[editMealIndex] = this.newItem
+                    console.log("this.meals[editMealIndex] is  :", this.meals[editMealIndex])
                     let deleteImageUrl = this.editMeal.image_url
                     this.storage.storage
                       .refFromURL(deleteImageUrl)
@@ -290,6 +294,7 @@ export class MealsComponent implements OnInit {
           .subscribe();
       } else {
         console.log('imageFile Edited : ', false)
+        btn.startLoading();
         let item = this.eitemForm.value;
         let enewItem = {
           name: item.etitle,
@@ -312,8 +317,11 @@ export class MealsComponent implements OnInit {
             this.showEditMeal = false;
             this.showMeals = true;
             console.log("this.newItem : ", this.newItem);
-            this.storage.storage.refFromURL(this.editMeal.image_url).delete();
             btn.stopLoading();
+            const editMealIndex = this.meals.map(meal => meal.id).indexOf(this.editMeal.id)
+            console.log("editMealIndex :", editMealIndex)
+            this.meals[editMealIndex] = this.newItem
+            console.log("this.meals[editMealIndex] is  :", this.meals[editMealIndex])
             this.toaster.popSuccess("Meal has been Edited Successfully");
             this.imageFileEdited = false;
             this.eitemForm.reset();
@@ -335,12 +343,12 @@ export class MealsComponent implements OnInit {
     reader.readAsDataURL(fileInput.target.files[0]);
   }
   chooseFile() {
-    console.log("choose an image");
     this.itemImage.nativeElement.click();
   }
   efileChangeEvent(fileInput: any) {
     let self = this;
     this.eimageFile = fileInput.target.files[0];
+    console.log("this.eimageFile : ", this.eimageFile);
     var reader = new FileReader();
     reader.onload = function() {
       var dataURL = reader.result;
@@ -350,7 +358,6 @@ export class MealsComponent implements OnInit {
     this.imageFileEdited = true;
   }
   echooseFile() {
-    console.log("choose an image");
     this.eitemImage.nativeElement.click();
   }
 }
