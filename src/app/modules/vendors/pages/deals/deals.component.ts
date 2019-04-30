@@ -96,6 +96,7 @@ export class DealsComponent implements OnInit {
               .indexOf(this.editDeal.id);
             this.deals[editDealIndex] = this.newDeal;
             this.storage.storage.refFromURL(this.imageToBeDeleted).delete();
+            this.toaster.popSuccess("Deal Has Been Edited Successfully");
           });
       }
     });
@@ -131,8 +132,8 @@ export class DealsComponent implements OnInit {
       }else if(!this.dealAddCancelled) {
         console.log('Add Deal is NOT Cancelled')
         this.franchiseDealsService.addDeal(res).subscribe(addDealResponse => {
-          console.log("addDealResponse is : ", addDealResponse.data)
           this.deals.push(addDealResponse.data)
+          this.toaster.popSuccess("Deal Has Been Added Successfully");
         })
       }
     })

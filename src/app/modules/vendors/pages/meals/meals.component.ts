@@ -42,7 +42,6 @@ export class MealsComponent implements OnInit {
   imageFileEdited: boolean = false;
   addMealCancelled: boolean = false;
   editMealCancelled: boolean = false;
-  @ViewChild("eitemImage") eitemImage: ElementRef;
   selectedIndex: number = null;
   selectedCategory: number;
 
@@ -117,6 +116,7 @@ export class MealsComponent implements OnInit {
         console.log("Add Meal Not Cancelled");
         this.franchiseItemsService.addItem(res).subscribe(addMealResponse => {
           this.meals.push(addMealResponse.data);
+          this.toaster.popSuccess("Meal Has Been Deleted Successfully");
         });
       }
     });
@@ -145,8 +145,8 @@ export class MealsComponent implements OnInit {
             const editMealIndex = this.meals
               .map(meal => meal.id)
               .indexOf(this.editMeal.id);
+              this.toaster.popSuccess("Meal Has Been Edited Successfully");
             this.meals[editMealIndex] = this.newItem;
-            console.log("editMealResponseData.data is : ", editMealResponseData.data)
           });
       }
     });
@@ -191,126 +191,5 @@ export class MealsComponent implements OnInit {
         });
       }
     });
-  }
-
-  onEItemSubmit(form: FormGroup, btn: IsButton) {
-    console.log("this.etemForm is : ", this.eitemForm.value);
-    if (this.eitemForm.valid) {
-      if (this.imageFileEdited) {
-        console.log("imageFile Edited : ", true);
-        btn.startLoading();
-        let randomString =
-          Math.random()
-            .toString(36)
-            .substring(2, 15) +
-          Math.random()
-            .toString(36)
-            .substring(2, 15);
-        const filePath = "items/" + randomString + "-" + this.eimageFile.name;
-        const fileRef = this.storage.ref(filePath);
-        const task = this.storage.upload(filePath, this.eimageFile);
-        const self = this;
-        task
-          .snapshotChanges()
-          .pipe(
-            finalize(() => {
-              this.downloadURL = fileRef.getDownloadURL();
-              this.downloadURL.subscribe(url => {
-                let item = this.eitemForm.value;
-                let enewItem = {
-                  name: item.etitle,
-                  description: item.edescription,
-                  price: item.eprice,
-                  image_url: url,
-                  discount: item.ediscount,
-                  discount_end_date: item.ediscountEnd,
-                  available: item.eisAvailable,
-                  product: item.eisProduct,
-                  quanity: item.equantity,
-                  category_id: Number(item.ecategory),
-                  franchise_id: Number(localStorage.getItem("franchiseId"))
-                };
-                this.franchiseItemsService
-                  .editItem(enewItem, self.editMeal.id)
-                  .subscribe(responseData => {
-                    this.newItem = responseData.data;
-                    this.showEditMeal = false;
-                    this.showMeals = true;
-                    const editMealIndex = this.meals
-                      .map(meal => meal.id)
-                      .indexOf(self.editMeal.id);
-                    this.meals[editMealIndex] = this.newItem;
-                    let deleteImageUrl = this.editMeal.image_url;
-                    this.storage.storage.refFromURL(deleteImageUrl).delete();
-                    btn.stopLoading();
-                    this.toaster.popSuccess(
-                      "Meal has been Edited Successfully"
-                    );
-                    this.imageFileEdited = false;
-                    this.eitemForm.reset();
-                  });
-              });
-            })
-          )
-          .subscribe();
-      } else {
-        console.log("imageFile Edited : ", false);
-        btn.startLoading();
-        let item = this.eitemForm.value;
-        let enewItem = {
-          name: item.etitle,
-          description: item.edescription,
-          price: item.eprice,
-          image_url: this.editMeal.image_url,
-          discount: item.ediscount,
-          discount_end_date: item.ediscountEnd,
-          available: item.eisAvailable,
-          product: item.eisProduct,
-          quanity: item.equantity,
-          category_id: Number(item.ecategory),
-          franchise_id: Number(localStorage.getItem("franchiseId"))
-        };
-        console.log("enewItem is ", enewItem);
-        this.franchiseItemsService
-          .editItem(enewItem, this.editMeal.id)
-          .subscribe(responseData => {
-            this.newItem = responseData.data;
-            this.showEditMeal = false;
-            this.showMeals = true;
-            console.log("this.newItem : ", this.newItem);
-            btn.stopLoading();
-            const editMealIndex = this.meals
-              .map(meal => meal.id)
-              .indexOf(this.editMeal.id);
-            console.log("editMealIndex :", editMealIndex);
-            this.meals[editMealIndex] = this.newItem;
-            console.log(
-              "this.meals[editMealIndex] is  :",
-              this.meals[editMealIndex]
-            );
-            this.toaster.popSuccess("Meal has been Edited Successfully");
-            this.imageFileEdited = false;
-            this.eitemForm.reset();
-          });
-      }
-    } else {
-      console.log("eItemForm is not valid");
-      return;
-    }
-  }
-  efileChangeEvent(fileInput: any) {
-    let self = this;
-    this.eimageFile = fileInput.target.files[0];
-    console.log("this.eimageFile : ", this.eimageFile);
-    var reader = new FileReader();
-    reader.onload = function() {
-      var dataURL = reader.result;
-      self.etempMealImageFile = dataURL;
-    };
-    reader.readAsDataURL(fileInput.target.files[0]);
-    this.imageFileEdited = true;
-  }
-  echooseFile() {
-    this.eitemImage.nativeElement.click();
   }
 }
