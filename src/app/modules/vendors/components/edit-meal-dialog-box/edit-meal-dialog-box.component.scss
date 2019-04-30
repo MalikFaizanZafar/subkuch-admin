@@ -1,0 +1,11 @@
+@import 'palette';
+.meal__icons {
+  color: $is-blue;
+  &__delete {
+    color: $is-red;
+  }
+}
+.meal__icons:hover {
+  color: blue;
+  cursor: pointer;
+}

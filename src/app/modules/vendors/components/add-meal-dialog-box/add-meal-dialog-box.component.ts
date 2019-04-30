@@ -19,7 +19,7 @@ export class AddMealDialogBoxComponent implements OnInit {
   newMeal;
   categories = []
   @ViewChild("mealImageInput") mealImageInput: ElementRef;
-  constructor(private isModalService : IsModalService, private isActiveModel : IsActiveModal, private storage: AngularFireStorage) { }
+  constructor(private isActiveModel : IsActiveModal, private storage: AngularFireStorage) { }
 
   ngOnInit() {
     this.categories = this.isActiveModel.data.categories

@@ -15,6 +15,7 @@ import { Observable } from "rxjs";
 import { finalize } from "rxjs/operators";
 import { AddCategoryDialogComponent } from "../../components/add-category-dialog/add-category-dialog.component";
 import { AddMealDialogBoxComponent } from "../../components/add-meal-dialog-box/add-meal-dialog-box.component";
+import { EditMealDialogBoxComponent } from "../../components/edit-meal-dialog-box/edit-meal-dialog-box.component";
 
 @Component({
   selector: "meals",
@@ -40,6 +41,7 @@ export class MealsComponent implements OnInit {
   etempMealImageFile;
   imageFileEdited: boolean = false;
   addMealCancelled: boolean = false;
+  editMealCancelled: boolean = false;
   @ViewChild("eitemImage") eitemImage: ElementRef;
   selectedIndex: number = null;
   selectedCategory: number;
@@ -70,12 +72,12 @@ export class MealsComponent implements OnInit {
 
   populateItems() {
     this.franchiseItemsService
-          .getItems(this.franchiseId,this.selectedCategory )
-          .subscribe(itemresponseData => {
-            this.meals = itemresponseData.data;
-          });
+      .getItems(this.franchiseId, this.selectedCategory)
+      .subscribe(itemresponseData => {
+        this.meals = itemresponseData.data;
+      });
   }
- 
+
   getCategoryItems(id: number, index: number) {
     console.log(index);
     this.selectedIndex = index;
@@ -83,7 +85,9 @@ export class MealsComponent implements OnInit {
     this.populateItems();
   }
   addCategoryHandler() {
-    let addCategoryDialogOpenRef = this.isModal.open(AddCategoryDialogComponent);
+    let addCategoryDialogOpenRef = this.isModal.open(
+      AddCategoryDialogComponent
+    );
     addCategoryDialogOpenRef.onClose.subscribe(res => {
       let newCategory = {
         name: res.categoryName,
@@ -95,9 +99,9 @@ export class MealsComponent implements OnInit {
         .subscribe(categoryResponse => {
           this.categories.push(categoryResponse.data);
         });
-    })
+    });
   }
-  onAddMealHandler(){
+  onAddMealHandler() {
     this.addMealCancelled = false;
     let addMealDialog = this.isModal.open(AddMealDialogBoxComponent, {
       size: IsModalSize.Large,
@@ -106,37 +110,44 @@ export class MealsComponent implements OnInit {
       }
     });
     addMealDialog.onClose.subscribe(res => {
-      if( res === 'cancel'){
-        console.log("Add Meal Cancelled")
-        this.addMealCancelled = true
-      }
-      else if(!this.addMealCancelled === false) {
-        console.log("Add Meal Not Cancelled")
+      if (res === "cancel") {
+        console.log("Add Meal Cancelled");
+        this.addMealCancelled = true;
+      } else if (!this.addMealCancelled === false) {
+        console.log("Add Meal Not Cancelled");
         this.franchiseItemsService.addItem(res).subscribe(addMealResponse => {
-          this.meals.push(addMealResponse.data)
-        })
+          this.meals.push(addMealResponse.data);
+        });
       }
-    })
+    });
   }
   onEditItemHandler(id) {
+    this.editMealCancelled = false
     let filterdItems = this.meals.filter(meal => meal.id == id);
     this.editMeal = filterdItems[0];
-    this.showEditMeal = true;
-    this.showMeals = false;
-    const dateObj = this.editMeal.endDate.split("T")[0];
-    this.tempMealImageFile = this.editMeal.image_url;
-    console.log(this.editMeal.isProduct);
-    this.eitemForm = new FormGroup({
-      etitle: new FormControl(this.editMeal.name, [Validators.required]),
-      eisAvailable: new FormControl(this.editMeal.isAvailable || false),
-      ecategory: new FormControl(this.editMeal.category, [Validators.required]),
-      eprice: new FormControl(this.editMeal.price, [Validators.required]),
-      eisProduct: new FormControl(this.editMeal.isProduct || false),
-      equantity: new FormControl(this.editMeal.quantity),
-      ediscount: new FormControl(this.editMeal.discount, [Validators.required]),
-      ediscountEnd: new FormControl(dateObj, [Validators.required]),
-      edescription: new FormControl(this.editMeal.description),
-      eattachment: new FormControl(null)
+    const editMealDialog = this.isModal.open(EditMealDialogBoxComponent, {
+      size: IsModalSize.Large,
+      data: {
+        categories: this.categories,
+        editMeal: this.editMeal
+      }
+    });
+    editMealDialog.onClose.subscribe(res => {
+      if (res === "cancel") {
+        console.log("Edit Meal is Cancelled")
+        this.editMealCancelled = true
+      } else if(!this.editMealCancelled) {
+        console.log("Edit Meal is NOT Cancelled")
+        this.franchiseItemsService
+          .editItem(res, Number(this.editMeal.id))
+          .subscribe(responseData => {
+            this.newItem = responseData.data;
+            const editMealIndex = this.meals
+              .map(meal => meal.id)
+              .indexOf(this.editMeal.id);
+            this.meals[editMealIndex] = this.newItem;
+          });
+      }
     });
   }
 
@@ -180,64 +191,12 @@ export class MealsComponent implements OnInit {
       }
     });
   }
-  onItemSubmit(form: FormGroup, btn: IsButton) {
-    // console.log('url is : ', url)
-    if (this.itemForm.valid) {
-      let randomString =
-        Math.random()
-          .toString(36)
-          .substring(2, 15) +
-        Math.random()
-          .toString(36)
-          .substring(2, 15);
-      const filePath = "items/" + randomString + "-" + this.imageFile.name;
-      const fileRef = this.storage.ref(filePath);
-      const task = this.storage.upload(filePath, this.imageFile);
-      btn.startLoading();
-      task
-        .snapshotChanges()
-        .pipe(
-          finalize(() => {
-            this.downloadURL = fileRef.getDownloadURL();
-            this.downloadURL.subscribe(url => {
-              let item = this.itemForm.value;
-              this.newItem = {
-                name: item.title,
-                description: item.description,
-                price: item.price,
-                image_url: url,
-                discount: item.discount,
-                discount_end_date: item.discountEnd,
-                available: item.isAvailable,
-                product: item.isProduct,
-                quanity: item.quantity,
-                category_id: Number(item.category),
-                franchise_id: Number(localStorage.getItem("franchiseId"))
-              };
-              console.log("this.newItem is : ", this.newItem);
-              this.franchiseItemsService
-                .addItem(this.newItem)
-                .subscribe(responseData => {
-                  this.newItem = responseData.data;
-                  this.showMeals = true;
-                  this.meals.push(this.newItem);
-                  console.log("this.newItem : ", this.newItem);
-                  btn.stopLoading();
-                  this.itemForm.reset();
-                });
-            });
-          })
-        )
-        .subscribe();
-    } else {
-      console.log("Form is not Valid");
-    }
-  }
+
   onEItemSubmit(form: FormGroup, btn: IsButton) {
     console.log("this.etemForm is : ", this.eitemForm.value);
     if (this.eitemForm.valid) {
       if (this.imageFileEdited) {
-        console.log('imageFile Edited : ', true)
+        console.log("imageFile Edited : ", true);
         btn.startLoading();
         let randomString =
           Math.random()
@@ -276,12 +235,12 @@ export class MealsComponent implements OnInit {
                     this.newItem = responseData.data;
                     this.showEditMeal = false;
                     this.showMeals = true;
-                    const editMealIndex = this.meals.map(meal => meal.id).indexOf(self.editMeal.id)
-                    this.meals[editMealIndex] = this.newItem
-                    let deleteImageUrl = this.editMeal.image_url
-                    this.storage.storage
-                      .refFromURL(deleteImageUrl)
-                      .delete();
+                    const editMealIndex = this.meals
+                      .map(meal => meal.id)
+                      .indexOf(self.editMeal.id);
+                    this.meals[editMealIndex] = this.newItem;
+                    let deleteImageUrl = this.editMeal.image_url;
+                    this.storage.storage.refFromURL(deleteImageUrl).delete();
                     btn.stopLoading();
                     this.toaster.popSuccess(
                       "Meal has been Edited Successfully"
@@ -294,7 +253,7 @@ export class MealsComponent implements OnInit {
           )
           .subscribe();
       } else {
-        console.log('imageFile Edited : ', false)
+        console.log("imageFile Edited : ", false);
         btn.startLoading();
         let item = this.eitemForm.value;
         let enewItem = {
@@ -319,10 +278,15 @@ export class MealsComponent implements OnInit {
             this.showMeals = true;
             console.log("this.newItem : ", this.newItem);
             btn.stopLoading();
-            const editMealIndex = this.meals.map(meal => meal.id).indexOf(this.editMeal.id)
-            console.log("editMealIndex :", editMealIndex)
-            this.meals[editMealIndex] = this.newItem
-            console.log("this.meals[editMealIndex] is  :", this.meals[editMealIndex])
+            const editMealIndex = this.meals
+              .map(meal => meal.id)
+              .indexOf(this.editMeal.id);
+            console.log("editMealIndex :", editMealIndex);
+            this.meals[editMealIndex] = this.newItem;
+            console.log(
+              "this.meals[editMealIndex] is  :",
+              this.meals[editMealIndex]
+            );
             this.toaster.popSuccess("Meal has been Edited Successfully");
             this.imageFileEdited = false;
             this.eitemForm.reset();
