@@ -1,3 +1,63 @@
-<p>
-  edit-banner-dialog-box works!
-</p>
+<div>
+  <div
+    class="card-header bg-dark text-white font-weight-bold rounded-0"
+  >
+    Edit Franchise Banner
+  </div>
+  <form
+    class="px-3 py-2"
+    [formGroup]="editBannerForm"
+    (ngSubmit)="onEditBannerSubmit()"
+    #edtBannerForm="ngForm"
+  >
+    <div
+      class="form-group"
+    >
+    <p>Click on the image for image selection</p>
+      <img
+        [src]="tempEditBannerImage || 'https://via.placeholder.com/1100x200.png?text=upload+your+banner+here'"
+        alt="Franchise Banner"
+        class="edit__banner__dialog__image"
+        (click)="onEditBannerChooseImage()"
+      />
+      <input
+        type="file"
+        class="form-control ml-3"
+        id="category_name"
+        formControlName="editBannerImage"
+        style="display:none;"
+        #bannerImage
+        (change)="onEditBannerFileChoosen($event)"
+      />
+    </div>
+    <div
+      *ngIf="
+        editBannerForm.hasError('required', 'editBannerImage') &&
+        edtBannerForm.submitted
+      "
+      class="form-group d-flex justify-content-start align-items-center item-form__input_error"
+    >
+      Image is required
+    </div>
+    <div class="d-flex justify-content-center">
+      <button
+        is-button
+        theme="danger"
+        class="close-btn w-25 mb-4 add__category__dialog__btn"
+        (click)="onEditBannerSubmit(editBannerSubmitBtn)"
+        type="submit"
+        #editBannerSubmitBtn
+      >
+        <span>Save</span>
+      </button>
+      <button
+        is-button
+        theme="primary"
+        class="close-btn w-25 mb-4 ml-2 add__category__dialog__btn"
+        (click)="isActiveModal.close('cancel')"
+      >
+        <span>Cancel</span>
+      </button>
+    </div>
+  </form>
+</div>

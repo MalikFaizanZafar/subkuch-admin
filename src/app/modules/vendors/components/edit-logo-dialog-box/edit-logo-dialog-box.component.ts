@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { IsModalService, IsActiveModal, IsButton } from 'app/lib';
+import { IsActiveModal, IsButton } from 'app/lib';
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { AngularFireStorage } from "@angular/fire/storage";
 import { Observable } from "rxjs";
@@ -18,10 +18,9 @@ export class EditLogoDialogBoxComponent implements OnInit {
   downloadURL: Observable<string>;
   logoImageChanged: boolean = false;
   @ViewChild("logoImage") logoImage: ElementRef;
-  constructor(private isModal : IsModalService, private isActiveModal : IsActiveModal,  private storage: AngularFireStorage) { }
+  constructor(private isActiveModal : IsActiveModal,  private storage: AngularFireStorage) { }
 
   ngOnInit() {
-    console.log("this.isActiveModal.data is ", this.isActiveModal.data)
     this.editLogoImageFile = this.isActiveModal.data.logo
     this.tempEditLogoImage = this.isActiveModal.data.logo
     this.editBrandName = this.isActiveModal.data.brandName
