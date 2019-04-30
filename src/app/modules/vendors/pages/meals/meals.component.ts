@@ -41,6 +41,11 @@ export class MealsComponent implements OnInit {
   @ViewChild("itemImage") itemImage: ElementRef;
   @ViewChild("eitemImage") eitemImage: ElementRef;
   selectedIndex: number = null;
+  selectedCategory: number;
+
+  get franchiseId() {
+    return Number(localStorage.getItem("franchiseId"));
+  }
 
   constructor(
     private franchiseItemsService: FranchiseItemsService,
@@ -62,27 +67,37 @@ export class MealsComponent implements OnInit {
       description: new FormControl(null),
       attachment: new FormControl(null, [Validators.required])
     });
+    
     this.categoryForm = new FormGroup({
       categoryName: new FormControl(null, [Validators.required])
     });
+
     this.franchiseItemsService
-      .getCategories(Number(localStorage.getItem("franchiseId")))
+      .getCategories(this.franchiseId)
       .subscribe(responseData => {
         this.categories = responseData.data;
-        this.franchiseItemsService
-          .getItems(Number(localStorage.getItem("franchiseId")))
+        this.populateItems();
+      });
+  }
+
+  populateItems() {
+    this.franchiseItemsService
+          .getItems(this.franchiseId,this.selectedCategory )
           .subscribe(itemresponseData => {
             this.meals = itemresponseData.data;
           });
-      });
   }
-  getCategoryItems(name: string, index: number) {
+ 
+  getCategoryItems(id: number, index: number) {
+    console.log(index);
     this.selectedIndex = index;
-    this.franchiseItemsService
-      .getCategoriesByName(name)
-      .subscribe(nameCategories => {
-        console.log("nameCategories : ", nameCategories);
-      });
+    this.selectedCategory = id;
+    this.populateItems();
+    // this.franchiseItemsService
+    //   .getCategoriesByName(name)
+    //   .subscribe(nameCategories => {
+    //     console.log("nameCategories : ", nameCategories);
+    //   });
   }
   addCategoryHandler() {
     let addCategoryDialogOpenRef = this.isModal.open(AddCategoryDialogComponent);

@@ -43,7 +43,7 @@ export class LoginComponent implements OnInit {
         btn.stopLoading();
         this.router.navigate(['/vendors']);
       }, (err) => {
-        if(err.status = 401){
+        if(err.status === 401){
           this.unAuthorized = true
           btn.stopLoading();
           return;

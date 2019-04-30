@@ -5,6 +5,7 @@ import { IsButton, IsModalService } from '../../../../lib';
 import { UserAuthService } from '../../services/auth.service';
 import { AvailableServices, AvailableServicesResponse } from '../../models/availableServices';
 import { VendorUser } from '../../models/vendor-members';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-sign-up',
@@ -21,7 +22,8 @@ export class SignUpComponent implements OnInit {
   availableServices: AvailableServices[] = [];
 
   constructor(private authService: UserAuthService, 
-              private isModal: IsModalService){}
+              private isModal: IsModalService, 
+              private router: Router){}
 
   ngOnInit() {
     this.signupForm = new FormGroup({
@@ -69,8 +71,11 @@ export class SignUpComponent implements OnInit {
       this.authService.signup(vendor).subscribe(res => {
         btn.stopLoading();
         if (res) {
-          this.isModal.open(template, {data: vendor.email});
-          form.reset();
+          this.isModal.open(template, {data: vendor.email})
+            .onClose.subscribe(() => {
+              this.router.navigate(['/']);
+              form.reset();
+            });
         }
       })
     } else {

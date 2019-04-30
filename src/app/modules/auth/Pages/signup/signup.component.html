@@ -21,7 +21,7 @@
           </h3>
           <form autocomplete="off" [formGroup]="signupForm" (ngSubmit)="onSubmit(formDir, submitBtn, signUpTemplate)" #formDir="ngForm">
             <div class="form-group"
-              [class.mb-1]="(signupForm.controls['service'].errors.required || signupForm.controls.service.value === 0) && formDir.submitted">
+              [class.mb-1]="(signupForm.controls['service'].errors && signupForm.controls['service'].errors.required || signupForm.controls.service.value === 0) && formDir.submitted">
               <select class="form-control" formControlName="service">
                 <option value="0" default selected>Select service...</option>
                 <option *ngFor="let service of availableServices" value="{{service.id}}">{{service.name}}

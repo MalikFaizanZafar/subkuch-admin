@@ -26,13 +26,10 @@
           
         </button> -->
       </h6>
-      <ul class="list-group mt-2">
-        <li
-          class="d-flex justify-content-center align-items-center"
-          *ngIf="categories.length === 0"
-        >
-          <h3>Click + to add Categories</h3>
-        </li>
+      <div class="empty-category__block" *ngIf="!categories">
+        <h5>Click + to add Categories</h5>
+      </div>
+      <ul class="list-group mt-2" *ngIf="categories && categories.length">
         <li
           class="p-0 mb-2 mt-0 list-group-item d-flex justify-content-start align-items-center text-muted bg-transparent  mt-1 category__list__item "
           *ngFor="let category of categories; let i = index"
@@ -44,7 +41,7 @@
           <span
             class="categories__item"
             [class.categories__item-active]="i === selectedIndex"
-            (click)="getCategoryItems(category.name, i)"
+            (click)="getCategoryItems(category.id, i)"
             >{{ category.name }}
             </span
           >
@@ -77,8 +74,8 @@
       >
         <h3>Click "Add Meal" to add Meal Items</h3>
       </div>
-      <div class="row mt-5" *ngIf="meals">
-        <div class="col-md-6 mb-5" *ngFor="let meal of meals">
+      <div class="row mt-2" *ngIf="meals">
+        <div class="col-md-6 mb-2" *ngFor="let meal of meals">
           <div class="card rounded shadow  mb-3 meal__card">
             <div class="row no-gutters">
               <div class="col-md-5">
@@ -90,12 +87,12 @@
                 />
               </div>
               <div class="col-md-7">
-                <div class="card-body">
-                  <div class="d-flex justify-content-end w-100">
-                    <h3 class="card-title w-75">{{ meal.name }}</h3>
-                    <div class="d-flex justify-content-around w-25">
+                <div class="card-body pt-2">
+                  <div class="d-flex justify-content-between align-items-center w-100">
+                    <h3 class="card-title mb-0">{{ meal.name }}</h3>
+                    <div class="d-flex justify-content-around">
                       <i
-                        class="fas fa-edit meal__icons icon-color"
+                        class="fas fa-edit meal__icons icon-color mr-2"
                         (click)="onEditItemHandler(meal.id)"
                       ></i>
                       <i
@@ -104,15 +101,14 @@
                       ></i>
                     </div>
                   </div>
-                  <p class="card-text">{{ meal.description }}</p>
-                  <p class="card-text">
-                    <small class="text-muted">
-                      <i class="fas fa-user-clock meal__icons mr-2"></i>
-                      {{ meal.endDate | date }}
+                  <p class="card-text mb-0 mt-2 card-description">{{ meal.description }}</p>
+                  <p class="d-flex justify-content-end card-text mb-0 mt-2">
+                    Discount:<small class="ml-2 text-muted">
+                      {{ meal.discount }}/-
                     </small>
                   </p>
                   <div
-                    class="d-flex justify-content-end w-100 align-items-center mt-5"
+                    class="d-flex justify-content-end w-100 align-items-center mt-2"
                   >
                     <h4>
                       Price

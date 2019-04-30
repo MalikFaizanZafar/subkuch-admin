@@ -52,7 +52,7 @@ export class OverviewComponent implements OnInit {
   }
 
 
-  overviewEditedHandler(){
+  overviewEditedHandler() {
     this.isEditingMode = false;
     this.editMainService.editEnable.next(false);
     // this.editMainService.editFalse();

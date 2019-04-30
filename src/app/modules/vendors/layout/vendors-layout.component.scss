@@ -93,11 +93,11 @@
 }
 
 .bg_blue {
-  background-color: #52cdec;
+  background-color: $is-blue;
 }
 
 .text_blue {
-  color: #52cdec;
+  color: $is-blue;
 }
 
 .nav_a_links {
@@ -114,13 +114,14 @@
 .main__edit__icon {
   cursor: pointer;
 }
+
 .star_icons {
   font-size: 16px;
   color: #fff;
 }
 
 .checked {
-  color: orange;
+  color: $is-amber;
 }
 
 .food_gallery_images {
@@ -256,23 +257,23 @@ section .section-title {
 }
 
 .franchise__logo__edit__icon {
-  font-size: 23px;
-  color: #000;
+  font-size: 16px;
+  color: $is-blue;
+  cursor: pointer;
+  z-index: 999;
 }
 .franchise__logo__edit__icon:hover {
-  font-size: 25px;
-  color: blue;
-  cursor: pointer;
+  font-size: 20px;
 }
 
 .franchise__banner__edit__icon {
-  font-size: 30px;
-  color: #000;
+  font-size: 20px;
+  color: $is-blue;
+  cursor: pointer;
+  z-index: 999;
 }
 .franchise__banner__edit__icon:hover {
-  font-size: 32px;
-  color: blue;
-  cursor: pointer;
+  font-size: 26px;
 }
 
 .edit__logo__dialog__image {
@@ -282,6 +283,6 @@ section .section-title {
 }
 .edit__banner__dialog__image {
   height: 300px;
-  width: 1000px;
+  width: 100%;
   cursor: pointer;
 }

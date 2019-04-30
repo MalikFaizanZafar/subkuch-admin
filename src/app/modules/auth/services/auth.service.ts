@@ -14,6 +14,14 @@ const API_URL = {
 @Injectable()
 export class UserAuthService {
 
+  get isAuthenticated() {
+     if(localStorage.getItem('Authorization')) {
+       return true;
+     } else {
+       return false;
+     }
+  }
+
   constructor(private http: HttpClient){}
   
   getServices(): Observable<AvailableServicesResponse> {

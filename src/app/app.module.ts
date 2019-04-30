@@ -4,7 +4,7 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { AngularFireModule } from "@angular/fire";
 import { AngularFireDatabaseModule } from "@angular/fire/database";
 import { AngularFireAuthModule } from "@angular/fire/auth";
-import { AngularFireStorageModule, StorageBucket } from '@angular/fire/storage';
+import { AngularFireStorageModule, StorageBucket } from "@angular/fire/storage";
 import { AgmCoreModule, GoogleMapsAPIWrapper } from "@agm/core";
 
 import { AppRoutingModule } from "./app-routing.module";
@@ -18,14 +18,27 @@ import { FranchiseAccountService } from "./modules/vendors/services/franchiseAcc
 import { AddCategoryDialogComponent } from "./modules/vendors/components/add-category-dialog/add-category-dialog.component";
 import { FranchiseItemsService } from "./modules/vendors/services/franchiseItems.service";
 import { EditDealDialogBoxComponent } from "./modules/vendors/components/edit-deal-dialog-box/edit-deal-dialog-box.component";
-import { environment } from '../environments/environment';
+import { environment } from "../environments/environment";
 import { ViewOrderNotificationDialogComponent } from "./modules/vendors/components/view-order-notification-dialog/view-order-notification-dialog.component";
 import { AddDealDialogBoxComponent } from "./modules/vendors/components/add-deal-dialog-box/add-deal-dialog-box.component";
 import { AddMealDialogBoxComponent } from "./modules/vendors/components/add-meal-dialog-box/add-meal-dialog-box.component";
 import { EditMealDialogBoxComponent } from "./modules/vendors/components/edit-meal-dialog-box/edit-meal-dialog-box.component";
+import { UserAuthService } from "./modules/auth/services/auth.service";
+import { EditLogoDialogBoxComponent } from "./modules/vendors/components/edit-logo-dialog-box/edit-logo-dialog-box.component";
+import { EditBannerDialogBoxComponent } from "./modules/vendors/components/edit-banner-dialog-box/edit-banner-dialog-box.component";
 
 @NgModule({
-  declarations: [AppComponent, AddCategoryDialogComponent, EditDealDialogBoxComponent, ViewOrderNotificationDialogComponent, AddDealDialogBoxComponent, AddMealDialogBoxComponent, EditMealDialogBoxComponent],
+  declarations: [
+    AppComponent,
+    EditLogoDialogBoxComponent,
+    EditBannerDialogBoxComponent,
+    AddCategoryDialogComponent,
+    EditDealDialogBoxComponent,
+    ViewOrderNotificationDialogComponent,
+    AddDealDialogBoxComponent,
+    AddMealDialogBoxComponent,
+    EditMealDialogBoxComponent
+  ],
   imports: [
     AppRoutingModule,
     BrowserModule,
@@ -47,9 +60,19 @@ import { EditMealDialogBoxComponent } from "./modules/vendors/components/edit-me
     NotificationsService,
     FranchiseAccountService,
     GoogleMapsAPIWrapper,
-    FranchiseItemsService
+    FranchiseItemsService,
+    UserAuthService
   ],
   bootstrap: [AppComponent],
-  entryComponents: [AddCategoryDialogComponent, EditDealDialogBoxComponent, ViewOrderNotificationDialogComponent, AddDealDialogBoxComponent, AddMealDialogBoxComponent, EditMealDialogBoxComponent]
+  entryComponents: [
+    EditLogoDialogBoxComponent,
+    EditBannerDialogBoxComponent,
+    AddCategoryDialogComponent,
+    EditDealDialogBoxComponent,
+    ViewOrderNotificationDialogComponent,
+    AddDealDialogBoxComponent,
+    AddMealDialogBoxComponent,
+    EditMealDialogBoxComponent
+  ]
 })
 export class AppModule {}
