@@ -68,23 +68,23 @@ export class EditBannerDialogBoxComponent implements OnInit {
           finalize(() => {
             this.downloadURL = fileRef.getDownloadURL();
             this.downloadURL.subscribe(url => {
-              let editLogoPostDto = {
+              let editBannerPostDto = {
                 image: url,
                 franchise_id: Number(localStorage.getItem("franchiseId"))
               };
               btn.stopLoading()
-              this.isActiveModal.close(editLogoPostDto)
+              this.isActiveModal.close(editBannerPostDto)
             });
           })
         )
         .subscribe();
       }else {
-        let editLogoPostDto = {
+        let editBannerPostDto = {
           image: this.editBannerImageFile,
           franchise_id: Number(localStorage.getItem("franchiseId"))
         };
         btn.stopLoading()
-        this.isActiveModal.close(editLogoPostDto)
+        this.isActiveModal.close(editBannerPostDto)
       }
     } else {
       console.log("Edit Logo Form is Not valid");

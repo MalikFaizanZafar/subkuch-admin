@@ -36,6 +36,7 @@ export class DealsComponent implements OnInit {
   tempDealImageFile;
   imageToBeDeleted;
   dealEditCancelled = false;
+  dealAddCancelled = false;
   @ViewChild("dealImage") dealImage: ElementRef;
   @ViewChild("edealImage") edealImage: ElementRef;
   constructor(
@@ -121,51 +122,19 @@ export class DealsComponent implements OnInit {
     });
   }
   onAddDealClickHandler() {
-    this.isModal.open(AddDealDialogBoxComponent, { size : IsModalSize.Large})
-  }
-  onDealSubmit(form: FormGroup, btn: IsButton) {
-    if (this.dealForm.valid) {
-      btn.startLoading();
-      let randomString =
-        Math.random()
-          .toString(36)
-          .substring(2, 15) +
-        Math.random()
-          .toString(36)
-          .substring(2, 15);
-      const filePath = "deals/" + randomString + "-" + this.imageFile.name;
-      const fileRef = this.storage.ref(filePath);
-      const task = this.storage.upload(filePath, this.imageFile);
-      task
-        .snapshotChanges()
-        .pipe(
-          finalize(() => {
-            this.downloadURL = fileRef.getDownloadURL();
-            this.downloadURL.subscribe(url => {
-              let deal = this.dealForm.value;
-              this.newDeal = {
-                name: deal.name,
-                price: deal.price,
-                deal_image: url,
-                end_date: deal.discountEnd,
-                franchise_id: Number(localStorage.getItem("franchiseId"))
-              };
-              this.franchiseDealsService
-                .addDeal(this.newDeal)
-                .subscribe(responseData => {
-                  this.newDeal = responseData.data;
-                  this.showDeals = true;
-                  this.deals.push(this.newDeal);
-                  btn.stopLoading();
-                  console.log("this.newDeal : ", this.newDeal);
-                  this.dealForm.reset();
-                });
-            });
-          })
-        )
-        .subscribe();
-    } else {
-      console.log("Form is not Valid");
-    }
+    this.dealAddCancelled = false
+    const addDealDialog  = this.isModal.open(AddDealDialogBoxComponent, { size : IsModalSize.Large})
+    addDealDialog.onClose.subscribe(res => {
+      if(res === 'cancel') {
+        console.log('Add Deal is Cancelled')
+        this.dealAddCancelled = true
+      }else if(!this.dealAddCancelled) {
+        console.log('Add Deal is NOT Cancelled')
+        this.franchiseDealsService.addDeal(res).subscribe(addDealResponse => {
+          console.log("addDealResponse is : ", addDealResponse.data)
+          this.deals.push(addDealResponse.data)
+        })
+      }
+    })
   }
 }

@@ -11,8 +11,10 @@ import { finalize } from "rxjs/operators";
 })
 export class AddDealDialogBoxComponent implements OnInit {
   dealForm: FormGroup;
+  newDeal;
   imageFile;
-  constructor() {}
+  downloadURL: Observable<string>;
+  constructor(private isActiveModal : IsActiveModal, private storage: AngularFireStorage) {}
   @ViewChild("dealImage") dealImage: ElementRef;
   ngOnInit() {
     this.dealForm = new FormGroup({
@@ -28,5 +30,41 @@ export class AddDealDialogBoxComponent implements OnInit {
   }
   chooseFile() {
     this.dealImage.nativeElement.click();
+  }
+  onDealSubmit( btn: IsButton) {
+    if (this.dealForm.valid) {
+      btn.startLoading();
+      let randomString =
+        Math.random()
+          .toString(36)
+          .substring(2, 15) +
+        Math.random()
+          .toString(36)
+          .substring(2, 15);
+      const filePath = "deals/" + randomString + "-" + this.imageFile.name;
+      const fileRef = this.storage.ref(filePath);
+      const task = this.storage.upload(filePath, this.imageFile);
+      task
+        .snapshotChanges()
+        .pipe(
+          finalize(() => {
+            this.downloadURL = fileRef.getDownloadURL();
+            this.downloadURL.subscribe(url => {
+              let deal = this.dealForm.value;
+              this.newDeal = {
+                name: deal.name,
+                price: deal.price,
+                deal_image: url,
+                end_date: deal.discountEnd,
+                franchise_id: Number(localStorage.getItem("franchiseId"))
+              };
+              this.isActiveModal.close(this.newDeal)
+            });
+          })
+        )
+        .subscribe();
+    } else {
+      console.log("Form is not Valid");
+    }
   }
 }

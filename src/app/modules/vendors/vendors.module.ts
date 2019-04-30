@@ -24,7 +24,6 @@ import { FranchiseSalesService } from './services/franchiseSales.service';
 import { NotificationsService } from 'app/services/notifications.service';
 import { SearchService } from './services/search.service';
 import { GoogleMapService } from '@app/shared/services/google-map.service';
-import { ComponentsComponent } from './components/components.component';
 import { ReviewsComponent } from './pages/reviews/reviews.component';
 import { environment } from 'environments/environment';
 
@@ -58,7 +57,7 @@ import { environment } from 'environments/environment';
     EditOverviewComponent, 
     OrdersComponent, 
     FranchiseComponent, 
-    SalesComponent, ComponentsComponent, ReviewsComponent
+    SalesComponent, ReviewsComponent
   ],
 })
 export class VendorsModule { }
