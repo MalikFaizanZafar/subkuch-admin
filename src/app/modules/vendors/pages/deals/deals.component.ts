@@ -81,29 +81,31 @@ export class DealsComponent implements OnInit {
   onEditDealHandler(id) {
     let filterdDeals = this.deals.filter(meal => meal.id == id);
     this.editDeal = filterdDeals[0];
-    this.imageToBeDeleted = this.editDeal.dealImage
+    this.imageToBeDeleted = this.editDeal.dealImage;
     const deleteModal = this.isModal.open(EditDealDialogBoxComponent, {
       data: this.editDeal
     });
     deleteModal.onClose.subscribe(res => {
-      console.log("Edited Deal is : ", res);
+      // console.log("Edited Deal is : ", res);
       this.franchiseDealsService
         .editDeal(res, this.editDeal.id)
         .subscribe(responseData => {
           this.newDeal = responseData.data;
           this.showDeals = true;
-          console.log("this.editDeal :", this.editDeal)
-          const editDealIndex = this.deals.map(deal => deal.id).indexOf(this.editDeal.id)
-          console.log("editDealIndex :", editDealIndex)
+          // console.log("this.editDeal :", this.editDeal)
+          const editDealIndex = this.deals
+            .map(deal => deal.id)
+            .indexOf(this.editDeal.id);
+          // console.log("editDealIndex :", editDealIndex)
           this.deals[editDealIndex] = this.newDeal;
-          console.log(
-            "this.deals[editMealIndex] is  :",
-            this.deals[editDealIndex]
-          );
-          
-          console.log("this.imageToBeDeleted : ", this.imageToBeDeleted)
+          // console.log(
+          //   "this.deals[editMealIndex] is  :",
+          //   this.deals[editDealIndex]
+          // );
+
+          // console.log("this.imageToBeDeleted : ", this.imageToBeDeleted)
           this.storage.storage.refFromURL(this.imageToBeDeleted).delete();
-          console.log("this.newDeal : ", this.newDeal);
+          // console.log("this.newDeal : ", this.newDeal);
         });
     });
   }
