@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef } from "@angular/core";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
-import { IsActiveModal } from "app/lib";
+import { IsActiveModal, IsButton } from "app/lib";
 import { AngularFireStorage } from "@angular/fire/storage";
 import { Observable } from "rxjs";
 import { finalize } from "rxjs/operators";
@@ -34,9 +34,10 @@ export class EditDealDialogBoxComponent implements OnInit {
       attachment: new FormControl(null)
     });
   }
-  onEditDealSubmit() {
+  onEditDealSubmit(btn : IsButton) {
     // console.log("Edit Deal Submitted", this.editDealForm.valid);
     if (this.editDealForm.valid) {
+      btn.startLoading()
       let dealVals = this.editDealForm.value;
       let newDeal = {
         name: dealVals.name,
@@ -49,6 +50,7 @@ export class EditDealDialogBoxComponent implements OnInit {
         // console.log("dealImageFileChanged false ")
         newDeal.deal_image = this.editDeal.dealImage;
         console.log("newDeal when file NOT changed is : ", newDeal);
+        btn.stopLoading()
         this.isActiveModal.close(newDeal);
       } else {
         // console.log("dealImageFileChanged true ")
@@ -70,6 +72,7 @@ export class EditDealDialogBoxComponent implements OnInit {
               this.downloadURL.subscribe(url => {
                 newDeal.deal_image = url;
                 console.log("newDeal when file changed is : ", newDeal)
+                btn.stopLoading()
                 this.isActiveModal.close(newDeal);
               });
             })
@@ -77,6 +80,9 @@ export class EditDealDialogBoxComponent implements OnInit {
           .subscribe();
       }
     }
+  }
+  onCancelEditDeal() {
+    this.isActiveModal.close('cancel')
   }
   dealImageChangeEvent(fileInput: any) {
     this.imageFile = fileInput.target.files[0];

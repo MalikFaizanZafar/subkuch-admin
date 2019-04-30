@@ -92,7 +92,6 @@ export class VendorsLayoutComponent implements OnInit {
     });
     this.franchiseInfoService.getFranchiseInfo().subscribe(responseData => {
       this.franchiseInfo = responseData.data;
-      console.log('this.franchiseInfo : ', this.franchiseInfo)
       this.tempEditLogoImage = this.franchiseInfo.logo;
       this.tempEditBannerImage = this.franchiseInfo.welcomeImage;
     });

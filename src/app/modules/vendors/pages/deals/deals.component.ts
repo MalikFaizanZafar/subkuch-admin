@@ -48,7 +48,6 @@ export class DealsComponent implements OnInit {
       .getDeals(Number(localStorage.getItem("franchiseId")))
       .subscribe(responseData => {
         this.deals = responseData.data;
-        console.log("this.deals has : ", this.deals);
       });
     this.dealForm = new FormGroup({
       name: new FormControl(null, [Validators.required]),
@@ -86,27 +85,24 @@ export class DealsComponent implements OnInit {
       data: this.editDeal
     });
     deleteModal.onClose.subscribe(res => {
-      // console.log("Edited Deal is : ", res);
-      this.franchiseDealsService
+      if(res === 'cancel'){
+        console.log('Edit Deal Cancelled')
+        return;
+      }else {
+        console.log('Edit Deal NOT Cancelled')
+        this.franchiseDealsService
         .editDeal(res, this.editDeal.id)
         .subscribe(responseData => {
           this.newDeal = responseData.data;
           this.showDeals = true;
-          // console.log("this.editDeal :", this.editDeal)
           const editDealIndex = this.deals
             .map(deal => deal.id)
             .indexOf(this.editDeal.id);
-          // console.log("editDealIndex :", editDealIndex)
           this.deals[editDealIndex] = this.newDeal;
-          // console.log(
-          //   "this.deals[editMealIndex] is  :",
-          //   this.deals[editDealIndex]
-          // );
-
           console.log("this.imageToBeDeleted : ", this.imageToBeDeleted)
           this.storage.storage.refFromURL(this.imageToBeDeleted).delete();
-          // console.log("this.newDeal : ", this.newDeal);
         });
+      }
     });
   }
   onDeleteDealHandler(id, deleteDialog: TemplateRef<any>) {
