@@ -1,3 +1,4 @@
+@import "palette";
 .bg_blue {
   background-color: #52cdec;
 }
@@ -22,19 +23,16 @@
 .deal__card:hover {
   cursor: pointer;
 }
+.icon-color {
+  cursor: pointer;
+  color: $is-blue;
+}
 .deal__icons {
-  color: black;
-  font-size: 20px;
+  color: $is-blue;
   &__delete {
-    color: black;
-    font-size: 20px;
-  }
-  &__delete:hover {
-    color: red;
-    cursor: pointer;
+    color: $is-red;
   }
 }
-
 .deal__icons:hover {
   color: blue;
   cursor: pointer;
