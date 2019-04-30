@@ -39,6 +39,7 @@ export class MealsComponent implements OnInit {
   eimageFile;
   etempMealImageFile;
   imageFileEdited: boolean = false;
+  addMealCancelled: boolean = false;
   @ViewChild("eitemImage") eitemImage: ElementRef;
   selectedIndex: number = null;
   selectedCategory: number;
@@ -97,6 +98,7 @@ export class MealsComponent implements OnInit {
     })
   }
   onAddMealHandler(){
+    this.addMealCancelled = false;
     let addMealDialog = this.isModal.open(AddMealDialogBoxComponent, {
       size: IsModalSize.Large,
       data: {
@@ -104,9 +106,16 @@ export class MealsComponent implements OnInit {
       }
     });
     addMealDialog.onClose.subscribe(res => {
-      this.franchiseItemsService.addItem(res).subscribe(addMealResponse => {
-        this.meals.push(addMealResponse.data)
-      })
+      if( res === 'cancel'){
+        console.log("Add Meal Cancelled")
+        this.addMealCancelled = true
+      }
+      else if(!this.addMealCancelled === false) {
+        console.log("Add Meal Not Cancelled")
+        this.franchiseItemsService.addItem(res).subscribe(addMealResponse => {
+          this.meals.push(addMealResponse.data)
+        })
+      }
     })
   }
   onEditItemHandler(id) {
