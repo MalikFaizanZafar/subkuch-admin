@@ -33,6 +33,7 @@ export class DealsComponent implements OnInit {
   imageFile;
   eimageFile;
   tempDealImageFile;
+  imageToBeDeleted;
   @ViewChild("dealImage") dealImage: ElementRef;
   @ViewChild("edealImage") edealImage: ElementRef;
   constructor(
@@ -80,6 +81,7 @@ export class DealsComponent implements OnInit {
   onEditDealHandler(id) {
     let filterdDeals = this.deals.filter(meal => meal.id == id);
     this.editDeal = filterdDeals[0];
+    this.imageToBeDeleted = this.editDeal.dealImage
     const deleteModal = this.isModal.open(EditDealDialogBoxComponent, {
       data: this.editDeal
     });
@@ -98,9 +100,9 @@ export class DealsComponent implements OnInit {
             "this.deals[editMealIndex] is  :",
             this.deals[editDealIndex]
           );
-          let deleteImageUrl = this.editDeal.dealImage;
-          console.log("deleteImageUrl : ", deleteImageUrl)
-          this.storage.storage.refFromURL(deleteImageUrl).delete();
+          
+          console.log("this.imageToBeDeleted : ", this.imageToBeDeleted)
+          this.storage.storage.refFromURL(this.imageToBeDeleted).delete();
           console.log("this.newDeal : ", this.newDeal);
         });
     });
