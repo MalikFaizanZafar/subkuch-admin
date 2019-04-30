@@ -27,7 +27,6 @@ import { GoogleMapService } from '@app/shared/services/google-map.service';
 import { ComponentsComponent } from './components/components.component';
 import { ReviewsComponent } from './pages/reviews/reviews.component';
 import { environment } from 'environments/environment';
-import { ViewOrderNotificationDialogComponent } from './components/view-order-notification-dialog/view-order-notification-dialog.component';
 
 
 @NgModule({
@@ -59,7 +58,7 @@ import { ViewOrderNotificationDialogComponent } from './components/view-order-no
     EditOverviewComponent, 
     OrdersComponent, 
     FranchiseComponent, 
-    SalesComponent, ComponentsComponent, ReviewsComponent, ViewOrderNotificationDialogComponent
+    SalesComponent, ComponentsComponent, ReviewsComponent
   ],
 })
 export class VendorsModule { }

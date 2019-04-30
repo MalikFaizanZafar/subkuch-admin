@@ -8,7 +8,7 @@
     <div class="w-25 d-flex justify-content-end">
       <button
         type="button"
-        (click)="showDeals = false"
+        (click)="onAddDealClickHandler()"
         *ngIf="showDeals"
         class="ml-5"
         is-button
@@ -74,7 +74,7 @@
   </is-card-content>
 </is-card>
 <!-- Add Deal Form -->
-<is-card
+<!-- <is-card
   class="d-flex w-100 justify-content-start bg-light mt-5"
   *ngIf="!showDeals"
 >
@@ -194,7 +194,7 @@
       </div>
     </form>
   </is-card-content>
-</is-card>
+</is-card> -->
 <!-- Add Deal Form End -->
 <!-- Delete Dialog Box -->
 <ng-template #deleteDialog let-close="close" let-data="data">

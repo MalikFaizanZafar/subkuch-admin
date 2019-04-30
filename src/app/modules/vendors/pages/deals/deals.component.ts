@@ -10,10 +10,11 @@ import { FranchiseDealsService } from "../../services/franchiseDeals.service";
 import { AngularFireStorage } from "@angular/fire/storage";
 import { Observable } from "rxjs";
 import { finalize } from "rxjs/operators";
-import { IsButton, IsModalService } from "../../../../lib";
+import { IsButton, IsModalService, IsModal, IsModalSize } from "../../../../lib";
 import { IsToasterService } from "../../../../lib/toaster";
 import { dealModel } from "../../models/dealModel";
 import { EditDealDialogBoxComponent } from "../../components/edit-deal-dialog-box/edit-deal-dialog-box.component";
+import { AddDealDialogBoxComponent } from "../../components/add-deal-dialog-box/add-deal-dialog-box.component";
 
 @Component({
   selector: "deals",
@@ -58,9 +59,6 @@ export class DealsComponent implements OnInit {
     });
   }
 
-  fileChangeEvent(fileInput: any) {
-    this.imageFile = fileInput.target.files[0];
-  }
   editDealImageChangeEvent(fileInput: any) {
     this.eimageFile = fileInput.target.files[0];
     const self = this;
@@ -71,10 +69,7 @@ export class DealsComponent implements OnInit {
     };
     reader.readAsDataURL(fileInput.target.files[0]);
   }
-  chooseFile() {
-    console.log("choose an image");
-    this.dealImage.nativeElement.click();
-  }
+
   echooseFile() {
     this.edealImage.nativeElement.click();
   }
@@ -125,7 +120,9 @@ export class DealsComponent implements OnInit {
       }
     });
   }
-
+  onAddDealClickHandler() {
+    this.isModal.open(AddDealDialogBoxComponent, { size : IsModalSize.Large})
+  }
   onDealSubmit(form: FormGroup, btn: IsButton) {
     if (this.dealForm.valid) {
       btn.startLoading();

@@ -19,9 +19,13 @@ import { AddCategoryDialogComponent } from "./modules/vendors/components/add-cat
 import { FranchiseItemsService } from "./modules/vendors/services/franchiseItems.service";
 import { EditDealDialogBoxComponent } from "./modules/vendors/components/edit-deal-dialog-box/edit-deal-dialog-box.component";
 import { environment } from '../environments/environment';
+import { ViewOrderNotificationDialogComponent } from "./modules/vendors/components/view-order-notification-dialog/view-order-notification-dialog.component";
+import { AddDealDialogBoxComponent } from "./modules/vendors/components/add-deal-dialog-box/add-deal-dialog-box.component";
+import { AddMealDialogBoxComponent } from "./modules/vendors/components/add-meal-dialog-box/add-meal-dialog-box.component";
+import { EditMealDialogBoxComponent } from "./modules/vendors/components/edit-meal-dialog-box/edit-meal-dialog-box.component";
 
 @NgModule({
-  declarations: [AppComponent, AddCategoryDialogComponent, EditDealDialogBoxComponent],
+  declarations: [AppComponent, AddCategoryDialogComponent, EditDealDialogBoxComponent, ViewOrderNotificationDialogComponent, AddDealDialogBoxComponent, AddMealDialogBoxComponent, EditMealDialogBoxComponent],
   imports: [
     AppRoutingModule,
     BrowserModule,
@@ -46,6 +50,6 @@ import { environment } from '../environments/environment';
     FranchiseItemsService
   ],
   bootstrap: [AppComponent],
-  entryComponents: [AddCategoryDialogComponent, EditDealDialogBoxComponent]
+  entryComponents: [AddCategoryDialogComponent, EditDealDialogBoxComponent, ViewOrderNotificationDialogComponent, AddDealDialogBoxComponent, AddMealDialogBoxComponent, EditMealDialogBoxComponent]
 })
 export class AppModule {}
