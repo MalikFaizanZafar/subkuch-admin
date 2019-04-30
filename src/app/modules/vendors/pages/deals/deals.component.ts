@@ -34,6 +34,7 @@ export class DealsComponent implements OnInit {
   eimageFile;
   tempDealImageFile;
   imageToBeDeleted;
+  dealEditCancelled = false;
   @ViewChild("dealImage") dealImage: ElementRef;
   @ViewChild("edealImage") edealImage: ElementRef;
   constructor(
@@ -81,27 +82,25 @@ export class DealsComponent implements OnInit {
     let filterdDeals = this.deals.filter(meal => meal.id == id);
     this.editDeal = filterdDeals[0];
     this.imageToBeDeleted = this.editDeal.dealImage;
+    this.dealEditCancelled = false;
     const deleteModal = this.isModal.open(EditDealDialogBoxComponent, {
       data: this.editDeal
     });
     deleteModal.onClose.subscribe(res => {
-      if(res === 'cancel'){
-        console.log('Edit Deal Cancelled')
-        return;
-      }else {
-        console.log('Edit Deal NOT Cancelled')
+      if (res === "cancel") {
+        this.dealEditCancelled = true;
+      } else if (!this.dealEditCancelled) {
         this.franchiseDealsService
-        .editDeal(res, this.editDeal.id)
-        .subscribe(responseData => {
-          this.newDeal = responseData.data;
-          this.showDeals = true;
-          const editDealIndex = this.deals
-            .map(deal => deal.id)
-            .indexOf(this.editDeal.id);
-          this.deals[editDealIndex] = this.newDeal;
-          console.log("this.imageToBeDeleted : ", this.imageToBeDeleted)
-          this.storage.storage.refFromURL(this.imageToBeDeleted).delete();
-        });
+          .editDeal(res, this.editDeal.id)
+          .subscribe(responseData => {
+            this.newDeal = responseData.data;
+            this.showDeals = true;
+            const editDealIndex = this.deals
+              .map(deal => deal.id)
+              .indexOf(this.editDeal.id);
+            this.deals[editDealIndex] = this.newDeal;
+            this.storage.storage.refFromURL(this.imageToBeDeleted).delete();
+          });
       }
     });
   }

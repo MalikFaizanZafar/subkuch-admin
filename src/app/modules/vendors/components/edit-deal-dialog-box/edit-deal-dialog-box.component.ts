@@ -35,7 +35,6 @@ export class EditDealDialogBoxComponent implements OnInit {
     });
   }
   onEditDealSubmit(btn : IsButton) {
-    // console.log("Edit Deal Submitted", this.editDealForm.valid);
     if (this.editDealForm.valid) {
       btn.startLoading()
       let dealVals = this.editDealForm.value;
@@ -47,13 +46,10 @@ export class EditDealDialogBoxComponent implements OnInit {
         deal_image: ""
       };
       if (!this.dealImageFileChanged) {
-        // console.log("dealImageFileChanged false ")
         newDeal.deal_image = this.editDeal.dealImage;
-        console.log("newDeal when file NOT changed is : ", newDeal);
         btn.stopLoading()
         this.isActiveModal.close(newDeal);
       } else {
-        // console.log("dealImageFileChanged true ")
         let randomString =
           Math.random()
             .toString(36)
@@ -71,7 +67,6 @@ export class EditDealDialogBoxComponent implements OnInit {
               this.downloadURL = fileRef.getDownloadURL();
               this.downloadURL.subscribe(url => {
                 newDeal.deal_image = url;
-                console.log("newDeal when file changed is : ", newDeal)
                 btn.stopLoading()
                 this.isActiveModal.close(newDeal);
               });
