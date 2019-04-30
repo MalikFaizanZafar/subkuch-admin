@@ -102,6 +102,8 @@ export class EditOverviewComponent implements OnInit {
   }
 
   submitHandler(form: NgForm) {
+    debugger
+    this.overviewForm.controls['location'].setValue(this.searchElementRef.nativeElement.value);
     if(form.invalid) {
       return;
     }
@@ -232,7 +234,11 @@ export class EditOverviewComponent implements OnInit {
     });
     
     modalRef.onClose.subscribe(res => {
-      console.log(res);
+      if (res) {
+        this.searchElementRef.nativeElement.value = res.address;
+        this.currentPostion.latitude = res.location.latitude;
+        this.currentPostion.longitude = res.location.longitude;
+      }
     })
   }
 
@@ -250,6 +256,7 @@ export class EditOverviewComponent implements OnInit {
           longitude: pos.coords.longitude
         };
         this.googleMapService.getUserCurrentAddress(this.currentPostion);
+        
       }
     });
   }

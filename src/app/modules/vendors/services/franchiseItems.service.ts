@@ -12,11 +12,15 @@ export class FranchiseItemsService {
 
   constructor(private http: HttpClient) {}
 
-  getItems(id: number): Observable<any> {
+  getItems(id: number, catId?: number): Observable<any> {
     let headers = new HttpHeaders();
     const token = localStorage.getItem("Authorization");
     headers = headers.append("Authorization", token);
-    return this.http.get<any>(`${this.baseURL}/item/franchise/${id}`, {
+    let url = `/item/franchise/${id}`;
+    if (catId) {
+      url = `${url}?category=${catId}`;
+    } 
+    return this.http.get<any>(`${this.baseURL}${url}`, {
       headers
     });
   }

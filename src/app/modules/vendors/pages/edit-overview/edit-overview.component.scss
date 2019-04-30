@@ -4,6 +4,12 @@
 :host {
   background: map-get($is-light, 1);
 
+  &::ng-deep {
+    
+    .is-timepicker__ui--top {
+      top: -100px;
+    }
+  }
   .overview {
     &__input {
       &_error {
@@ -54,6 +60,11 @@
   z-index: 9999;
 
   &::ng-deep {
+
+    .is-timepicker__ui--top {
+      top: -100px;
+    }
+
     .header__link-button {
       height: auto;
       background: transparent;

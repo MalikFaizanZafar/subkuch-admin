@@ -52,7 +52,6 @@ export class VendorsLayoutComponent implements OnInit {
       link: "orders/"
     },
     {
-      icon: "fa-bars",
       label: "Sales",
       link: "sales/"
     },
@@ -78,15 +77,18 @@ export class VendorsLayoutComponent implements OnInit {
     this.editLogoForm = new FormGroup({
       editLogoImage: new FormControl(null, [Validators.required])
     });
+  
     this.editBannerForm = new FormGroup({
       editBannerImage: new FormControl(null, [Validators.required])
     });
+  
     this.franchiseInfoService.getFranchiseInfo().subscribe(responseData => {
       this.franchiseInfo = responseData.data;
       console.log('this.franchiseInfo : ', this.franchiseInfo)
       this.tempEditLogoImage = this.franchiseInfo.logo;
       this.tempEditBannerImage = this.franchiseInfo.welcomeImage;
     });
+  
     this.editMainService.editEnable.subscribe(val => {
       this.editBtnEnabled = val;
     });
@@ -104,12 +106,15 @@ export class VendorsLayoutComponent implements OnInit {
     this.user = {};
     this.router.navigate(["auth"]);
   }
+
   onEditLogoChooseImage() {
     this.logoImage.nativeElement.click();
   }
+  
   onEditBannerChooseImage() {
     this.bannerImage.nativeElement.click();
   }
+  
   onEditLogoFileChoosen(LogoImageFile: any) {
     const self = this;
     this.editLogoImageFile = LogoImageFile.target.files[0];
@@ -187,6 +192,8 @@ export class VendorsLayoutComponent implements OnInit {
                         editLogoResponse.data.franchise_logo;
                     });
                   } else {
+                    this.franchiseInfo.logo =
+                        editLogoResponse.data.franchise_logo;
                     console.log('No Log for this franchise exists Yet')
                   }
                   this.toaster.popSuccess(
@@ -241,6 +248,7 @@ export class VendorsLayoutComponent implements OnInit {
                         editBannerResponse.data.welcome_image;
                     });
                   }else {
+                    this.franchiseInfo.welcomeImage = editBannerResponse.data.welcome_image;
                     console.log('No Banner for this franchise exists Yet')
                   }
                   this.toaster.popSuccess(

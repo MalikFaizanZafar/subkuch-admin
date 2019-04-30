@@ -19,6 +19,7 @@ import { AddCategoryDialogComponent } from "./modules/vendors/components/add-cat
 import { FranchiseItemsService } from "./modules/vendors/services/franchiseItems.service";
 import { EditDealDialogBoxComponent } from "./modules/vendors/components/edit-deal-dialog-box/edit-deal-dialog-box.component";
 import { environment } from '../environments/environment';
+import { UserAuthService } from "./modules/auth/services/auth.service";
 
 @NgModule({
   declarations: [AppComponent, AddCategoryDialogComponent, EditDealDialogBoxComponent],
@@ -43,7 +44,8 @@ import { environment } from '../environments/environment';
     NotificationsService,
     FranchiseAccountService,
     GoogleMapsAPIWrapper,
-    FranchiseItemsService
+    FranchiseItemsService,
+    UserAuthService
   ],
   bootstrap: [AppComponent],
   entryComponents: [AddCategoryDialogComponent, EditDealDialogBoxComponent]
