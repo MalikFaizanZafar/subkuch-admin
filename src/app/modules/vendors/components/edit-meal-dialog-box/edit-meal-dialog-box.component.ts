@@ -120,7 +120,7 @@ export class EditMealDialogBoxComponent implements OnInit {
           category_id: Number(item.category),
           franchise_id: Number(localStorage.getItem("franchiseId"))
         };
-        console.log("enewItem is ", this.newMeal);
+        this.isActiveModel.close(this.newMeal)
         btn.stopLoading();
       }
     } else {

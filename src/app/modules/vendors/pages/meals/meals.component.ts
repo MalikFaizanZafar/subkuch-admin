@@ -140,12 +140,13 @@ export class MealsComponent implements OnInit {
         console.log("Edit Meal is NOT Cancelled")
         this.franchiseItemsService
           .editItem(res, Number(this.editMeal.id))
-          .subscribe(responseData => {
-            this.newItem = responseData.data;
+          .subscribe(editMealResponseData => {
+            this.newItem = editMealResponseData.data;
             const editMealIndex = this.meals
               .map(meal => meal.id)
               .indexOf(this.editMeal.id);
             this.meals[editMealIndex] = this.newItem;
+            console.log("editMealResponseData.data is : ", editMealResponseData.data)
           });
       }
     });
