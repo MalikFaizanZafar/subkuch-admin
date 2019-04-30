@@ -69,7 +69,7 @@ export class EditDealDialogBoxComponent implements OnInit {
               this.downloadURL = fileRef.getDownloadURL();
               this.downloadURL.subscribe(url => {
                 newDeal.deal_image = url;
-                // console.log("newDeal when file changed is : ", newDeal)
+                console.log("newDeal when file changed is : ", newDeal)
                 this.isActiveModal.close(newDeal);
               });
             })

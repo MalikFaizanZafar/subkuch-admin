@@ -103,7 +103,7 @@ export class DealsComponent implements OnInit {
           //   this.deals[editDealIndex]
           // );
 
-          // console.log("this.imageToBeDeleted : ", this.imageToBeDeleted)
+          console.log("this.imageToBeDeleted : ", this.imageToBeDeleted)
           this.storage.storage.refFromURL(this.imageToBeDeleted).delete();
           // console.log("this.newDeal : ", this.newDeal);
         });
