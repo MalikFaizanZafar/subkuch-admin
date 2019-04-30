@@ -33,6 +33,8 @@ export class DealsComponent implements OnInit {
   imageFile;
   eimageFile;
   tempDealImageFile;
+  imageToBeDeleted;
+  dealEditCancelled = false;
   @ViewChild("dealImage") dealImage: ElementRef;
   @ViewChild("edealImage") edealImage: ElementRef;
   constructor(
@@ -47,7 +49,6 @@ export class DealsComponent implements OnInit {
       .getDeals(Number(localStorage.getItem("franchiseId")))
       .subscribe(responseData => {
         this.deals = responseData.data;
-        console.log("this.deals has : ", this.deals);
       });
     this.dealForm = new FormGroup({
       name: new FormControl(null, [Validators.required]),
@@ -80,29 +81,27 @@ export class DealsComponent implements OnInit {
   onEditDealHandler(id) {
     let filterdDeals = this.deals.filter(meal => meal.id == id);
     this.editDeal = filterdDeals[0];
+    this.imageToBeDeleted = this.editDeal.dealImage;
+    this.dealEditCancelled = false;
     const deleteModal = this.isModal.open(EditDealDialogBoxComponent, {
       data: this.editDeal
     });
     deleteModal.onClose.subscribe(res => {
-      console.log("Edited Deal is : ", res);
-      this.franchiseDealsService
-        .editDeal(res, this.editDeal.id)
-        .subscribe(responseData => {
-          this.newDeal = responseData.data;
-          this.showDeals = true;
-          console.log("this.editDeal :", this.editDeal)
-          const editDealIndex = this.deals.map(deal => deal.id).indexOf(this.editDeal.id)
-          console.log("editDealIndex :", editDealIndex)
-          this.deals[editDealIndex] = this.newDeal;
-          console.log(
-            "this.deals[editMealIndex] is  :",
-            this.deals[editDealIndex]
-          );
-          let deleteImageUrl = this.editDeal.dealImage;
-          console.log("deleteImageUrl : ", deleteImageUrl)
-          this.storage.storage.refFromURL(deleteImageUrl).delete();
-          console.log("this.newDeal : ", this.newDeal);
-        });
+      if (res === "cancel") {
+        this.dealEditCancelled = true;
+      } else if (!this.dealEditCancelled) {
+        this.franchiseDealsService
+          .editDeal(res, this.editDeal.id)
+          .subscribe(responseData => {
+            this.newDeal = responseData.data;
+            this.showDeals = true;
+            const editDealIndex = this.deals
+              .map(deal => deal.id)
+              .indexOf(this.editDeal.id);
+            this.deals[editDealIndex] = this.newDeal;
+            this.storage.storage.refFromURL(this.imageToBeDeleted).delete();
+          });
+      }
     });
   }
   onDeleteDealHandler(id, deleteDialog: TemplateRef<any>) {

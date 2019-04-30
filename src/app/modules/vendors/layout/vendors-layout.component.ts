@@ -16,6 +16,7 @@ import { FranchiseInfoService } from "../services/franchiseInfo.service";
 import { AngularFireStorage } from "@angular/fire/storage";
 import { Observable } from "rxjs";
 import { finalize } from "rxjs/operators";
+import { NotificationsService } from "app/services/notifications.service";
 
 @Component({
   selector: "app-vendors-layout",
@@ -64,16 +65,24 @@ export class VendorsLayoutComponent implements OnInit {
   downloadURL: Observable<string>;
   @ViewChild("logoImage") logoImage: ElementRef;
   @ViewChild("bannerImage") bannerImage: ElementRef;
+  @ViewChild("notificationIcon") notificationIcon: ElementRef;
   constructor(
     private router: Router,
     private franchiseInfoService: FranchiseInfoService,
     private isModal: IsModalService,
     private toaster: IsToasterService,
     private editMainService: EditMainService,
-    private storage: AngularFireStorage
+    private storage: AngularFireStorage,
+    private notificationService : NotificationsService
   ) {}
 
   ngOnInit() {
+    this.notificationService.currentMessage.subscribe(messagePayload => {
+      console.log("messagePayload is : ", messagePayload)
+      if(messagePayload) {
+        this.notificationIcon.nativeElement.style.color = "red"
+      }
+    })
     this.editLogoForm = new FormGroup({
       editLogoImage: new FormControl(null, [Validators.required])
     });
@@ -84,7 +93,6 @@ export class VendorsLayoutComponent implements OnInit {
   
     this.franchiseInfoService.getFranchiseInfo().subscribe(responseData => {
       this.franchiseInfo = responseData.data;
-      console.log('this.franchiseInfo : ', this.franchiseInfo)
       this.tempEditLogoImage = this.franchiseInfo.logo;
       this.tempEditBannerImage = this.franchiseInfo.welcomeImage;
     });
@@ -94,6 +102,9 @@ export class VendorsLayoutComponent implements OnInit {
     });
   }
 
+  onBellIconClicked() {
+    this.notificationIcon.nativeElement.style.color = "white"
+  }
   getFranshiseBanner() {
     return (
       this.franchiseInfo.welcomeImage ||

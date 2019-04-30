@@ -85,7 +85,6 @@ export class MealsComponent implements OnInit {
           .getItems(this.franchiseId,this.selectedCategory )
           .subscribe(itemresponseData => {
             this.meals = itemresponseData.data;
-            console.log("this.meals has : ", this.meals);
           });
   }
  
@@ -274,12 +273,8 @@ export class MealsComponent implements OnInit {
                     this.newItem = responseData.data;
                     this.showEditMeal = false;
                     this.showMeals = true;
-                    console.log("this.newItem : ", this.newItem);
-                    // console.log("this.editMeal.image_url : ", this.editMeal.image_url);
                     const editMealIndex = this.meals.map(meal => meal.id).indexOf(self.editMeal.id)
-                    console.log("editMealIndex :", editMealIndex)
                     this.meals[editMealIndex] = this.newItem
-                    console.log("this.meals[editMealIndex] is  :", this.meals[editMealIndex])
                     let deleteImageUrl = this.editMeal.image_url
                     this.storage.storage
                       .refFromURL(deleteImageUrl)

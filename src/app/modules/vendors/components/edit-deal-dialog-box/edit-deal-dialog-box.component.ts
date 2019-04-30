@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef } from "@angular/core";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
-import { IsActiveModal } from "app/lib";
+import { IsActiveModal, IsButton } from "app/lib";
 import { AngularFireStorage } from "@angular/fire/storage";
 import { Observable } from "rxjs";
 import { finalize } from "rxjs/operators";
@@ -24,7 +24,7 @@ export class EditDealDialogBoxComponent implements OnInit {
 
   ngOnInit() {
     this.editDeal = this.isActiveModal.data;
-    console.log("editDeal inside dialogbox is : ", this.editDeal);
+    // console.log("editDeal inside dialogbox is : ", this.editDeal);
     this.tempDealImage = this.editDeal.dealImage;
     const dateObj = this.editDeal.endDate.split("T")[0];
     this.editDealForm = new FormGroup({
@@ -34,9 +34,9 @@ export class EditDealDialogBoxComponent implements OnInit {
       attachment: new FormControl(null)
     });
   }
-  onEditDealSubmit() {
-    console.log("Edit Deal Submitted", this.editDealForm.valid);
+  onEditDealSubmit(btn : IsButton) {
     if (this.editDealForm.valid) {
+      btn.startLoading()
       let dealVals = this.editDealForm.value;
       let newDeal = {
         name: dealVals.name,
@@ -46,12 +46,10 @@ export class EditDealDialogBoxComponent implements OnInit {
         deal_image: ""
       };
       if (!this.dealImageFileChanged) {
-        console.log("dealImageFileChanged false ")
         newDeal.deal_image = this.editDeal.dealImage;
-        console.log("newDeal when file NOT changed is : ", newDeal)
+        btn.stopLoading()
         this.isActiveModal.close(newDeal);
       } else {
-        console.log("dealImageFileChanged true ")
         let randomString =
           Math.random()
             .toString(36)
@@ -63,20 +61,23 @@ export class EditDealDialogBoxComponent implements OnInit {
         const fileRef = this.storage.ref(filePath);
         const task = this.storage.upload(filePath, this.imageFile);
         task
-      .snapshotChanges()
-      .pipe(
-        finalize(() => {
-          this.downloadURL = fileRef.getDownloadURL();
-          this.downloadURL.subscribe(url => {
-            newDeal.deal_image = url;
-            console.log("newDeal when file changed is : ", newDeal)
-            this.isActiveModal.close(newDeal);
-          });
-        })
-      )
-      .subscribe();
+          .snapshotChanges()
+          .pipe(
+            finalize(() => {
+              this.downloadURL = fileRef.getDownloadURL();
+              this.downloadURL.subscribe(url => {
+                newDeal.deal_image = url;
+                btn.stopLoading()
+                this.isActiveModal.close(newDeal);
+              });
+            })
+          )
+          .subscribe();
       }
     }
+  }
+  onCancelEditDeal() {
+    this.isActiveModal.close('cancel')
   }
   dealImageChangeEvent(fileInput: any) {
     this.imageFile = fileInput.target.files[0];
