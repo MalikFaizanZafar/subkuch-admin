@@ -8,12 +8,13 @@ import {
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { FranchiseItemsService } from "../../services/franchiseItems.service";
 import { itemModel } from "../../models/itemModel";
-import { IsButton, IsModalService } from "../../../../lib";
+import { IsButton, IsModalService, IsModalSize } from "../../../../lib";
 import { IsToasterService } from "../../../../lib/toaster";
 import { AngularFireStorage } from "@angular/fire/storage";
 import { Observable } from "rxjs";
 import { finalize } from "rxjs/operators";
 import { AddCategoryDialogComponent } from "../../components/add-category-dialog/add-category-dialog.component";
+import { AddMealDialogBoxComponent } from "../../components/add-meal-dialog-box/add-meal-dialog-box.component";
 
 @Component({
   selector: "meals",
@@ -38,7 +39,6 @@ export class MealsComponent implements OnInit {
   eimageFile;
   etempMealImageFile;
   imageFileEdited: boolean = false;
-  @ViewChild("itemImage") itemImage: ElementRef;
   @ViewChild("eitemImage") eitemImage: ElementRef;
   selectedIndex: number = null;
   selectedCategory: number;
@@ -55,19 +55,6 @@ export class MealsComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.itemForm = new FormGroup({
-      title: new FormControl(null, [Validators.required]),
-      isAvailable: new FormControl(false),
-      category: new FormControl(null, [Validators.required]),
-      price: new FormControl(null, [Validators.required]),
-      isProduct: new FormControl(false),
-      quantity: new FormControl(null),
-      discount: new FormControl(null, [Validators.required]),
-      discountEnd: new FormControl(null, [Validators.required]),
-      description: new FormControl(null),
-      attachment: new FormControl(null, [Validators.required])
-    });
-    
     this.categoryForm = new FormGroup({
       categoryName: new FormControl(null, [Validators.required])
     });
@@ -93,11 +80,6 @@ export class MealsComponent implements OnInit {
     this.selectedIndex = index;
     this.selectedCategory = id;
     this.populateItems();
-    // this.franchiseItemsService
-    //   .getCategoriesByName(name)
-    //   .subscribe(nameCategories => {
-    //     console.log("nameCategories : ", nameCategories);
-    //   });
   }
   addCategoryHandler() {
     let addCategoryDialogOpenRef = this.isModal.open(AddCategoryDialogComponent);
@@ -110,9 +92,21 @@ export class MealsComponent implements OnInit {
       this.franchiseItemsService
         .addCategory(newCategory)
         .subscribe(categoryResponse => {
-          console.log("newCat is : ", categoryResponse.data);
           this.categories.push(categoryResponse.data);
         });
+    })
+  }
+  onAddMealHandler(){
+    let addMealDialog = this.isModal.open(AddMealDialogBoxComponent, {
+      size: IsModalSize.Large,
+      data: {
+        categories: this.categories
+      }
+    });
+    addMealDialog.onClose.subscribe(res => {
+      this.franchiseItemsService.addItem(res).subscribe(addMealResponse => {
+        this.meals.push(addMealResponse.data)
+      })
     })
   }
   onEditItemHandler(id) {
@@ -329,19 +323,6 @@ export class MealsComponent implements OnInit {
       console.log("eItemForm is not valid");
       return;
     }
-  }
-  fileChangeEvent(fileInput: any) {
-    let self = this;
-    this.imageFile = fileInput.target.files[0];
-    var reader = new FileReader();
-    reader.onload = function() {
-      var dataURL = reader.result;
-      self.tempMealImageFile = dataURL;
-    };
-    reader.readAsDataURL(fileInput.target.files[0]);
-  }
-  chooseFile() {
-    this.itemImage.nativeElement.click();
   }
   efileChangeEvent(fileInput: any) {
     let self = this;
