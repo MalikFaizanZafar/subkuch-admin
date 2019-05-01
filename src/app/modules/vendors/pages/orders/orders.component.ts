@@ -19,7 +19,6 @@ export class OrdersComponent implements OnInit {
   ngOnInit() {
     this.franchiseOrdersService.getOrders(Number(localStorage.getItem("franchiseId"))).subscribe(responseData => {
       this.orders = responseData.data
-      console.log('this.orders is : ', this.orders)
     })
     this.currentUrl =  this.router.url
     this.notificationsService.getPermission()
