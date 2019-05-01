@@ -49,7 +49,7 @@ export class ReviewsComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    console.log('this.reviews has : ', this.reviews)
+    
   }
 
 }

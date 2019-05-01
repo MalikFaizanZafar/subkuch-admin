@@ -18,7 +18,7 @@ export class FranchiseAccountService {
       franchiseId: Number(localStorage.getItem("franchiseId")),
       token: deviceToken.token
     }
-    console.log(" deviceTokenPostDto is : ", deviceTokenPostDto)
+    
     return this.http.post<any>(`${this.baseURL}/franchise/notifications`,deviceTokenPostDto, {
       headers
     });

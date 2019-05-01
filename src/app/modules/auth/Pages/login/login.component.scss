@@ -1,6 +1,15 @@
 @import 'palette';
 
 :host {
+  .header {
+    box-shadow: 0px 3px 8px -5px rgba(0, 0, 0, 0.75);
+    height: 60px;
+    background: map-get($is-dark, 7);
+    position: sticky;
+    top: 0;
+    z-index: 9999;
+  }
+  
   .logo {
     height: 40px;
     width: auto;

@@ -1,0 +1,6 @@
+<div class="is-badge"
+     [ngClass]="['is-badge--' + placement, 'is-badge--' + theme]"
+     [@badgeAnimation]="runAnimation"
+     (@badgeAnimation.done)="animationComplete()">
+  {{count}}
+</div>

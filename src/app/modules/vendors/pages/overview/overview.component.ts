@@ -46,7 +46,7 @@ export class OverviewComponent implements OnInit {
   }
   
   cancelEditing() {
-    console.log('changes canceled');
+    
     this.isEditingMode = false;
     this.editMainService.editEnable.next(false);
   }

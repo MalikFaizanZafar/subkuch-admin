@@ -24,8 +24,6 @@ export class ResetPasswordComponent implements OnInit {
     if (this.passwordForm.valid) {
       let password = this.passwordForm.value;
       this.authenticationService.ResetPassowrd(password);
-    } else {
-      console.log('Form not Valid')
     }
   }
 

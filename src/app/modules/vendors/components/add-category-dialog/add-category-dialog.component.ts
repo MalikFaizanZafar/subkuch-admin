@@ -20,8 +20,6 @@ export class AddCategoryDialogComponent implements OnInit {
   onAddCategory() {
     if(this.categoryForm.valid) {
       this.isActiveModal.close(this.categoryForm.value)
-    }else {
-      console.log("Form is invalid")
     }
   }
 }

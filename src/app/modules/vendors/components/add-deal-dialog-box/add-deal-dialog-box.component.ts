@@ -63,8 +63,6 @@ export class AddDealDialogBoxComponent implements OnInit {
           })
         )
         .subscribe();
-    } else {
-      console.log("Form is not Valid");
     }
   }
 }

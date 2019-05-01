@@ -5,71 +5,49 @@ import {
   ViewChild,
   TemplateRef,
   ElementRef
-} from "@angular/core";
-import { Router } from "@angular/router";
-import { MemberDetails } from "../models/vendor-members";
-import { EditMainService } from "../services/editMain.service";
-import { FormGroup, FormControl, Validators } from "@angular/forms";
-import { IsButton, IsModalService, IsModalSize } from "../../../lib";
-import { IsToasterService } from "../../../lib/toaster";
-import { FranchiseInfoService } from "../services/franchiseInfo.service";
-import { AngularFireStorage } from "@angular/fire/storage";
-import { Observable } from "rxjs";
-import { finalize } from "rxjs/operators";
-import { NotificationsService } from "app/services/notifications.service";
-import { EditLogoDialogBoxComponent } from "../components/edit-logo-dialog-box/edit-logo-dialog-box.component";
-import { EditBannerDialogBoxComponent } from "../components/edit-banner-dialog-box/edit-banner-dialog-box.component";
+} from '@angular/core';
+import { Router } from '@angular/router';
+import { MemberDetails } from '../models/vendor-members';
+import { EditMainService } from '../services/editMain.service';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { IsButton, IsModalService, IsModalSize } from '../../../lib';
+import { IsToasterService, IsToastPosition } from '../../../lib/toaster';
+import { FranchiseInfoService } from '../services/franchiseInfo.service';
+import { AngularFireStorage } from '@angular/fire/storage';
+import { Observable } from 'rxjs';
+import { finalize } from 'rxjs/operators';
+import { NotificationsService } from 'app/services/notifications.service';
+import { EditLogoDialogBoxComponent } from '../components/edit-logo-dialog-box/edit-logo-dialog-box.component';
+import { EditBannerDialogBoxComponent } from '../components/edit-banner-dialog-box/edit-banner-dialog-box.component';
+import { SidebarLinks } from '../models/sidebar-links';
 
 @Component({
-  selector: "app-vendors-layout",
-  templateUrl: "./vendors-layout.component.html",
-  styleUrls: ["./vendors-layout.component.scss"]
+  selector: 'app-vendors-layout',
+  templateUrl: './vendors-layout.component.html',
+  styleUrls: ['./vendors-layout.component.scss']
 })
 export class VendorsLayoutComponent implements OnInit {
   @HostBinding() class: string =
-    "d-flex flex-column col p-0 overflow-y-auto overflow-x-hidden";
+    'd-flex flex-column col p-0 overflow-y-auto overflow-x-hidden';
   user: MemberDetails;
   editBtnEnabled: boolean;
   editLogoForm: FormGroup;
   editBannerForm: FormGroup;
-  ratingArray: string[] = ["1", "2", "3", "4", "5"];
+  ratingArray: string[] = ['1', '2', '3', '4', '5'];
   editLogoImageFile;
   tempEditLogoImage;
   editBannerImageFile;
   tempEditBannerImage;
-  autoGenerateLinks = [
-    {
-      label: "Overview",
-      link: "overview/"
-    },
-    {
-      label: "Deals",
-      link: "deals/"
-    },
-    {
-      label: "Meals",
-      link: "meals/"
-    },
-    {
-      label: "Orders",
-      link: "orders/"
-    },
-    {
-      label: "Sales",
-      link: "sales/"
-    },
-    {
-      label: "Reviews",
-      link: "reviews/"
-    }
-  ];
+  notificationCount: number = 0;
+
+  autoGenerateLinks = SidebarLinks;
   franchiseInfo: any = {};
   downloadURL: Observable<string>;
   logoEditCancelled: boolean = false;
   bannerEditCancelled: boolean = false;
-  @ViewChild("logoImage") logoImage: ElementRef;
-  @ViewChild("bannerImage") bannerImage: ElementRef;
-  @ViewChild("notificationIcon") notificationIcon: ElementRef;
+  @ViewChild('logoImage') logoImage: ElementRef;
+  @ViewChild('bannerImage') bannerImage: ElementRef;
+  
   constructor(
     private router: Router,
     private franchiseInfoService: FranchiseInfoService,
@@ -81,13 +59,6 @@ export class VendorsLayoutComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.notificationService.currentMessage.subscribe(messagePayload => {
-      console.log("messagePayload is : ", messagePayload);
-      if (messagePayload) {
-        this.notificationIcon.nativeElement.style.color = "red";
-      }
-    });
-
     this.editBannerForm = new FormGroup({
       editBannerImage: new FormControl(null, [Validators.required])
     });
@@ -101,11 +72,27 @@ export class VendorsLayoutComponent implements OnInit {
     this.editMainService.editEnable.subscribe(val => {
       this.editBtnEnabled = val;
     });
+
+    this.listenNotification();
+    // this.listenBackgroundNotification();
+  }
+
+  listenNotification() {
+    this.notificationService.currentMessage.subscribe(messagePayload => {
+      if (messagePayload) {
+        this.notificationCount++;
+        console.log(messagePayload);
+        this.toaster.popInfo(" You got new order", {
+          position: IsToastPosition.BottomRight
+        });
+      }
+    });
   }
 
   onBellIconClicked() {
-    this.notificationIcon.nativeElement.style.color = "white";
+    this.notificationCount = 0;
   }
+
   getFranshiseBanner() {
     return (
       this.franchiseInfo.welcomeImage ||
@@ -116,13 +103,11 @@ export class VendorsLayoutComponent implements OnInit {
   logoutHandler() {
     localStorage.clear();
     this.user = {};
-    this.router.navigate(["auth"]);
+    this.router.navigate(['auth']);
   }
 
-
-
   onEditLogoHandler() {
-    this.logoEditCancelled = false
+    this.logoEditCancelled = false;
     const editLogoDlg = this.isModal.open(EditLogoDialogBoxComponent, {
       data: {
         logo: this.franchiseInfo.logo,
@@ -130,35 +115,36 @@ export class VendorsLayoutComponent implements OnInit {
       }
     });
     editLogoDlg.onClose.subscribe(res => {
-      if (res === "cancel") {
-        console.log("Edit logo cancelled");
-        this.logoEditCancelled = true
-      }else if(!this.logoEditCancelled) {
-        console.log("Edit logo Not cancelled");
-        this.franchiseInfoService.editFranchiseLogo(res).subscribe(editLogoResponse => {
-          this.franchiseInfo.logo = editLogoResponse.data.franchise_logo
-        })
+      if (res === 'cancel') {
+        this.logoEditCancelled = true;
+      } else if (!this.logoEditCancelled) {
+        this.franchiseInfoService
+          .editFranchiseLogo(res)
+          .subscribe(editLogoResponse => {
+            this.franchiseInfo.logo = editLogoResponse.data.franchise_logo;
+          });
       }
     });
   }
   onEditBannerHandler() {
-    this.bannerEditCancelled = false
+    this.bannerEditCancelled = false;
     const editBannerDlg = this.isModal.open(EditBannerDialogBoxComponent, {
       size: IsModalSize.Large,
-      data : {
+      data: {
         banner: this.franchiseInfo.welcomeImage,
         brandName: this.franchiseInfo.brandName
       }
     });
     editBannerDlg.onClose.subscribe(res => {
-      if (res === "cancel") {
-        console.log("Edit Banner cancelled");
-        this.bannerEditCancelled = true
-      }else if(!this.bannerEditCancelled) {
-        console.log("Edit Banner Not cancelled");
-        this.franchiseInfoService.editFranchiseBanner(res).subscribe(editLogoResponse => {
-          this.franchiseInfo.welcomeImage = editLogoResponse.data.welcome_image
-        })
+      if (res === 'cancel') {
+        this.bannerEditCancelled = true;
+      } else if (!this.bannerEditCancelled) {
+        this.franchiseInfoService
+          .editFranchiseBanner(res)
+          .subscribe(editLogoResponse => {
+            this.franchiseInfo.welcomeImage =
+              editLogoResponse.data.welcome_image;
+          });
       }
     });
   }

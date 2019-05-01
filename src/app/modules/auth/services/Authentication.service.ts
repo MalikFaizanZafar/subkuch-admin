@@ -21,12 +21,10 @@ export class SocialAuthService {
         photo: user.photoUrl,
         ...data
       }
-      console.log('facebookUser is : ', facebookUser);
     })
   }
 
   googleSignup(user : any){
-    console.log('Google data is : ', user)
     let googleAPI = `https://www.googleapis.com/oauth2/v1/userinfo?access_token=${user.authToken}`;
     this.http.get(googleAPI).subscribe(data => {
       let googleUser = {
@@ -37,14 +35,12 @@ export class SocialAuthService {
         photo: user.photoUrl,
         ...data
       }
-      console.log('googleUser is : ', googleUser);
     })
   }
 
   forgotPassowrd( email : String){
     let emailStr = Object.values(email)[0]
     this.http.get(`${baseUrl}/api/auth/login/forgot-password?email=${emailStr}`, {responseType: 'text'}).subscribe(data => {
-      // console.log('forgot-password returned : ', data);
       this.resetURL = data;
     })
   }
@@ -52,7 +48,6 @@ export class SocialAuthService {
   ResetPassowrd( password : String){
     let passwordStr = Object.values(password)[0]
     this.http.post(this.resetURL, { password: passwordStr}, {responseType: 'text'}).subscribe(data => {
-      console.log('reset-password returned : ', data);
       // this.resetURL = data;
     })
   }

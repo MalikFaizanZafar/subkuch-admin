@@ -24,7 +24,6 @@ export class EditDealDialogBoxComponent implements OnInit {
 
   ngOnInit() {
     this.editDeal = this.isActiveModal.data;
-    // console.log("editDeal inside dialogbox is : ", this.editDeal);
     this.tempDealImage = this.editDeal.dealImage;
     const dateObj = this.editDeal.endDate.split("T")[0];
     this.editDealForm = new FormGroup({

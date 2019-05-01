@@ -52,7 +52,6 @@ export class AddMealDialogBoxComponent implements OnInit {
   }
 
   onMealSubmit( btn: IsButton) {
-    // console.log('url is : ', url)
     if (this.mealForm.valid) {
       let randomString =
         Math.random()
@@ -85,14 +84,12 @@ export class AddMealDialogBoxComponent implements OnInit {
                 category_id: Number(item.category),
                 franchise_id: Number(localStorage.getItem("franchiseId"))
               };
-              console.log("this.newItem is : ", this.newMeal);
+              
               this.isActiveModel.close(this.newMeal)
             });
           })
         )
         .subscribe();
-    } else {
-      console.log("Form is not Valid");
     }
   }
 }

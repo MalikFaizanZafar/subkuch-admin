@@ -62,7 +62,6 @@ export class EditMealDialogBoxComponent implements OnInit {
   onMealSubmit(btn: IsButton) {
     if (this.eMealForm.valid) {
       if (this.mealImageFileChanged) {
-        console.log("imageFile Edited : true");
         btn.startLoading();
         let randomString =
           Math.random()
@@ -104,7 +103,6 @@ export class EditMealDialogBoxComponent implements OnInit {
           )
           .subscribe();
       } else {
-        console.log("imageFile Edited : false" );
         btn.startLoading();
         let item = this.eMealForm.value;
         this.newMeal = {
@@ -124,7 +122,6 @@ export class EditMealDialogBoxComponent implements OnInit {
         btn.stopLoading();
       }
     } else {
-      console.log("eItemForm is not valid");
       return;
     }
   }

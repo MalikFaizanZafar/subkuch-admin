@@ -114,7 +114,7 @@ export class DealsComponent implements OnInit {
         );
         delFile.delete().then(deletedFile => {
           this.franchiseDealsService.deleteDeal(id).subscribe(response => {
-            console.log("Response from Server : ", response);
+            
             this.toaster.popSuccess("Deal Has Been Deleted Successfully");
             this.deals = this.deals.filter(deal => deal.id != id);
           });
@@ -127,10 +127,10 @@ export class DealsComponent implements OnInit {
     const addDealDialog  = this.isModal.open(AddDealDialogBoxComponent, { size : IsModalSize.Large})
     addDealDialog.onClose.subscribe(res => {
       if(res === 'cancel') {
-        console.log('Add Deal is Cancelled')
+        
         this.dealAddCancelled = true
       }else if(!this.dealAddCancelled) {
-        console.log('Add Deal is NOT Cancelled')
+        
         this.franchiseDealsService.addDeal(res).subscribe(addDealResponse => {
           this.deals.push(addDealResponse.data)
           this.toaster.popSuccess("Deal Has Been Added Successfully");
