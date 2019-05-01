@@ -7,3 +7,18 @@ firebase.initializeApp({
 });
 
 const messaging = firebase.messaging();
+
+messaging.setBackgroundMessageHandler(function(payload) {
+  var notif = JSON.parse(payload.data.notification);
+  var notificationOptions = {
+    body: notif.body,
+    click_action: notif.click_action,
+    icon: `${notif.click_action}/assets/subquch-light-logo.png`
+  };
+
+  var listener = new BroadcastChannel('listener');
+  listener.postMessage(notif);
+
+  self.registration.s
+  return self.registration.showNotification(notif.title, notificationOptions);
+});

@@ -25,8 +25,6 @@ export class ForgotPasswordComponent implements OnInit {
       let email = this.emailForm.value;
       this.authenticationService.forgotPassowrd(email);
       this.router.navigate(['/auth/reset-password'])
-    } else {
-      console.log('Form not Valid')
     }
   }
 

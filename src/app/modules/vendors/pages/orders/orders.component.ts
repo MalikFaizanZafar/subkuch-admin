@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { order } from '../../models/vendor-members';
 import { Router } from '@angular/router';
 import { FranchiseOrdersService } from '../../services/franchiseOrders.service';
@@ -13,17 +13,37 @@ export class OrdersComponent implements OnInit {
   orders: order[] = []
   currentUrl: string;
   message;
-  constructor(private franchiseOrdersService : FranchiseOrdersService, private router : Router,
-    private notificationsService : NotificationsService ) { }
+  constructor(
+    private franchiseOrdersService: FranchiseOrdersService, 
+    private router: Router,
+    private notificationsService: NotificationsService,
+    private cdRef: ChangeDetectorRef ) { }
 
   ngOnInit() {
+    this.init();
+  }
+
+  init() {
+    this.currentUrl =  this.router.url;
+    this.notificationsService.receiveMessage();
+    this.message = this.notificationsService.currentMessage;
+    this.populateOrders();
+    this.listenNotification();
+  }
+
+  populateOrders() {
     this.franchiseOrdersService.getOrders(Number(localStorage.getItem("franchiseId"))).subscribe(responseData => {
-      this.orders = responseData.data
-    })
-    this.currentUrl =  this.router.url
-    this.notificationsService.getPermission()
-    this.notificationsService.receiveMessage()
-    this.message = this.notificationsService.currentMessage
+      this.orders = responseData.data;
+      this.cdRef.detectChanges();
+    });
+  }
+
+  listenNotification() {
+    this.notificationsService.currentMessage.subscribe(messagePayload => {
+      if (messagePayload) {
+        this.populateOrders();
+      }
+    });
   }
 
   isGridrowExpandHandler(data : any) {

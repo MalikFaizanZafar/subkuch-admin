@@ -9,9 +9,17 @@
         </a>
       </div>
       <div class="w-15 d-flex justify-content-end">
-        <i class="fa fa-bell pr-4" aria-hidden="true" style="color: white" (click)="onBellIconClicked()" #notificationIcon></i>
-        <i class="fas fa-cog text-white pr-4"></i>
-        <i class="fas fa-user text-white pr-2"></i>
+        <span class="position-relative">
+            <i class="fa fa-bell text-white mr-4 top-icon" aria-hidden="true" (click)="onBellIconClicked()" #notificationIcon></i>
+            <is-badge *ngIf="notificationCount > 0"
+                      [count]="notificationCount"
+                      placement="bottom-left"
+                      theme="primary">
+            </is-badge>
+        </span>
+        
+        <i class="fas fa-cog text-white mr-4 top-icon"></i>
+        <i class="fas fa-user text-white mr-2 top-icon"></i>
       </div>
     </div>
   </header>

@@ -86,8 +86,6 @@ export class EditBannerDialogBoxComponent implements OnInit {
         btn.stopLoading()
         this.isActiveModal.close(editBannerPostDto)
       }
-    } else {
-      console.log("Edit Logo Form is Not valid");
     }
   }
 
