@@ -1,3 +1,17 @@
-<p>
-  view-order-notification-dialog works!
-</p>
+<ul class="list-group">
+  <button type="button" class="list-group-item list-group-item-action active">
+    Notifications
+  </button>
+  <li class="list-group-item d-flex justify-content-center align-items-center mt-3" *ngIf="newOrders.length === 0">
+    No new Notifications as Of YET
+  </li>
+  <li class="list-group-item d-flex justify-content-between align-items-center mt-3" *ngFor="let order of newOrders">
+    <span>Total </span> <span class="badge badge-primary badge-pill">{{order.total}}</span>
+    <span>Discount </span> <span class="badge badge-success badge-pill">{{order.discount}}</span>
+    <span>isDelivery </span> <span class="badge badge-secondary badge-pill">{{order.isDelivery}}</span>
+    <span>isAcknowledged </span> <span class="badge badge-secondary badge-pill">{{order.isAcknowledged}}</span>
+  </li>
+  <div class="list-group-item d-flex justify-content-center align-items-center mt-3">
+      <button is-button (click)="onOkHandler()" class="btn btn-lg">Ok</button>
+  </div>
+</ul>

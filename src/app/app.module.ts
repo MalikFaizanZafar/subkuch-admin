@@ -26,6 +26,7 @@ import { EditMealDialogBoxComponent } from "./modules/vendors/components/edit-me
 import { UserAuthService } from "./modules/auth/services/auth.service";
 import { EditLogoDialogBoxComponent } from "./modules/vendors/components/edit-logo-dialog-box/edit-logo-dialog-box.component";
 import { EditBannerDialogBoxComponent } from "./modules/vendors/components/edit-banner-dialog-box/edit-banner-dialog-box.component";
+import { FranchiseOrdersService } from "./modules/vendors/services/franchiseOrders.service";
 
 @NgModule({
   declarations: [
@@ -61,6 +62,7 @@ import { EditBannerDialogBoxComponent } from "./modules/vendors/components/edit-
     FranchiseAccountService,
     GoogleMapsAPIWrapper,
     FranchiseItemsService,
+    FranchiseOrdersService,
     UserAuthService
   ],
   bootstrap: [AppComponent],

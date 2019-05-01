@@ -20,6 +20,8 @@ import { NotificationsService } from 'app/services/notifications.service';
 import { EditLogoDialogBoxComponent } from '../components/edit-logo-dialog-box/edit-logo-dialog-box.component';
 import { EditBannerDialogBoxComponent } from '../components/edit-banner-dialog-box/edit-banner-dialog-box.component';
 import { SidebarLinks } from '../models/sidebar-links';
+import { ViewOrderNotificationDialogComponent } from '../components/view-order-notification-dialog/view-order-notification-dialog.component';
+import { FranchiseOrdersService } from '../services/franchiseOrders.service';
 
 @Component({
   selector: 'app-vendors-layout',
@@ -55,7 +57,8 @@ export class VendorsLayoutComponent implements OnInit {
     private toaster: IsToasterService,
     private editMainService: EditMainService,
     private storage: AngularFireStorage,
-    private notificationService: NotificationsService
+    private notificationService: NotificationsService,
+    private franchiseOrdersService : FranchiseOrdersService
   ) {}
 
   ngOnInit() {
@@ -91,6 +94,12 @@ export class VendorsLayoutComponent implements OnInit {
 
   onBellIconClicked() {
     this.notificationCount = 0;
+    const viewNotificationsDialog = this.isModal.open(ViewOrderNotificationDialogComponent, {size : IsModalSize.Large})
+    viewNotificationsDialog.onClose.subscribe(res => {
+      if(res === 'ok'){
+        this.franchiseOrdersService.removeNewOrders()
+      }
+    })
   }
 
   getFranshiseBanner() {

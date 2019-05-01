@@ -7,6 +7,7 @@ const baseUrl = environment.baseUrl;
 @Injectable()
 export class FranchiseOrdersService {
   baseURL: string = `${baseUrl}/api`;
+  newOrders = [];
 
   constructor(private http: HttpClient) {}
 
@@ -17,5 +18,17 @@ export class FranchiseOrdersService {
     return this.http.get<any>(`${this.baseURL}/order/franchise/${id}`, {
       headers
     });
+  }
+
+  addNewOrder(order: any) {
+    this.newOrders.push(order)
+  }
+  
+  getNewOrders(){
+    return this.newOrders
+  }
+
+  removeNewOrders(){
+    this.newOrders = []
   }
 }

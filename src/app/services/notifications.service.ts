@@ -6,6 +6,7 @@ import * as firebase from 'firebase';
 import 'rxjs/add/operator/take';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject'
 import { FranchiseAccountService } from 'app/modules/vendors/services/franchiseAccount.service';
+import { FranchiseOrdersService } from 'app/modules/vendors/services/franchiseOrders.service';
 
 @Injectable()
 export class NotificationsService implements OnInit {
@@ -13,7 +14,7 @@ export class NotificationsService implements OnInit {
   messaging = firebase.messaging();
   currentMessage = new BehaviorSubject(null);
   
-  constructor(private db: AngularFireDatabase, private afAuth: AngularFireAuth, private franchiseAccountService : FranchiseAccountService) { }
+  constructor(private db: AngularFireDatabase, private afAuth: AngularFireAuth, private franchiseAccountService : FranchiseAccountService, private franchiseOrdersService : FranchiseOrdersService) { }
 
   ngOnInit() {
     this.listenBackgroundNotification();
@@ -59,7 +60,7 @@ export class NotificationsService implements OnInit {
 
     receiveMessage() {
        this.messaging.onMessage((payload) => {
-        
+        this.franchiseOrdersService.addNewOrder(payload.data.order)
         this.currentMessage.next(payload)
       });
     }

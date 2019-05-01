@@ -17,6 +17,8 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     if(this.authService.isAuthenticated) {
       this.notificationsService.getPermission();
+      this.notificationsService.receiveMessage();
+      console.log("Permission granted")
       const path = window.location.pathname;
       if (path && path !== '/vendors')
       this.router.navigate([path]);

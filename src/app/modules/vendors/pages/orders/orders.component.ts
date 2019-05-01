@@ -21,11 +21,11 @@ export class OrdersComponent implements OnInit {
 
   ngOnInit() {
     this.init();
+    
   }
 
   init() {
     this.currentUrl =  this.router.url;
-    this.notificationsService.receiveMessage();
     this.message = this.notificationsService.currentMessage;
     this.populateOrders();
     this.listenNotification();

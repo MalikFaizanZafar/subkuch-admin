@@ -10,7 +10,7 @@
       </div>
       <div class="w-15 d-flex justify-content-end">
         <span class="position-relative">
-            <i class="fa fa-bell text-white mr-4 top-icon" aria-hidden="true" (click)="onBellIconClicked()" #notificationIcon></i>
+            <i class="fa fa-bell text-white mr-4 top-icon bell__icon" aria-hidden="true" (click)="onBellIconClicked()" #notificationIcon></i>
             <is-badge *ngIf="notificationCount > 0"
                       [count]="notificationCount"
                       placement="bottom-left"
