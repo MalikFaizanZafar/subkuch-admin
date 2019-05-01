@@ -1,18 +1,15 @@
 import {
   Component,
   OnInit,
-  ElementRef,
-  ViewChild,
   TemplateRef
 } from "@angular/core";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { FranchiseItemsService } from "../../services/franchiseItems.service";
 import { itemModel } from "../../models/itemModel";
-import { IsButton, IsModalService, IsModalSize } from "../../../../lib";
+import { IsModalService, IsModalSize } from "../../../../lib";
 import { IsToasterService } from "../../../../lib/toaster";
 import { AngularFireStorage } from "@angular/fire/storage";
 import { Observable } from "rxjs";
-import { finalize } from "rxjs/operators";
 import { AddCategoryDialogComponent } from "../../components/add-category-dialog/add-category-dialog.component";
 import { AddMealDialogBoxComponent } from "../../components/add-meal-dialog-box/add-meal-dialog-box.component";
 import { EditMealDialogBoxComponent } from "../../components/edit-meal-dialog-box/edit-meal-dialog-box.component";
@@ -134,10 +131,8 @@ export class MealsComponent implements OnInit {
     });
     editMealDialog.onClose.subscribe(res => {
       if (res === "cancel") {
-        console.log("Edit Meal is Cancelled")
         this.editMealCancelled = true
       } else if(!this.editMealCancelled) {
-        console.log("Edit Meal is NOT Cancelled")
         this.franchiseItemsService
           .editItem(res, Number(this.editMeal.id))
           .subscribe(editMealResponseData => {
@@ -157,7 +152,6 @@ export class MealsComponent implements OnInit {
       data: "Are Your Sure you want to Delete this Meal ?"
     });
     deleteModal.onClose.subscribe(res => {
-      console.log("modal res has : ", res);
       if (res === "ok") {
         let delMeal = this.meals.filter(deal => deal.id == id);
         this.deleteMeal = delMeal[0];
@@ -166,7 +160,6 @@ export class MealsComponent implements OnInit {
         );
         delFile.delete().then(deletedFile => {
           this.franchiseItemsService.deleteItem(id).subscribe(response => {
-            console.log("Response from Server : ", response);
             this.toaster.popSuccess("Meal Has Been Deleted Successfully");
             this.meals = this.meals.filter(deal => deal.id != id);
           });
@@ -179,11 +172,8 @@ export class MealsComponent implements OnInit {
       data: "Are Your Sure you want to Delete this Category ?"
     });
     deleteModal.onClose.subscribe(res => {
-      console.log("modal res has : ", res);
       if (res === "ok") {
-        console.log(" category delete id : ", id);
         this.franchiseItemsService.deleteCategory(id).subscribe(response => {
-          console.log("Response from Server : ", response);
           this.toaster.popSuccess("Category Has Been Deleted Successfully");
           this.categories = this.categories.filter(
             categories => categories.id != id
