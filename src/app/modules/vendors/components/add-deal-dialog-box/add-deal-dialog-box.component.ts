@@ -28,9 +28,11 @@ export class AddDealDialogBoxComponent implements OnInit {
   fileChangeEvent(fileInput: any) {
     this.imageFile = fileInput.target.files[0];
   }
+  
   chooseFile() {
     this.dealImage.nativeElement.click();
   }
+
   onDealSubmit( btn: IsButton) {
     if (this.dealForm.valid) {
       btn.startLoading();

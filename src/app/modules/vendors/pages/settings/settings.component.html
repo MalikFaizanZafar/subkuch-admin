@@ -1,23 +1,36 @@
-<div class="d-flex justify-content-end mb-2">
-    <button is-button class="mr-5" (click)="addFranchiseHandler()">Create Franchise</button>
-</div>
-<div class="row">
-  <div class="col-md-6 offset-md-3">
-      <table class="table">
-          <thead class="thead-dark">
-            <tr>
-              <th scope="col text-center" style="text-align: center;">#</th>
-              <th scope="col text-center" style="text-align: center;">Franchise Id</th>
-              <th scope="col text-center" style="text-align: center;">Address</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let franchise of franchises; let i = index ">
-              <th scope="row"  class="text-center">{{i + 1}}</th>
-              <td class="text-center">{{franchise.id}}</td>
-              <td class="text-center">{{franchise.address}}</td>
-            </tr>
-          </tbody>
-        </table>
-  </div>
-</div>
+<is-card>
+  <is-card-header>
+    <div class="w-100 d-flex justify-content-between mb-2">
+      <h3>
+        Franchises
+      </h3>
+      <button is-button class="mr-5" (click)="addFranchiseHandler()">Create Franchise</button>
+    </div>
+  </is-card-header>
+  <is-card-content>
+    <is-grid #grid class="d-block col p-0" [value]="franchises">
+      <is-grid-column field="address" header="Location" styleClass="grid__location"></is-grid-column>
+      <is-grid-column field="managerName" header="Manager" ></is-grid-column>
+      <is-grid-column header="Contact #" >
+          <ng-template let-row="rowData"
+                  isGridTemplate="body">
+            {{row.contact[0]?.franchiseContactPersonPhone}}
+          </ng-template>
+        </is-grid-column>
+      <is-grid-column header="Email" >
+          <ng-template let-row="rowData"
+                  isGridTemplate="body">
+            {{row.contact[0]?.email}}
+          </ng-template>
+      </is-grid-column>
+      <is-grid-column field="isActive" header="active" styleClass="grid__active">
+        <ng-template let-row="rowData" isGridTemplate="body">
+          <is-slide-toggle container="body" placement="left"
+            [(ngModel)]="row.isActive" 
+            (change)="onActivateClick(row)">
+          </is-slide-toggle>
+        </ng-template>
+      </is-grid-column>
+    </is-grid>
+  </is-card-content>
+</is-card>

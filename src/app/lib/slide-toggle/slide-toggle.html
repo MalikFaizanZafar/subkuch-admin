@@ -1,0 +1,40 @@
+<label class="is-slide-toggle__label">
+  <div class="is-slide-toggle__container">
+    <div class="is-slide-toggle__bar"
+      [style.color]="currentColor">
+      <ng-container *ngIf="statusLabel">
+        <span class="is-slide-toggle__bar-label is-slide-toggle__bar-label--on"
+              [class.is-slide-toggle__bar-label--visible]="checked"
+              [class.is-slide-toggle__bar-label--on-invisible]="!checked">
+          {{onStatusLabel}}
+        </span>
+        <span class="is-slide-toggle__bar-label is-slide-toggle__bar-label--off"
+        [class.is-slide-toggle__bar-label--visible]="!checked"
+        [class.is-slide-toggle__bar-label--off-invisible]="checked">
+          {{offStatusLabel}}
+        </span>
+      </ng-container>
+    </div>
+    <div class="is-slide-toggle__thumb"
+         (slidestart)="onDragStart()"
+         (slide)="onDrag($event)"
+         (slideend)="onDragEnd()"></div>
+  </div>
+
+  <input #input
+    type="checkbox"
+    class="is-visually-hidden"
+    [id]="inputId"
+    [tabIndex]="tabIndex"
+    [checked]="checked"
+    [disabled]="disabled"
+    [attr.name]="name"
+    [attr.aria-label]="ariaLabel"
+    [attr.aria-labelledby]="ariaLabelledby"
+    (change)="onChangeEvent($event)"
+    (click)="onInputClick($event)">
+
+  <span class="is-slide-toggle__content">
+    <ng-content></ng-content>
+  </span>
+</label>

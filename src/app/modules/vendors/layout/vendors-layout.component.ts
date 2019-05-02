@@ -27,7 +27,11 @@ export class VendorsLayoutComponent implements OnInit {
   bannerEditCancelled: boolean = false;
   selectFranchiseForm: FormGroup;
   franchises: any = []
+  mainFranchise: any;
+
+
   @ViewChild("selectedFranchise") selectedFranchise : ElementRef;
+
   constructor(
     private router: Router,
     private route : ActivatedRoute,
@@ -43,17 +47,37 @@ export class VendorsLayoutComponent implements OnInit {
     this.route.params.subscribe(params => {
       console.log("params[franchiseId] is : ", params["franchiseId"])
     })
+    
     this.selectFranchiseForm = new FormGroup( {
       franchiseSelected: new FormControl(null)
-    })
-    this.franchiseInfoService.getFranchiseInfo().subscribe(franchiseInfoResponse => {
-      this.franchises = franchiseInfoResponse.data.franchises
-    })
+    });
+
+    this.populateFranchise();
     this.editMainService.editEnable.subscribe(val => {
       this.editBtnEnabled = val;
     });
 
+    this.notificationService.updateFranchise.subscribe(res => {
+      if(res) {
+        this.populateFranchise();
+      }
+    })
     this.listenNotification();
+  }
+
+  signOut(){
+    localStorage.removeItem('Authorization');
+    localStorage.removeItem('franchiseId');
+    this.router.navigate(['/'])
+  }
+  
+  populateFranchise() {
+    this.franchiseInfoService.getFranchiseInfo().subscribe(franchiseInfoResponse => {
+      this.mainFranchise = franchiseInfoResponse.data;
+      if (this.mainFranchise.isAdmin) {
+        this.franchises = franchiseInfoResponse.data.franchises.filter(item => item.isActive);
+      }
+    });
   }
 
   listenNotification() {
@@ -89,10 +113,10 @@ export class VendorsLayoutComponent implements OnInit {
 
   onFranchiseSubmit() {
     let temp = this.selectFranchiseForm.value
-    console.log("selectedFranchise is ", temp.franchiseSelected)
+    // console.log("selectedFranchise is ", temp.franchiseSelected)
     localStorage.setItem("franchiseId", temp.franchiseSelected);
     this.franchiseInfoService.getFranchiseInfoById(Number(temp.franchiseSelected)).subscribe(franchiseSelected => {
-      console.log("franchiseSelected is : ", franchiseSelected.data)
+      // console.log("franchiseSelected is : ", franchiseSelected.data)
       this.router.navigate(['vendors'], { queryParams: { franchiseId : temp.franchiseSelected}})
     })
   }

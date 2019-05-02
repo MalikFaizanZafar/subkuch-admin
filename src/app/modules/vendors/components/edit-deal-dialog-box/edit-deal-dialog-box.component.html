@@ -2,115 +2,63 @@
   <div class="card-header bg-dark text-white font-weight-bold rounded-0 ">
     Edit Deal
   </div>
-  <form
-    class="py-5 px-5"
-    [formGroup]="editDealForm"
-    (ngSubmit)="onEditDealSubmit(catSubmitBtn)"
-    #dealform="ngForm"
-  >
-    <div
-      class="form-group d-flex justify-content-start align-items-center mt-1"
-    >
-      <label for="deal_name">Name </label>
-      <input
-        class="form-control ml-3"
-        id="deal_name"
-        formControlName="name"
-        placeholder="Enter name"
-      />
-    </div>
-    <div
-      *ngIf="editDealForm.hasError('required', 'name') && dealform.submitted"
-      class="form-group d-flex justify-content-center item-form__input_error"
-    >
-      <p class="text-danger">Name is required</p>
+  <form class="pt-3 form-size" [formGroup]="editDealForm" (ngSubmit)="onEditDealSubmit(catSubmitBtn)"
+    #dealform="ngForm">
+    <div class="form-group d-flex justify-content-start align-items-center mt-1">
+      <label class="col-sm-3 col-form-label" for="deal_name">Name </label>
+      <div><input class="form-control col-sm-9 ml-3" id="deal_name" formControlName="name" placeholder="Enter name" />
+        <div *ngIf="editDealForm.hasError('required', 'name') && dealform.submitted"
+          class="form-group d-flex justify-content-center item-form__input_error">
+          <p class="text-danger">Name is required</p>
+        </div>
+      </div>
     </div>
 
-    <div
-      class="form-group d-flex justify-content-start align-items-center mt-1"
-    >
-      <label for="deal_price">Price </label>
-      <input
-        type="number"
-        class="form-control ml-4"
-        id="deal_price"
-        formControlName="price"
-        placeholder="Enter price"
-      />
-    </div>
-    <div
-      *ngIf="editDealForm.hasError('required', 'price') && dealform.submitted"
-      class="form-group d-flex justify-content-center align-items-center item-form__input_error"
-    >
-      <span class="text-danger">Price is required</span>
+    <div class="form-group d-flex justify-content-start align-items-center mt-1">
+      <label class="col-sm-3 col-form-label" for="deal_price">Price </label>
+      <div><input type="number" class="form-control col-sm-9 ml-4" id="deal_price" formControlName="price"
+          placeholder="Enter price" />
+        <div *ngIf="editDealForm.hasError('required', 'price') && dealform.submitted"
+          class="form-group d-flex justify-content-center align-items-center item-form__input_error">
+          <span class="text-danger">Price is required</span>
+        </div>
+      </div>
     </div>
 
-    <div
-      class="form-group d-flex justify-content-start align-items-center mt-1"
-    >
-      <label for="deal_date">Dicount End </label>
-      <input
-        type="date"
-        class="form-control ml-3"
-        id="deal_date"
-        formControlName="discountEnd"
-        placeholder="Enter price"
-      />
-    </div>
-    <div
-      *ngIf="
+    <div class="form-group d-flex justify-content-start align-items-center mt-1">
+      <label class="col-sm-3 col-form-label" for="deal_date">Dicount End </label>
+      <div><input type="date" class="form-control col-sm-9 ml-3" id="deal_date" formControlName="discountEnd"
+          placeholder="Enter price" />
+        <div *ngIf="
         editDealForm.hasError('required', 'discountEnd') && dealform.submitted
-      "
-      class="form-group d-flex justify-content-start align-items-center item-form__input_error"
-    >
-      <p class="text-danger">Discount End is required</p>
+      " class="form-group d-flex justify-content-start align-items-center item-form__input_error">
+          <p class="text-danger">Discount End is required</p>
+        </div>
+      </div>
     </div>
     <div class="form-group w-100 d-flex align-items-center">
-      <label for="exampleFormControlFile1" class="text-dark">Attachments</label>
-      <input
-        type="file"
-        class="form-control-file"
-        style="display:none;"
-        #dealImageInputBtn
-        accept=".jpeg,.png"
-        formControlName="attachment"
-        (change)="dealImageChangeEvent($event)"
-      />
-      <img
-        [src]="tempDealImage"
-        alt=""
-        style="height:200px; width:200px; margin-left: 6%;"
-      />
+      <label class="col-sm-3 col-form-label" for="exampleFormControlFile1" class="text-dark">Attachments</label>
+      <input type="file" class="form-control-file" style="display:none;" #dealImageInputBtn accept=".jpeg,.png"
+        formControlName="attachment" (change)="dealImageChangeEvent($event)" />
+      <img [src]="tempDealImage" alt="" style="height:200px; width:200px; margin-left: 6%;" />
       <i class="fas fa-edit deal__icons ml-3" (click)="chooseFile()"></i>
       <p class="lead w-25 mt-3 ml-3" *ngIf="this.imageFile">
         {{ this.imageFile.name }}
       </p>
     </div>
-    <div
-      *ngIf="
+    <div *ngIf="
         editDealForm.hasError('required', 'attachment') && eDealform.submitted
-      "
-      class="item-form__input_error"
-    >
+      " class="item-form__input_error">
       Attachment is required
     </div>
 
-    <div class="d-flex justify-content-center">
-      <button
-        is-button
-        theme="danger"
-        class="close-btn w-25 mb-4 add__category__dialog__btn"
-        type="submit"
-        #catSubmitBtn
-      >
+    <div class="d-flex justify-content-end px-4 w-100 mb-3">
+      <button is-button theme="danger" class="close-btn w-25 add__category__dialog__btn" type="submit"
+        #catSubmitBtn>
         <span>Save</span>
       </button>
-      <button
-        is-button
-        theme="primary"
-        class="close-btn w-25 mb-4 add__category__dialog__btn ml-3"
-        (click)="onCancelEditDeal()"
-      >
+      <button is-button theme="primary" type="button" class="close-btn w-25 add__category__dialog__btn ml-3"
+        (click)="onCancelEditDeal()">
         <span>Cancel</span>
       </button>
     </div>

@@ -6,3 +6,5 @@ export * from './card/index';
 export * from './timepicker';
 export * from './badge';
 export * from './dropdown'
+export * from './slide-toggle';
+export * from './user-profile';

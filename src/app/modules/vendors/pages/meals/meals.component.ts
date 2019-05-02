@@ -3,7 +3,7 @@ import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { FranchiseItemsService } from "../../services/franchiseItems.service";
 import { itemModel } from "../../models/itemModel";
 import { IsModalService, IsModalSize } from "../../../../lib";
-import { IsToasterService } from "../../../../lib/toaster";
+import { IsToasterService, IsToastPosition } from "../../../../lib/toaster";
 import { AngularFireStorage } from "@angular/fire/storage";
 import { Observable } from "rxjs";
 import { AddCategoryDialogComponent } from "../../components/add-category-dialog/add-category-dialog.component";
@@ -81,6 +81,7 @@ export class MealsComponent implements OnInit {
       AddCategoryDialogComponent
     );
     addCategoryDialogOpenRef.onClose.subscribe(res => {
+      if (res) {
       let newCategory = {
         name: res.categoryName,
         type: "Type",
@@ -91,48 +92,43 @@ export class MealsComponent implements OnInit {
         .subscribe(categoryResponse => {
           this.categories.push(categoryResponse.data);
         });
+      }
     });
   }
   onAddMealHandler() {
     this.addMealCancelled = false;
     let addMealDialog = this.isModal.open(AddMealDialogBoxComponent, {
-      size: IsModalSize.Large,
+      backdrop: 'static',
       data: {
         categories: this.categories
       }
     });
     addMealDialog.onClose.subscribe(res => {
-      if (res === "cancel") {
-        console.log("Add Meal Cancelled");
-        this.addMealCancelled = true;
-      } else if (res === 0) {
-        this.addMealCancelled = true;
-      } else if (!this.addMealCancelled === false) {
+      if (res !== "cancel") {
         console.log("Add Meal Not Cancelled");
         this.franchiseItemsService.addItem(res).subscribe(addMealResponse => {
           this.meals.push(addMealResponse.data);
-          this.toaster.popSuccess("Meal Has Been Deleted Successfully");
+          this.toaster.popSuccess("Meal Has Been Deleted Successfully", {
+            position: IsToastPosition.BottomRight
+          });
         });
       }
     });
   }
+
   onEditItemHandler(id) {
     this.editMealCancelled = false;
     let filterdItems = this.meals.filter(meal => meal.id == id);
     this.editMeal = filterdItems[0];
     const editMealDialog = this.isModal.open(EditMealDialogBoxComponent, {
-      size: IsModalSize.Large,
+      backdrop: 'static',
       data: {
         categories: this.categories,
         editMeal: this.editMeal
       }
     });
     editMealDialog.onClose.subscribe(res => {
-      if (res === "cancel") {
-        this.editMealCancelled = true;
-      } else if (res === 0) {
-        this.editMealCancelled = true;
-      } else if (!this.editMealCancelled) {
+      if (res !== "cancel") {
         this.franchiseItemsService
           .editItem(res, Number(this.editMeal.id))
           .subscribe(editMealResponseData => {
@@ -140,7 +136,9 @@ export class MealsComponent implements OnInit {
             const editMealIndex = this.meals
               .map(meal => meal.id)
               .indexOf(this.editMeal.id);
-            this.toaster.popSuccess("Meal Has Been Edited Successfully");
+            this.toaster.popSuccess("Meal Has Been Edited Successfully", {
+              position: IsToastPosition.BottomRight
+            });
             this.meals[editMealIndex] = this.newItem;
           });
       }
@@ -160,7 +158,9 @@ export class MealsComponent implements OnInit {
         );
         delFile.delete().then(deletedFile => {
           this.franchiseItemsService.deleteItem(id).subscribe(response => {
-            this.toaster.popSuccess("Meal Has Been Deleted Successfully");
+            this.toaster.popSuccess("Meal Has Been Deleted Successfully", {
+              position: IsToastPosition.BottomRight
+            });
             this.meals = this.meals.filter(deal => deal.id != id);
           });
         });
@@ -174,7 +174,9 @@ export class MealsComponent implements OnInit {
     deleteModal.onClose.subscribe(res => {
       if (res === "ok") {
         this.franchiseItemsService.deleteCategory(id).subscribe(response => {
-          this.toaster.popSuccess("Category Has Been Deleted Successfully");
+          this.toaster.popSuccess("Category Has Been Deleted Successfully", {
+            position: IsToastPosition.BottomRight
+          });
           this.categories = this.categories.filter(
             categories => categories.id != id
           );

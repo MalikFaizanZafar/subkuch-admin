@@ -1,42 +1,41 @@
-<is-card class="container-fluid mt-3 mb-5">
-  <is-card-header
-    class="d-flex justify-content-between w-100 align-items-center"
-  >
+<is-card>
+  <is-card-header class="d-flex justify-content-between w-100 align-items-center">
     <div class="d-flex align-items-center w-25 justify-content-left">
       <h4 class="text-dark w-50">Reviews (06)</h4>
     </div>
     <div class="w-25 d-flex justify-content-end"></div>
   </is-card-header>
-  <div class="row">
-    <div class="col-md-4 mb-5" *ngFor="let review of reviews">
-      <div class="card rounded shadow  mb-3 meal__card">
-        <div class="row no-gutters">
-          <div class="col-md-12">
-            <div class="card-body">
-              <h4 class="card-title w-75 mb-4">{{review.name}} </h4> 
-              <p class="card-text">{{review.comment}}</p>
-              <p class="card-text">
-                <small class="text-muted">
-                  <i class="fas fa-user-clock meal__icons mr-2"></i>
-                  {{review.date}} || date
-                </small>
-              </p>
-              <div
-                class="d-flex justify-content-end w-100 align-items-center mt-5"
-              >
-                <h4>
-                  Rating
-                  <span class="fa fa-star checked"></span>
-                  <span class="fa fa-star checked"></span>
-                  <span class="fa fa-star checked"></span>
-                  <span class="fa fa-star"></span>
-                  <span class="fa fa-star"></span>
-                </h4>
+  <is-card-content>
+      <div class="row">
+          <div class="col-md-4 mb-5" *ngFor="let review of reviews">
+            <div class="card rounded shadow  mb-3 meal__card">
+              <div class="row no-gutters">
+                <div class="col-md-12">
+                  <div class="card-body">
+                    <h4 class="card-title w-75 mb-4">{{review.name}} </h4>
+                    <p class="card-text">{{review.comment}}</p>
+                    <p class="card-text">
+                      <small class="text-muted">
+                        <i class="fas fa-user-clock meal__icons mr-2"></i>
+                        {{review.date}} || date
+                      </small>
+                    </p>
+                    <div class="d-flex justify-content-end w-100 align-items-center mt-5">
+                      <h4>
+                        Rating
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star"></span>
+                        <span class="fa fa-star"></span>
+                      </h4>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    </div>
-  </div>
+  </is-card-content>
+
 </is-card>

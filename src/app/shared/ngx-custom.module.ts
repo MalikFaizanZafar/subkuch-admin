@@ -1,5 +1,5 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
-import { IsButtonModule, IsRevealCarouselModule, IsCoreModule, IsCardModule, IsTimePickerModule, IsBadgeModule, IsDropdownModule } from '../lib';
+import { IsButtonModule, IsRevealCarouselModule, IsCoreModule, IsCardModule, IsTimePickerModule, IsBadgeModule, IsDropdownModule, IsSlideToggleModule } from '../lib';
 import { IsSidebarModule } from 'app/lib/sidebar';
 import { IsTopbarModule } from 'app/lib/topbar';
 import { IsInputModule } from '../lib/input';
@@ -24,7 +24,9 @@ const NGX_DF_MODULES: any[] = [
   IsCardModule,
   IsTimePickerModule,
   IsBadgeModule,
-  IsDropdownModule
+  IsDropdownModule,
+  IsSlideToggleModule,
+  IsUserProfileModule
 ];
 
 @NgModule({
@@ -43,7 +45,9 @@ const NGX_DF_MODULES: any[] = [
     IsCardModule.forRoot(),
     IsTimePickerModule.forRoot(),
     IsBadgeModule.forRoot(),
-    IsDropdownModule.forRoot()
+    IsDropdownModule.forRoot(),
+    IsSlideToggleModule.forRoot(),
+    IsUserProfileModule.forRoot()
   ],
   exports: NGX_DF_MODULES,
 })

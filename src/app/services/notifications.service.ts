@@ -12,6 +12,7 @@ import { FranchiseOrdersService } from 'app/modules/vendors/services/franchiseOr
 export class NotificationsService {
 
   messaging = firebase.messaging();
+  updateFranchise: BehaviorSubject<boolean> = new BehaviorSubject<any>(false);
   currentMessage: BehaviorSubject<any> = new BehaviorSubject<any>(null);
   
   constructor(

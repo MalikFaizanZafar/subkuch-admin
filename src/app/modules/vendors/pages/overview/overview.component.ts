@@ -5,8 +5,9 @@ import { FranchiseInfoService } from "../../services/franchiseInfo.service";
 import { IsButton, IsModalService, IsModalSize } from "app/lib";
 import { EditLogoDialogBoxComponent } from "../../components/edit-logo-dialog-box/edit-logo-dialog-box.component";
 import { EditBannerDialogBoxComponent } from "../../components/edit-banner-dialog-box/edit-banner-dialog-box.component";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { ChangeDetectionStrategy } from "@angular/compiler/src/core";
+import { finalize } from "rxjs/operators";
 declare const google: any;
 
 @Component({
@@ -27,32 +28,31 @@ export class OverviewComponent implements OnInit {
   editBannerImageFile;
   tempEditBannerImage;
   notificationCount: number = 0;
+  loading = false;
 
   constructor(
     private franchiseInfoService: FranchiseInfoService,
     private editMainService: EditMainService,
     private isModal: IsModalService,
     private route: ActivatedRoute,
-    private cdRef: ChangeDetectorRef
+    private cdRef: ChangeDetectorRef,
+    private router: Router
   ) {}
 
   ngOnInit() {
-    this.route.params.subscribe(params => {
-      if(params["franchiseId"] !== undefined) {
-        this.franchiseInfo = undefined;
-        this.franchiseInfoService.getFranchiseInfoById(Number(params["franchiseId"])).subscribe(responseData => {
-          this.franchiseInfo = responseData.data;
-          console.log('this.franchiseInfo is : ', this.franchiseInfo )
-          localStorage.setItem("franchiseId", this.franchiseInfo.id);
-          this.cdRef.detectChanges();
-          if (!this.franchiseInfo.address) {
-            this.setEditingMode();
-          }
-        });
+    this.route.queryParams.subscribe(params => {
+      if(params["franchiseId"] !== undefined && 
+        this.franchiseInfo.isAdmin && 
+        this.franchiseInfo.franchises !==  null && 
+        this.franchiseInfo.franchises.find(item => item.id === parseInt(params["franchiseId"], 10))
+      ) {
+        this.franchiseInfo = this.franchiseInfo.franchises.find(item => item.id === parseInt(params["franchiseId"], 10));
+        localStorage.setItem("franchiseId", this.franchiseInfo.id);
       } else  {
-        this.franchiseInfoService.getFranchiseInfo().subscribe(res => {
+        this.loading = true;
+        this.franchiseInfoService.getFranchiseInfo()
+        .pipe(finalize(() => this.loading = false)).subscribe(res => {
           this.franchiseInfo = res.data;
-          console.log('this.franchiseInfo is : ', this.franchiseInfo )
           localStorage.setItem("franchiseId", this.franchiseInfo.id);
           if (!this.franchiseInfo.address) {
             this.setEditingMode();
@@ -61,6 +61,7 @@ export class OverviewComponent implements OnInit {
       }
     })
   }
+
   getFranshiseBanner() {
     return (
       this.franchiseInfo.welcomeImage ||

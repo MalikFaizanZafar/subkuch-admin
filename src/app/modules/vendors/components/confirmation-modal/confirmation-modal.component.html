@@ -1,0 +1,9 @@
+<div class="p-3">
+  <h3 *ngIf="title">{{title}}</h3>
+  <p *ngIf="title">{{message}}</p>
+  <h4 *ngIf="!title">{{message}}</h4>
+  <div class="d-flex justify-content-end mt-2">
+      <button is-button (click)="close('ok')">Yes</button>
+      <button is-button theme="danger" class="ml-2" (click)="close('cancel')">No</button>
+  </div>
+</div>

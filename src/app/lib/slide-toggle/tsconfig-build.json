@@ -8,7 +8,7 @@
     "annotateForClosureCompiler": true,
     "strictMetadataEmit": true,
     "flatModuleOutFile": "index.js",
-    "flatModuleId": "@devfactory/ngx-is/user-profile",
+    "flatModuleId": "@devfactory/ngx-is/slide-toggle",
     "skipTemplateCodegen": true
   }
 }

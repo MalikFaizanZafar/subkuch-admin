@@ -16,7 +16,7 @@ import {
   IsModal,
   IsModalSize
 } from "../../../../lib";
-import { IsToasterService } from "../../../../lib/toaster";
+import { IsToasterService, IsToastPosition } from "../../../../lib/toaster";
 import { dealModel } from "../../models/dealModel";
 import { EditDealDialogBoxComponent } from "../../components/edit-deal-dialog-box/edit-deal-dialog-box.component";
 import { AddDealDialogBoxComponent } from "../../components/add-deal-dialog-box/add-deal-dialog-box.component";
@@ -89,7 +89,8 @@ export class DealsComponent implements OnInit {
     this.imageToBeDeleted = this.editDeal.dealImage;
     this.dealEditCancelled = false;
     const deleteModal = this.isModal.open(EditDealDialogBoxComponent, {
-      data: this.editDeal
+      data: this.editDeal,
+      backdrop: 'static'
     });
     deleteModal.onClose.subscribe(res => {
       if (res === "cancel") {
@@ -125,7 +126,9 @@ export class DealsComponent implements OnInit {
         );
         delFile.delete().then(deletedFile => {
           this.franchiseDealsService.deleteDeal(id).subscribe(response => {
-            this.toaster.popSuccess("Deal Has Been Deleted Successfully");
+            this.toaster.popSuccess("Deal Has Been Deleted Successfully", {
+              position: IsToastPosition.BottomRight
+            });
             this.deals = this.deals.filter(deal => deal.id != id);
           });
         });
@@ -135,17 +138,16 @@ export class DealsComponent implements OnInit {
   onAddDealClickHandler() {
     this.dealAddCancelled = false;
     const addDealDialog = this.isModal.open(AddDealDialogBoxComponent, {
-      size: IsModalSize.Large
+      backdrop: 'static'
     });
+
     addDealDialog.onClose.subscribe(res => {
-      if (res === "cancel") {
-        this.dealAddCancelled = true;
-      } else if (res === 0) {
-        this.dealAddCancelled = true;
-      } else if (!this.dealAddCancelled) {
+      if (res !== "cancel") {
         this.franchiseDealsService.addDeal(res).subscribe(addDealResponse => {
           this.deals.push(addDealResponse.data);
-          this.toaster.popSuccess("Deal Has Been Added Successfully");
+          this.toaster.popSuccess("Deal Has Been Added Successfully", {
+            position: IsToastPosition.BottomRight
+          });
         });
       }
     });

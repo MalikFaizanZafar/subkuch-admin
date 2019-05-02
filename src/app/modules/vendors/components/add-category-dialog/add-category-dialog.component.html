@@ -2,48 +2,24 @@
   <div class="card-header bg-dark text-white font-weight-bold rounded-0">
     Add Category
   </div>
-  <form
-    class="px-3 py-5"
-    [formGroup]="categoryForm"
-    (ngSubmit)="onAddCategory()"
-    #catform="ngForm"
-  >
-    <div
-      class="form-group d-flex justify-content-around align-items-center"
-    >
+  <form class="px-3 pt-3" [formGroup]="categoryForm" (ngSubmit)="onAddCategory()" #catform="ngForm">
+    <div class="form-group d-flex justify-content-around align-items-center">
       <label for="category_name">Name </label>
-      <input
-        type="email"
-        class="form-control ml-3"
-        id="category_name"
-        formControlName="categoryName"
-        placeholder="Enter name"
-      />
+      <input type="email" class="form-control ml-3" id="category_name" formControlName="categoryName"
+        placeholder="Enter name" />
     </div>
-    <div
-      *ngIf="
+    <div *ngIf="
         categoryForm.hasError('required', 'categoryName') &&
         catform.submitted
-      "
-      class="form-group d-flex justify-content-start align-items-center item-form__input_error"
-    >
-     <span class="text-danger">Name is required</span> 
+      " class="form-group d-flex justify-content-start align-items-center item-form__input_error">
+      <span class="text-danger">Name is required</span>
     </div>
     <div class="d-flex justify-content-center">
-      <button
-        type="submit"
-        is-button
-        theme="primary"
-        class="close-btn w-25 mb-4 add__category__dialog__btn"
-      >
+      <button type="submit" is-button theme="primary" class="close-btn w-25 mb-2 add__category__dialog__btn">
         <span>Save</span>
       </button>
-      <button
-        is-button
-        theme="danger"
-        class="close-btn w-25 mb-4 add__category__dialog__btn"
-        (click)="close('Click on Close')"
-      >
+      <button is-button type="button" theme="danger" class="close-btn w-25 mb-2 add__category__dialog__btn"
+        (click)="close('Click on Close')">
         <span>Cancel</span>
       </button>
     </div>

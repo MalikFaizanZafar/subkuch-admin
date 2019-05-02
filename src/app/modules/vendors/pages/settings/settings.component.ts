@@ -1,8 +1,11 @@
 import { Component, OnInit } from "@angular/core";
 import { FranchiseInfoService } from "../../services/franchiseInfo.service";
-import { IsModalService } from "app/lib";
+import { IsModalService, IsModalRef } from "app/lib";
 import { UserAuthService } from "app/modules/auth/services/auth.service";
 import { AddFranchiseDialogComponent } from "../../components/add-franchise-dialog/add-franchise-dialog.component";
+import { ConfirmationModalComponent } from "../../components/confirmation-modal/confirmation-modal.component";
+import { NotificationsService } from "../../../../services/notifications.service";
+import { IsToasterService, IsToastPosition } from "../../../../lib/toaster";
 
 @Component({
   selector: "settings",
@@ -19,7 +22,9 @@ export class SettingsComponent implements OnInit {
   constructor(
     private franchiseInfoService: FranchiseInfoService,
     private isModal: IsModalService,
-    private userAuthService: UserAuthService
+    private userAuthService: UserAuthService,
+    private notificationService: NotificationsService,
+    private toast: IsToasterService
   ) {}
 
   ngOnInit() {
@@ -28,7 +33,7 @@ export class SettingsComponent implements OnInit {
       this.serviceId = responseData.data.serviceId;
       this.brandName = responseData.data.brandName
       this.franchiseInfo = responseData.data;
-      console.log("this.franchiseInfo is : ", this.franchiseInfo)
+
       if (this.franchiseInfo.isAdmin === true) {
         this.franchises = this.franchiseInfo.franchises;
       } else {
@@ -36,6 +41,28 @@ export class SettingsComponent implements OnInit {
       }
     });
   }
+
+  onActivateClick(row: any) {
+    const modalRef: IsModalRef =  this.isModal.open(ConfirmationModalComponent, {
+      data: {
+        message: `Are you sure you want ${ row.isActive ? 'Activate': 'Deactivate'} this franchise?`
+      }
+    });
+
+    modalRef.onClose.subscribe(res => {
+      if (res === 'ok') {
+        this.franchiseInfoService.updateFranchiseInfo(row.id, row).subscribe(response => {
+          this.notificationService.updateFranchise.next(true);
+          this.toast.popSuccess('Franchise activated successfull', {
+            position: IsToastPosition.BottomRight
+          });
+        });
+      } else  {
+        row.isActive = false;
+      }
+    });
+  }
+
   addFranchiseHandler() {
     this.dialogCancelled = false;
     const addFranchiseDialog = this.isModal.open(AddFranchiseDialogComponent, {

@@ -29,6 +29,7 @@ import { EditBannerDialogBoxComponent } from "./modules/vendors/components/edit-
 import { FranchiseOrdersService } from "./modules/vendors/services/franchiseOrders.service";
 import { AddFranchiseDialogComponent } from "./modules/vendors/components/add-franchise-dialog/add-franchise-dialog.component";
 import { NgbDropdown, NgbDropdownModule } from "@ng-bootstrap/ng-bootstrap";
+import { ConfirmationModalComponent } from "./modules/vendors/components/confirmation-modal/confirmation-modal.component";
 
 @NgModule({
   declarations: [
@@ -41,7 +42,8 @@ import { NgbDropdown, NgbDropdownModule } from "@ng-bootstrap/ng-bootstrap";
     AddDealDialogBoxComponent,
     AddMealDialogBoxComponent,
     EditMealDialogBoxComponent,
-    AddFranchiseDialogComponent
+    AddFranchiseDialogComponent,
+    ConfirmationModalComponent
   ],
   imports: [
     AppRoutingModule,
@@ -79,7 +81,8 @@ import { NgbDropdown, NgbDropdownModule } from "@ng-bootstrap/ng-bootstrap";
     AddDealDialogBoxComponent,
     AddMealDialogBoxComponent,
     EditMealDialogBoxComponent,
-    AddFranchiseDialogComponent
+    AddFranchiseDialogComponent,
+    ConfirmationModalComponent
   ]
 })
 export class AppModule {}

@@ -37,6 +37,7 @@ export class FranchiseInfoService {
     );
     return this.http.get<any>(`${this.baseURL}/${id}`, {headers})
   }
+  
   updateFranchiseInfo(id: number, data: any) : Observable<any>{
     let headers = new HttpHeaders()
     const token = localStorage.getItem('Authorization');

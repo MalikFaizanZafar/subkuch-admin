@@ -1,18 +1,10 @@
-<is-card class="container-fluid mt-3">
-  <is-card-header
-    class="d-flex justify-content-between w-100 align-items-center"
-  >
+<is-card>
+  <is-card-header class="d-flex justify-content-between w-100 align-items-center">
     <div class="d-flex align-items-center w-25 justify-content-left">
       <h4 class="">Offered Meals ( {{ meals.length }} )</h4>
     </div>
     <div class="w-25 d-flex justify-content-end">
-      <button
-        type="button"
-        (click)="onAddMealHandler()"
-        *ngIf="showMeals"
-        class="ml-5"
-        is-button
-      >
+      <button type="button" (click)="onAddMealHandler()" *ngIf="showMeals" class="ml-5" is-button>
         Add Meal
       </button>
     </div>
@@ -32,19 +24,14 @@
       <ul class="list-group mt-2" *ngIf="categories && categories.length">
         <li
           class="p-0 mb-2 mt-0 list-group-item d-flex justify-content-start align-items-center text-muted bg-transparent  mt-1 category__list__item "
-          *ngFor="let category of categories; let i = index"
-        >
-        <!-- <i
+          *ngFor="let category of categories; let i = index">
+          <!-- <i
             class="fas fa-trash category__icons__delete mr-2"
             (click)="onDeleteCategoryHandler(category.id, deleteCategoryDialog)"
           ></i> -->
-          <span
-            class="categories__item"
-            [class.categories__item-active]="i === selectedIndex"
-            (click)="getCategoryItems(category.id, i)"
-            >{{ category.name }}
-            </span
-          >
+          <span class="categories__item" [class.categories__item-active]="i === selectedIndex"
+            (click)="getCategoryItems(category.id, i)">{{ category.name }}
+          </span>
         </li>
       </ul>
     </div>
@@ -57,21 +44,12 @@
                 <i class="fa fa-search-plus icon-color" aria-hidden="true"></i>
               </span>
             </div>
-            <input
-              type="text"
-              class="form-control form-control-lg text-muted"
-              id="validationCustomUsername"
-              placeholder="Search Meals"
-              aria-describedby="inputGroupPrepend"
-              required
-            />
+            <input type="text" class="form-control form-control-lg text-muted" id="validationCustomUsername"
+              placeholder="Search Meals" aria-describedby="inputGroupPrepend" required />
           </div>
         </div>
       </div>
-      <div
-        class="d-flex justify-content-center align-items-center mt-5"
-        *ngIf="meals.length === 0"
-      >
+      <div class="d-flex justify-content-center align-items-center mt-5" *ngIf="meals.length === 0">
         <h3>Click "Add Meal" to add Meal Items</h3>
       </div>
       <div class="row mt-2" *ngIf="meals">
@@ -79,26 +57,16 @@
           <div class="card rounded shadow  mb-3 meal__card">
             <div class="row no-gutters">
               <div class="col-md-5">
-                <img
-                  [src]="meal.image_url"
-                  class="card-img"
-                  style="height:100%;"
-                  alt="..."
-                />
+                <img [src]="meal.image_url" class="card-img" style="height:100%;" alt="..." />
               </div>
               <div class="col-md-7">
                 <div class="card-body pt-2">
                   <div class="d-flex justify-content-between align-items-center w-100">
                     <h3 class="card-title mb-0">{{ meal.name }}</h3>
                     <div class="d-flex justify-content-around">
-                      <i
-                        class="fas fa-edit meal__icons icon-color mr-2"
-                        (click)="onEditItemHandler(meal.id)"
-                      ></i>
-                      <i
-                        class="fas fa-trash meal__icons__delete "
-                        (click)="onDeleteItemHandler(meal.id, deleteDialog)"
-                      ></i>
+                      <i class="fas fa-edit meal__icons icon-color mr-2" (click)="onEditItemHandler(meal.id)"></i>
+                      <i class="fas fa-trash meal__icons__delete "
+                        (click)="onDeleteItemHandler(meal.id, deleteDialog)"></i>
                     </div>
                   </div>
                   <p class="card-text mb-0 mt-2 card-description">{{ meal.description }}</p>
@@ -107,9 +75,7 @@
                       {{ meal.discount }}/-
                     </small>
                   </p>
-                  <div
-                    class="d-flex justify-content-end w-100 align-items-center mt-2"
-                  >
+                  <div class="d-flex justify-content-end w-100 align-items-center mt-2">
                     <h4>
                       Price
                       <span class="badge bg_blue">{{ meal.price }}/-</span>
@@ -133,20 +99,10 @@
         <strong class="delete__message">{{ data }}</strong>
       </p>
       <div class="d-flex justify-content-center">
-        <button
-          is-button
-          theme="danger"
-          class="close-btn delete__dialog__btn"
-          (click)="close('ok')"
-        >
+        <button is-button theme="danger" class="close-btn delete__dialog__btn" (click)="close('ok')">
           <span>Ok</span>
         </button>
-        <button
-          is-button
-          theme="primary"
-          class="close-btn delete__dialog__btn"
-          (click)="close('Click on Close')"
-        >
+        <button is-button theme="primary" class="close-btn delete__dialog__btn" (click)="close('Click on Close')">
           <span>Cancel</span>
         </button>
       </div>
@@ -154,31 +110,21 @@
   </ng-template>
   <!-- Delete Dialog Box End -->
 
-    <!-- Delete Category Dialog Box -->
-    <ng-template #deleteCategoryDialog let-close="close" let-data="data">
-        <div class="p-3">
-          <p>
-            <strong class="delete__message">{{ data }}</strong>
-          </p>
-          <div class="d-flex justify-content-center">
-            <button
-              is-button
-              theme="danger"
-              class="close-btn delete__dialog__btn"
-              (click)="close('ok')"
-            >
-              <span>Ok</span>
-            </button>
-            <button
-              is-button
-              theme="primary"
-              class="close-btn delete__dialog__btn"
-              (click)="close('Click on Close')"
-            >
-              <span>Cancel</span>
-            </button>
-          </div>
-        </div>
-      </ng-template>
-      <!-- Delete Category Dialog Box End -->
+  <!-- Delete Category Dialog Box -->
+  <ng-template #deleteCategoryDialog let-close="close" let-data="data">
+    <div class="p-3">
+      <p>
+        <strong class="delete__message">{{ data }}</strong>
+      </p>
+      <div class="d-flex justify-content-center">
+        <button is-button theme="danger" class="close-btn delete__dialog__btn" (click)="close('ok')">
+          <span>Ok</span>
+        </button>
+        <button is-button theme="primary" class="close-btn delete__dialog__btn" (click)="close('Click on Close')">
+          <span>Cancel</span>
+        </button>
+      </div>
+    </div>
+  </ng-template>
+  <!-- Delete Category Dialog Box End -->
 </is-card>
