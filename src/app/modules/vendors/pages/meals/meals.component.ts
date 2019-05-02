@@ -1,8 +1,4 @@
-import {
-  Component,
-  OnInit,
-  TemplateRef
-} from "@angular/core";
+import { Component, OnInit, TemplateRef } from "@angular/core";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { FranchiseItemsService } from "../../services/franchiseItems.service";
 import { itemModel } from "../../models/itemModel";
@@ -109,6 +105,8 @@ export class MealsComponent implements OnInit {
       if (res === "cancel") {
         console.log("Add Meal Cancelled");
         this.addMealCancelled = true;
+      } else if (res === 0) {
+        this.addMealCancelled = true;
       } else if (!this.addMealCancelled === false) {
         console.log("Add Meal Not Cancelled");
         this.franchiseItemsService.addItem(res).subscribe(addMealResponse => {
@@ -119,7 +117,7 @@ export class MealsComponent implements OnInit {
     });
   }
   onEditItemHandler(id) {
-    this.editMealCancelled = false
+    this.editMealCancelled = false;
     let filterdItems = this.meals.filter(meal => meal.id == id);
     this.editMeal = filterdItems[0];
     const editMealDialog = this.isModal.open(EditMealDialogBoxComponent, {
@@ -131,8 +129,10 @@ export class MealsComponent implements OnInit {
     });
     editMealDialog.onClose.subscribe(res => {
       if (res === "cancel") {
-        this.editMealCancelled = true
-      } else if(!this.editMealCancelled) {
+        this.editMealCancelled = true;
+      } else if (res === 0) {
+        this.editMealCancelled = true;
+      } else if (!this.editMealCancelled) {
         this.franchiseItemsService
           .editItem(res, Number(this.editMeal.id))
           .subscribe(editMealResponseData => {
@@ -140,7 +140,7 @@ export class MealsComponent implements OnInit {
             const editMealIndex = this.meals
               .map(meal => meal.id)
               .indexOf(this.editMeal.id);
-              this.toaster.popSuccess("Meal Has Been Edited Successfully");
+            this.toaster.popSuccess("Meal Has Been Edited Successfully");
             this.meals[editMealIndex] = this.newItem;
           });
       }

@@ -8,9 +8,9 @@
           <img src="assets/subquch-light-logo.png" class="logo" />
         </a>
       </div>
-      <div class="w-15 d-flex justify-content-end">
+      <div class="w-25 d-flex justify-content-end align-items-center">
         <span class="position-relative">
-            <i class="fa fa-bell text-white mr-4 top-icon bell__icon" aria-hidden="true" (click)="onBellIconClicked()" #notificationIcon></i>
+            <i class="fa fa-bell text-white mr-4 mt-1 top-icon bell__icon" aria-hidden="true" (click)="onBellIconClicked()" #notificationIcon></i>
             <is-badge *ngIf="notificationCount > 0"
                       [count]="notificationCount"
                       placement="bottom-left"

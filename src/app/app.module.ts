@@ -27,6 +27,7 @@ import { UserAuthService } from "./modules/auth/services/auth.service";
 import { EditLogoDialogBoxComponent } from "./modules/vendors/components/edit-logo-dialog-box/edit-logo-dialog-box.component";
 import { EditBannerDialogBoxComponent } from "./modules/vendors/components/edit-banner-dialog-box/edit-banner-dialog-box.component";
 import { FranchiseOrdersService } from "./modules/vendors/services/franchiseOrders.service";
+import { AddFranchiseDialogComponent } from "./modules/vendors/components/add-franchise-dialog/add-franchise-dialog.component";
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import { FranchiseOrdersService } from "./modules/vendors/services/franchiseOrde
     ViewOrderNotificationDialogComponent,
     AddDealDialogBoxComponent,
     AddMealDialogBoxComponent,
-    EditMealDialogBoxComponent
+    EditMealDialogBoxComponent,
+    AddFranchiseDialogComponent
   ],
   imports: [
     AppRoutingModule,
@@ -74,7 +76,8 @@ import { FranchiseOrdersService } from "./modules/vendors/services/franchiseOrde
     ViewOrderNotificationDialogComponent,
     AddDealDialogBoxComponent,
     AddMealDialogBoxComponent,
-    EditMealDialogBoxComponent
+    EditMealDialogBoxComponent,
+    AddFranchiseDialogComponent
   ]
 })
 export class AppModule {}

@@ -23,14 +23,13 @@ export class VendorsLayoutComponent implements OnInit {
   autoGenerateLinks = SidebarLinks;
   logoEditCancelled: boolean = false;
   bannerEditCancelled: boolean = false;
-
   constructor(
     private router: Router,
     private isModal: IsModalService,
     private toaster: IsToasterService,
     private editMainService: EditMainService,
     private notificationService: NotificationsService,
-    private franchiseOrdersService: FranchiseOrdersService
+    private franchiseOrdersService: FranchiseOrdersService,
   ) {}
 
   ngOnInit() {

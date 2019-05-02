@@ -28,7 +28,7 @@ export class UserAuthService {
     return this.http.get<AvailableServicesResponse>(API_URL.service);
   }
 
-  signup(data: VendorUser) : Observable<any>{
+  signup(data: any) : Observable<any>{
     return this.http.post<any>(API_URL.signup, data);
   }
 }
