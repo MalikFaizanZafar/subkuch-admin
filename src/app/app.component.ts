@@ -18,10 +18,12 @@ export class AppComponent implements OnInit {
     if(this.authService.isAuthenticated) {
       this.notificationsService.getPermission();
       this.notificationsService.receiveMessage();
-      console.log("Permission granted")
       const path = window.location.pathname;
-      if (path && path !== '/vendors')
-      this.router.navigate([path]);
+      if (path && path !== '/vendors' && path !== '/') {
+        this.router.navigate([path]);
+      } else {
+        this.router.navigate(['/vendors']);
+      }
     } else {
       this.router.navigate(['/']);
     }

@@ -5,7 +5,7 @@ import { IsButton, IsModalService } from '../../../../lib';
 // import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { FranchiseAuthService } from 'app/modules/auth/services/franchiseAuth.service';
-import { IsToasterService } from '../../../../lib/toaster';
+import { IsToasterService, IsToastPosition } from '../../../../lib/toaster';
 
 @Component({
   selector: 'app-login',
@@ -39,7 +39,9 @@ export class LoginComponent implements OnInit {
       let user = this.loginForm.value;
       this.franchiseAuthService.login(user.username, user.password).subscribe(res => {
         localStorage.setItem('Authorization', `${res.tokenType} ${res.accessToken}`);
-        this.toaster.popSuccess('Logged In Successfully');
+        this.toaster.popSuccess('Logged In Successfully', {
+          position: IsToastPosition.BottomRight
+        });
         btn.stopLoading();
         this.router.navigate(['/vendors']);
       }, (err) => {

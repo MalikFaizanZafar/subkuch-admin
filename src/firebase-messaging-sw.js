@@ -19,6 +19,5 @@ messaging.setBackgroundMessageHandler(function(payload) {
   var listener = new BroadcastChannel('listener');
   listener.postMessage(notif);
 
-  self.registration.s
   return self.registration.showNotification(notif.title, notificationOptions);
 });

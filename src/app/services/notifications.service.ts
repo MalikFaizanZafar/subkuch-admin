@@ -9,16 +9,18 @@ import { FranchiseAccountService } from 'app/modules/vendors/services/franchiseA
 import { FranchiseOrdersService } from 'app/modules/vendors/services/franchiseOrders.service';
 
 @Injectable()
-export class NotificationsService implements OnInit {
+export class NotificationsService {
 
   messaging = firebase.messaging();
-  currentMessage = new BehaviorSubject(null);
+  currentMessage: BehaviorSubject<any> = new BehaviorSubject<any>(null);
   
-  constructor(private db: AngularFireDatabase, private afAuth: AngularFireAuth, private franchiseAccountService : FranchiseAccountService, private franchiseOrdersService : FranchiseOrdersService) { }
-
-  ngOnInit() {
-    this.listenBackgroundNotification();
-  }
+  constructor(
+    private db: AngularFireDatabase, 
+    private afAuth: AngularFireAuth, 
+    private franchiseAccountService : FranchiseAccountService, 
+    private franchiseOrdersService : FranchiseOrdersService) {
+      this.listenBackgroundNotification();
+    }
 
   listenBackgroundNotification() {
     const self = this;
@@ -29,10 +31,6 @@ export class NotificationsService implements OnInit {
         self.currentMessage.next(e.data);
       }
     }
-  }
-
-  doSomething() {
-    console.log('tests');  
   }
 
   updateToken(token) {
@@ -54,14 +52,14 @@ export class NotificationsService implements OnInit {
         })
       })
       .catch((err) => {
-        
+        console.log('token now generated');
       });
     }
 
     receiveMessage() {
        this.messaging.onMessage((payload) => {
-        this.franchiseOrdersService.addNewOrder(payload.data.order)
-        this.currentMessage.next(payload)
+        this.franchiseOrdersService.addNewOrder(payload.data.order);
+        this.currentMessage.next(payload);
       });
     }
 }
