@@ -36,3 +36,31 @@
 .w-15 {
   width: 15% !important;
 }
+
+.bg_image_1 {
+  height: 300px;
+  background-size: cover; /* or contain depending on what you want */
+  background-position: center center;
+  background-repeat: no-repeat;
+  padding: 0;
+}
+
+.franchise__logo__edit__icon {
+  font-size: 16px;
+  color: $is-blue;
+  cursor: pointer;
+  z-index: 999;
+}
+.franchise__logo__edit__icon:hover {
+  font-size: 20px;
+}
+
+.franchise__banner__edit__icon {
+  font-size: 20px;
+  color: $is-blue;
+  cursor: pointer;
+  z-index: 999;
+}
+.franchise__banner__edit__icon:hover {
+  font-size: 26px;
+}

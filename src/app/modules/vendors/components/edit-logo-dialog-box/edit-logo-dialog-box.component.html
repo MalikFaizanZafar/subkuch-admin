@@ -7,7 +7,7 @@
   <form
     class="px-3 py-2"
     [formGroup]="editLogoForm"
-    (ngSubmit)="onEditLogoSubmit(catSubmitBtn)"
+    (ngSubmit)="onEditLogoSubmit(editLogoSubmitBtn)"
     #edtLogoForm="ngForm"
   >
     <div
@@ -43,7 +43,6 @@
         is-button
         theme="danger"
         class="close-btn w-25 mb-4 add__category__dialog__btn"
-        (click)="onEditLogoSubmit(editLogoSubmitBtn)"
         type="submit"
         #editLogoSubmitBtn
       >

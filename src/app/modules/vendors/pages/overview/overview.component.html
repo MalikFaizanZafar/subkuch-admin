@@ -1,3 +1,65 @@
+<div
+  class="position-relative d-flex align-items-center bg_image_1"
+  *ngIf="franchiseInfo"
+>
+  <img
+    style="position: absolute; height: 100%; width: 100%;"
+    [src]="getFranshiseBanner()"
+    *ngIf="franchiseInfo"
+  />
+  <div
+    class="position-absolute d-flex w-100 h-100 px-4 justify-content-between align-items-center"
+  >
+    <div class="d-flex align-items-center justify-content-start">
+      <div
+        class="position-relative d-flex justify-content-end ml-3 align-items-center"
+      >
+        <i
+          *ngIf="isEditingMode"
+          class="fa fa-edit franchise__logo__edit__icon position-absolute"
+          (click)="onEditLogoHandler(editLogoDialog)"
+        ></i>
+        <img
+          *ngIf="franchiseInfo"
+          style="z-index: 1;"
+          class="franchise__logo__image"
+          [src]="
+            franchiseInfo.logo ||
+            'https://via.placeholder.com/80/575d6be6/FFFFFF/?text=Logo'
+          "
+          alt=""
+          height="80"
+          width="80"
+        />
+      </div>
+      <div class="d-flex justify-content-start">
+        <div class="row">
+          <div class="col-12 ml-2">
+            <span
+              class="fa fa-star star_icons px-1"
+              *ngFor="let rating of ratingArray"
+              [class.checked]="rating <= franchiseInfo.rating"
+            ></span>
+            <!-- <span class="text-white px-1">(41)</span>
+                    <span class="text-white px-1">Reviews</span> -->
+          </div>
+          <div class="col-12 ml-2">
+            <h4 class="text-white d-block" *ngIf="franchiseInfo">
+              {{ franchiseInfo.brandName }}
+            </h4>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="d-flex align-items-center justify-content-end">
+      <i
+        *ngIf="isEditingMode"
+        class="fa fa-edit fa-2x text_blue franchise__banner__edit__icon mr-4"
+        (click)="onEditBannerHandler()"
+      ></i>
+    </div>
+  </div>
+</div>
 <is-card *ngIf="!isEditingMode">
   <is-card-header>
     <div class="w-100">
@@ -21,36 +83,39 @@
     </p>
 
     <h3 class="mt-4">Contact Info</h3>
-    <div class="d-flex justify-content-start w-100 mt-2"  *ngFor="let contact of franchiseInfo.contact">
-      <div class="col-4 pl-0">
-          <div class="d-flex align-items-center">
-              <i class="fa fa-user mr-2" aria-hidden="true"></i>
-              <span>
-                  {{
-                    contact.franchiseContactPersonName || "Your Name will be added here"
-                  }}
-              </span>
-          </div>
-        </div>
+    <div
+      class="d-flex justify-content-start w-100 mt-2"
+      *ngFor="let contact of franchiseInfo.contact"
+    >
       <div class="col-4 pl-0">
         <div class="d-flex align-items-center">
-            <i class="fa fa-mobile mr-2" aria-hidden="true"></i>
-            <span>
-                {{
-                  contact.franchiseContactPersonPhone || "Your contact will be added here"
-                }}
-            </span>
+          <i class="fa fa-user mr-2" aria-hidden="true"></i>
+          <span>
+            {{
+              contact.franchiseContactPersonName ||
+                "Your Name will be added here"
+            }}
+          </span>
+        </div>
+      </div>
+      <div class="col-4 pl-0">
+        <div class="d-flex align-items-center">
+          <i class="fa fa-mobile mr-2" aria-hidden="true"></i>
+          <span>
+            {{
+              contact.franchiseContactPersonPhone ||
+                "Your contact will be added here"
+            }}
+          </span>
         </div>
       </div>
       <div class="col-4 pl-0 pr-0">
-          <div class="d-flex align-items-center">
-              <i class="fa fa-envelope mr-2" aria-hidden="true"></i>
-              <span>
-                  {{
-                    contact.email || "Your Email will be added here"
-                  }}
-              </span>
-          </div>
+        <div class="d-flex align-items-center">
+          <i class="fa fa-envelope mr-2" aria-hidden="true"></i>
+          <span>
+            {{ contact.email || "Your Email will be added here" }}
+          </span>
+        </div>
       </div>
     </div>
 
@@ -58,28 +123,29 @@
     <div class="w-50 d-flex" *ngIf="franchiseInfo">
       <h5 class="mr-3">
         <strong>Opening Time</strong>
-      </h5> 
+      </h5>
       <div>{{ startTime }}</div>
     </div>
     <div class="w-50 d-flex" *ngIf="franchiseInfo">
-        <h5 class="mr-3">
-          <strong>Closing Time</strong>
-        </h5> 
-        <div>{{ endTime }}</div>
+      <h5 class="mr-3">
+        <strong>Closing Time</strong>
+      </h5>
+      <div>{{ endTime }}</div>
     </div>
 
     <h3 class="mt-4">General Info</h3>
     <div class="w-50 d-flex" *ngIf="franchiseInfo">
       <h5 class="mr-3">
         <strong>Commission</strong>
-      </h5> 
+      </h5>
       <div>{{ franchiseInfo.commission }} %</div>
     </div>
-
   </is-card-content>
 </is-card>
 
-<edit-overview *ngIf="isEditingMode" 
-               [data]="franchiseInfo" 
-               (overviewEdited)="overviewEditedHandler()"
-               (overviewEditedCancelled)="cancelEditing()"></edit-overview>
+<edit-overview
+  *ngIf="isEditingMode"
+  [data]="franchiseInfo"
+  (overviewEdited)="overviewEditedHandler()"
+  (overviewEditedCancelled)="cancelEditing()"
+></edit-overview>

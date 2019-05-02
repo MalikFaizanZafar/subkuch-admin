@@ -7,7 +7,7 @@
   <form
     class="px-3 py-2"
     [formGroup]="editBannerForm"
-    (ngSubmit)="onEditBannerSubmit()"
+    (ngSubmit)="onEditBannerSubmit(editBannerSubmitBtn)"
     #edtBannerForm="ngForm"
   >
     <div
@@ -44,7 +44,6 @@
         is-button
         theme="danger"
         class="close-btn w-25 mb-4 add__category__dialog__btn"
-        (click)="onEditBannerSubmit(editBannerSubmitBtn)"
         type="submit"
         #editBannerSubmitBtn
       >
