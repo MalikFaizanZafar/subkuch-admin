@@ -9,6 +9,7 @@ import { FranchiseComponent } from './pages/franchise/franchise.component';
 import { SalesComponent } from './pages/sales/sales.component';
 import { OrdersComponent } from './pages/orders/orders.component';
 import { ReviewsComponent } from './pages/reviews/reviews.component';
+import { SettingsComponent } from './pages/settings/settings.component';
 
 const routes: Routes = [
   { path: '', component: VendorsLayoutComponent, children: [
@@ -19,7 +20,8 @@ const routes: Routes = [
     { path: 'orders', component: OrdersComponent},
     { path: 'franchise', component: FranchiseComponent},
     { path: 'sales', component: SalesComponent},
-    { path: 'reviews', component: ReviewsComponent}
+    { path: 'reviews', component: ReviewsComponent},
+    { path: 'settings', component: SettingsComponent}
   ]}
 ];
 

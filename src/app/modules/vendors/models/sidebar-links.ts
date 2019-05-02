@@ -24,5 +24,9 @@ export const SidebarLinks: IsSidebarItemNodes[] = [
   {
     label: 'Reviews',
     link: 'reviews/'
+  },
+  {
+    label: 'Settings',
+    link: 'settings/'
   }
 ];
