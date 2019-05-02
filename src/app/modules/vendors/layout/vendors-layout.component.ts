@@ -77,7 +77,6 @@ export class VendorsLayoutComponent implements OnInit {
     });
 
     this.listenNotification();
-    // this.listenBackgroundNotification();
   }
 
   listenNotification() {

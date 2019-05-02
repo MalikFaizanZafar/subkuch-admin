@@ -45,7 +45,6 @@ import { environment } from 'environments/environment';
     FranchiseItemsService,
     FranchiseOrdersService,
     FranchiseSalesService,
-    NotificationsService,
     GoogleMapService,
     SearchService
   ],
