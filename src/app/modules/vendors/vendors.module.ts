@@ -26,6 +26,7 @@ import { SearchService } from './services/search.service';
 import { GoogleMapService } from '@app/shared/services/google-map.service';
 import { ReviewsComponent } from './pages/reviews/reviews.component';
 import { environment } from 'environments/environment';
+import { SettingsComponent } from './pages/settings/settings.component';
 
 
 @NgModule({
@@ -56,7 +57,7 @@ import { environment } from 'environments/environment';
     EditOverviewComponent, 
     OrdersComponent, 
     FranchiseComponent, 
-    SalesComponent, ReviewsComponent
+    SalesComponent, ReviewsComponent, SettingsComponent
   ],
 })
 export class VendorsModule { }
