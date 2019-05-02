@@ -5,3 +5,4 @@ export * from './modal/index';
 export * from './card/index';
 export * from './timepicker';
 export * from './badge';
+export * from './dropdown'

@@ -1,10 +1,12 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ChangeDetectorRef } from "@angular/core";
 import { MemberDetails } from "../../models/vendor-members";
 import { EditMainService } from "../../services/editMain.service";
 import { FranchiseInfoService } from "../../services/franchiseInfo.service";
 import { IsButton, IsModalService, IsModalSize } from "app/lib";
 import { EditLogoDialogBoxComponent } from "../../components/edit-logo-dialog-box/edit-logo-dialog-box.component";
 import { EditBannerDialogBoxComponent } from "../../components/edit-banner-dialog-box/edit-banner-dialog-box.component";
+import { ActivatedRoute } from "@angular/router";
+import { ChangeDetectionStrategy } from "@angular/compiler/src/core";
 declare const google: any;
 
 @Component({
@@ -30,17 +32,34 @@ export class OverviewComponent implements OnInit {
     private franchiseInfoService: FranchiseInfoService,
     private editMainService: EditMainService,
     private isModal: IsModalService,
+    private route: ActivatedRoute,
+    private cdRef: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
-    this.franchiseInfoService.getFranchiseInfo().subscribe(responseData => {
-      this.franchiseInfo = responseData.data;
-
-      localStorage.setItem("franchiseId", this.franchiseInfo.id);
-      if (!this.franchiseInfo.address) {
-        this.setEditingMode();
+    this.route.params.subscribe(params => {
+      if(params["franchiseId"] !== undefined) {
+        this.franchiseInfo = undefined;
+        this.franchiseInfoService.getFranchiseInfoById(Number(params["franchiseId"])).subscribe(responseData => {
+          this.franchiseInfo = responseData.data;
+          console.log('this.franchiseInfo is : ', this.franchiseInfo )
+          localStorage.setItem("franchiseId", this.franchiseInfo.id);
+          this.cdRef.detectChanges();
+          if (!this.franchiseInfo.address) {
+            this.setEditingMode();
+          }
+        });
+      } else  {
+        this.franchiseInfoService.getFranchiseInfo().subscribe(res => {
+          this.franchiseInfo = res.data;
+          console.log('this.franchiseInfo is : ', this.franchiseInfo )
+          localStorage.setItem("franchiseId", this.franchiseInfo.id);
+          if (!this.franchiseInfo.address) {
+            this.setEditingMode();
+          }
+        })
       }
-    });
+    })
   }
   getFranshiseBanner() {
     return (

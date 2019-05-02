@@ -28,6 +28,7 @@ import { EditLogoDialogBoxComponent } from "./modules/vendors/components/edit-lo
 import { EditBannerDialogBoxComponent } from "./modules/vendors/components/edit-banner-dialog-box/edit-banner-dialog-box.component";
 import { FranchiseOrdersService } from "./modules/vendors/services/franchiseOrders.service";
 import { AddFranchiseDialogComponent } from "./modules/vendors/components/add-franchise-dialog/add-franchise-dialog.component";
+import { NgbDropdown, NgbDropdownModule } from "@ng-bootstrap/ng-bootstrap";
 
 @NgModule({
   declarations: [
@@ -53,7 +54,8 @@ import { AddFranchiseDialogComponent } from "./modules/vendors/components/add-fr
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireDatabaseModule,
     AngularFireAuthModule,
-    AngularFireStorageModule
+    AngularFireStorageModule,
+    NgbDropdownModule
   ],
   providers: [
     {

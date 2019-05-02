@@ -20,6 +20,7 @@ import { IsToasterService } from "../../../../lib/toaster";
 import { dealModel } from "../../models/dealModel";
 import { EditDealDialogBoxComponent } from "../../components/edit-deal-dialog-box/edit-deal-dialog-box.component";
 import { AddDealDialogBoxComponent } from "../../components/add-deal-dialog-box/add-deal-dialog-box.component";
+import { ActivatedRoute } from "@angular/router";
 
 @Component({
   selector: "deals",
@@ -48,15 +49,18 @@ export class DealsComponent implements OnInit {
     private franchiseDealsService: FranchiseDealsService,
     private isModal: IsModalService,
     private toaster: IsToasterService,
-    private storage: AngularFireStorage
+    private storage: AngularFireStorage,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit() {
-    this.franchiseDealsService
+    this.route.params.subscribe(params => {
+      this.franchiseDealsService
       .getDeals(Number(localStorage.getItem("franchiseId")))
       .subscribe(responseData => {
         this.deals = responseData.data;
       });
+    })
     this.dealForm = new FormGroup({
       name: new FormControl(null, [Validators.required]),
       price: new FormControl(null, [Validators.required]),

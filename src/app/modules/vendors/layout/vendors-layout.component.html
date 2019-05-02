@@ -8,7 +8,15 @@
           <img src="assets/subquch-light-logo.png" class="logo" />
         </a>
       </div>
-      <div class="w-25 d-flex justify-content-end align-items-center">
+      <div class="d-flex align-items-center justify-content-center">
+          <form autocomplete="off" [formGroup]="selectFranchiseForm" (ngSubmit)="onFranchiseSubmit()">
+              <select class="form-control"  formControlName="franchiseSelected">
+                  <option *ngFor="let franchise of franchises" [value]="franchise.id">{{franchise.address}}</option>
+              </select>
+              <button is-button type="submit">Go</button>
+            </form>
+      </div>
+      <div class="w-25 d-flex justify-content-end align-items-center" (change)="onChangeFranchise($event)">
         <span class="position-relative">
             <i class="fa fa-bell text-white mr-4 mt-1 top-icon bell__icon" aria-hidden="true" (click)="onBellIconClicked()" #notificationIcon></i>
             <is-badge *ngIf="notificationCount > 0"

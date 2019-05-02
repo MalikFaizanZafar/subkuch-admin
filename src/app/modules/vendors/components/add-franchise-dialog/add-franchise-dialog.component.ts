@@ -116,7 +116,6 @@ export class AddFranchiseDialogComponent implements OnInit {
       if(newFranchise) {
         this.isActiveModal.close(newFranchise)
       }   
-      console.log("user is : ", newFranchise)
       btn.stopLoading()
     } else {
       return;
