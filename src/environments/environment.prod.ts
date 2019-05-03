@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  baseUrl: 'http://localhost:8080',
+  baseUrl: 'http://139.180.220.85:9080/api-0.0.1',
   googleMapsAPI: {
     apiKey: "AIzaSyB-EsaismaaJDTBDg0F2l-28Z-7zsVCTWU ",
     libraries: ["places"]
