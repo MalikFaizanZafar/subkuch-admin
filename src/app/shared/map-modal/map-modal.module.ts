@@ -13,7 +13,10 @@ import { environment } from 'environments/environment';
     FormsModule,
     ReactiveFormsModule,
     NgxDfCustom,
-    AgmCoreModule.forRoot(environment.googleMapsAPI),
+    AgmCoreModule.forRoot({
+      apiKey: "AIzaSyB-EsaismaaJDTBDg0F2l-28Z-7zsVCTWU ",
+      libraries: ["places"]
+    }),
   ],
   declarations: [MapModalComponent],
   entryComponents: [MapModalComponent],

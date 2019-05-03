@@ -36,7 +36,10 @@ import { ConfirmationModalComponent } from './components/confirmation-modal/conf
     CommonModule,
     VendorsRoutingModule,
     SharedModule,
-    AgmCoreModule.forRoot(environment.googleMapsAPI)
+    AgmCoreModule.forRoot({
+      apiKey: "AIzaSyB-EsaismaaJDTBDg0F2l-28Z-7zsVCTWU ",
+      libraries: ["places"]
+    })
   ],
   providers: [
     AuthService,

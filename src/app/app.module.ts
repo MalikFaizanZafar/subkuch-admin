@@ -51,9 +51,19 @@ import { ConfirmationModalComponent } from "./modules/vendors/components/confirm
     CoreModule,
     SharedModule,
     BrowserAnimationsModule,
-    AgmCoreModule.forRoot(environment.googleMapsAPI),
+    AgmCoreModule.forRoot({
+      apiKey: "AIzaSyB-EsaismaaJDTBDg0F2l-28Z-7zsVCTWU ",
+      libraries: ["places"]
+    }),
     SocialLoginModule,
-    AngularFireModule.initializeApp(environment.firebase),
+    AngularFireModule.initializeApp({
+      apiKey: "AIzaSyBVuIpEpE4Ke9xam26eRzVZItTslj6iTMY",
+      authDomain: "subquch-d4369.firebaseapp.com",
+      databaseURL: "https://subquch-d4369.firebaseio.com",
+      projectId: "subquch-d4369",
+      storageBucket: "gs://subquch-d4369.appspot.com",
+      messagingSenderId: "54989238851"
+    }),
     AngularFireDatabaseModule,
     AngularFireAuthModule,
     AngularFireStorageModule,
