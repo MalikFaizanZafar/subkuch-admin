@@ -13,7 +13,7 @@ export class FranchiseAuthService {
   constructor( private http : HttpClient){}
   
   login( username : string, password : string) : Observable<any>{
-    return this.http.post<any>(`${this.baseURL}`, { username, password, keep_logged : 1})
+    return this.http.post<any>(`http://localhost:8080/api/auth/login`, { username, password, keep_logged : 1})
   }
 
   forgotEmailPost(data: any) : Observable<any>{

@@ -187,6 +187,13 @@
             >
               Email is required
             </div>
+            <div
+            *ngIf="unAuthorized"
+            class="alert alert-danger mt-2"
+            role="alert"
+          >
+            Email Not Verified
+          </div>
             <button
               #forgotEmailSubmitBtn
               loaderPosition="after"
