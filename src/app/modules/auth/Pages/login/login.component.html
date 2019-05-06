@@ -1,60 +1,134 @@
-<header class="container-fluid d-flex align-items-center flex-shrink-0 header h-12">
+<header
+  class="container-fluid d-flex align-items-center flex-shrink-0 header h-12"
+>
   <div class="container d-flex justify-content-between align-items-center">
     <div class="w-100 d-flex justify-content-between">
       <div class="w-25 justify-content-start d-flex">
-          <div>
-              <a href="#">
-                <img src="assets/subquch-light-logo.png" class="logo" />
-              </a>
-            </div>
+        <div>
+          <a href="#">
+            <img src="assets/subquch-light-logo.png" class="logo" />
+          </a>
+        </div>
       </div>
     </div>
   </div>
 </header>
 <div>
-  <div class="position-relative w-100">
-    <img src="https://images.pexels.com/photos/920570/pexels-photo-920570.jpeg" class="w-100 sign__slider">
-    <div class="position-absolute w-100 h-100 d-flex justify-content-end align-items-center sign__form mr-5">
+  <div class="position-relative w-100" *ngIf="!forgotPassword">
+    <img
+      src="https://images.pexels.com/photos/920570/pexels-photo-920570.jpeg"
+      class="w-100 sign__slider"
+    />
+    <div
+      class="position-absolute w-100 h-100 d-flex justify-content-end align-items-center sign__form mr-5"
+    >
       <div class="card p-2 bg-light" style="width: 28rem;">
         <div class="card-body">
-          <h3 class="card-title text-dark w-100 d-flex justify-content-center font-weight-bold mb-4">Member Sign In
+          <h3
+            class="card-title text-dark w-100 d-flex justify-content-center font-weight-bold mb-4"
+          >
+            Member Sign In
           </h3>
-          <form autocomplete="off" [formGroup]="loginForm" (ngSubmit)="onLoginSubmit(formDir, submitBtn, verifyTemplate, activeTemplate)" #formDir="ngForm">
-
-            <div class="form-group"
-              [class.mb-1]="loginForm.controls['username'].errors && loginForm.controls['username'].errors.required  && formDir.submitted">
+          <form
+            autocomplete="off"
+            [formGroup]="loginForm"
+            (ngSubmit)="
+              onLoginSubmit(formDir, submitBtn, verifyTemplate, activeTemplate)
+            "
+            #formDir="ngForm"
+          >
+            <div
+              class="form-group"
+              [class.mb-1]="
+                loginForm.controls['username'].errors &&
+                loginForm.controls['username'].errors.required &&
+                formDir.submitted
+              "
+            >
               <is-input-container>
-                <input autocomplete="username" class="sign__input" type="text" placeholder="Enter username"
-                  formControlName="username">
+                <input
+                  autocomplete="username"
+                  class="sign__input"
+                  type="text"
+                  placeholder="Enter username"
+                  formControlName="username"
+                />
               </is-input-container>
             </div>
-            <div *ngIf="loginForm.controls['username'].errors && loginForm.controls['username'].errors.required && formDir.submitted" class="sign__input_error">
+            <div
+              *ngIf="
+                loginForm.controls['username'].errors &&
+                loginForm.controls['username'].errors.required &&
+                formDir.submitted
+              "
+              class="sign__input_error"
+            >
               Username is required
             </div>
 
-            <div class="form-group"
-                 [class.mb-1]="loginForm.controls['password'].errors && loginForm.controls['password'].errors.required && formDir.submitted">
+            <div
+              class="form-group"
+              [class.mb-1]="
+                loginForm.controls['password'].errors &&
+                loginForm.controls['password'].errors.required &&
+                formDir.submitted
+              "
+            >
               <is-input-container>
-                <input autocomplete="contact" class="sign__input" type="password" placeholder="Enter password"
-                  formControlName="password">
+                <input
+                  autocomplete="contact"
+                  class="sign__input"
+                  type="password"
+                  placeholder="Enter password"
+                  formControlName="password"
+                />
               </is-input-container>
             </div>
 
-            <div *ngIf="loginForm.controls['password'].errors && loginForm.controls['password'].errors.required && formDir.submitted" class="sign__input_error">
+            <div
+              *ngIf="
+                loginForm.controls['password'].errors &&
+                loginForm.controls['password'].errors.required &&
+                formDir.submitted
+              "
+              class="sign__input_error"
+            >
               Password is required
             </div>
 
-            <div *ngIf="loginForm.controls.password.errors && loginForm.controls.password.errors.minlength && formDir.submitted" class="sign__input_error">
+            <div
+              *ngIf="
+                loginForm.controls.password.errors &&
+                loginForm.controls.password.errors.minlength &&
+                formDir.submitted
+              "
+              class="sign__input_error"
+            >
               Password must contain at least 8 charaters
             </div>
-            <button #submitBtn loaderPosition="after" is-button type="submit"
-              class="w-100 login-form__submit-btn">Sign In
+            <button
+              #submitBtn
+              loaderPosition="after"
+              is-button
+              type="submit"
+              class="w-100 login-form__submit-btn"
+            >
+              Sign In
             </button>
-            <div *ngIf="unAuthorized"  class="alert alert-danger mt-2" role="alert">
+            <div
+              *ngIf="unAuthorized"
+              class="alert alert-danger mt-2"
+              role="alert"
+            >
               Username or Passoword is incorrect
             </div>
             <div class=" d-flex justify-content-between mt-2">
-              <a routerLink="/forgot-password">Forgot password?</a>
+              <a
+                (click)="forgotPassword = true"
+                class="sign__login__forgot__link"
+                routerLink="/"
+                >Forgot password?</a
+              >
               <a routerLink="/signup">Don't have an account?</a>
             </div>
           </form>
@@ -62,15 +136,176 @@
       </div>
     </div>
   </div>
+
+  <!-- Forgot Password Email -->
+  <div class="position-relative w-100" *ngIf="forgotPassword && !emailVerified">
+    <img
+      src="https://images.pexels.com/photos/920570/pexels-photo-920570.jpeg"
+      class="w-100 sign__slider"
+    />
+    <div
+      class="position-absolute w-100 h-100 d-flex justify-content-end align-items-center sign__form mr-5"
+    >
+      <div class="card p-2 bg-light" style="width: 28rem;">
+        <div class="card-body">
+          <h3
+            class="card-title text-dark w-100 d-flex justify-content-center font-weight-bold mb-4"
+          >
+            Forgot Password
+          </h3>
+          <form
+            autocomplete="off"
+            [formGroup]="forgotPasswordForm"
+            (ngSubmit)="onForgotEmailSubmit(forgotEmailSubmitBtn)"
+            #forgotFormDir="ngForm"
+          >
+            <div
+              class="form-group"
+              [class.mb-1]="
+                forgotPasswordForm.controls['email'].errors &&
+                forgotPasswordForm.controls['email'].errors.required &&
+                forgotFormDir.submitted
+              "
+            >
+              <is-input-container>
+                <input
+                  autocomplete="email"
+                  class="sign__input"
+                  type="text"
+                  placeholder="Enter Your Email"
+                  formControlName="email"
+                />
+              </is-input-container>
+            </div>
+            <div
+              *ngIf="
+              forgotPasswordForm.controls['email'].errors &&
+              forgotPasswordForm.controls['email'].errors.required &&
+              forgotFormDir.submitted
+              "
+              class="sign__input_error"
+            >
+              Email is required
+            </div>
+            <button
+              #forgotEmailSubmitBtn
+              loaderPosition="after"
+              is-button
+              type="submit"
+              class="w-100 login-form__submit-btn"
+            >
+              Submit
+            </button>
+            <div class=" d-flex justify-content-between mt-2">
+              <a
+                (click)="forgotPassword = false"
+                routerLink="/"
+                class="sign__login__forgot__link"
+                >Login?</a
+              >
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Forgot Password Email End -->
+
+  <!-- Forgot Password -->
+
+  <div class="position-relative w-100" *ngIf="emailVerified">
+      <img
+        src="https://images.pexels.com/photos/920570/pexels-photo-920570.jpeg"
+        class="w-100 sign__slider"
+      />
+      <div
+        class="position-absolute w-100 h-100 d-flex justify-content-end align-items-center sign__form mr-5"
+      >
+        <div class="card p-2 bg-light" style="width: 28rem;">
+          <div class="card-body">
+            <h3
+              class="card-title text-dark w-100 d-flex justify-content-center font-weight-bold mb-4"
+            >
+              Forgot Password
+            </h3>
+            <form autocomplete="off" [formGroup]="newPasswordForm" (ngSubmit)="onSubmitNewPasswordForm(newPasswordFormSubmitBtn)" #newPasswordFormDir="ngForm">
+    
+                <div class="form-group"
+                     [class.mb-1]="newPasswordForm.controls.password.errors && newPasswordFormDir.submitted">
+                  <is-input-container>
+                    <input autocomplete="contact" class="sign__input" type="password" placeholder="Enter password"
+                      formControlName="password">
+                  </is-input-container>
+                </div>
+    
+                <div *ngIf="newPasswordForm.controls['password'].errors && newPasswordForm.controls['password'].errors.required && newPasswordFormDir.submitted" class="sign__input_error">
+                  Password is required
+                </div>
+    
+                <div *ngIf="newPasswordForm.controls.password.errors && newPasswordForm.controls.password.errors.minlength && newPasswordFormDir.submitted" class="sign__input_error">
+                  Password must contain at least 8 charaters
+                </div>
+    
+                <div class="form-group"
+                     [class.mb-1]="(newPasswordForm.controls.confirmPassword.errors || (newPasswordForm.controls.confirmPassword.value !== newPasswordForm.controls.password.value)) && newPasswordFormDir.submitted">
+                  <is-input-container>
+                    <input autocomplete="contact" class="sign__input" type="password" placeholder="Enter password"
+                      formControlName="confirmPassword">
+                  </is-input-container>
+                </div>
+    
+                <div *ngIf="newPasswordForm.controls['confirmPassword'].errors && newPasswordForm.controls['confirmPassword'].errors.required && newPasswordFormDir.submitted" class="sign__input_error">
+                  Confirm Password is required
+                </div>
+    
+                <div *ngIf="newPasswordForm.controls.confirmPassword.errors && newPasswordForm.controls.confirmPassword.errors.minlength && newPasswordFormDir.submitted" class="sign__input_error">
+                  Password must contain at least 8 charaters
+                </div>
+    
+                <div *ngIf="newPasswordForm.controls.confirmPassword.value !== newPasswordForm.controls.password.value && newPasswordFormDir.submitted" class="sign__input_error">
+                  Password and Confirm password should match
+                </div>
+                <button #newPasswordFormSubmitBtn loaderPosition="after" is-button type="submit"
+                  class="w-100 login-form__submit-btn">Submit
+                </button>
+              </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+  <!-- Fogot Password -->
+
+
+
   <div class="position-relative w-100">
-    <img src="https://images.pexels.com/photos/1296543/pexels-photo-1296543.jpeg" class="w-100 sign__slider">
-    <div class="position-absolute w-100 d-flex justify-content-center align-items-center sign__welcome h-100">
+    <img
+      src="https://images.pexels.com/photos/1296543/pexels-photo-1296543.jpeg"
+      class="w-100 sign__slider"
+    />
+    <div
+      class="position-absolute w-100 d-flex justify-content-center align-items-center sign__welcome h-100"
+    >
       <div class="w-100 h-50">
-        <h1 class="sign__section3__text1  d-flex justify-content-center">Interested?</h1>
-        <h1 class="text-white sign__section3__text2  d-flex justify-content-center">Become Our Partners</h1>
-        <h1 class="text-white sign__section3__text2  d-flex justify-content-center">& Increase Your Revenue</h1>
+        <h1 class="sign__section3__text1  d-flex justify-content-center">
+          Interested?
+        </h1>
+        <h1
+          class="text-white sign__section3__text2  d-flex justify-content-center"
+        >
+          Become Our Partners
+        </h1>
+        <h1
+          class="text-white sign__section3__text2  d-flex justify-content-center"
+        >
+          & Increase Your Revenue
+        </h1>
         <div class=" d-flex justify-content-center">
-          <button type="button" class="sign__section3__button ">Register Now</button>
+          <button type="button" class="sign__section3__button ">
+            Register Now
+          </button>
         </div>
       </div>
     </div>
@@ -86,41 +321,41 @@
     </div>
   </div>
   <div class="d-flex justify-content-center align-items-center mt-2">
-    <div class="footer-copyright text-left">© 2018 Copyright:
+    <div class="footer-copyright text-left">
+      © 2018 Copyright:
       <a href="subquch.com"> www.subquch.com</a>
     </div>
   </div>
 </footer>
 
-
-<ng-template #verifyTemplate
-             let-close="close"
-             let-data="data">
+<ng-template #verifyTemplate let-close="close" let-data="data">
   <div class="p-3">
-    <p>{{data}}.</p>
+    <p>{{ data }}.</p>
     <p><strong>Please verify your email address.</strong></p>
     <div class="d-flex justify-content-center">
-      <button is-button
-              theme="danger"
-              class="close-btn"
-              (click)="close('Click on Close')">
+      <button
+        is-button
+        theme="danger"
+        class="close-btn"
+        (click)="close('Click on Close')"
+      >
         <span>Close</span>
       </button>
     </div>
   </div>
 </ng-template>
 
-<ng-template #activeTemplate
-             let-close="close"
-             let-data="data">
+<ng-template #activeTemplate let-close="close" let-data="data">
   <div class="p-3">
-    <p>{{data}}.</p>
+    <p>{{ data }}.</p>
     <p><strong>Please contact support@subquch.com</strong></p>
     <div class="d-flex justify-content-center">
-      <button is-button
-              theme="danger"
-              class="close-btn"
-              (click)="close('Click on Close')">
+      <button
+        is-button
+        theme="danger"
+        class="close-btn"
+        (click)="close('Click on Close')"
+      >
         <span>Close</span>
       </button>
     </div>

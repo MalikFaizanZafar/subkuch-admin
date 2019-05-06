@@ -15,8 +15,13 @@ import { IsToasterService, IsToastPosition } from '../../../../lib/toaster';
 export class LoginComponent implements OnInit {
   @HostBinding() class: string = 'd-flex flex-column col p-0 overflow-y-auto overflow-x-hidden';
   loginForm: FormGroup;
+  forgotPasswordForm: FormGroup;
+  newPasswordForm: FormGroup;
   errorMessage: string;
   unAuthorized: boolean = false;
+  forgotPassword: boolean = false;
+  emailVerified: boolean = false;
+  email: string = '';
 
   constructor(
     // private authService: AuthService,
@@ -29,6 +34,19 @@ export class LoginComponent implements OnInit {
     this.loginForm = new FormGroup({
       username: new FormControl(null, [Validators.required]),
       password: new FormControl(null, [Validators.required])
+    });
+    this.forgotPasswordForm = new FormGroup({
+      email: new FormControl(null, [Validators.required, Validators.email])
+    }); 
+    this.newPasswordForm = new FormGroup({
+      password: new FormControl(null, [
+        Validators.required,
+        Validators.minLength(8)
+      ]),
+      confirmPassword: new FormControl(null, [
+        Validators.required,
+        Validators.minLength(8)
+      ]),
     });
   }
 
@@ -64,6 +82,37 @@ export class LoginComponent implements OnInit {
       })
     } else {
       return;
+    }
+  }
+
+  onForgotEmailSubmit(btn: IsButton) {
+    if(this.forgotPasswordForm.valid){
+      let temp = this.forgotPasswordForm.value
+      let data = {
+        email: temp.email,
+        password: ''
+      }
+      btn.startLoading()
+      this.franchiseAuthService.forgotEmailPost(data).subscribe(forgotEmailResponse => {
+        console.log('forgotEmailResponse.data is : ', forgotEmailResponse.data)
+        this.emailVerified = forgotEmailResponse.data.emailVerified
+        btn.stopLoading()
+        this.email = data.email
+      })
+    }
+  }
+
+  onSubmitNewPasswordForm(btn: IsButton){
+    if(this.newPasswordForm.valid){
+      let temp = this.newPasswordForm.value
+      let data = {
+        email: this.email,
+        password: temp.password
+      }
+      this.franchiseAuthService.forgotPasswordPost(data).subscribe(forgotPassResponse => {
+        console.log('forgotPassResponse.data is : ', forgotPassResponse.data)
+        this.forgotPassword = false
+      })
     }
   }
 }

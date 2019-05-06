@@ -43,7 +43,11 @@
     top: 0;
     right: 0;
   }
-
+  &__login__forgot__link:hover {
+    text-decoration: underline;
+    cursor: pointer;
+    color: blue;
+  }
   &__register__button {
     background: linear-gradient(#9acd32, #8ab82d);
     font-weight: bolder;
@@ -101,5 +105,4 @@
 
 .h-12 {
   height: 12%;
-  ;
 }
