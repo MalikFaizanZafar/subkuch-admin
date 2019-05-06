@@ -17,11 +17,13 @@ export class LoginComponent implements OnInit {
     "d-flex flex-column col p-0 overflow-y-auto overflow-x-hidden";
   loginForm: FormGroup;
   forgotPasswordForm: FormGroup;
+  verifyCodeForm: FormGroup;
   newPasswordForm: FormGroup;
   errorMessage: string;
   unAuthorized: boolean = false;
-  emailNotVerified: boolean = false;
-  forgotPassword: boolean = false;
+  emailPhase: boolean = false;
+  codePhase: boolean = false;
+  passPhase: boolean = false;
   emailVerified: boolean = false;
   email: string = "";
 
@@ -41,6 +43,11 @@ export class LoginComponent implements OnInit {
     this.forgotPasswordForm = new FormGroup({
       email: new FormControl(null, [Validators.required, Validators.email])
     });
+
+    this.verifyCodeForm = new FormGroup({
+      vcode: new FormControl(null, [Validators.required])
+    });
+
     this.newPasswordForm = new FormGroup({
       password: new FormControl(null, [
         Validators.required,
@@ -104,7 +111,7 @@ export class LoginComponent implements OnInit {
       let temp = this.forgotPasswordForm.value;
       let data = {
         email: temp.email,
-        password: ""
+        passOrCode: ""
       };
       btn.startLoading();
       this.franchiseAuthService
@@ -115,9 +122,12 @@ export class LoginComponent implements OnInit {
             this.unAuthorized = true;
             btn.stopLoading();
           } else {
-            this.toaster.popSuccess("Email Verified Successfully", {
+            this.toaster.popSuccess("Email Verified Successfully. We have Sent You an Email of Verification Code", {
               position: IsToastPosition.BottomRight
             });
+            this.unAuthorized = false;
+            this.emailPhase = false
+            this.codePhase = true
             btn.stopLoading();
             this.email = data.email;
             this.forgotPasswordForm.reset();
@@ -126,19 +136,50 @@ export class LoginComponent implements OnInit {
     }
   }
 
+  onVerifyCodeFormSubmit(btn: IsButton){
+    if (this.verifyCodeForm.valid) {
+      btn.startLoading();
+      let temp = this.verifyCodeForm.value;
+      let data = {
+        email: this.email,
+        passOrCode: temp.vcode
+      };
+      this.franchiseAuthService
+        .forgotVerifyCodePost(data)
+        .subscribe(forgotCodeResponse => {
+          this.emailVerified = forgotCodeResponse.data.emailVerified;
+          if (this.emailVerified == false) {
+            this.unAuthorized = true;
+            btn.stopLoading();
+          } else {
+            this.toaster.popSuccess("Code Verified Successfully. Please Set Your New Password", {
+              position: IsToastPosition.BottomRight
+            });
+            this.codePhase = false
+            this.passPhase = true
+            btn.stopLoading();
+            this.email = data.email;
+            this.verifyCodeForm.reset();
+          }
+        });
+    }
+
+  }
   onSubmitNewPasswordForm(btn: IsButton) {
     if (this.newPasswordForm.valid) {
       btn.startLoading();
       let temp = this.newPasswordForm.value;
       let data = {
         email: this.email,
-        password: temp.password
+        passOrCode: temp.password
       };
       this.franchiseAuthService
         .forgotPasswordPost(data)
         .subscribe(forgotPassResponse => {
-          this.forgotPassword = false;
           this.emailVerified = false;
+          this.emailPhase = false
+          this.codePhase = false
+          this.passPhase = false
           this.newPasswordForm.reset();
           btn.stopLoading();
         });

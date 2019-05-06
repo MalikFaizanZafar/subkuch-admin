@@ -14,7 +14,7 @@
   </div>
 </header>
 <div>
-  <div class="position-relative w-100" *ngIf="!forgotPassword">
+  <div class="position-relative w-100" *ngIf="!emailPhase && !codePhase && !passPhase">
     <img
       src="https://images.pexels.com/photos/920570/pexels-photo-920570.jpeg"
       class="w-100 sign__slider"
@@ -124,7 +124,7 @@
             </div>
             <div class=" d-flex justify-content-between mt-2">
               <a
-                (click)="forgotPassword = true"
+                (click)="emailPhase = true"
                 class="sign__login__forgot__link"
                 routerLink="/"
                 >Forgot password?</a
@@ -138,7 +138,7 @@
   </div>
 
   <!-- Forgot Password Email -->
-  <div class="position-relative w-100" *ngIf="forgotPassword && !emailVerified">
+  <div class="position-relative w-100" *ngIf="emailPhase">
     <img
       src="https://images.pexels.com/photos/920570/pexels-photo-920570.jpeg"
       class="w-100 sign__slider"
@@ -201,7 +201,7 @@
               type="submit"
               class="w-100 login-form__submit-btn"
             >
-              Submit
+              Verify Email
             </button>
             <div class=" d-flex justify-content-between mt-2">
               <a
@@ -218,9 +218,91 @@
   </div>
   <!-- Forgot Password Email End -->
 
+
+    <!-- Forgot Password Code -->
+    <div class="position-relative w-100" *ngIf="codePhase">
+        <img
+          src="https://images.pexels.com/photos/920570/pexels-photo-920570.jpeg"
+          class="w-100 sign__slider"
+        />
+        <div
+          class="position-absolute w-100 h-100 d-flex justify-content-end align-items-center sign__form mr-5"
+        >
+          <div class="card p-2 bg-light" style="width: 28rem;">
+            <div class="card-body">
+              <h3
+                class="card-title text-dark w-100 d-flex justify-content-center font-weight-bold mb-4"
+              >
+                Verification Code
+              </h3>
+              <form
+                autocomplete="off"
+                [formGroup]="verifyCodeForm"
+                (ngSubmit)="onVerifyCodeFormSubmit(verifyCodeFormSubmitBtn)"
+                #verifyCodeFormDir="ngForm"
+              >
+                <div
+                  class="form-group"
+                  [class.mb-1]="
+                  verifyCodeForm.controls['vcode'].errors &&
+                  verifyCodeForm.controls['vcode'].errors.required &&
+                  verifyCodeFormDir.submitted
+                  "
+                >
+                  <is-input-container>
+                    <input
+                      autocomplete="email"
+                      class="sign__input"
+                      type="text"
+                      placeholder="Enter Verification Code"
+                      formControlName="vcode"
+                    />
+                  </is-input-container>
+                </div>
+                <div
+                  *ngIf="
+                  verifyCodeForm.controls['vcode'].errors &&
+                  verifyCodeForm.controls['vcode'].errors.required &&
+                  verifyCodeFormDir.submitted
+                  "
+                  class="sign__input_error"
+                >
+                  Verification Code is required
+                </div>
+                <div
+                *ngIf="unAuthorized"
+                class="alert alert-danger mt-2"
+                role="alert"
+              >
+                Verification Code Not Verified
+              </div>
+                <button
+                  #verifyCodeFormSubmitBtn
+                  loaderPosition="after"
+                  is-button
+                  type="submit"
+                  class="w-100 login-form__submit-btn"
+                >
+                  Verify Code
+                </button>
+                <div class=" d-flex justify-content-between mt-2">
+                  <a
+                    (click)="forgotPassword = false"
+                    routerLink="/"
+                    class="sign__login__forgot__link"
+                    >Login?</a
+                  >
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Forgot Password Code End -->
+
   <!-- Forgot Password -->
 
-  <div class="position-relative w-100" *ngIf="emailVerified">
+  <div class="position-relative w-100" *ngIf="passPhase">
       <img
         src="https://images.pexels.com/photos/920570/pexels-photo-920570.jpeg"
         class="w-100 sign__slider"
