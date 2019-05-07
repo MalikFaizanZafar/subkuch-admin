@@ -72,20 +72,6 @@ export class DealsComponent implements OnInit {
     });
   }
 
-  editDealImageChangeEvent(fileInput: any) {
-    this.eimageFile = fileInput.target.files[0];
-    const self = this;
-    var reader = new FileReader();
-    reader.onload = function() {
-      var dataURL = reader.result;
-      self.tempDealImageFile = dataURL;
-    };
-    reader.readAsDataURL(fileInput.target.files[0]);
-  }
-
-  echooseFile() {
-    this.edealImage.nativeElement.click();
-  }
   onEditDealHandler(id) {
     let filterdDeals = this.deals.filter(meal => meal.id == id);
     this.editDeal = filterdDeals[0];

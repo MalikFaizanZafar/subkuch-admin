@@ -57,7 +57,6 @@ export class OrdersComponent implements OnInit, OnDestroy {
       .getOrders(this.dataService.franchiseId)
       .subscribe(responseData => {
         this.orders = responseData.data;
-        console.log("this.orders is : ", this.orders);
         this.cdRef.detectChanges();
       });
   }
@@ -113,8 +112,8 @@ export class OrdersComponent implements OnInit, OnDestroy {
         }
         this.franchiseOrdersService.changeOrderStatus(data).subscribe(editOrderStatusResponse => {
           this.toaster.popSuccess("Order Status Changed Successfully")
-          let editIndex = this.orders.map(order => order.id).indexOf(id);
-          this.orders[editIndex].status = res
+          // let editIndex = this.orders.map(order => order.id).indexOf(id);
+          // this.orders[editIndex].status = res
         })
       }else {
         return;
