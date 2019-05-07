@@ -1,14 +1,19 @@
 export interface itemModel {
-  id?: Number,
-  name : String,
-  description: String,
-  price : Number,
-  discount: Number,
-  discount_end_date : Date,
-  image_url : String,
-  available : boolean,
-  product : boolean,
-  quanity : Number,
-  category_id : Number,
-  franchise_id : Number
+  id?: number,
+  name?: string,
+  description?: string,
+  price?: number,
+  discount?: number,
+  discount_end_date?: Date,
+  image_url?: string,
+  available?: boolean,
+  isProduct?: boolean,
+  quanity?: number,
+  category?: ItemCategory,
+  franchise_id?: number
+}
+
+export interface ItemCategory {
+  name?: string;
+  type?: string;
 }

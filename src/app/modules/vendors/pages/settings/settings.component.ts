@@ -19,6 +19,7 @@ export class SettingsComponent implements OnInit {
   serviceId: Number;
   brandName: String;
   dialogCancelled: boolean = false;
+  
   constructor(
     private franchiseInfoService: FranchiseInfoService,
     private isModal: IsModalService,
@@ -28,6 +29,10 @@ export class SettingsComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.populateFranchises();
+  }
+
+  populateFranchises() {
     this.franchiseInfoService.getFranchiseInfo().subscribe(responseData => {
       this.brandId = responseData.data.brandId;
       this.serviceId = responseData.data.serviceId;
@@ -72,13 +77,15 @@ export class SettingsComponent implements OnInit {
         service: this.serviceId
       }
     });
+
     addFranchiseDialog.onClose.subscribe(res => {
+      debugger
       console.log("addFranchiseDialog res is : ", res);
       if (res === 0) {
         this.dialogCancelled = true;
       } else if (!this.dialogCancelled) {
         this.userAuthService.signup(res).subscribe(newFranchiseResponse => {
-          console.log("newFranchiseResponse is : ", newFranchiseResponse);
+          this.populateFranchises();
         });
       }
     });

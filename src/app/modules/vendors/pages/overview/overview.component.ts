@@ -1,19 +1,20 @@
-import { Component, OnInit, ChangeDetectorRef } from "@angular/core";
-import { MemberDetails } from "../../models/vendor-members";
-import { EditMainService } from "../../services/editMain.service";
-import { FranchiseInfoService } from "../../services/franchiseInfo.service";
-import { IsButton, IsModalService, IsModalSize } from "app/lib";
-import { EditLogoDialogBoxComponent } from "../../components/edit-logo-dialog-box/edit-logo-dialog-box.component";
-import { EditBannerDialogBoxComponent } from "../../components/edit-banner-dialog-box/edit-banner-dialog-box.component";
-import { ActivatedRoute, Router } from "@angular/router";
-import { ChangeDetectionStrategy } from "@angular/compiler/src/core";
-import { finalize } from "rxjs/operators";
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { MemberDetails } from '../../models/vendor-members';
+import { EditMainService } from '../../services/editMain.service';
+import { FranchiseInfoService } from '../../services/franchiseInfo.service';
+import { IsButton, IsModalService, IsModalSize } from 'app/lib';
+import { EditLogoDialogBoxComponent } from '../../components/edit-logo-dialog-box/edit-logo-dialog-box.component';
+import { EditBannerDialogBoxComponent } from '../../components/edit-banner-dialog-box/edit-banner-dialog-box.component';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ChangeDetectionStrategy } from '@angular/compiler/src/core';
+import { finalize } from 'rxjs/operators';
+import { DataService } from '@app/shared/services/data.service';
 declare const google: any;
 
 @Component({
-  selector: "overview",
-  templateUrl: "./overview.component.html",
-  styleUrls: ["./overview.component.scss"]
+  selector: 'overview',
+  templateUrl: './overview.component.html',
+  styleUrls: ['./overview.component.scss']
 })
 export class OverviewComponent implements OnInit {
   user: MemberDetails;
@@ -36,30 +37,38 @@ export class OverviewComponent implements OnInit {
     private isModal: IsModalService,
     private route: ActivatedRoute,
     private cdRef: ChangeDetectorRef,
-    private router: Router
+    private router: Router,
+    private dataService: DataService
   ) {}
 
   ngOnInit() {
     this.route.queryParams.subscribe(params => {
-      if(params["franchiseId"] !== undefined && 
-        this.franchiseInfo.isAdmin && 
-        this.franchiseInfo.franchises !==  null && 
-        this.franchiseInfo.franchises.find(item => item.id === parseInt(params["franchiseId"], 10))
+      if (
+        params['franchiseId'] !== undefined &&
+        this.franchiseInfo.isAdmin &&
+        this.franchiseInfo.franchises !== null &&
+        this.franchiseInfo.franchises.find(
+          item => item.id === parseInt(params['franchiseId'], 10)
+        )
       ) {
-        this.franchiseInfo = this.franchiseInfo.franchises.find(item => item.id === parseInt(params["franchiseId"], 10));
-        localStorage.setItem("franchiseId", this.franchiseInfo.id);
-      } else  {
+        this.franchiseInfo = this.franchiseInfo.franchises.find(
+          item => item.id === parseInt(params['franchiseId'], 10)
+        );
+        this.dataService.setFranchiseId(this.franchiseInfo.id);
+      } else {
         this.loading = true;
-        this.franchiseInfoService.getFranchiseInfo()
-        .pipe(finalize(() => this.loading = false)).subscribe(res => {
-          this.franchiseInfo = res.data;
-          localStorage.setItem("franchiseId", this.franchiseInfo.id);
-          if (!this.franchiseInfo.address) {
-            this.setEditingMode();
-          }
-        })
+        this.franchiseInfoService
+          .getFranchiseInfo()
+          .pipe(finalize(() => (this.loading = false)))
+          .subscribe(res => {
+            this.franchiseInfo = res.data;
+            this.dataService.setFranchiseId(this.franchiseInfo.id);
+            if (!this.franchiseInfo.address) {
+              this.setEditingMode();
+            }
+          });
       }
-    })
+    });
   }
 
   getFranshiseBanner() {

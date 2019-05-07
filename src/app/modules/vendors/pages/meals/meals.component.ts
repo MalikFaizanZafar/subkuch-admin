@@ -1,19 +1,20 @@
-import { Component, OnInit, TemplateRef } from "@angular/core";
-import { FormGroup, FormControl, Validators } from "@angular/forms";
-import { FranchiseItemsService } from "../../services/franchiseItems.service";
-import { itemModel } from "../../models/itemModel";
-import { IsModalService, IsModalSize } from "../../../../lib";
-import { IsToasterService, IsToastPosition } from "../../../../lib/toaster";
-import { AngularFireStorage } from "@angular/fire/storage";
-import { Observable } from "rxjs";
-import { AddCategoryDialogComponent } from "../../components/add-category-dialog/add-category-dialog.component";
-import { AddMealDialogBoxComponent } from "../../components/add-meal-dialog-box/add-meal-dialog-box.component";
-import { EditMealDialogBoxComponent } from "../../components/edit-meal-dialog-box/edit-meal-dialog-box.component";
+import { Component, OnInit, TemplateRef } from '@angular/core';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FranchiseItemsService } from '../../services/franchiseItems.service';
+import { itemModel } from '../../models/itemModel';
+import { IsModalService, IsModalSize } from '../../../../lib';
+import { IsToasterService, IsToastPosition } from '../../../../lib/toaster';
+import { AngularFireStorage } from '@angular/fire/storage';
+import { Observable } from 'rxjs';
+import { AddCategoryDialogComponent } from '../../components/add-category-dialog/add-category-dialog.component';
+import { AddMealDialogBoxComponent } from '../../components/add-meal-dialog-box/add-meal-dialog-box.component';
+import { EditMealDialogBoxComponent } from '../../components/edit-meal-dialog-box/edit-meal-dialog-box.component';
+import { DataService } from '@app/shared/services/data.service';
 
 @Component({
-  selector: "meals",
-  templateUrl: "./meals.component.html",
-  styleUrls: ["./meals.component.scss"]
+  selector: 'meals',
+  templateUrl: './meals.component.html',
+  styleUrls: ['./meals.component.scss']
 })
 export class MealsComponent implements OnInit {
   categories = [];
@@ -26,7 +27,7 @@ export class MealsComponent implements OnInit {
   editMeal;
   deleteMeal;
   showEditMeal: boolean = false;
-  itemUrl: String = "";
+  itemUrl: String = '';
   downloadURL: Observable<string>;
   imageFile;
   tempMealImageFile;
@@ -39,14 +40,15 @@ export class MealsComponent implements OnInit {
   selectedCategory: number;
 
   get franchiseId() {
-    return Number(localStorage.getItem("franchiseId"));
+    return this.dataService.franchiseId;
   }
 
   constructor(
     private franchiseItemsService: FranchiseItemsService,
     private isModal: IsModalService,
     private toaster: IsToasterService,
-    private storage: AngularFireStorage
+    private storage: AngularFireStorage,
+    private dataService: DataService
   ) {}
 
   ngOnInit() {
@@ -82,16 +84,16 @@ export class MealsComponent implements OnInit {
     );
     addCategoryDialogOpenRef.onClose.subscribe(res => {
       if (res) {
-      let newCategory = {
-        name: res.categoryName,
-        type: "Type",
-        franchise_id: Number(localStorage.getItem("franchiseId"))
-      };
-      this.franchiseItemsService
-        .addCategory(newCategory)
-        .subscribe(categoryResponse => {
-          this.categories.push(categoryResponse.data);
-        });
+        let newCategory = {
+          name: res.categoryName,
+          type: 'Type',
+          franchise_id: this.dataService.franchiseId
+        };
+        this.franchiseItemsService
+          .addCategory(newCategory)
+          .subscribe(categoryResponse => {
+            this.categories.push(categoryResponse.data);
+          });
       }
     });
   }
@@ -104,11 +106,11 @@ export class MealsComponent implements OnInit {
       }
     });
     addMealDialog.onClose.subscribe(res => {
-      if (res !== "cancel") {
-        console.log("Add Meal Not Cancelled");
+      if (res !== 'cancel') {
+        console.log('Add Meal Not Cancelled');
         this.franchiseItemsService.addItem(res).subscribe(addMealResponse => {
           this.meals.push(addMealResponse.data);
-          this.toaster.popSuccess("Meal Has Been Deleted Successfully", {
+          this.toaster.popSuccess('Meal Has Been Deleted Successfully', {
             position: IsToastPosition.BottomRight
           });
         });
@@ -128,7 +130,7 @@ export class MealsComponent implements OnInit {
       }
     });
     editMealDialog.onClose.subscribe(res => {
-      if (res !== "cancel") {
+      if (res !== 'cancel') {
         this.franchiseItemsService
           .editItem(res, Number(this.editMeal.id))
           .subscribe(editMealResponseData => {
@@ -136,7 +138,7 @@ export class MealsComponent implements OnInit {
             const editMealIndex = this.meals
               .map(meal => meal.id)
               .indexOf(this.editMeal.id);
-            this.toaster.popSuccess("Meal Has Been Edited Successfully", {
+            this.toaster.popSuccess('Meal Has Been Edited Successfully', {
               position: IsToastPosition.BottomRight
             });
             this.meals[editMealIndex] = this.newItem;
@@ -147,10 +149,10 @@ export class MealsComponent implements OnInit {
 
   onDeleteItemHandler(id, deleteDialog: TemplateRef<any>) {
     const deleteModal = this.isModal.open(deleteDialog, {
-      data: "Are Your Sure you want to Delete this Meal ?"
+      data: 'Are Your Sure you want to Delete this Meal ?'
     });
     deleteModal.onClose.subscribe(res => {
-      if (res === "ok") {
+      if (res === 'ok') {
         let delMeal = this.meals.filter(deal => deal.id == id);
         this.deleteMeal = delMeal[0];
         const delFile = this.storage.storage.refFromURL(
@@ -158,7 +160,7 @@ export class MealsComponent implements OnInit {
         );
         delFile.delete().then(deletedFile => {
           this.franchiseItemsService.deleteItem(id).subscribe(response => {
-            this.toaster.popSuccess("Meal Has Been Deleted Successfully", {
+            this.toaster.popSuccess('Meal Has Been Deleted Successfully', {
               position: IsToastPosition.BottomRight
             });
             this.meals = this.meals.filter(deal => deal.id != id);
@@ -169,12 +171,12 @@ export class MealsComponent implements OnInit {
   }
   onDeleteCategoryHandler(id, deleteDialog: TemplateRef<any>) {
     const deleteModal = this.isModal.open(deleteDialog, {
-      data: "Are Your Sure you want to Delete this Category ?"
+      data: 'Are Your Sure you want to Delete this Category ?'
     });
     deleteModal.onClose.subscribe(res => {
-      if (res === "ok") {
+      if (res === 'ok') {
         this.franchiseItemsService.deleteCategory(id).subscribe(response => {
-          this.toaster.popSuccess("Category Has Been Deleted Successfully", {
+          this.toaster.popSuccess('Category Has Been Deleted Successfully', {
             position: IsToastPosition.BottomRight
           });
           this.categories = this.categories.filter(

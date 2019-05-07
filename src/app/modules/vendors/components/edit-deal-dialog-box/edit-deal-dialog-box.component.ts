@@ -1,13 +1,14 @@
-import { Component, OnInit, ViewChild, ElementRef } from "@angular/core";
-import { FormGroup, FormControl, Validators } from "@angular/forms";
-import { IsActiveModal, IsButton } from "app/lib";
-import { AngularFireStorage } from "@angular/fire/storage";
-import { Observable } from "rxjs";
-import { finalize } from "rxjs/operators";
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { IsActiveModal, IsButton } from 'app/lib';
+import { AngularFireStorage } from '@angular/fire/storage';
+import { Observable } from 'rxjs';
+import { finalize } from 'rxjs/operators';
+import { DataService } from '@app/shared/services/data.service';
 @Component({
-  selector: "edit-deal-dialog-box",
-  templateUrl: "./edit-deal-dialog-box.component.html",
-  styleUrls: ["./edit-deal-dialog-box.component.scss"]
+  selector: 'edit-deal-dialog-box',
+  templateUrl: './edit-deal-dialog-box.component.html',
+  styleUrls: ['./edit-deal-dialog-box.component.scss']
 })
 export class EditDealDialogBoxComponent implements OnInit {
   editDealForm: FormGroup;
@@ -16,16 +17,18 @@ export class EditDealDialogBoxComponent implements OnInit {
   editDeal;
   dealImageFileChanged: boolean = false;
   downloadURL: Observable<string>;
-  @ViewChild("dealImageInputBtn") dealImageInputBtn: ElementRef;
+  @ViewChild('dealImageInputBtn') dealImageInputBtn: ElementRef;
+
   constructor(
     private isActiveModal: IsActiveModal,
-    private storage: AngularFireStorage
+    private storage: AngularFireStorage,
+    private dataService: DataService
   ) {}
 
   ngOnInit() {
     this.editDeal = this.isActiveModal.data;
     this.tempDealImage = this.editDeal.dealImage;
-    const dateObj = this.editDeal.endDate.split("T")[0];
+    const dateObj = this.editDeal.endDate.split('T')[0];
     this.editDealForm = new FormGroup({
       name: new FormControl(this.editDeal.name, [Validators.required]),
       price: new FormControl(this.editDeal.price, [Validators.required]),
@@ -33,20 +36,20 @@ export class EditDealDialogBoxComponent implements OnInit {
       attachment: new FormControl(null)
     });
   }
-  onEditDealSubmit(btn : IsButton) {
+  onEditDealSubmit(btn: IsButton) {
     if (this.editDealForm.valid) {
-      btn.startLoading()
+      btn.startLoading();
       let dealVals = this.editDealForm.value;
       let newDeal = {
         name: dealVals.name,
         price: dealVals.price,
         end_date: dealVals.discountEnd,
-        franchise_id: Number(localStorage.getItem("franchiseId")),
-        deal_image: ""
+        franchise_id: this.dataService.franchiseId,
+        deal_image: ''
       };
       if (!this.dealImageFileChanged) {
         newDeal.deal_image = this.editDeal.dealImage;
-        btn.stopLoading()
+        btn.stopLoading();
         this.isActiveModal.close(newDeal);
       } else {
         let randomString =
@@ -56,7 +59,7 @@ export class EditDealDialogBoxComponent implements OnInit {
           Math.random()
             .toString(36)
             .substring(2, 15);
-        const filePath = "deals/" + randomString + "-" + this.imageFile.name;
+        const filePath = 'deals/' + randomString + '-' + this.imageFile.name;
         const fileRef = this.storage.ref(filePath);
         const task = this.storage.upload(filePath, this.imageFile);
         task
@@ -66,7 +69,7 @@ export class EditDealDialogBoxComponent implements OnInit {
               this.downloadURL = fileRef.getDownloadURL();
               this.downloadURL.subscribe(url => {
                 newDeal.deal_image = url;
-                btn.stopLoading()
+                btn.stopLoading();
                 this.isActiveModal.close(newDeal);
               });
             })
@@ -76,7 +79,7 @@ export class EditDealDialogBoxComponent implements OnInit {
     }
   }
   onCancelEditDeal() {
-    this.isActiveModal.close('cancel')
+    this.isActiveModal.close('cancel');
   }
   dealImageChangeEvent(fileInput: any) {
     this.imageFile = fileInput.target.files[0];

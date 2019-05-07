@@ -1,10 +1,10 @@
-import { Component, OnInit } from "@angular/core";
-import { FranchiseSalesService } from "../../services/franchiseSales.service";
+import { Component, OnInit } from '@angular/core';
+import { FranchiseSalesService } from '../../services/franchiseSales.service';
 
 @Component({
-  selector: "sales",
-  templateUrl: "./sales.component.html",
-  styleUrls: ["./sales.component.css"]
+  selector: 'sales',
+  templateUrl: './sales.component.html',
+  styleUrls: ['./sales.component.css']
 })
 export class SalesComponent implements OnInit {
   sales: any = [];

@@ -6,17 +6,17 @@ import {
   ElementRef,
   ViewChild,
   Input
-} from "@angular/core";
-import { FormGroup, FormControl, Validators, NgForm } from "@angular/forms";
-import { UserDetailsService } from "../../services/userDetails.service";
-import { IsModalService, IsModalSize } from "app/lib/modal";
-import { GoogleMapService } from "@app/shared/services/google-map.service";
-import { MapsAPILoader } from "@agm/core";
-import { LocationCoordinates } from "@app/shared/models/coordinates";
-import { MapModalComponent } from "@app/shared/map-modal/components/map-modal/map-modal.component";
-import { SearchService } from "../../services/search.service";
-import { FranchiseInfoService } from "../../services/franchiseInfo.service";
-import { IsToasterService, IsToastPosition } from "../../../../lib/toaster";
+} from '@angular/core';
+import { FormGroup, FormControl, Validators, NgForm } from '@angular/forms';
+import { UserDetailsService } from '../../services/userDetails.service';
+import { IsModalService, IsModalSize } from 'app/lib/modal';
+import { GoogleMapService } from '@app/shared/services/google-map.service';
+import { MapsAPILoader } from '@agm/core';
+import { LocationCoordinates } from '@app/shared/models/coordinates';
+import { MapModalComponent } from '@app/shared/map-modal/components/map-modal/map-modal.component';
+import { SearchService } from '../../services/search.service';
+import { FranchiseInfoService } from '../../services/franchiseInfo.service';
+import { IsToasterService, IsToastPosition } from '../../../../lib/toaster';
 
 interface FranchiseContact {
   email?: string;
@@ -33,9 +33,9 @@ const endTime: Date = new Date();
 endTime.setHours(23);
 endTime.setMinutes(0);
 @Component({
-  selector: "edit-overview",
-  templateUrl: "./edit-overview.component.html",
-  styleUrls: ["./edit-overview.component.scss"]
+  selector: 'edit-overview',
+  templateUrl: './edit-overview.component.html',
+  styleUrls: ['./edit-overview.component.scss']
 })
 export class EditOverviewComponent implements OnInit {
   @Input()
@@ -48,7 +48,7 @@ export class EditOverviewComponent implements OnInit {
   currentPostion: LocationCoordinates;
   currentAddress: string;
 
-  @ViewChild("search")
+  @ViewChild('search')
   public searchElementRef: ElementRef;
 
   @Output() overviewEdited: EventEmitter<any> = new EventEmitter();
@@ -64,22 +64,52 @@ export class EditOverviewComponent implements OnInit {
 
   ngOnInit() {
     this.overviewForm = new FormGroup({
-      welcomeParagraph: new FormControl(this.data.welcomeNote || '', [Validators.required]),
-      contactOne: new FormControl( this.data.contact[0]? this.data.contact[0].franchiseContactPersonName || '': '', [Validators.required]),
-      contactTwo: new FormControl( this.data.contact[1] ? this.data.contact[1].franchiseContactPersonName || '': ''),
-      phoneOne: new FormControl( this.data.contact[0]? this.data.contact[0].franchiseContactPersonPhone || '': '', [Validators.required]),
-      phoneTwo: new FormControl( this.data.contact[1] ? this.data.contact[1].franchiseContactPersonPhone || '': ''),
-      emailOne: new FormControl(this.data.contact[0] ? this.data.contact[0].email || '' : '', [Validators.required]),
-      emailTwo: new FormControl(this.data.contact[1]? this.data.contact[1].email || '': ''),
+      welcomeParagraph: new FormControl(this.data.welcomeNote || '', [
+        Validators.required
+      ]),
+      contactOne: new FormControl(
+        this.data.contact[0]
+          ? this.data.contact[0].franchiseContactPersonName || ''
+          : '',
+        [Validators.required]
+      ),
+      contactTwo: new FormControl(
+        this.data.contact[1]
+          ? this.data.contact[1].franchiseContactPersonName || ''
+          : ''
+      ),
+      phoneOne: new FormControl(
+        this.data.contact[0]
+          ? this.data.contact[0].franchiseContactPersonPhone || ''
+          : '',
+        [Validators.required]
+      ),
+      phoneTwo: new FormControl(
+        this.data.contact[1]
+          ? this.data.contact[1].franchiseContactPersonPhone || ''
+          : ''
+      ),
+      emailOne: new FormControl(
+        this.data.contact[0] ? this.data.contact[0].email || '' : '',
+        [Validators.required]
+      ),
+      emailTwo: new FormControl(
+        this.data.contact[1] ? this.data.contact[1].email || '' : ''
+      ),
       location: new FormControl(this.data.address || '', [Validators.required]),
-      startTime: new FormControl(new Date(this.data.startTime) || startTime, [Validators.required]),
-      endTime: new FormControl(new Date(this.data.endTime )|| endTime, [Validators.required])
+      startTime: new FormControl(new Date(this.data.startTime) || startTime, [
+        Validators.required
+      ]),
+      endTime: new FormControl(new Date(this.data.endTime) || endTime, [
+        Validators.required
+      ])
     });
+
     this.mapsApiLoader.load().then(() => {
       let autocomplete = new google.maps.places.Autocomplete(
         this.searchElementRef.nativeElement,
         {
-          types: ["address"]
+          types: ['address']
         }
       );
 
@@ -102,25 +132,27 @@ export class EditOverviewComponent implements OnInit {
   }
 
   submitHandler(form: NgForm) {
-    debugger
-    this.overviewForm.controls['location'].setValue(this.searchElementRef.nativeElement.value);
-    if(form.invalid) {
+    debugger;
+    this.overviewForm.controls['location'].setValue(
+      this.searchElementRef.nativeElement.value
+    );
+    if (form.invalid) {
       return;
     }
     let overviewData = {
-      welcomeParagraph: this.overviewForm.get("welcomeParagraph").value,
+      welcomeParagraph: this.overviewForm.get('welcomeParagraph').value,
       contact: [
-         {
-          email: this.overviewForm.get("emailOne").value, 
-          phone: this.overviewForm.get("phoneOne").value,
-         },
         {
-          email: this.overviewForm.get("emailTwo").value,
-          phone: this.overviewForm.get("phoneTwo").value
+          email: this.overviewForm.get('emailOne').value,
+          phone: this.overviewForm.get('phoneOne').value
+        },
+        {
+          email: this.overviewForm.get('emailTwo').value,
+          phone: this.overviewForm.get('phoneTwo').value
         }
       ],
-      start: this.overviewForm.get("startTime").value,
-      end: this.overviewForm.get("endTime").value,
+      start: this.overviewForm.get('startTime').value,
+      end: this.overviewForm.get('endTime').value,
       address: this.currentAddress,
       longitude: this.currentPostion.longitude,
       latitude: this.currentPostion.latitude,
@@ -128,26 +160,32 @@ export class EditOverviewComponent implements OnInit {
     };
     const contacts: FranchiseContact[] = [];
     const contact1: FranchiseContact = {
-      email: this.overviewForm.get("emailOne").value,
-      franchiseContactPersonName: this.overviewForm.get("contactOne").value,
-      franchiseContactPersonPhone: this.overviewForm.get("phoneOne").value,
+      email: this.overviewForm.get('emailOne').value,
+      franchiseContactPersonName: this.overviewForm.get('contactOne').value,
+      franchiseContactPersonPhone: this.overviewForm.get('phoneOne').value,
       franchiseId: this.data.id,
-      franchiseContactId: this.data.contact[0] ? this.data.contact[0].franchiseContactId: null
-    }
-    contacts.push(contact1);  
+      franchiseContactId: this.data.contact[0]
+        ? this.data.contact[0].franchiseContactId
+        : null
+    };
+    contacts.push(contact1);
 
-    if (this.overviewForm.get("emailTwo").value || 
-        this.overviewForm.get("phoneTwo").value || 
-        this.overviewForm.get("contactTwo").value) {
-        const contact2: FranchiseContact = {
-        email: this.overviewForm.get("emailTwo").value,
-        franchiseContactPersonName: this.overviewForm.get("contactTwo").value,
-        franchiseContactPersonPhone: this.overviewForm.get("phoneTwo").value,
+    if (
+      this.overviewForm.get('emailTwo').value ||
+      this.overviewForm.get('phoneTwo').value ||
+      this.overviewForm.get('contactTwo').value
+    ) {
+      const contact2: FranchiseContact = {
+        email: this.overviewForm.get('emailTwo').value,
+        franchiseContactPersonName: this.overviewForm.get('contactTwo').value,
+        franchiseContactPersonPhone: this.overviewForm.get('phoneTwo').value,
         franchiseId: this.data.id,
-        franchiseContactId: this.data.contact[1] ? this.data.contact[1].franchiseContactId: null
-      }
+        franchiseContactId: this.data.contact[1]
+          ? this.data.contact[1].franchiseContactId
+          : null
+      };
       contacts.push(contact2);
-    }  
+    }
     this.data.address = this.searchElementRef.nativeElement.value;
     this.data.latitude = `${overviewData.latitude}`;
     this.data.longitude = `${overviewData.longitude}`;
@@ -155,8 +193,9 @@ export class EditOverviewComponent implements OnInit {
     this.data.startTime = new Date(overviewData.start);
     this.data.endTime = new Date(overviewData.end);
     this.data.contact = contacts;
-    
-    this.franchiseServcie.updateFranchiseInfo(this.data.id, this.data)
+
+    this.franchiseServcie
+      .updateFranchiseInfo(this.data.id, this.data)
       .pipe()
       .subscribe(overview => {
         this.toast.popSuccess('Franchise info updated successfully', {
@@ -197,7 +236,7 @@ export class EditOverviewComponent implements OnInit {
       const reader = new FileReader();
 
       if (!file.type.match(pattern)) {
-        alert("invalid format");
+        alert('invalid format');
         return;
       }
 
@@ -214,7 +253,7 @@ export class EditOverviewComponent implements OnInit {
   }
 
   private registerEventListener(autocomplete: any) {
-    google.maps.event.addListener(autocomplete, "place_changed", () => {
+    google.maps.event.addListener(autocomplete, 'place_changed', () => {
       const location = autocomplete.getPlace().geometry.location;
       this.currentPostion = {
         latitude: location.lat(),
@@ -225,21 +264,21 @@ export class EditOverviewComponent implements OnInit {
   }
 
   private openModalPopup() {
-    const modalRef =  this.modal.open(MapModalComponent, {
+    const modalRef = this.modal.open(MapModalComponent, {
       data: {
         coords: this.currentPostion,
         address: this.searchElementRef.nativeElement.value
       },
       size: IsModalSize.Large
     });
-    
+
     modalRef.onClose.subscribe(res => {
       if (res) {
         this.searchElementRef.nativeElement.value = res.address;
         this.currentPostion.latitude = res.location.latitude;
         this.currentPostion.longitude = res.location.longitude;
       }
-    })
+    });
   }
 
   setUserCurrentLocation() {
@@ -256,7 +295,6 @@ export class EditOverviewComponent implements OnInit {
           longitude: pos.coords.longitude
         };
         this.googleMapService.getUserCurrentAddress(this.currentPostion);
-        
       }
     });
   }

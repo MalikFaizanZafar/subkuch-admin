@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  baseUrl: 'http://139.180.220.85:9080/api-0.0.1',
+  // baseUrl: 'http://139.180.220.85:9080/api-0.0.1',
+  baseUrl: 'http://localhost:8080',
 };
 
 /*

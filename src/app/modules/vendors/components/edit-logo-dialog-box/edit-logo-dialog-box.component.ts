@@ -1,9 +1,10 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { IsActiveModal, IsButton } from 'app/lib';
-import { FormGroup, FormControl, Validators } from "@angular/forms";
-import { AngularFireStorage } from "@angular/fire/storage";
-import { Observable } from "rxjs";
-import { finalize } from "rxjs/operators";
+import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { AngularFireStorage } from '@angular/fire/storage';
+import { Observable } from 'rxjs';
+import { finalize } from 'rxjs/operators';
+import { DataService } from '@app/shared/services/data.service';
 
 @Component({
   selector: 'edit-logo-dialog-box',
@@ -17,13 +18,18 @@ export class EditLogoDialogBoxComponent implements OnInit {
   editLogoForm: FormGroup;
   downloadURL: Observable<string>;
   logoImageChanged: boolean = false;
-  @ViewChild("logoImage") logoImage: ElementRef;
-  constructor(private isActiveModal : IsActiveModal,  private storage: AngularFireStorage) { }
+  @ViewChild('logoImage') logoImage: ElementRef;
+
+  constructor(
+    private isActiveModal: IsActiveModal,
+    private storage: AngularFireStorage,
+    private dataService: DataService
+  ) {}
 
   ngOnInit() {
-    this.editLogoImageFile = this.isActiveModal.data.logo
-    this.tempEditLogoImage = this.isActiveModal.data.logo
-    this.editBrandName = this.isActiveModal.data.brandName
+    this.editLogoImageFile = this.isActiveModal.data.logo;
+    this.tempEditLogoImage = this.isActiveModal.data.logo;
+    this.editBrandName = this.isActiveModal.data.brandName;
     this.editLogoForm = new FormGroup({
       editLogoImage: new FormControl(null, [Validators.required])
     });
@@ -45,47 +51,47 @@ export class EditLogoDialogBoxComponent implements OnInit {
     };
     reader.readAsDataURL(LogoImageFile.target.files[0]);
     // this.franchiseInfo.logo = this.editLogoImageFile
-    this.logoImageChanged = true
+    this.logoImageChanged = true;
   }
 
-  onEditLogoSubmit(btn : IsButton) {
+  onEditLogoSubmit(btn: IsButton) {
     if (this.editLogoForm.valid) {
-      if(this.logoImageChanged){
-        btn.startLoading()
+      if (this.logoImageChanged) {
+        btn.startLoading();
         let randomString =
-        Math.random()
-          .toString(36)
-          .substring(2, 15) +
-        Math.random()
-          .toString(36)
-          .substring(2, 15);
-      const filePath =
-        "logos/" + randomString + "-" + this.editLogoImageFile.name;
-      const fileRef = this.storage.ref(filePath);
-      const task = this.storage.upload(filePath, this.editLogoImageFile);
-      task
-        .snapshotChanges()
-        .pipe(
-          finalize(() => {
-            this.downloadURL = fileRef.getDownloadURL();
-            this.downloadURL.subscribe(url => {
-              let editLogoPostDto = {
-                image: url,
-                franchise_id: Number(localStorage.getItem("franchiseId"))
-              };
-              btn.stopLoading()
-              this.isActiveModal.close(editLogoPostDto)
-            });
-          })
-        )
-        .subscribe();
-      }else {
+          Math.random()
+            .toString(36)
+            .substring(2, 15) +
+          Math.random()
+            .toString(36)
+            .substring(2, 15);
+        const filePath =
+          'logos/' + randomString + '-' + this.editLogoImageFile.name;
+        const fileRef = this.storage.ref(filePath);
+        const task = this.storage.upload(filePath, this.editLogoImageFile);
+        task
+          .snapshotChanges()
+          .pipe(
+            finalize(() => {
+              this.downloadURL = fileRef.getDownloadURL();
+              this.downloadURL.subscribe(url => {
+                let editLogoPostDto = {
+                  image: url,
+                  franchise_id: this.dataService.franchiseId
+                };
+                btn.stopLoading();
+                this.isActiveModal.close(editLogoPostDto);
+              });
+            })
+          )
+          .subscribe();
+      } else {
         let editLogoPostDto = {
           image: this.editLogoImageFile,
-          franchise_id: Number(localStorage.getItem("franchiseId"))
+          franchise_id: this.dataService.franchiseId
         };
-        btn.stopLoading()
-        this.isActiveModal.close(editLogoPostDto)
+        btn.stopLoading();
+        this.isActiveModal.close(editLogoPostDto);
       }
     }
   }
