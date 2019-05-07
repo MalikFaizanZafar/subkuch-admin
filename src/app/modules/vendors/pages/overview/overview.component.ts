@@ -84,7 +84,8 @@ export class OverviewComponent implements OnInit {
       data: {
         logo: this.franchiseInfo.logo,
         brandName: this.franchiseInfo.brandName
-      }
+      },
+      backdrop: 'static'
     });
     editLogoDlg.onClose.subscribe(res => {
       if (res === 'cancel') {
@@ -105,7 +106,8 @@ export class OverviewComponent implements OnInit {
       data: {
         banner: this.franchiseInfo.welcomeImage,
         brandName: this.franchiseInfo.brandName
-      }
+      },
+      backdrop: 'static'
     });
     editBannerDlg.onClose.subscribe(res => {
       if (res === 'cancel') {

@@ -51,10 +51,7 @@ export class VendorsLayoutComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.route.params.subscribe(params => {
-      console.log('params[franchiseId] is : ', params['franchiseId']);
-    });
-
+  
     this.selectFranchiseForm = new FormGroup({
       franchiseSelected: new FormControl(null)
     });
