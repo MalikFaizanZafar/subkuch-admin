@@ -27,7 +27,6 @@ import { ReviewsComponent } from './pages/reviews/reviews.component';
 import { environment } from 'environments/environment';
 import { SettingsComponent } from './pages/settings/settings.component';
 import { UserAuthService } from '../auth/services/auth.service';
-import { ConfirmationModalComponent } from './components/confirmation-modal/confirmation-modal.component';
 
 
 @NgModule({

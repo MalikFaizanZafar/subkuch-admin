@@ -20,6 +20,14 @@ export class FranchiseOrdersService {
     });
   }
 
+  changeOrderStatus( data : any): Observable<any> {
+    let headers = new HttpHeaders().set('Content-Type', 'application/json');
+    const token = localStorage.getItem("Authorization");
+    headers = headers.append("Authorization", token);
+    return this.http.put<any>(`${this.baseURL}/order/status`, data,{
+      headers
+    });
+  }
   addNewOrder(order: any) {
     this.newOrders.push(order)
   }

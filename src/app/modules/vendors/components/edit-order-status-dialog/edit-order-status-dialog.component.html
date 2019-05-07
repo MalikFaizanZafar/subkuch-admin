@@ -1,0 +1,29 @@
+<div>
+  <div class="card-header bg-dark text-white font-weight-bold rounded-0 ">
+    Change Order Status
+  </div>
+  <form
+    [formGroup]="editStatusForm"
+    (ngSubmit)="onEditOrderStatusSubmit(saveBtn)"
+    #formDir="ngForm"
+    class="p-3"
+  >
+    <select class="form-control form-control mb-5 mt-1" formControlName="status" id="orderstatus">
+      <option value="Delivered">Delivered</option>
+      <option value="Completed">Completed</option>
+      <option value="Pending">Pending</option>
+      <option value="New">New</option>
+    </select>
+    <div class="form-group row">
+        <div class="d-flex w-100 justify-content-end px-4">
+          <button type="submit" class="btn btn-primary btn-lg" is-button theme="danger" #saveBtn>
+            Submit
+          </button>
+          <button class="btn btn-primary btn-lg ml-3" type="button" is-button theme="primary"
+            (click)="isActiveModel.close('cancel')">
+            Cancel
+          </button>
+        </div>
+      </div>
+  </form>
+</div>

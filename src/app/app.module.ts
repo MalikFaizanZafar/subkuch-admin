@@ -29,6 +29,7 @@ import { FranchiseOrdersService } from "./modules/vendors/services/franchiseOrde
 import { AddFranchiseDialogComponent } from "./modules/vendors/components/add-franchise-dialog/add-franchise-dialog.component";
 import { NgbDropdown, NgbDropdownModule } from "@ng-bootstrap/ng-bootstrap";
 import { ConfirmationModalComponent } from "./modules/vendors/components/confirmation-modal/confirmation-modal.component";
+import { EditOrderStatusDialogComponent } from "./modules/vendors/components/edit-order-status-dialog/edit-order-status-dialog.component";
 
 @NgModule({
   declarations: [
@@ -42,7 +43,8 @@ import { ConfirmationModalComponent } from "./modules/vendors/components/confirm
     AddMealDialogBoxComponent,
     EditMealDialogBoxComponent,
     AddFranchiseDialogComponent,
-    ConfirmationModalComponent
+    ConfirmationModalComponent,
+    EditOrderStatusDialogComponent
   ],
   imports: [
     AppRoutingModule,
@@ -90,7 +92,8 @@ import { ConfirmationModalComponent } from "./modules/vendors/components/confirm
     AddMealDialogBoxComponent,
     EditMealDialogBoxComponent,
     AddFranchiseDialogComponent,
-    ConfirmationModalComponent
+    ConfirmationModalComponent,
+    EditOrderStatusDialogComponent
   ]
 })
 export class AppModule {}

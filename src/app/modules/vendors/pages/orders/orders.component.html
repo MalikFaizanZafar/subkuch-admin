@@ -3,46 +3,107 @@
     <h4>Orders</h4>
   </is-card-header>
   <is-card-content>
-      <is-grid class="my-3 border-dark" [value]="orders" [rowExpandMode]="'single'" expandableRows="true"
-      (rowCollapse)="isGridrowCollapseHandler($event)" (rowExpand)="isGridrowExpandHandler($event)">
-      <is-grid-column expander="true" [style]="{ width: '5px', height: '30px' }" styleClass="bg_blue">
+    <is-grid
+      class="my-3 border-dark"
+      [value]="orders"
+      [rowExpandMode]="'single'"
+      expandableRows="true"
+      (rowCollapse)="isGridrowCollapseHandler($event)"
+      (rowExpand)="isGridrowExpandHandler($event)"
+    >
+      <is-grid-column
+        expander="true"
+        [style]="{ width: '5px', height: '30px' }"
+        styleClass="bg_blue"
+      >
       </is-grid-column>
-      <is-grid-column field="id" header="Order #" styleClass="text-dark" [style]="{ width: '50px', height: '50px' }">
+      <is-grid-column
+        field="id"
+        header="Order #"
+        styleClass="text-dark"
+        [style]="{ width: '50px', height: '50px' }"
+      >
         <ng-template let-order="rowData" isGridTemplate="body">
-          <span>{{order.id}}</span>
+          <span>{{ order.id }}</span>
         </ng-template>
       </is-grid-column>
-      <is-grid-column [style]="{ width: '50px', height: '50px' }" field="starttime" header="Start Time"
-        styleClass="text-dark">
+      <is-grid-column
+        [style]="{ width: '50px', height: '50px' }"
+        field="starttime"
+        header="Start Time"
+        styleClass="text-dark"
+      >
         <ng-template let-order="rowData" isGridTemplate="body">
-          <span>{{ order.starttime | date: "HH:mm"}} , {{ order.starttime | date }}</span>
+          <span
+            >{{ order.starttime | date: "HH:mm" }} ,
+            {{ order.starttime | date }}</span
+          >
         </ng-template>
       </is-grid-column>
-      <is-grid-column [style]="{ width: '50px', height: '50px' }" field="endtime" header="End Time"
-        styleClass="text-dark">
+      <is-grid-column
+        [style]="{ width: '50px', height: '50px' }"
+        field="endtime"
+        header="End Time"
+        styleClass="text-dark"
+      >
         <ng-template let-order="rowData" isGridTemplate="body">
-          <span>{{ order.endtime | date: "HH:mm"}} , {{ order.endtime | date }}</span>
+          <span
+            >{{ order.endtime | date: "HH:mm" }} ,
+            {{ order.endtime | date }}</span
+          >
         </ng-template>
       </is-grid-column>
-      <is-grid-column [style]="{ width: '50px', height: '50px' }" field="delivery" header="Delivery"
-        styleClass="text-dark">
+      <is-grid-column
+        [style]="{ width: '50px', height: '50px' }"
+        field="delivery"
+        header="Delivery"
+        styleClass="text-dark"
+      >
         <ng-template let-order="rowData" isGridTemplate="body">
           <div class="d-flex justify-content-start">
-              <input type="checkbox"  [checked]="order.delivery == true ? true : null" class="ml-4">
+            <input
+              type="checkbox"
+              [checked]="order.delivery == true ? true : null"
+              class="ml-4"
+            />
           </div>
         </ng-template>
       </is-grid-column>
-      <is-grid-column field="status" header="Status" styleClass="text-dark" [style]="{ width: '50px', height: '50px' }">
+      <is-grid-column
+        field="status"
+        header="Status"
+        styleClass="text-dark"
+        [style]="{ width: '50px', height: '50px' }"
+      >
         <ng-template let-order="rowData" isGridTemplate="body">
-          <span class="badge badge-primary" *ngIf="order.status === 'Completed'">Completed</span>
-          <span class="badge badge-success" *ngIf="order.status === 'Delivered'">Delivered</span>
-          <span class="badge badge-danger" *ngIf="order.status === 'New'">New</span>
-          <span class="badge badge-light" *ngIf="order.status === 'Pending'">Pending</span>
+          <div class="d-flex align-items-center">
+            <span
+              class="badge badge-primary w-25"
+              *ngIf="order.status === 'Completed'"
+              >Completed</span
+            >
+            <span
+              class="badge badge-success w-25"
+              *ngIf="order.status === 'Delivered'"
+              >Delivered</span
+            >
+            <span class="badge badge-danger w-25" *ngIf="order.status === 'New'"
+              >New</span
+            >
+            <span class="badge badge-light w-25" *ngIf="order.status === 'Pending'"
+              >Pending</span
+            >
+            <i
+              class="fa fa-edit ml-3 order__status__edit__icon mt-1" (click)="onChangeStatusHandler(order.id, order.status)"
+            ></i>
+          </div>
         </ng-template>
       </is-grid-column>
       <ng-template let-data isGridTemplate="rowexpansion">
         <div class="user-detail">
-          <h4 class="d-flex justify-content-center text-dark my-2">Items</h4>
+          <h4 class="d-flex justify-content-center text-dark my-2">
+            Items/Deals
+          </h4>
           <div class="row my-2">
             <div class="col-md-4 offset-md-4">
               <table class="table text-dark">
@@ -56,10 +117,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr *ngFor="
-                            let detail of data.detail;
-                            let i = index
-                          ">
+                  <tr *ngFor="let detail of data.detail; let i = index">
                     <th scope="row">{{ i + 1 }}</th>
                     <td *ngIf="detail.deal == null">{{ detail.item.id }}</td>
                     <td *ngIf="detail.deal == null">{{ detail.item.name }}</td>

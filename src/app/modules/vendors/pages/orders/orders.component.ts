@@ -1,15 +1,18 @@
-import { Component, OnInit, ChangeDetectorRef, OnDestroy } from '@angular/core';
-import { order } from '../../models/vendor-members';
-import { Router } from '@angular/router';
-import { FranchiseOrdersService } from '../../services/franchiseOrders.service';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
-import { DataService } from '@app/shared/services/data.service';
+import { Component, OnInit, ChangeDetectorRef, OnDestroy } from "@angular/core";
+import { order } from "../../models/vendor-members";
+import { Router } from "@angular/router";
+import { FranchiseOrdersService } from "../../services/franchiseOrders.service";
+import { Subject } from "rxjs";
+import { takeUntil } from "rxjs/operators";
+import { IsModalService, IsModalSize } from '../../../../lib';
+import { IsToasterService, IsToastPosition } from '../../../../lib/toaster';
+import { DataService } from "@app/shared/services/data.service";
+import { EditOrderStatusDialogComponent } from "../../components/edit-order-status-dialog/edit-order-status-dialog.component";
 
 @Component({
-  selector: 'orders',
-  templateUrl: './orders.component.html',
-  styleUrls: ['./orders.component.scss']
+  selector: "orders",
+  templateUrl: "./orders.component.html",
+  styleUrls: ["./orders.component.scss"]
 })
 export class OrdersComponent implements OnInit, OnDestroy {
   orders: order[] = [];
@@ -25,7 +28,9 @@ export class OrdersComponent implements OnInit, OnDestroy {
     private franchiseOrdersService: FranchiseOrdersService,
     private router: Router,
     private cdRef: ChangeDetectorRef,
-    private dataService: DataService
+    private dataService: DataService,
+    private isModal: IsModalService,
+    private toaster: IsToasterService,
   ) {}
 
   ngOnInit() {
@@ -52,7 +57,7 @@ export class OrdersComponent implements OnInit, OnDestroy {
       .getOrders(this.dataService.franchiseId)
       .subscribe(responseData => {
         this.orders = responseData.data;
-        console.log('this.orders is : ', this.orders)
+        console.log("this.orders is : ", this.orders);
         this.cdRef.detectChanges();
       });
   }
@@ -68,17 +73,17 @@ export class OrdersComponent implements OnInit, OnDestroy {
   isGridrowExpandHandler(data: any) {
     let routeVariable = this.currentUrl.substring(
       0,
-      this.currentUrl.indexOf('?')
+      this.currentUrl.indexOf("?")
     );
     if (routeVariable) {
       this.router.navigate([routeVariable], {
         queryParams: { orderId: data.data.oNum },
-        queryParamsHandling: 'merge'
+        queryParamsHandling: "merge"
       });
     } else {
       this.router.navigate([this.currentUrl], {
         queryParams: { orderId: data.data.oNum },
-        queryParamsHandling: 'merge'
+        queryParamsHandling: "merge"
       });
     }
   }
@@ -86,12 +91,34 @@ export class OrdersComponent implements OnInit, OnDestroy {
   isGridrowCollapseHandler(data: any) {
     let routeVariable = this.currentUrl.substring(
       0,
-      this.currentUrl.indexOf('?')
+      this.currentUrl.indexOf("?")
     );
     if (routeVariable) {
       this.router.navigate([routeVariable]);
     } else {
       this.router.navigate([this.currentUrl]);
     }
+  }
+
+  onChangeStatusHandler( id : number, status : string){
+    const editOrderStatusDlg = this.isModal.open(EditOrderStatusDialogComponent, {
+      data: { status},
+      backdrop: 'static'
+    })
+    editOrderStatusDlg.onClose.subscribe(res => {
+      if(res !== 'cancel'){
+        let data = {
+          id : id,
+          status: res
+        }
+        this.franchiseOrdersService.changeOrderStatus(data).subscribe(editOrderStatusResponse => {
+          this.toaster.popSuccess("Order Status Changed Successfully")
+          let editIndex = this.orders.map(order => order.id).indexOf(id);
+          this.orders[editIndex].status = res
+        })
+      }else {
+        return;
+      }
+    })
   }
 }
