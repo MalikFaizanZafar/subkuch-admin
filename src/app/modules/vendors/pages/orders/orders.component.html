@@ -49,18 +49,25 @@
                 <thead class="bg_blue">
                   <tr>
                     <th scope="col">#</th>
+                    <th scope="col">Id</th>
                     <th scope="col">Name</th>
+                    <th scope="col">Price</th>
                     <th scope="col">Quantity</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr *ngFor="
-                            let orderDetail of data.orderDetails;
+                            let detail of data.detail;
                             let i = index
                           ">
                     <th scope="row">{{ i + 1 }}</th>
-                    <td>{{ orderDetail.item.name }}</td>
-                    <td>{{ orderDetail.quantity }}</td>
+                    <td *ngIf="detail.deal == null">{{ detail.item.id }}</td>
+                    <td *ngIf="detail.deal == null">{{ detail.item.name }}</td>
+                    <td *ngIf="detail.deal == null">{{ detail.item.price }}</td>
+                    <td *ngIf="detail.item == null">{{ detail.deal.id }}</td>
+                    <td *ngIf="detail.item == null">{{ detail.deal.name }}</td>
+                    <td *ngIf="detail.item == null">{{ detail.deal.price }}</td>
+                    <td>{{ detail.quantity }}</td>
                   </tr>
                 </tbody>
               </table>
