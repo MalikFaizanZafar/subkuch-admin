@@ -4,7 +4,6 @@ import { IsModalService, IsModalRef } from "app/lib";
 import { UserAuthService } from "app/modules/auth/services/auth.service";
 import { AddFranchiseDialogComponent } from "../../components/add-franchise-dialog/add-franchise-dialog.component";
 import { ConfirmationModalComponent } from "../../components/confirmation-modal/confirmation-modal.component";
-import { NotificationsService } from "../../../../services/notifications.service";
 import { IsToasterService, IsToastPosition } from "../../../../lib/toaster";
 
 @Component({
@@ -24,7 +23,6 @@ export class SettingsComponent implements OnInit {
     private franchiseInfoService: FranchiseInfoService,
     private isModal: IsModalService,
     private userAuthService: UserAuthService,
-    private notificationService: NotificationsService,
     private toast: IsToasterService
   ) {}
 
@@ -57,7 +55,7 @@ export class SettingsComponent implements OnInit {
     modalRef.onClose.subscribe(res => {
       if (res === 'ok') {
         this.franchiseInfoService.updateFranchiseInfo(row.id, row).subscribe(response => {
-          this.notificationService.updateFranchise.next(true);
+          // this.notificationService.updateFranchise.next(true);
           this.toast.popSuccess('Franchise activated successfull', {
             position: IsToastPosition.BottomRight
           });

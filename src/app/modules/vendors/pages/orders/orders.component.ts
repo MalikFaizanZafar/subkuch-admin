@@ -2,7 +2,6 @@ import { Component, OnInit, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { order } from '../../models/vendor-members';
 import { Router } from '@angular/router';
 import { FranchiseOrdersService } from '../../services/franchiseOrders.service';
-import { NotificationsService } from 'app/services/notifications.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { DataService } from '@app/shared/services/data.service';
@@ -25,7 +24,6 @@ export class OrdersComponent implements OnInit, OnDestroy {
   constructor(
     private franchiseOrdersService: FranchiseOrdersService,
     private router: Router,
-    private notificationsService: NotificationsService,
     private cdRef: ChangeDetectorRef,
     private dataService: DataService
   ) {}
@@ -46,7 +44,7 @@ export class OrdersComponent implements OnInit, OnDestroy {
     this.currentUrl = this.router.url;
     // this.message = this.notificationsService.currentMessage;
     this.populateOrders();
-    this.listenNotification();
+    // this.listenNotification();
   }
 
   populateOrders() {
@@ -54,17 +52,18 @@ export class OrdersComponent implements OnInit, OnDestroy {
       .getOrders(this.dataService.franchiseId)
       .subscribe(responseData => {
         this.orders = responseData.data;
+        console.log('this.orders is : ', this.orders)
         this.cdRef.detectChanges();
       });
   }
 
-  listenNotification() {
-    this.notificationsService.currentMessage.subscribe(messagePayload => {
-      if (messagePayload) {
-        this.populateOrders();
-      }
-    });
-  }
+  // listenNotification() {
+  //   this.notificationsService.currentMessage.subscribe(messagePayload => {
+  //     if (messagePayload) {
+  //       this.populateOrders();
+  //     }
+  //   });
+  // }
 
   isGridrowExpandHandler(data: any) {
     let routeVariable = this.currentUrl.substring(

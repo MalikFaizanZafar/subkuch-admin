@@ -132,7 +132,6 @@ export class EditOverviewComponent implements OnInit {
   }
 
   submitHandler(form: NgForm) {
-    debugger;
     this.overviewForm.controls['location'].setValue(
       this.searchElementRef.nativeElement.value
     );

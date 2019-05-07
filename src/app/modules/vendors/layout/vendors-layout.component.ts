@@ -10,7 +10,6 @@ import { MemberDetails } from '../models/vendor-members';
 import { EditMainService } from '../services/editMain.service';
 import { IsModalService, IsModalSize } from '../../../lib';
 import { IsToasterService, IsToastPosition } from '../../../lib/toaster';
-import { NotificationsService } from 'app/services/notifications.service';
 import { SidebarLinks } from '../models/sidebar-links';
 import { ViewOrderNotificationDialogComponent } from '../components/view-order-notification-dialog/view-order-notification-dialog.component';
 import { FranchiseOrdersService } from '../services/franchiseOrders.service';
@@ -44,7 +43,6 @@ export class VendorsLayoutComponent implements OnInit {
     private isModal: IsModalService,
     private toaster: IsToasterService,
     private editMainService: EditMainService,
-    private notificationService: NotificationsService,
     private franchiseOrdersService: FranchiseOrdersService,
     private franchiseInfoService: FranchiseInfoService,
     private dataService: DataService
@@ -61,12 +59,12 @@ export class VendorsLayoutComponent implements OnInit {
       this.editBtnEnabled = val;
     });
 
-    this.notificationService.updateFranchise.subscribe(res => {
-      if (res) {
-        this.populateFranchise();
-      }
-    });
-    this.listenNotification();
+    // this.notificationService.updateFranchise.subscribe(res => {
+    //   if (res) {
+    //     this.populateFranchise();
+    //   }
+    // });
+    // this.listenNotification();
   }
 
   signOut() {
@@ -88,17 +86,17 @@ export class VendorsLayoutComponent implements OnInit {
       });
   }
 
-  listenNotification() {
-    this.notificationService.currentMessage.subscribe(messagePayload => {
-      if (messagePayload) {
-        this.notificationCount++;
-        console.log(messagePayload);
-        this.toaster.popInfo(' You got new order', {
-          position: IsToastPosition.BottomRight
-        });
-      }
-    });
-  }
+  // listenNotification() {
+  //   this.notificationService.currentMessage.subscribe(messagePayload => {
+  //     if (messagePayload) {
+  //       this.notificationCount++;
+  //       console.log(messagePayload);
+  //       this.toaster.popInfo(' You got new order', {
+  //         position: IsToastPosition.BottomRight
+  //       });
+  //     }
+  //   });
+  // }
 
   onBellIconClicked() {
     this.notificationCount = 0;

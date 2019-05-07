@@ -7,28 +7,37 @@
       (rowCollapse)="isGridrowCollapseHandler($event)" (rowExpand)="isGridrowExpandHandler($event)">
       <is-grid-column expander="true" [style]="{ width: '5px', height: '30px' }" styleClass="bg_blue">
       </is-grid-column>
-      <is-grid-column field="user" header="User" styleClass="text-dark" [style]="{ width: '50px', height: '50px' }">
+      <is-grid-column field="id" header="Order #" styleClass="text-dark" [style]="{ width: '50px', height: '50px' }">
         <ng-template let-order="rowData" isGridTemplate="body">
-          <span>User</span>
+          <span>{{order.id}}</span>
         </ng-template>
       </is-grid-column>
-      <is-grid-column [style]="{ width: '50px', height: '50px' }" field="ordersPlaced.startTime" header="Date"
+      <is-grid-column [style]="{ width: '50px', height: '50px' }" field="starttime" header="Start Time"
         styleClass="text-dark">
         <ng-template let-order="rowData" isGridTemplate="body">
-          <span>{{ order.ordersPlaced.startTime | date }}</span>
+          <span>{{ order.starttime | date: "HH:mm"}} , {{ order.starttime | date }}</span>
         </ng-template>
       </is-grid-column>
-      <is-grid-column [style]="{ width: '50px', height: '50px' }" field="ordersPlaced.startTime" header="time"
+      <is-grid-column [style]="{ width: '50px', height: '50px' }" field="endtime" header="End Time"
         styleClass="text-dark">
         <ng-template let-order="rowData" isGridTemplate="body">
-          <span>{{ order.ordersPlaced.startTime | date: "HH:mm:ss" }}</span>
+          <span>{{ order.endtime | date: "HH:mm"}} , {{ order.endtime | date }}</span>
+        </ng-template>
+      </is-grid-column>
+      <is-grid-column [style]="{ width: '50px', height: '50px' }" field="delivery" header="Delivery"
+        styleClass="text-dark">
+        <ng-template let-order="rowData" isGridTemplate="body">
+          <div class="d-flex justify-content-start">
+              <input type="checkbox"  [checked]="order.delivery == true ? true : null" class="ml-4">
+          </div>
         </ng-template>
       </is-grid-column>
       <is-grid-column field="status" header="Status" styleClass="text-dark" [style]="{ width: '50px', height: '50px' }">
         <ng-template let-order="rowData" isGridTemplate="body">
-          <span class="badge badge-success" *ngIf="order.ordersPlaced.delivery === true">Delivered</span>
-          <span class="badge badge-danger" *ngIf="order.ordersPlaced.acknowledged === false">New</span>
-          <span class="badge badge-light" *ngIf="order.ordersPlaced.acknowledged === true">Working</span>
+          <span class="badge badge-primary" *ngIf="order.status === 'Completed'">Completed</span>
+          <span class="badge badge-success" *ngIf="order.status === 'Delivered'">Delivered</span>
+          <span class="badge badge-danger" *ngIf="order.status === 'New'">New</span>
+          <span class="badge badge-light" *ngIf="order.status === 'Pending'">Pending</span>
         </ng-template>
       </is-grid-column>
       <ng-template let-data isGridTemplate="rowexpansion">

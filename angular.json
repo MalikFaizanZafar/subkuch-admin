@@ -16,7 +16,7 @@
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "src/tsconfig.app.json",
-            "assets": ["src/favicon.ico", "src/assets", "src/firebase-messaging-sw.js","src/manifest.json" ],
+            "assets": ["src/favicon.ico", "src/assets"],
             "styles": [
               "src/styles.scss"
             ],

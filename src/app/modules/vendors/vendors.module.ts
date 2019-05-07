@@ -21,7 +21,6 @@ import { FranchiseDealsService } from './services/franchiseDeals.service';
 import { FranchiseItemsService } from './services/franchiseItems.service';
 import { FranchiseOrdersService } from './services/franchiseOrders.service';
 import { FranchiseSalesService } from './services/franchiseSales.service';
-import { NotificationsService } from 'app/services/notifications.service';
 import { SearchService } from './services/search.service';
 import { GoogleMapService } from '@app/shared/services/google-map.service';
 import { ReviewsComponent } from './pages/reviews/reviews.component';

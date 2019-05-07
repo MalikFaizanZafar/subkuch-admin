@@ -13,7 +13,6 @@ import { CoreModule } from "./core/core.module";
 import { SharedModule } from "./shared/shared.module";
 import { SocialLoginModule, AuthServiceConfig } from "angularx-social-login";
 import { AuthConfig } from "./modules/auth/auth.config";
-import { NotificationsService } from "./services/notifications.service";
 import { FranchiseAccountService } from "./modules/vendors/services/franchiseAccount.service";
 import { AddCategoryDialogComponent } from "./modules/vendors/components/add-category-dialog/add-category-dialog.component";
 import { FranchiseItemsService } from "./modules/vendors/services/franchiseItems.service";
@@ -74,7 +73,6 @@ import { ConfirmationModalComponent } from "./modules/vendors/components/confirm
       provide: AuthServiceConfig,
       useFactory: AuthConfig
     },
-    NotificationsService,
     FranchiseAccountService,
     GoogleMapsAPIWrapper,
     FranchiseItemsService,
