@@ -48,17 +48,6 @@
             </div>
 
             <div class="form-group"
-              [class.mb-1]=" signupForm.controls['username'].errors && signupForm.controls['username'].errors.required && formDir.submitted">
-              <is-input-container>
-                <input autocomplete="username" class="sign__input" type="text" placeholder="Enter username"
-                  formControlName="username">
-              </is-input-container>
-            </div>
-            <div *ngIf="signupForm.controls['username'].errors && signupForm.controls['username'].errors.required && formDir.submitted" class="sign__input_error">
-              Username is required
-            </div>
-
-            <div class="form-group"
               [class.mb-1]="signupForm.controls['email'].errors && signupForm.controls['email'].errors.required && formDir.submitted">
               <is-input-container>
                 <input autocomplete="username" class="sign__input" type="email" placeholder="Enter Email id"
@@ -120,6 +109,13 @@
             <button #submitBtn loaderPosition="after" is-button type="submit"
               class="w-100 login-form__submit-btn">Register Now
             </button>
+            <div
+            *ngIf="emailExists"
+            class="alert alert-danger mt-2"
+            role="alert"
+          >
+            Email Already Exists. Please Login
+          </div>
           </form>
         </div>
       </div>

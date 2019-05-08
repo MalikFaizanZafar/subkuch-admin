@@ -20,12 +20,14 @@ export class SignUpComponent implements OnInit {
   loading: boolean = false;
   selectedService: number = 0;
   availableServices: AvailableServices[] = [];
+  emailExists: boolean; false;
 
   constructor(private authService: UserAuthService, 
               private isModal: IsModalService, 
               private router: Router){}
 
   ngOnInit() {
+    this.emailExists = false;
     this.signupForm = new FormGroup({
       email: new FormControl(null, [Validators.required, Validators.email]),
       brandName: new FormControl(null, [Validators.required]),
@@ -39,9 +41,6 @@ export class SignUpComponent implements OnInit {
       ]),
       service: new FormControl(0, [
         Validators.required
-      ]), 
-      username: new FormControl(null, [
-        Validators.required
       ]),
       contact: new FormControl(null, [
         Validators.required
@@ -54,6 +53,7 @@ export class SignUpComponent implements OnInit {
   }
 
   onSubmit(form: NgForm, btn: IsButton, template: TemplateRef<any>) {
+    this.emailExists = false;
     if (this.signupForm.controls.password.value !== this.signupForm.controls.confirmPassword.value) {
       return;
     }
@@ -67,8 +67,9 @@ export class SignUpComponent implements OnInit {
       vendor.name = user.brandName,
       vendor.password =  user.password,
       vendor.service_id=  parseInt(user.service, 10),
-      vendor.username =  user.username;
+      vendor.username =  ' ';
       this.authService.signup(vendor).subscribe(res => {
+        console.log("Signup res is : ", res)
         btn.stopLoading();
         if (res) {
           this.isModal.open(template, {data: vendor.email})
@@ -76,6 +77,11 @@ export class SignUpComponent implements OnInit {
               this.router.navigate(['/']);
               form.reset();
             });
+        }
+      }, error => {
+        if(error.error.message == 'Email Already Exists'){
+          this.emailExists = true;
+          btn.stopLoading();
         }
       })
     } else {

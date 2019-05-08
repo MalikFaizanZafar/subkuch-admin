@@ -106,6 +106,11 @@ export class LoginComponent implements OnInit {
     }
   }
 
+  toLoginForm() {
+    this.emailPhase = false
+    this.codePhase = false 
+    this.passPhase = false
+  }
   onForgotEmailSubmit(btn: IsButton) {
     if (this.forgotPasswordForm.valid) {
       let temp = this.forgotPasswordForm.value;

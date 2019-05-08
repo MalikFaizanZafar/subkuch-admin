@@ -8,14 +8,14 @@
           <img src="assets/subquch-light-logo.png" class="logo" />
         </a>
       </div>
-      <!-- <div *ngIf="franchises.length > 0 && mainFranchise.isAdmin" class="d-flex align-items-center justify-content-center">
+      <div *ngIf="franchises.length > 0 && mainFranchise.isAdmin" class="d-flex align-items-center justify-content-center">
           <form autocomplete="off" class="d-flex" [formGroup]="selectFranchiseForm" (ngSubmit)="onFranchiseSubmit()">
               <select class="form-control"  formControlName="franchiseSelected">
                   <option *ngFor="let franchise of franchises" [value]="franchise.id">{{franchise.address}}</option>
               </select>
               <button is-button type="submit" class="ml-2">Go</button>
             </form>
-      </div> -->
+      </div>
       <div class="w-25 d-flex justify-content-end align-items-center" (change)="onChangeFranchise($event)">
         <div class="position-relative">
             <i class="fa fa-bell text-white mr-4 mt-1 top-icon bell__icon" aria-hidden="true" (click)="onBellIconClicked()" #notificationIcon></i>
