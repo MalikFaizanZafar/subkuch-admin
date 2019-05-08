@@ -18,6 +18,7 @@ import { AddCategoryDialogComponent } from "./modules/vendors/components/add-cat
 import { FranchiseItemsService } from "./modules/vendors/services/franchiseItems.service";
 import { EditDealDialogBoxComponent } from "./modules/vendors/components/edit-deal-dialog-box/edit-deal-dialog-box.component";
 import { environment } from "../environments/environment";
+import { NotificationsService } from "./services/notifications.service";
 import { ViewOrderNotificationDialogComponent } from "./modules/vendors/components/view-order-notification-dialog/view-order-notification-dialog.component";
 import { AddDealDialogBoxComponent } from "./modules/vendors/components/add-deal-dialog-box/add-deal-dialog-box.component";
 import { AddMealDialogBoxComponent } from "./modules/vendors/components/add-meal-dialog-box/add-meal-dialog-box.component";
@@ -79,6 +80,7 @@ import { EditOrderStatusDialogComponent } from "./modules/vendors/components/edi
     GoogleMapsAPIWrapper,
     FranchiseItemsService,
     FranchiseOrdersService,
+    NotificationsService,
     UserAuthService
   ],
   bootstrap: [AppComponent],

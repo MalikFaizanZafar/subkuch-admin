@@ -4,6 +4,7 @@ import { Router } from "@angular/router";
 import { FranchiseOrdersService } from "../../services/franchiseOrders.service";
 import { Subject } from "rxjs";
 import { takeUntil } from "rxjs/operators";
+import { NotificationsService } from 'app/services/notifications.service';
 import { IsModalService, IsModalSize } from '../../../../lib';
 import { IsToasterService, IsToastPosition } from '../../../../lib/toaster';
 import { DataService } from "@app/shared/services/data.service";
@@ -29,6 +30,7 @@ export class OrdersComponent implements OnInit, OnDestroy {
     private router: Router,
     private cdRef: ChangeDetectorRef,
     private dataService: DataService,
+    private notificationsService: NotificationsService,
     private isModal: IsModalService,
     private toaster: IsToasterService,
   ) {}
@@ -47,9 +49,9 @@ export class OrdersComponent implements OnInit, OnDestroy {
 
   init() {
     this.currentUrl = this.router.url;
-    // this.message = this.notificationsService.currentMessage;
+    this.message = this.notificationsService.currentMessage;
     this.populateOrders();
-    // this.listenNotification();
+    this.listenNotification();
   }
 
   populateOrders() {
@@ -61,13 +63,13 @@ export class OrdersComponent implements OnInit, OnDestroy {
       });
   }
 
-  // listenNotification() {
-  //   this.notificationsService.currentMessage.subscribe(messagePayload => {
-  //     if (messagePayload) {
-  //       this.populateOrders();
-  //     }
-  //   });
-  // }
+  listenNotification() {
+    this.notificationsService.currentMessage.subscribe(messagePayload => {
+      if (messagePayload) {
+        this.populateOrders();
+      }
+    });
+  }
 
   isGridrowExpandHandler(data: any) {
     let routeVariable = this.currentUrl.substring(
