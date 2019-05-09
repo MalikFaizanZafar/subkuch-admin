@@ -1,3 +1,4 @@
+@import 'palette';
 .bg_blue {
   background-color: #52cdec;
 }
@@ -12,8 +13,11 @@
   width: 90% !important;
 }
 
+.order__status__edit__icon {
+  color: $is-blue;
+}
+
 .order__status__edit__icon:hover {
-  font-size: 17px;
-  color:blue;
+  color: blue;
   cursor: pointer;
 }
