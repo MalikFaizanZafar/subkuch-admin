@@ -25,7 +25,7 @@ import { RADIO_INPUT_CONFIG } from './radio-input.config';
 /**
  * Control value accessor for radio group
  */
-export const DF_RADIO_GROUP_CONTROL_VALUE_ACCESSOR: any = {
+export const IS_RADIO_GROUP_CONTROL_VALUE_ACCESSOR: any = {
   provide: NG_VALUE_ACCESSOR,
   useExisting: forwardRef(() => IsRadioGroup),
   multi: true
@@ -37,7 +37,7 @@ export const DF_RADIO_GROUP_CONTROL_VALUE_ACCESSOR: any = {
 @Component({
   selector: 'is-radio-group',
   template: `<ng-content></ng-content>`,
-  providers: [DF_RADIO_GROUP_CONTROL_VALUE_ACCESSOR],
+  providers: [IS_RADIO_GROUP_CONTROL_VALUE_ACCESSOR],
   host: {
     'role': 'radiogroup'
   },

@@ -1,0 +1,37 @@
+<span class="is-sortable-column__container">
+  <div class="is-sortable-column__wrapper">
+    <ng-content></ng-content>
+  </div>
+  <div class="is-sort-icons is-sort-icons--{{orderType}}">
+    <span class="is-sort-icon is-sort-icon--asc"></span>
+    <span class="is-sort-icon is-sort-icon--desc"></span>
+  </div>
+  <button *ngIf="filterable"
+          type="button"
+          class="is-filter-button"
+          id="is-filter-{{sortBy}}"
+          [class.is-filter-button--active]="isPropertyFiltered()"
+          [class.is-filter-button--visible]="isPopoverOpen()"
+          #popover="ngbPopover"
+          [ngbPopover]="columnFilter"
+          [placement]="placement"
+          triggers="click"
+          container="body">
+    <svg class="is-filter-button__icon"
+         viewBox="-288 -429 11 11"
+         version="1.1"
+         xmlns="http://www.w3.org/2000/svg">
+      <path d="M-277.043618,-428.722859 C-276.963081,-428.528624 -276.996243,-428.362813 -277.143104,-428.225427 L-280.646448,-424.722084 L-280.646448,-419.449303 C-280.646448,-419.25033 -280.738828,-419.110575 -280.923589,-419.030039 C-280.985175,-419.006352 -281.044394,-418.994508 -281.101243,-418.994508 C-281.229154,-418.994508 -281.335747,-419.039514 -281.421021,-419.129525 L-283.240201,-420.948706 C-283.330213,-421.038717 -283.375218,-421.14531 -283.375218,-421.268483 L-283.375218,-424.722084 L-286.878562,-428.225427 C-287.025423,-428.362813 -287.058585,-428.528624 -286.978048,-428.722859 C-286.897512,-428.90762 -286.757757,-429 -286.558784,-429 L-277.462882,-429 C-277.263909,-429 -277.124155,-428.90762 -277.043618,-428.722859 Z"
+            id="Shape"
+            stroke="none"
+            [attr.fill]="filterFillColor"
+            fill-rule="nonzero"></path>
+    </svg>
+  </button>
+</span>
+
+<ng-template #columnFilter>
+  <is-column-filter [filterBy]="sortBy"
+                    (onFilterChange)="filterChanged($event)"
+                    [tableId]="tableId"></is-column-filter>
+</ng-template>

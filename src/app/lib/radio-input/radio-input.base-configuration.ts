@@ -1,4 +1,4 @@
-import { DF_COLORS } from '../core/constants';
+import { IS_COLORS } from '../core/constants';
 import { IsRadioInputLabelPosition } from './radio-input-label-position';
 
 /**
@@ -8,17 +8,17 @@ export class IsRadioInputConfig {
   /**
    * Radio's default checked color
    */
-  checkedColor = DF_COLORS.BLACK;
+  checkedColor = IS_COLORS.BLACK;
 
   /**
    * Radio's default unchecked color
    */
-  uncheckedColor = DF_COLORS.BLACK;
+  uncheckedColor = IS_COLORS.BLACK;
 
   /**
    * Radio's default label color
    */
-  labelColor = DF_COLORS.BLACK;
+  labelColor = IS_COLORS.BLACK;
 
   /**
    * Radio's default label position

@@ -1,7 +1,7 @@
 /**
  * Constant for Colors list
  */
-export const DF_COLORS: any = {
+export const IS_COLORS: any = {
   WHITE: '#fff',
   RED: '#F44346',
   BLUE: '#03A9F4',

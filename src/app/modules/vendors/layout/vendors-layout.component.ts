@@ -58,8 +58,11 @@ export class VendorsLayoutComponent implements OnInit {
 
     this.populateFranchise();
     this.editMainService.editEnable.subscribe(val => {
+      
       this.editBtnEnabled = val;
     });
+
+    // this.notificationService.getPermission();
 
     this.notificationService.updateFranchise.subscribe(res => {
       if (res) {
@@ -90,6 +93,7 @@ export class VendorsLayoutComponent implements OnInit {
 
   listenNotification() {
     this.notificationService.currentMessage.subscribe(messagePayload => {
+      debugger
       if (messagePayload) {
         this.notificationCount++;
         console.log(messagePayload);

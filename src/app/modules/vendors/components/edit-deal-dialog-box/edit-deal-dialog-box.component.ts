@@ -37,6 +37,7 @@ export class EditDealDialogBoxComponent implements OnInit {
       attachment: new FormControl(null)
     });
   }
+
   onEditDealSubmit(btn: IsButton) {
     if (this.editDealForm.valid) {
       btn.startLoading();
@@ -81,10 +82,12 @@ export class EditDealDialogBoxComponent implements OnInit {
       }
     }
   }
+
   onCancelEditDeal() {
     this.dealImageFileChanged = false;
     this.isActiveModal.close("cancel");
   }
+
   dealImageChangeEvent(fileInput: any) {
     this.imageFile = fileInput.target.files[0];
     const self = this;

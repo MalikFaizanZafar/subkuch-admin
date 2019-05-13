@@ -23,10 +23,12 @@ export class FranchiseDealsService {
     let headers = new HttpHeaders();
     const token = localStorage.getItem("Authorization");
     headers = headers.append("Authorization", token);
-    return this.http.delete<any>(`${this.baseURL}/deal/${id}`, {
+    return this.http.delete<any>(
+      `${this.baseURL}/deal/${id}`, {
       headers
     });
   }
+  
   addDeal(deal: dealModel): Observable<any> {
     let headers = new HttpHeaders().set("Content-Type", "application/json");
     const token = localStorage.getItem("Authorization");
@@ -39,6 +41,7 @@ export class FranchiseDealsService {
     let headers = new HttpHeaders().set("Content-Type", "application/json");
     const token = localStorage.getItem("Authorization");
     headers = headers.append("Authorization", token);
+    debugger
     return this.http.put<any>(`${this.baseURL}/deal/${id}`, deal, {
       headers
     });

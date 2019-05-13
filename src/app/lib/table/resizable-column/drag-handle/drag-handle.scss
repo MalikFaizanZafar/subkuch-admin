@@ -1,0 +1,19 @@
+@import '../../../core/core';
+
+.is-resizable-column-drag-handle {
+  user-select: none;
+  position: absolute;
+  padding: 0 5px;
+  height: 100%;
+  right: 0;
+  top: 0;
+  transform: translateX(50%);
+  z-index: $z-index-1;
+  cursor: col-resize;
+
+  &__line {
+    height: 100%;
+    width: 1px;
+    background-color: map-get($is-light, 3);
+  }
+}

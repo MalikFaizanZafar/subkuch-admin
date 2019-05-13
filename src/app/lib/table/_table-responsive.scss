@@ -1,0 +1,84 @@
+@import '../core/style/variables';
+@import '../core/theming/palette';
+@import '../core/style/responsive-utils';
+
+@include media-breakpoint-down(sm) {
+  table[is-table].is-table--responsive {
+
+    //Force table to not behave like a native table anymore
+    &,
+    thead,
+    tbody,
+    th,
+    td,
+    tr {
+      display: block;
+      position: relative;
+      min-width: 100% !important; // sass-lint:disable-line no-important
+      max-width: 100% !important; // sass-lint:disable-line no-important
+      width: 100% !important; // sass-lint:disable-line no-important
+    }
+
+    // Hide table headers (but not display: none;, for accessibility)
+    thead {
+      tr {
+        position: absolute;
+        top: -#{$infinite}px;
+        left: -#{$infinite}px;
+      }
+
+      #paddingTh { // sass-lint:disable-line no-ids
+        display: none;
+      }
+    }
+
+    tbody {
+      border: 1px solid map-get($is-light, 7);
+      border-bottom: none;
+    }
+
+    tr {
+      border-bottom: 1px solid map-get($is-light, 7);
+
+      &:nth-of-type(odd):hover,
+      &:nth-of-type(even):hover {
+        background: none;
+      }
+    }
+
+    td {
+      // Behave  like a 'row'
+      display: flex;
+      align-items: center;
+      border: none;
+      position: relative;
+      white-space: normal;
+      text-align: left;
+
+      &,
+      &:not(.is-row-detail__td) {
+        padding-left: 50%;
+        border-bottom: 1px solid map-get($is-light, 4);
+      }
+
+      &:last-child {
+        border-bottom: none;
+      }
+
+      &::before {
+        content: attr(data-header);
+        position: absolute;
+        left: 0;
+        top: 0;
+        height: 100%;
+        width: 45%;
+        padding: 0 10px;
+        text-align: left;
+        font-weight: 500;
+        display: flex;
+        white-space: normal;
+        align-items: center;
+      }
+    }
+  }
+}

@@ -1,6 +1,8 @@
 table[is-table] thead tr:not(.is-table__section) th,
 table[is-table] thead tr:not(.is-table__section) .is-sortable-column {
-  border-bottom: 1px solid map-get($au-gray, 2);
+  border-bottom: 1px solid map-get($au-gray, 2);  
+  background: map-get($au-dark, 1 );
+  color: $au-white;
 
   &::before,
   &::after {

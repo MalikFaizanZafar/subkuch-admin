@@ -8,3 +8,4 @@ export * from './badge';
 export * from './dropdown'
 export * from './slide-toggle';
 export * from './user-profile';
+export * from './table';

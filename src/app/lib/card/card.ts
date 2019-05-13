@@ -11,7 +11,7 @@ import {
 } from '@angular/core';
 
 /**
- * DF Card Header
+ * IS Card Header
  */
 @Directive({
   selector: 'is-card-header, [is-card-header]',
@@ -20,7 +20,7 @@ import {
 export class IsCardHeader { }
 
 /**
- * DF Card Title
+ * IS Card Title
  */
 @Directive({
   selector: 'is-card-title, [is-card-title]',
@@ -29,7 +29,7 @@ export class IsCardHeader { }
 export class IsCardTitle { }
 
 /**
- * DF Card Header Button
+ * IS Card Header Button
  */
 @Directive({
   selector: '[is-card-header-button]',
@@ -38,7 +38,7 @@ export class IsCardTitle { }
 export class IsCardHeaderButton { }
 
 /**
- * DF Card Feature Image
+ * IS Card Feature Image
  */
 @Directive({
   selector: '[is-card-image]',
@@ -47,7 +47,7 @@ export class IsCardHeaderButton { }
 export class IsCardImage { }
 
 /**
- * DF Card Avatar
+ * IS Card Avatar
  */
 @Directive({
   selector: 'is-card-avatar',
@@ -80,7 +80,7 @@ export class IsCardAvatar implements OnChanges {
 }
 
 /**
- * DF Card Content
+ * IS Card Content
  */
 @Directive({
   selector: 'is-card-content, [is-card-content]',
@@ -89,7 +89,7 @@ export class IsCardAvatar implements OnChanges {
 export class IsCardContent { }
 
 /**
- * DF Card Footer
+ * IS Card Footer
  */
 @Directive({
   selector: 'is-card-footer, [is-card-footer]',
@@ -98,7 +98,7 @@ export class IsCardContent { }
 export class IsCardFooter { }
 
 /**
- * DF Card Main Container
+ * IS Card Main Container
  */
 @Component({
   selector: 'is-card',

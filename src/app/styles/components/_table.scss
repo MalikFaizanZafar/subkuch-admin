@@ -1,48 +1,48 @@
-// @import "~@devfactory/ngx-df/core/_core";
+// @import "~@devfactory/ngx-is/core/_core";
 // @import 'palette';
 
-// table[df-table] {
+// table[is-table] {
 //   box-shadow: none;
 // }
 
-// .df-table {
+// .is-table {
 //   thead {
 //     th {
 //       font-weight: bolder !important;
-//       color: map-get($df-dark, 3) !important;
+//       color: map-get($is-dark, 3) !important;
 //       height: 40px;
 //       text-align: left;
 //       font-weight: 500;
-//       border-bottom: 1px solid map-get($df-light, 7);
+//       border-bottom: 1px solid map-get($is-light, 7);
 //       border-left: none;
 //       position: inherit;
 //     }
 //   }
 // }
 
-// table[df-table] {
+// table[is-table] {
 //   td {
 //     border-left: none;
-//     border-bottom: 1px solid map-get($df-light, 7);
-//     &:not(.df-row-detail__td) {
+//     border-bottom: 1px solid map-get($is-light, 7);
+//     &:not(.is-row-detail__td) {
 //       font-size: 14px;
 //       padding-top: 7px;
 //       padding-bottom: 7px;
-//       color: map-get($df-dark, 3);
+//       color: map-get($is-dark, 3);
 //       font-weight: 400;
 //     }
 //   }
 // } 
 
-// table[df-table] thead td,
-// table[df-table] thead th,
-// table[df-table] thead .df-sortable-column {
+// table[is-table] thead td,
+// table[is-table] thead th,
+// table[is-table] thead .is-sortable-column {
 //   font-size: 14px;
-//   color: map-get($df-dark, 3);
+//   color: map-get($is-dark, 3);
 // }
 
 
-// table[df-table] i {
+// table[is-table] i {
 //   color: #28bd8b;
 //   cursor: default;
 
@@ -51,15 +51,15 @@
 //   }
 // }
 
-// table[df-table] tr {
-//   &:not(.df-selectable-row--selected) {
+// table[is-table] tr {
+//   &:not(.is-selectable-row--selected) {
 //     &:hover {
-//       background-color: map-get($df-light, 3);
+//       background-color: map-get($is-light, 3);
 //     }
 //     &:nth-of-type(odd) {
-//       background-color: map-get($df-light, 1);
+//       background-color: map-get($is-light, 1);
 //       &:hover {
-//         background-color: map-get($df-light, 3);
+//         background-color: map-get($is-light, 3);
 //       }
 //     }
 //   }

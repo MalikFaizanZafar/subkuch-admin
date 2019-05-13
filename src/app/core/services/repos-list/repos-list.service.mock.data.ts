@@ -17,7 +17,7 @@
 //   'trilogy-group/ignite-nuview-hrms',
 //   'trilogy-group/aurea-crm-net',
 //   'trilogy-group/aurea-cxmonitor-test-automation',
-//   'trilogy-group/df-peoplegraph',
+//   'trilogy-group/is-peoplegraph',
 //   'trilogy-group/aurea-eng-docker-gfi-lyris-hq',
 //   'trilogy-group/aurea-ace-gce',
 //   'trilogy-group/bootcamp-firstrain-system',

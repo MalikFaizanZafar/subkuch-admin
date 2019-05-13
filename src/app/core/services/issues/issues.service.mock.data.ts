@@ -136,7 +136,7 @@
 //     { id: 2, link, name: 'aurea-kayako' },
 //     { id: 3, link, name: 'ignite-infer-sales' },
 //     { id: 4, link, name: 'aurea-lyris-hq-ui' },
-//     { id: 5, link, name: 'df-peoplegraph' },
+//     { id: 5, link, name: 'is-peoplegraph' },
 //     { id: 6, link, name: 'dfproto-frontend-library' },
 //   ];
 // }

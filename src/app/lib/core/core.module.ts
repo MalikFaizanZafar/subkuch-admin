@@ -5,7 +5,7 @@ import { IsSuffix } from './shared/directives/suffix';
 import { IsFileSizePipe } from './shared/pipe/file-size.pipe';
 import { FilterPipe } from './shared/pipe/filter.pipe';
 import { KeysPipe } from './shared/pipe/keys.pipe';
-import { DF_ERROR_STATE_MATCHER } from './shared/tokens/error-state-matcher.token';
+import { IS_ERROR_STATE_MATCHER } from './shared/tokens/error-state-matcher.token';
 import { showOnTouchedOrFormSubmittedErrorStateMatcher } from './shared/utils/error-state-matchers';
 
 @NgModule({
@@ -18,7 +18,7 @@ export class IsCoreModule {
       ngModule: IsCoreModule,
       providers: [
         {
-          provide: DF_ERROR_STATE_MATCHER,
+          provide: IS_ERROR_STATE_MATCHER,
           useValue: showOnTouchedOrFormSubmittedErrorStateMatcher
         }
       ]

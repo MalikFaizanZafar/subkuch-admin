@@ -1,0 +1,19 @@
+.isdr {
+  position: relative;
+
+  &__icon {
+    position: absolute;
+    top: 50%;
+    right: 5px;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    @supports (not(-ms-ime-align: auto)) { // sass-lint:disable-line no-vendor-prefixes
+      transform: translateY(-50%);
+    }
+
+    @supports (-ms-ime-align: auto) { // sass-lint:disable-line no-vendor-prefixes
+      transform: translateY(0%);
+    }
+  }
+}

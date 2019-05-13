@@ -19,7 +19,7 @@
         <div class="card rounded shadow  mb-3 deal__card">
           <div class="row no-gutters">
             <div class="col-md-5">
-              <img [src]="deal.dealImage" class="card-img" style="height:100%;" alt="..." />
+              <img [src]="deal.deal_image" class="card-img" style="height:100%;" alt="..." />
             </div>
             <div class="col-md-7">
               <div class="card-body">
@@ -36,10 +36,10 @@
                   Price
                   <span class="badge badge-dark">{{ deal.price }}</span>
                 </h4>
-                <p class="card-text">
+                <p class="card-text" *ngIf="deal.end_date">
                   <small class="text-muted">
                     <i class="fas fa-user-clock deal__icons mr-2"></i>
-                    {{ deal.endDate | date }}
+                    {{ deal.end_date | date }}
                   </small>
                 </p>
                 <div class="d-flex justify-content-end w-100 align-items-center mt-5"></div>

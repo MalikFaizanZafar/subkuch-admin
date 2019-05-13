@@ -2,7 +2,7 @@ import { IsGridColumn } from '../shared/column';
 import { ObjectUtils } from '../utils/object-utils';
 import { IsGridFilterMetadata, IsGridFilterMatchMode } from '../utils/models/index';
 
-const DF_GRID_DEFAULT_FILTER_DELAY = 300;
+const IS_GRID_DEFAULT_FILTER_DELAY = 300;
 
 export class IsGridFilterHandler {
 
@@ -24,7 +24,7 @@ export class IsGridFilterHandler {
   /**
    * Default delay for the filter
    */
-  filterDelay = DF_GRID_DEFAULT_FILTER_DELAY;
+  filterDelay = IS_GRID_DEFAULT_FILTER_DELAY;
 
   /**
    * Filter Timeout

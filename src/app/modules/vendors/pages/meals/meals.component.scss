@@ -5,6 +5,10 @@
   color: map-get($is-light, 1);
 }
 
+.main-content {
+  height: calc(100vh - 190px);
+}
+
 .icon-color {
   cursor: pointer;
   color: $is-blue;

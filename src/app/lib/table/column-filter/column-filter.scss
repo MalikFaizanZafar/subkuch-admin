@@ -1,0 +1,163 @@
+@import '../../core/theming/palette';
+@import '../../core/style/variables';
+
+.is-filters {
+  padding-top: 7px;
+}
+
+.is-filter {
+  display: block;
+  white-space: nowrap;
+  cursor: pointer;
+  border-radius: 3px;
+
+  &:hover {
+    background: map-get($is-light , 2);
+  }
+
+  &__input {
+    display: none;
+  }
+
+  &__label {
+    font-size: 11px;
+    color: map-get($is-dark , 5);
+    font-weight: 500;
+    padding: 5px 8px;
+    display: block;
+    cursor: pointer;
+    margin-bottom: 0;
+  }
+
+  &__input + label {
+    opacity: .4;
+
+    .filter__check {
+      opacity: .25;
+    }
+  }
+
+  &__check {
+    display: inline-block;
+    margin-right: 10px;
+    position: relative;
+    top: 0;
+    color: $is-blue;
+    font-size: 12px;
+    pointer-events: none;
+  }
+
+  &__input:checked + label {
+    &,
+    .is-filter__check {
+      opacity: 1;
+    }
+  }
+}
+
+.is-filter-text {
+  width: 100%;
+  font-weight: 500;
+}
+
+.is-input-wrapper {
+  width: 100%;
+  padding: 0 8px;
+  margin-bottom: 9px;
+  position: relative;
+}
+
+.is-filter-actions {
+  margin-bottom: 11px;
+  padding-left: 9px;
+}
+
+.is-filter-action {
+  background: none;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  color: $is-blue;
+  border-bottom: 1px solid $is-blue;
+  font-weight: 600;
+  font-size: 11px;
+  display: inline-block;
+  margin-right: 10px;
+  padding: 0;
+
+  &:hover {
+    color: #0280b9;
+  }
+}
+
+.is-filters-wrapper {
+  max-height: 169px;
+  overflow-y: auto;
+  margin-bottom: 5px;
+}
+
+.is-filter-text-icon {
+  position: absolute;
+  top: 10px;
+  right: 19px;
+  opacity: .15;
+  font-size: 13px;
+  pointer-events: none;
+  height: 10px;
+  width: 10px;
+  border-radius: 50%;
+  border: 2px solid #000;
+
+  &::after {
+    content: '';
+    width: 7px;
+    height: 2px;
+    border-radius: 5px;
+    transform: rotate(43deg);
+    position: absolute;
+    top: 7px;
+    right: -5px;
+    background: #000;
+  }
+}
+
+.is-text-input {
+  font-family: $is-font-family;
+  height: 32px;
+  display: inline-block;
+  appearance: none;
+  border: 1px solid map-get($is-light, 6);
+  border-radius: 3px;
+  background: transparent;
+  padding: 0 10px;
+  transition: $ease-in-out;
+  font-size: .85em;
+  width: 100%;
+
+  &:focus {
+    border-color: $is-blue;
+    box-shadow: 0 0 7px rgba(3, 169, 244, .41);
+    border-width: 1px;
+  }
+}
+
+// Overwrites global popover styles
+.popover-content {
+  padding: 5px;
+}
+
+.popover {
+  border: none;
+  max-width: 500px;
+  box-shadow: 0 2px 6px 0 rgba(0, 0, 0, .27);
+  min-width: 180px;
+
+  &::before {
+    border: none;
+  }
+
+  &.popover.popover-bottom::after {
+    border-bottom-color: #fff;
+  }
+}
+

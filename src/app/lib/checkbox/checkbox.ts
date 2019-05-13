@@ -20,7 +20,7 @@ let nextId = 0;
  * ControlValueAccessor. This allows it to support [(ngModel)].
  * @docs-private
  */
-export const DF_CHECKBOX_CONTROL_VALUE_ACCESSOR: any = {
+export const IS_CHECKBOX_CONTROL_VALUE_ACCESSOR: any = {
   provide: NG_VALUE_ACCESSOR,
   useExisting: forwardRef(() => IsCheckbox),
   multi: true
@@ -37,7 +37,7 @@ export const DF_CHECKBOX_CONTROL_VALUE_ACCESSOR: any = {
     '[class.is-checkbox__icon--disabled]': 'disabled',
     '[class.is-checkbox--label-before]': 'labelPosition === "before"'
   },
-  providers: [DF_CHECKBOX_CONTROL_VALUE_ACCESSOR],
+  providers: [IS_CHECKBOX_CONTROL_VALUE_ACCESSOR],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush
 })

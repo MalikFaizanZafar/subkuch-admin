@@ -1,7 +1,16 @@
 export interface dealModel {
-  name : String,
-  price : Number,
-  endDate?: Date,
-  dealImage?: String,
-  franchiseId : Number
+  name?: string;
+  price?: number;
+  end_date?: Date;
+  deal_image?: string;
+  franchise_id?: number;
+  items: DealDetail[];
+  subtitle?: string;
+  description?: string;
+
+}
+
+export interface DealDetail {
+  id?: number;
+  quantity?: number;
 }

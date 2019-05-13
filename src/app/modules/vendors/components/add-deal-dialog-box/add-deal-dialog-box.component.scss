@@ -1,4 +1,37 @@
+@import 'palette';
+
+.icon {
+  cursor: pointer;
+  &__save {
+    color: $is-green;
+  }
+
+  &__remove {
+    color: $is-red;
+  }
+
+  &__edit {
+    color: $is-blue;
+  }
+
+}
 :host {
+  .col-size {
+    width: 45%
+  }
+
+  .quantity__input {
+    height: 36px;
+  }
+
+  .col-action {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    cursor: pointer;
+  }
+
   .form-size {
     overflow: hidden;
     overflow-y: auto;

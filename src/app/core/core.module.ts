@@ -6,7 +6,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxDfCustom } from '@app/shared/ngx-custom.module';
-// import { DfHttpErrorInterceptor, DfHttpIEInterceptor, DfHttpLoaderInterceptor } from '@devfactory/ngx-df/interceptor';
+// import { DfHttpErrorInterceptor, DfHttpIEInterceptor, DfHttpLoaderInterceptor } from '@devfactory/ngx-is/interceptor';
 import { NgbDropdownModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { HttpErrorInterceptor } from '@app/core/http-interceptors';
 

@@ -128,7 +128,7 @@ export class IsIEInputEventManagerPlugin {
  * class substituted in place of the in-built
  * EventManagerPlugin
  */
-export const DF_IE_INPUT_EVENT_MANAGER_PLUGIN_PROVIDER: Provider = {
+export const IS_IE_INPUT_EVENT_MANAGER_PLUGIN_PROVIDER: Provider = {
   provide: EVENT_MANAGER_PLUGINS,
   useClass: IsIEInputEventManagerPlugin,
   deps: [DOCUMENT, Platform],
@@ -137,7 +137,7 @@ export const DF_IE_INPUT_EVENT_MANAGER_PLUGIN_PROVIDER: Provider = {
 
 @NgModule({
   imports: [PlatformModule],
-  providers: [DF_IE_INPUT_EVENT_MANAGER_PLUGIN_PROVIDER]
+  providers: [IS_IE_INPUT_EVENT_MANAGER_PLUGIN_PROVIDER]
 })
 export class IsIEInputEventManagerPluginModule {
   static forRoot(): ModuleWithProviders {

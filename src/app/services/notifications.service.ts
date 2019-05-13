@@ -46,7 +46,6 @@ export class NotificationsService {
         return this.messaging.getToken()
       })
       .then(token => {
-        
         this.updateToken(token)
         this.franchiseAccountService.setDeviceToken({token}).subscribe(resp => {
           
@@ -59,6 +58,7 @@ export class NotificationsService {
 
     receiveMessage() {
        this.messaging.onMessage((payload) => {
+         debugger
         this.franchiseOrdersService.addNewOrder(payload.data.order);
         this.currentMessage.next(payload);
       });

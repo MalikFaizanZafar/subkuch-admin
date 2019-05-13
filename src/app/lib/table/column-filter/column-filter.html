@@ -1,0 +1,40 @@
+<div class="is-filters">
+  <div class="is-input-wrapper">
+    <input type="text"
+           class="is-text-input"
+           [value]="getFilterInput()"
+           #filterInput
+           (keyup)="onInputChange(filterInput.value)">
+    <i class="is-filter-text-icon"></i>
+  </div>
+  <div class="is-filter-actions">
+    <button type="button"
+            class="is-filter-action"
+            (click)="selectAll()">
+      Select all
+    </button>
+    <button type="button"
+            class="is-filter-action"
+            (click)="clearAll()">
+      Clear all
+    </button>
+  </div>
+  <div class="is-filters-wrapper">
+    <div class="is-filter"
+         *ngFor="let prop of properties">
+      <div *ngIf="prop != '_filterInput'">
+        <input id="{{filterBy}}.{{prop}}"
+               class="is-filter__input"
+               (change)="onCheckboxToggle($event, filterInput);"
+               type="checkbox"
+               name="{{prop}}"
+               value="{{prop}}"
+               [checked]="filter[prop]">
+            <label class="is-filter__label"
+                   for="{{filterBy}}.{{prop}}">
+              <span class="is-filter__check fa fa-check"></span>{{prop}}
+            </label>
+      </div>
+    </div>
+  </div>
+</div>

@@ -26,7 +26,7 @@
             </is-badge>
           </div>
           <is-user-profile
-          [userName]="mainFranchise?.managerName"
+          [userName]="mainFranchise?.managerName || mainFranchise?.contact[0].email"
           [image]="'http://www.wpclipart.com/signs_symbol/icons_oversized/male_user_icon.png'">
           <button class="dropdown-item" (click)="signOut()">
             <i class="fa fa-sign-out"></i> Sign Out

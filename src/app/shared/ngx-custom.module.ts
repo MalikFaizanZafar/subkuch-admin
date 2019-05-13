@@ -1,5 +1,5 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
-import { IsButtonModule, IsRevealCarouselModule, IsCoreModule, IsCardModule, IsTimePickerModule, IsBadgeModule, IsDropdownModule, IsSlideToggleModule } from '../lib';
+import { IsButtonModule, IsRevealCarouselModule, IsCoreModule, IsCardModule, IsTimePickerModule, IsBadgeModule, IsDropdownModule, IsSlideToggleModule, IsTableModule } from '../lib';
 import { IsSidebarModule } from 'app/lib/sidebar';
 import { IsTopbarModule } from 'app/lib/topbar';
 import { IsInputModule } from '../lib/input';
@@ -9,7 +9,7 @@ import { IsModalModule } from 'app/lib/modal';
 import { IsGridModule } from 'app/lib/grid';
 import { IsToasterModule } from '../lib/toaster';
 
-const NGX_DF_MODULES: any[] = [
+const NGX_IS_MODULES: any[] = [
   IsCoreModule,
   IsButtonModule,
   IsRevealCarouselModule,
@@ -26,7 +26,8 @@ const NGX_DF_MODULES: any[] = [
   IsBadgeModule,
   IsDropdownModule,
   IsSlideToggleModule,
-  IsUserProfileModule
+  IsUserProfileModule,
+  IsTableModule
 ];
 
 @NgModule({
@@ -47,15 +48,16 @@ const NGX_DF_MODULES: any[] = [
     IsBadgeModule.forRoot(),
     IsDropdownModule.forRoot(),
     IsSlideToggleModule.forRoot(),
-    IsUserProfileModule.forRoot()
+    IsUserProfileModule.forRoot(),
+    IsTableModule.forRoot()
   ],
-  exports: NGX_DF_MODULES,
+  exports: NGX_IS_MODULES,
 })
 export class NgxDfRootModule {}
 
 @NgModule({
-  imports: NGX_DF_MODULES,
-  exports: NGX_DF_MODULES,
+  imports: NGX_IS_MODULES,
+  exports: NGX_IS_MODULES,
 })
 export class NgxDfCustom {
   static forRoot(): ModuleWithProviders {

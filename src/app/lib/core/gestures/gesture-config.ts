@@ -7,7 +7,7 @@ import {
   Recognizer,
   RecognizerStatic
 } from './gesture-annotations';
-import { DF_HAMMER_OPTIONS } from './gesture-config-token';
+import { IS_HAMMER_OPTIONS } from './gesture-config-token';
 
 /**
  * Adjusts configuration of our gesture library, Hammer.
@@ -39,7 +39,7 @@ export class IsGestureConfig extends HammerGestureConfig {
    * Constructor for IsGestureConfig
    * @param _hammerOptions Hammer options
    */
-  constructor( @Optional() @Inject(DF_HAMMER_OPTIONS) private _hammerOptions?: HammerOptions ) {
+  constructor( @Optional() @Inject(IS_HAMMER_OPTIONS) private _hammerOptions?: HammerOptions ) {
     super();
   }
 

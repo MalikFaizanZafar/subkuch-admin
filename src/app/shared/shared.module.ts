@@ -2,11 +2,12 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 import { NgxDfCustom } from './ngx-custom.module';
 import { MapModalModule } from '@app/shared/map-modal/map-modal.module';
 
-const SHARED_MODULES: any[] = [FormsModule, RouterModule, ReactiveFormsModule, CommonModule, NgxDfCustom, MapModalModule];
+const SHARED_MODULES: any[] = [NgSelectModule, FormsModule, RouterModule, ReactiveFormsModule, CommonModule, NgxDfCustom, MapModalModule];
 const SHARED_COMPONENTS: any[] = [
 ];
 const SHARED_PIPES: any[] = [];

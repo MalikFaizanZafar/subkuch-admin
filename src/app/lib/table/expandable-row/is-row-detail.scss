@@ -1,0 +1,16 @@
+.is-row-detail {
+  display: table-row;
+  vertical-align: inherit;
+
+  &__content {
+    transition-property: height;
+    transition-timing-function: ease;
+    overflow: hidden;
+  }
+}
+
+.is-expandable-row--closed + .is-row-detail {
+  .is-row-detail__content {
+    height: 0 !important; // sass-lint:disable-line no-important
+  }
+}

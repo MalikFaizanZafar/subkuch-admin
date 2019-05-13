@@ -80,7 +80,7 @@ export class IsToastContainer {
 
   /**
    * Callback method called on click of toast
-   * @param toast object of DFToast
+   * @param toast object of ISToast
    */
   onToastClick( toast: IsToast ) {
     if (toast.options.closeOnClick && !toast.options.showCloseButton) {

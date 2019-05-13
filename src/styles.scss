@@ -1,5 +1,6 @@
 @import '~@angular/cdk/overlay-prebuilt.css';
 @import 'app/styles/main';
+@import "~@ng-select/ng-select/themes/default.theme.css";
 
 @font-face {
   font-family: Montserrat;
@@ -20,6 +21,9 @@ $font-family: 'RalewayLight', Helvetica, sans-serif;
 
 html,
 body {
+@import 'app/lib/core/theming/aurea-skin/theming';
+@import 'app/lib/core/theming/aurea-skin/table';
+
   font-family: $font-family;
   color: map-get($is-dark, 3);
   -webkit-font-smoothing: antialiased;

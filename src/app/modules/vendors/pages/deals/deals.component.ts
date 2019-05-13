@@ -58,12 +58,9 @@ export class DealsComponent implements OnInit {
 
   ngOnInit() {
     this.route.params.subscribe(params => {
-      this.franchiseDealsService
-        .getDeals(this.dataService.franchiseId)
-        .subscribe(responseData => {
-          this.deals = responseData.data;
-        });
+     this.populateDeals();
     });
+
     this.dealForm = new FormGroup({
       name: new FormControl(null, [Validators.required]),
       price: new FormControl(null, [Validators.required]),
@@ -72,36 +69,66 @@ export class DealsComponent implements OnInit {
     });
   }
 
+  populateDeals() {
+    this.franchiseDealsService
+    .getDeals(this.dataService.franchiseId)
+    .subscribe(responseData => {
+      this.deals = responseData.data;
+    });
+  }
+  
   onEditDealHandler(id) {
     let filterdDeals = this.deals.filter(meal => meal.id == id);
     this.editDeal = filterdDeals[0];
-    this.imageToBeDeleted = this.editDeal.dealImage;
+    this.imageToBeDeleted = this.editDeal.deal_image;
     this.dealEditCancelled = false;
-    const deleteModal = this.isModal.open(EditDealDialogBoxComponent, {
-      data: this.editDeal,
-      backdrop: 'static'
+
+    const addDealDialog = this.isModal.open(AddDealDialogBoxComponent, {
+      data: {
+        mode: 'editing',
+        deal: this.editDeal
+      },
+      backdrop: 'static',
+      size: IsModalSize.Large
     });
-    deleteModal.onClose.subscribe(res => {
-      if (res === 'cancel') {
-        this.dealEditCancelled = true;
-      } else if (res === 0) {
-        this.dealEditCancelled = true;
-      } else if (!this.dealEditCancelled) {
-        this.franchiseDealsService
-          .editDeal(res, this.editDeal.id)
-          .subscribe(responseData => {
-            this.newDeal = responseData.data;
-            this.showDeals = true;
-            const editDealIndex = this.deals
-              .map(deal => deal.id)
-              .indexOf(this.editDeal.id);
-            this.deals[editDealIndex] = this.newDeal;
-            this.storage.storage.refFromURL(this.imageToBeDeleted).delete();
-            this.toaster.popSuccess('Deal Has Been Edited Successfully');
-          });
+
+    addDealDialog.onClose.subscribe(res => {
+      if (res !== 'cancel' && res.mode === 'editing') {
+        this.updateDeal(res.deal);
       }
     });
+
+    // const deleteModal = this.isModal.open(AddDealDialogBoxComponent, {
+    //   data: {
+    //     mode: 'editing',
+    //     deal: this.editDeal
+    //   },
+    //   backdrop: 'static',
+    //   size: IsModalSize.Large
+    // });
+
+    // deleteModal.onClose.subscribe(res => {
+    //   if (res === 'cancel') {
+    //     this.dealEditCancelled = true;
+    //   } else if (res === 0) {
+    //     this.dealEditCancelled = true;
+    //   } else if (!this.dealEditCancelled) {
+    //     this.franchiseDealsService
+    //       .editDeal(res, this.editDeal.id)
+    //       .subscribe(responseData => {
+    //         this.newDeal = responseData.data;
+    //         this.showDeals = true;
+    //         const editDealIndex = this.deals
+    //           .map(deal => deal.id)
+    //           .indexOf(this.editDeal.id);
+    //         this.deals[editDealIndex] = this.newDeal;
+    //         this.storage.storage.refFromURL(this.imageToBeDeleted).delete();
+    //         this.toaster.popSuccess('Deal Has Been Edited Successfully');
+    //       });
+    //   }
+    // });
   }
+
   onDeleteDealHandler(id, deleteDialog: TemplateRef<any>) {
     const deleteModal = this.isModal.open(deleteDialog, {
       data: 'Are Your Sure you want to Delete this Deal ?'
@@ -111,7 +138,7 @@ export class DealsComponent implements OnInit {
         let delDeal = this.deals.filter(deal => deal.id == id);
         this.deleteDeal = delDeal[0];
         const delFile = this.storage.storage.refFromURL(
-          this.deleteDeal.dealImage
+          this.deleteDeal.deal_image
         );
         delFile.delete().then(deletedFile => {
           this.franchiseDealsService.deleteDeal(id).subscribe(response => {
@@ -124,21 +151,48 @@ export class DealsComponent implements OnInit {
       }
     });
   }
+
   onAddDealClickHandler() {
     this.dealAddCancelled = false;
     const addDealDialog = this.isModal.open(AddDealDialogBoxComponent, {
-      backdrop: 'static'
+      data: {
+        mode: 'new'
+      },
+      backdrop: 'static',
+      size: IsModalSize.Large
     });
 
     addDealDialog.onClose.subscribe(res => {
-      if (res !== 'cancel') {
-        this.franchiseDealsService.addDeal(res).subscribe(addDealResponse => {
-          this.deals.push(addDealResponse.data);
-          this.toaster.popSuccess('Deal Has Been Added Successfully', {
-            position: IsToastPosition.BottomRight
-          });
-        });
+
+      if (res !== 'cancel' && res.mode === 'new') {
+        this.saveDealData(res.deal);
       }
+    });
+  }
+
+  private updateDeal(deal: dealModel) {
+    this.franchiseDealsService
+          .editDeal(deal, this.editDeal.id)
+          .subscribe(responseData => {
+            this.newDeal = responseData.data;
+            this.showDeals = true;
+            const editDealIndex = this.deals
+              .map(deal => deal.id)
+              .indexOf(this.editDeal.id);
+            this.deals[editDealIndex] = this.newDeal;
+            this.storage.storage.refFromURL(this.imageToBeDeleted).delete();
+            this.toaster.popSuccess('Deal Has Been Edited Successfully');
+          });
+  }
+
+
+  private saveDealData(deal: dealModel) {
+    this.franchiseDealsService.addDeal(deal).subscribe(addDealResponse => {
+          
+      this.toaster.popSuccess('Deal Has Been Added Successfully', {
+        position: IsToastPosition.BottomRight
+      });
+      this.populateDeals();
     });
   }
 }
