@@ -21,8 +21,12 @@ table[is-table] thead .is-sortable-column {
 table[is-table] td:not(.is-row-detail__td),
 table[is-table] th,
 table[is-table] .is-sortable-column {
-  border-left: none;
+  // border-left: none;
   height: 40px;
+}
+
+table[is-table] th {
+  border-left: none;
 }
 
 table[is-table] td:not(.is-row-detail__td) {

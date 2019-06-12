@@ -10,6 +10,7 @@ import { SalesComponent } from './pages/sales/sales.component';
 import { OrdersComponent } from './pages/orders/orders.component';
 import { ReviewsComponent } from './pages/reviews/reviews.component';
 import { SettingsComponent } from './pages/settings/settings.component';
+import { CreateOrderComponent } from './components/create-order/create-order.component';
 
 const routes: Routes = [
   { path: '', component: VendorsLayoutComponent, children: [

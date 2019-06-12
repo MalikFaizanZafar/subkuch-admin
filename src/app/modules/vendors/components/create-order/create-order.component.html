@@ -1,0 +1,156 @@
+<div class="">
+  <div class="card-header bg-dark text-white font-weight-bold rounded-0 ">
+    Create Order
+  </div>
+  <div class="content-block d-flex">
+    <div *ngIf="loading" class="content__min-height d-flex justify-content-center align-items-center loader-container">
+      <div class="is-loader"></div>
+    </div>
+    <div class="d-flex justify-content-around px-3 pt-3 w-100" *ngIf="!loading && !isUserVerified">
+      <div>
+        <div class="d-flex justify-content-between align-items-center">
+          <label class="is-input__label mb-0">Verification Type</label>
+          <ng-select [items]="userVarificationTypes"
+                    class="custom__select"
+                    bindLabel="value"
+                    bindValue="id"
+                    [(ngModel)]="selectedType"
+                    (change)="onSelectionChange()">
+        </ng-select>
+        </div>
+      </div>
+      <div>
+        <is-input-container [label]="inputLabel || 'Email Id'">
+          <input
+            autocomplete="fakeName"
+            class="login-form__input"
+            type="text"
+            [placeholder]="inputLabel || 'Email Id'"
+            [(ngModel)]="verificationInput">
+        </is-input-container>
+      </div>
+      <div>
+        <button is-button
+                #verifyBtn
+                (click)="verifyIfUserExist(verifyBtn)">Verify User</button>
+      </div>
+    </div>
+
+    <div class="row mt-3 mx-0" *ngIf="!loading && isUserVerified">
+      <h5 class="text-success text-center w-100 mt-2"> SubQuch Verified User </h5>
+      <div class="col-md-12 mt-3">
+        <is-checkbox [(ngModel)]="manualEntry">System Generated Order</is-checkbox> 
+      </div>
+
+      <div class="d-flex justify-content-around w-100" *ngIf="manualEntry">
+        <div >
+          <is-input-container label="Order Number">
+            <input
+              autocomplete="fakeName"
+              class="login-form__input"
+              type="text"
+              placeholder="Order Number"
+              [(ngModel)]="orderNumber">
+          </is-input-container>
+        </div>
+        <div>
+          <is-input-container label="Order Total" [showSpinners]="false">
+            <input
+              autocomplete="fakeName"
+              class="login-form__input"
+              type="number"
+              placeholder="Enter Order Cost"
+              [(ngModel)]="price">
+          </is-input-container>
+        </div>
+      </div>
+      <div class="row mt-3 px-3 w-100" *ngIf="!manualEntry">
+        <div class="col-sm-12">
+          <h5>Items</h5>
+          <table is-table
+                [data]="itemsList">
+            <thead>
+              <tr>
+                <th>Type</th>
+                <th>Name</th>
+                <th>Quantity</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let obj of itemsList; let i= index;">
+                <td class="col-size">
+                  <div *ngIf="!obj.editing" class="text-left">{{getItemTypes(obj)}}</div>
+                  <ng-select *ngIf="obj.editing"
+                            [items]="itemTypes"
+                            class="select"
+                            bindLabel="value"
+                            bindValue="id"
+                            [(ngModel)]="obj.type">
+                  </ng-select>
+                </td>
+
+                <td class="col-size">
+                    <div *ngIf="!obj.editing" class="text-left">{{obj.name}}</div>
+                    <ng-select *ngIf="obj.editing && obj.type === 1"
+                              [items]="meals "
+                              class="select"
+                              bindLabel="name"
+                              bindValue="id"
+                              [(ngModel)]="obj.id">
+                    </ng-select>
+                    <ng-select *ngIf="obj.editing && obj.type === 2"
+                              [items]="deals"
+                              class="select"
+                              bindLabel="name"
+                              bindValue="id"
+                              [(ngModel)]="obj.id">
+                    </ng-select>
+                    <div *ngIf="showItemError"
+                          class="item-form__input_error d-flex align-items-center justify-content-center">
+                      <span class="text-danger ml-3">Item is required</span>
+                    </div>
+                  </td>
+
+                <td class="col-size">
+                  <div *ngIf="!obj.editing" class="text-right">{{obj.quantity}}</div>
+                  <is-input-container [showSpinners]="false" *ngIf="obj.editing">
+                    <input type="number" class="quantity__input" [(ngModel)]="obj.quantity">
+                  </is-input-container>
+                  <div *ngIf="showQuantityError"
+                        class="item-form__input_error d-flex align-items-center justify-content-center">
+                    <span class="text-danger ml-3">Quantity is required</span>
+                  </div>
+                </td>
+                <td class="col-action">
+                  <i *ngIf="obj.editing" class="fa fa-floppy-o icon icon__save" aria-hidden="true" (click)="onSave(obj, i)"></i>
+                  <i *ngIf="!obj.editing" class="fa fa-pencil-square-o icon icon__edit mr-3" aria-hidden="true" (click)="onEiditing(obj)"></i>
+                  <i *ngIf="!obj.editing" class="fa fa-times icon icon__remove" aria-hidden="true" (click)="onRemove(i)"></i>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div *ngIf="showItemsError"
+                class="item-form__input_error d-flex align-items-center justify-content-center">
+            <span class="text-danger ml-3">Items cannot be empty</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="form-group d-flex justify-content-start mt-5" *ngIf="!loading && isUserVerified">
+    <div class="d-flex w-100 justify-content-end px-4">
+      <button type="submit" 
+              (click)="onSubmit(saveBtn)"        
+              theme="danger" class="btn btn-primary btn-lg" is-button #saveBtn>
+        Submit
+      </button>
+      <button is-button theme="primary" type="button" (click)="activeModal.close('cancel')"
+        class="btn btn-alert btn-lg ml-3">
+        Cancel
+      </button>
+    </div>
+  </div>
+</div>

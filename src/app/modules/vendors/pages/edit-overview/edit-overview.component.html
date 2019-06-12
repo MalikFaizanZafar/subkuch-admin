@@ -62,7 +62,7 @@
               </div>
               </div>
             </div>
-            <div class="d-flex justify-content-between w-100">
+            <!-- <div class="d-flex justify-content-between w-100">
               <div class="form-group pl-0 col-4">
                   <is-input-container label="Secondary Contact">
                       <input 
@@ -96,7 +96,7 @@
                       formControlName="contactTwo">
                   </is-input-container>
                 </div>
-            </div>
+            </div> -->
             <!-- <div class="form-group w-100 pr-3">
                 <is-input-container label="Address">
                   <input 
@@ -139,6 +139,19 @@
                   <label class="is-input__label">Closinig Time</label>
                 </div>
                 <is-timepicker class="position-relative" formControlName="endTime" placement="top"></is-timepicker>
+              </div>
+            </div>
+
+            <h5 class="mt-4">Delivery Info</h5>
+            <div class="mb-3">
+              <div class="form-group w-50 mb-1">
+                <is-checkbox formControlName="delivery" (change)="onDeliverFlag($event)">Delivery Available</is-checkbox>
+              </div>
+              <div class="form-group w-50" *ngIf="setDeliveryRange">
+                <is-input-container [showSpinners]="true"
+                    label="Delivery Range in Kilometers">
+                  <input type="number" formControlName="deliveryRange">
+                </is-input-container>
               </div>
             </div>
             <div class="d-flex justify-content-end">

@@ -3,13 +3,14 @@ import {
   OnInit,
   ElementRef,
   ViewChild,
-  TemplateRef
+  TemplateRef,
+  OnDestroy
 } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { FranchiseDealsService } from '../../services/franchiseDeals.service';
 import { AngularFireStorage } from '@angular/fire/storage';
-import { Observable } from 'rxjs';
-import { finalize } from 'rxjs/operators';
+import { Observable, Subject } from 'rxjs';
+import { finalize, takeUntil } from 'rxjs/operators';
 import {
   IsButton,
   IsModalService,
@@ -28,7 +29,7 @@ import { DataService } from '@app/shared/services/data.service';
   templateUrl: './deals.component.html',
   styleUrls: ['./deals.component.scss']
 })
-export class DealsComponent implements OnInit {
+export class DealsComponent implements OnInit, OnDestroy {
   deals: any = [];
   dealForm: FormGroup;
   editDealForm: FormGroup;
@@ -46,6 +47,12 @@ export class DealsComponent implements OnInit {
   dealAddCancelled = false;
   @ViewChild('dealImage') dealImage: ElementRef;
   @ViewChild('edealImage') edealImage: ElementRef;
+  loading = false;
+
+   /**
+   * Subscription to be triggered on destroy cycle of component.
+   */
+  private destroy: Subject<null> = new Subject();
 
   constructor(
     private franchiseDealsService: FranchiseDealsService,
@@ -69,9 +76,19 @@ export class DealsComponent implements OnInit {
     });
   }
 
+   /**
+   * Destroy life cycle of the component.
+   */
+  ngOnDestroy(): void {
+    this.destroy.next();
+    this.destroy.unsubscribe();
+  }
+
   populateDeals() {
+    this.loading = true;
     this.franchiseDealsService
     .getDeals(this.dataService.franchiseId)
+    .pipe(finalize(() => this.loading = false),takeUntil(this.destroy))
     .subscribe(responseData => {
       this.deals = responseData.data;
     });
@@ -94,39 +111,9 @@ export class DealsComponent implements OnInit {
 
     addDealDialog.onClose.subscribe(res => {
       if (res !== 'cancel' && res.mode === 'editing') {
-        this.updateDeal(res.deal);
+        this.updateDeal(res.deal, res.imageDeleted);
       }
     });
-
-    // const deleteModal = this.isModal.open(AddDealDialogBoxComponent, {
-    //   data: {
-    //     mode: 'editing',
-    //     deal: this.editDeal
-    //   },
-    //   backdrop: 'static',
-    //   size: IsModalSize.Large
-    // });
-
-    // deleteModal.onClose.subscribe(res => {
-    //   if (res === 'cancel') {
-    //     this.dealEditCancelled = true;
-    //   } else if (res === 0) {
-    //     this.dealEditCancelled = true;
-    //   } else if (!this.dealEditCancelled) {
-    //     this.franchiseDealsService
-    //       .editDeal(res, this.editDeal.id)
-    //       .subscribe(responseData => {
-    //         this.newDeal = responseData.data;
-    //         this.showDeals = true;
-    //         const editDealIndex = this.deals
-    //           .map(deal => deal.id)
-    //           .indexOf(this.editDeal.id);
-    //         this.deals[editDealIndex] = this.newDeal;
-    //         this.storage.storage.refFromURL(this.imageToBeDeleted).delete();
-    //         this.toaster.popSuccess('Deal Has Been Edited Successfully');
-    //       });
-    //   }
-    // });
   }
 
   onDeleteDealHandler(id, deleteDialog: TemplateRef<any>) {
@@ -170,18 +157,21 @@ export class DealsComponent implements OnInit {
     });
   }
 
-  private updateDeal(deal: dealModel) {
+  private updateDeal(deal: dealModel, imageDeleted: boolean) {
     this.franchiseDealsService
           .editDeal(deal, this.editDeal.id)
           .subscribe(responseData => {
             this.newDeal = responseData.data;
             this.showDeals = true;
-            const editDealIndex = this.deals
-              .map(deal => deal.id)
-              .indexOf(this.editDeal.id);
+            const editDealIndex = this.deals.findIndex(deal => deal.id);
             this.deals[editDealIndex] = this.newDeal;
-            this.storage.storage.refFromURL(this.imageToBeDeleted).delete();
-            this.toaster.popSuccess('Deal Has Been Edited Successfully');
+            console.log(this.deals);
+            if (imageDeleted) {
+              this.storage.storage.refFromURL(this.imageToBeDeleted).delete();
+            }
+            this.toaster.popSuccess('Deal Has Been Edited Successfully',{
+              position: IsToastPosition.BottomRight
+            });
           });
   }
 

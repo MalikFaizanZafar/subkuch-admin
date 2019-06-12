@@ -1,12 +1,20 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, OnDestroy } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { IsActiveModal, IsButton } from 'app/lib';
 import { AngularFireStorage } from '@angular/fire/storage';
-import { Observable } from 'rxjs';
-import { finalize } from 'rxjs/operators';
+import { Observable, Subject } from 'rxjs';
+import { finalize, takeUntil } from 'rxjs/operators';
 import { DataService } from '@app/shared/services/data.service';
 import { FranchiseItemsService } from '../../services/franchiseItems.service';
 import { dealModel } from '../../models/dealModel';
+
+
+const startTime: Date = new Date();
+startTime.setHours(0);
+startTime.setMinutes(1);
+const endTime: Date = new Date();
+endTime.setHours(23);
+endTime.setMinutes(59);
 
 interface ItemsList {
   quantity?: number;
@@ -24,7 +32,7 @@ interface DealItems {
   templateUrl: './add-deal-dialog-box.component.html',
   styleUrls: ['./add-deal-dialog-box.component.scss']
 })
-export class AddDealDialogBoxComponent implements OnInit {
+export class AddDealDialogBoxComponent implements OnInit, OnDestroy {
   dealForm: FormGroup;
   newDeal;
   imageFile;
@@ -40,6 +48,10 @@ export class AddDealDialogBoxComponent implements OnInit {
   isSubmitted: boolean = false;
   deals: dealModel;
   dealImageChanged: boolean = false;
+  /**
+   * Subscription to be triggered on destroy cycle of component.
+   */
+  private destroy: Subject<null> = new Subject();
 
   constructor(
     private isActiveModal: IsActiveModal,
@@ -52,22 +64,31 @@ export class AddDealDialogBoxComponent implements OnInit {
     if (this.isActiveModal.data.mode === 'editing') {
       this.deals = this.isActiveModal.data.deal;
     }
-    
 
     this.dealForm = new FormGroup({
-      name: new FormControl(this.deals.name || null, [Validators.required]),
-      price: new FormControl(this.deals.price || null, [Validators.required]),
-      discountEnd: new FormControl(this.deals.end_date || null),
+      name: new FormControl(this.deals ? this.deals.name : null, [Validators.required]),
+      price: new FormControl(this.deals ? this.deals.price : null, [Validators.required]),
+      discountEnd: new FormControl(this.deals ? this.deals.end_date : null),
       attachment: new FormControl(null,  this.setImageValidator()),
-      subtitle: new FormControl(this.deals.subtitle ||  null),
-      description: new FormControl(this.deals.description || null)
+      subtitle: new FormControl(this.deals ? this.deals.subtitle :  null),
+      description: new FormControl(this.deals ? this.deals.description : null),
+      startTime: new FormControl(this.deals ? new Date(this.deals.startTime) : startTime),
+      endTime: new FormControl(this.deals? new Date(this.deals.endTime) : startTime)
     });
 
     this.populateItems();
   }
 
+       /**
+   * Destroy life cycle of the component.
+   */
+  ngOnDestroy(): void {
+    this.destroy.next();
+    this.destroy.unsubscribe();
+  }
+
   setImageValidator() {
-    if (!this.deals.deal_image) {
+    if (this.deals && !this.deals.deal_image) {
       return [Validators.required];
     }
   }
@@ -84,7 +105,8 @@ export class AddDealDialogBoxComponent implements OnInit {
   populateItems() {
     this.itemLoading = true;
     this.franchiseItemsService
-      .getItems(this.dataService.franchiseId).pipe(finalize(() => this.itemLoading = false))
+      .getItems(this.dataService.franchiseId)
+      .pipe(finalize(() => this.itemLoading = false), takeUntil(this.destroy))
       .subscribe(itemresponseData => {
         this.items   = itemresponseData.data;
         this.setItemsList();
@@ -92,6 +114,7 @@ export class AddDealDialogBoxComponent implements OnInit {
   }
 
   setItemsList() {
+    debugger
     if (this.deals && this.deals.items.length) {
       this.itemsList = [];
       this.itemsList = this.deals.items;
@@ -100,15 +123,14 @@ export class AddDealDialogBoxComponent implements OnInit {
   }
 
   onDealSubmit(btn: IsButton) {
+    debugger
     this.mapDealItems();
     this.isSubmitted = true;
-    if (this.dealItemsList.length === 0) {
-      this.showItemsError = true;
-      return;
-    }
+
     if (this.dealForm.valid) {
       if (!this.dealImageChanged) {
         let deal = this.dealForm.value;
+
         this.newDeal = {
           name: deal.name,
           price: deal.price,
@@ -117,11 +139,14 @@ export class AddDealDialogBoxComponent implements OnInit {
           franchise_id: this.dataService.franchiseId,
           subtitle: deal.subtitle,              
           description: deal.description,
-          items: this.dealItemsList
+          items: this.dealItemsList,
+          startTime: deal.startTime,
+          endTime: deal.endTime
         };
         this.isActiveModal.close({
           deal: this.newDeal,
-          mode: this.isActiveModal.data.mode
+          mode: this.isActiveModal.data.mode,
+          imageDeleted: false
          });
          
          return ;
@@ -144,6 +169,7 @@ export class AddDealDialogBoxComponent implements OnInit {
             this.downloadURL = fileRef.getDownloadURL();
             this.downloadURL.subscribe(url => {
               let deal = this.dealForm.value;
+
               this.newDeal = {
                 name: deal.name,
                 price: deal.price,
@@ -152,11 +178,14 @@ export class AddDealDialogBoxComponent implements OnInit {
                 franchise_id: this.dataService.franchiseId,
                 subtitle: deal.subtitle,              
                 description: deal.description,
-                items: this.dealItemsList
+                items: this.dealItemsList,
+                startTime: deal.startTime,
+                endTime: deal.endTime
               };
               this.isActiveModal.close({
                deal: this.newDeal,
-               mode: this.isActiveModal.data.mode
+               mode: this.isActiveModal.data.mode,
+               imageDeleted: true
               });
             });
           })

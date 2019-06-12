@@ -9,3 +9,5 @@ export * from './dropdown'
 export * from './slide-toggle';
 export * from './user-profile';
 export * from './table';
+export * from './checkbox';
+export * from './datepicker';

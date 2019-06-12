@@ -1,11 +1,25 @@
 @import "palette";
+.min-content-height {
+  height: calc(100vh - 215px);
+}
+
 .bg_blue {
   background-color: #52cdec;
+}
+
+.deal__card {
+  height: 180px;
 }
 
 .edit_deals_icons {
   font-size: 16px;
   font-weight: bold;
+}
+
+.card-description {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 
 .offered__deals__price {
@@ -34,7 +48,6 @@
   }
 }
 .deal__icons:hover {
-  color: blue;
   cursor: pointer;
 }
 

@@ -3,12 +3,27 @@ import { order } from "../../models/vendor-members";
 import { Router } from "@angular/router";
 import { FranchiseOrdersService } from "../../services/franchiseOrders.service";
 import { Subject } from "rxjs";
-import { takeUntil } from "rxjs/operators";
+import { takeUntil, finalize } from "rxjs/operators";
 import { NotificationsService } from 'app/services/notifications.service';
 import { IsModalService, IsModalSize } from '../../../../lib';
 import { IsToasterService, IsToastPosition } from '../../../../lib/toaster';
 import { DataService } from "@app/shared/services/data.service";
 import { EditOrderStatusDialogComponent } from "../../components/edit-order-status-dialog/edit-order-status-dialog.component";
+import { CreateOrderComponent } from "../../components/create-order/create-order.component";
+import { Order } from "../../models/order";
+
+interface MenuItem {
+  id: MenuItemType,
+  text: string;
+}
+
+enum MenuItemType {
+  New = 'New',
+  Completed = 'Completed',
+  Delivered = 'Delivered',
+  Cancelled = 'Cancelled',
+  Edit = 'Edit'
+}
 
 @Component({
   selector: "orders",
@@ -19,6 +34,30 @@ export class OrdersComponent implements OnInit, OnDestroy {
   orders: order[] = [];
   currentUrl: string;
   message;
+  loading: boolean = false;
+  selectedItem2: Order;
+  menuItems: MenuItem[] = [
+    {
+      id: MenuItemType.New,
+      text: 'New'
+    },
+    {
+      id: MenuItemType.Edit,
+      text: 'Edit',
+    },
+    {
+      id: MenuItemType.Completed,
+      text: 'Completed',
+    },
+    {
+      id: MenuItemType.Delivered,
+      text: 'Delivered',
+    },
+    {
+      id: MenuItemType.Cancelled,
+      text: 'Cancelled',
+    },
+  ];
 
   /**
    * Subscription to be triggered on destroy cycle of component.
@@ -54,9 +93,58 @@ export class OrdersComponent implements OnInit, OnDestroy {
     this.listenNotification();
   }
 
+  isActionDisabled(order: Order) {
+    return order.status === MenuItemType.Delivered || order.status === MenuItemType.Completed;
+  }
+
+  isVisibleItem(menuItem: MenuItem, order: Order) {
+    if (menuItem.id === MenuItemType.Completed && !order.delivery) {
+      return true;
+    }
+    if (menuItem.id === MenuItemType.Delivered && order.delivery) {
+      return true;
+    }
+    if (menuItem.id === MenuItemType.Cancelled && order.delivery && order.status !== MenuItemType.Delivered) {
+      return true;
+    }
+    if (menuItem.id === MenuItemType.Edit && order.status === MenuItemType.New) {
+      return true;
+    }
+    return false;
+  }
+
+  menuAction(menuItem: MenuItem, order: Order) {
+    if (menuItem.id === MenuItemType.Edit) {
+      this.onChangeStatusHandler(order);
+    } else {
+      order.status = menuItem.text;
+      this.loading = true;
+      this.franchiseOrdersService.updateOrderStatus({id: order.id, status: order.status})
+        .pipe(finalize(() => this.loading = false))
+        .subscribe(res => {})
+    }
+  }
+
+  getTheme(order: Order) {
+     if (MenuItemType.Completed === order.status || MenuItemType.Delivered === order.status) {
+      return 'success'
+    } else if (MenuItemType.Cancelled === order.status) {
+      return 'danger';
+    } else {
+      return 'primary';
+    }
+  }
+
+  getActionValue(order: Order) {
+    return MenuItemType[order.status];
+  }
+
   populateOrders() {
+    this.loading = true;
     this.franchiseOrdersService
       .getOrders(this.dataService.franchiseId)
+      .pipe(finalize(() => this.loading = false),
+        takeUntil(this.destroy))
       .subscribe(responseData => {
         this.orders = responseData.data;
         this.cdRef.detectChanges();
@@ -71,55 +159,27 @@ export class OrdersComponent implements OnInit, OnDestroy {
     });
   }
 
-  isGridrowExpandHandler(data: any) {
-    let routeVariable = this.currentUrl.substring(
-      0,
-      this.currentUrl.indexOf("?")
-    );
-    if (routeVariable) {
-      this.router.navigate([routeVariable], {
-        queryParams: { orderId: data.data.oNum },
-        queryParamsHandling: "merge"
-      });
-    } else {
-      this.router.navigate([this.currentUrl], {
-        queryParams: { orderId: data.data.oNum },
-        queryParamsHandling: "merge"
-      });
-    }
+  createOrder() {
+    this.isModal.open(CreateOrderComponent, {
+      size: IsModalSize.Large,
+      backdrop: 'static'
+    });
+  }
+
+  isGridrowExpandHandler(row: any) {
   }
 
   isGridrowCollapseHandler(data: any) {
-    let routeVariable = this.currentUrl.substring(
-      0,
-      this.currentUrl.indexOf("?")
-    );
-    if (routeVariable) {
-      this.router.navigate([routeVariable]);
-    } else {
-      this.router.navigate([this.currentUrl]);
-    }
+
   }
 
-  onChangeStatusHandler( id : number, status : string){
-    const editOrderStatusDlg = this.isModal.open(EditOrderStatusDialogComponent, {
-      data: { status},
-      backdrop: 'static'
-    })
-    editOrderStatusDlg.onClose.subscribe(res => {
-      if(res !== 'cancel'){
-        let data = {
-          id : id,
-          status: res
-        }
-        this.franchiseOrdersService.changeOrderStatus(data).subscribe(editOrderStatusResponse => {
-          this.toaster.popSuccess("Order Status Changed Successfully")
-          // let editIndex = this.orders.map(order => order.id).indexOf(id);
-          // this.orders[editIndex].status = res
-        })
-      }else {
-        return;
-      }
-    })
+  onChangeStatusHandler( order: any){
+    const editOrderStatusDlg = this.isModal.open(CreateOrderComponent, {
+      data: order,
+      backdrop: 'static',
+      size: IsModalSize.Large
+    });
+
+    editOrderStatusDlg.onClose.subscribe(() => this.populateOrders());
   }
 }

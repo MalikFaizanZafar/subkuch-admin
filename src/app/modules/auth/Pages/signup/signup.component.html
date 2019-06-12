@@ -109,6 +109,9 @@
             <button #submitBtn loaderPosition="after" is-button type="submit"
               class="w-100 login-form__submit-btn">Register Now
             </button>
+            <div class=" d-flex justify-content-end mt-2">
+              <a routerLink="/">Already have an account?</a>
+            </div>
             <div
             *ngIf="emailExists"
             class="alert alert-danger mt-2"

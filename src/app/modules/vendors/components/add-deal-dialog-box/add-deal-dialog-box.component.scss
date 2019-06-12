@@ -1,5 +1,10 @@
-@import 'palette';
+@import "palette";
 
+.deal__block {
+  max-height: 380px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
 .icon {
   cursor: pointer;
   &__save {
@@ -13,11 +18,18 @@
   &__edit {
     color: $is-blue;
   }
-
 }
 :host {
+  .min-content-height {
+    height: calc(100vh - 215px);
+  }
+  &::ng-deep {
+    .is-timepicker__ui--top {
+      top: -100px;
+    }
+  }
   .col-size {
-    width: 45%
+    width: 45%;
   }
 
   .quantity__input {

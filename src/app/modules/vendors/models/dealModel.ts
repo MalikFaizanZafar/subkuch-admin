@@ -7,7 +7,8 @@ export interface dealModel {
   items: DealDetail[];
   subtitle?: string;
   description?: string;
-
+  startTime?: string;
+  endTime?: string;
 }
 
 export interface DealDetail {

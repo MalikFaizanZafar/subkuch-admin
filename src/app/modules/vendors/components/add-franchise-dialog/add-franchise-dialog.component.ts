@@ -59,7 +59,9 @@ export class AddFranchiseDialogComponent implements OnInit {
     });
 
     this.googleMapService.currentAddress.subscribe(res => {
-      this.searchElementRef.nativeElement.value = res;
+      if (res) {
+        this.searchElementRef.nativeElement.value = res.address;
+      }
     });
   }
 

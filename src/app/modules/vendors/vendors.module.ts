@@ -28,6 +28,7 @@ import { environment } from 'environments/environment';
 import { SettingsComponent } from './pages/settings/settings.component';
 import { UserAuthService } from '../auth/services/auth.service';
 import { AddDealDialogBoxComponent } from './components/add-deal-dialog-box/add-deal-dialog-box.component';
+import { CreateOrderComponent } from './components/create-order/create-order.component';
 
 
 @NgModule({

@@ -31,6 +31,9 @@ import { AddFranchiseDialogComponent } from "./modules/vendors/components/add-fr
 import { NgbDropdown, NgbDropdownModule } from "@ng-bootstrap/ng-bootstrap";
 import { ConfirmationModalComponent } from "./modules/vendors/components/confirmation-modal/confirmation-modal.component";
 import { EditOrderStatusDialogComponent } from "./modules/vendors/components/edit-order-status-dialog/edit-order-status-dialog.component";
+import { CreateOrderComponent } from "./modules/vendors/components/create-order/create-order.component";
+import { FranchiseDealsService } from "./modules/vendors/services/franchiseDeals.service";
+import { DataService } from "./shared/services/data.service";
 
 @NgModule({
   declarations: [
@@ -45,7 +48,8 @@ import { EditOrderStatusDialogComponent } from "./modules/vendors/components/edi
     EditMealDialogBoxComponent,
     AddFranchiseDialogComponent,
     ConfirmationModalComponent,
-    EditOrderStatusDialogComponent
+    EditOrderStatusDialogComponent,
+    CreateOrderComponent
   ],
   imports: [
     AppRoutingModule,
@@ -81,7 +85,11 @@ import { EditOrderStatusDialogComponent } from "./modules/vendors/components/edi
     FranchiseItemsService,
     FranchiseOrdersService,
     NotificationsService,
-    UserAuthService
+    UserAuthService,
+    FranchiseDealsService,
+    FranchiseItemsService,
+    DataService,
+    FranchiseOrdersService
   ],
   bootstrap: [AppComponent],
   entryComponents: [
@@ -95,7 +103,8 @@ import { EditOrderStatusDialogComponent } from "./modules/vendors/components/edi
     EditMealDialogBoxComponent,
     AddFranchiseDialogComponent,
     ConfirmationModalComponent,
-    EditOrderStatusDialogComponent
+    EditOrderStatusDialogComponent,
+    CreateOrderComponent
   ]
 })
 export class AppModule {}

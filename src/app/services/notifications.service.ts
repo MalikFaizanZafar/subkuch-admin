@@ -52,7 +52,7 @@ export class NotificationsService {
         })
       })
       .catch((err) => {
-        console.log('token now generated');
+        console.log('token not generated');
       });
     }
 

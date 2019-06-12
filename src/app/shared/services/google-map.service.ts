@@ -5,11 +5,15 @@ import { LocationCoordinates } from '@app/shared/models/coordinates';
 import { BehaviorSubject } from 'rxjs';
 
 declare var google: any;
+interface AddressInfo {
+  address?: string;
+  city?: string; 
+}
 
 @Injectable()
 export class GoogleMapService {
   private _address: any;
-  currentAddress: BehaviorSubject<string> = new BehaviorSubject(null);
+  currentAddress: BehaviorSubject<AddressInfo> = new BehaviorSubject(null);
 
   get address(){
     return this._address;
@@ -25,8 +29,9 @@ export class GoogleMapService {
     }
   }  
 
-  getAddress(currentAddress: any[] ): Observable<string> {
+  getAddress(currentAddress: any[] ): Observable<AddressInfo> {
     let addressString = '';
+    let cityName = '';
     const street = this.getParsedAddress(currentAddress, 'street_number');
     addressString += street? `${street.long_name}, `: ''; 
     const route = this.getParsedAddress(currentAddress, 'route');
@@ -35,9 +40,10 @@ export class GoogleMapService {
     addressString += area? `${area.long_name}, `: ''; 
     const city = this.getParsedAddress(currentAddress, 'locality');
     addressString += city? `${city.long_name}, `: ''; 
+    cityName =  city? `${city.long_name}, `: '';
     const country = this.getParsedAddress(currentAddress, 'country');
     addressString += country? `${country.long_name}`: ''; 
-    return of(addressString);
+    return of({address: addressString, city: cityName});
   }
 
   getUserCurrentAddress(currentPostion: LocationCoordinates) {

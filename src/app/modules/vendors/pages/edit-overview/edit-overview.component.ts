@@ -17,6 +17,7 @@ import { MapModalComponent } from '@app/shared/map-modal/components/map-modal/ma
 import { SearchService } from '../../services/search.service';
 import { FranchiseInfoService } from '../../services/franchiseInfo.service';
 import { IsToasterService, IsToastPosition } from '../../../../lib/toaster';
+import { IsCheckboxChange } from 'app/lib';
 
 interface FranchiseContact {
   email?: string;
@@ -26,6 +27,7 @@ interface FranchiseContact {
   franchiseId?: number;
 }
 declare var google: any;
+
 const startTime: Date = new Date();
 startTime.setHours(9);
 startTime.setMinutes(0);
@@ -47,6 +49,8 @@ export class EditOverviewComponent implements OnInit {
   imageLoaded: boolean;
   currentPostion: LocationCoordinates;
   currentAddress: string;
+  setDeliveryRange = false;
+  city: string;
 
   @ViewChild('search')
   public searchElementRef: ElementRef;
@@ -63,6 +67,7 @@ export class EditOverviewComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    console.log(this.data);
     this.overviewForm = new FormGroup({
       welcomeParagraph: new FormControl(this.data.welcomeNote || '', [
         Validators.required
@@ -73,36 +78,38 @@ export class EditOverviewComponent implements OnInit {
           : '',
         [Validators.required]
       ),
-      contactTwo: new FormControl(
-        this.data.contact[1]
-          ? this.data.contact[1].franchiseContactPersonName || ''
-          : ''
-      ),
+      // contactTwo: new FormControl(
+      //   this.data.contact[1]
+      //     ? this.data.contact[1].franchiseContactPersonName || ''
+      //     : ''
+      // ),
       phoneOne: new FormControl(
         this.data.contact[0]
           ? this.data.contact[0].franchiseContactPersonPhone || ''
           : '',
         [Validators.required]
       ),
-      phoneTwo: new FormControl(
-        this.data.contact[1]
-          ? this.data.contact[1].franchiseContactPersonPhone || ''
-          : ''
-      ),
+      // phoneTwo: new FormControl(
+      //   this.data.contact[1]
+      //     ? this.data.contact[1].franchiseContactPersonPhone || ''
+      //     : ''
+      // ),
       emailOne: new FormControl(
         this.data.contact[0] ? this.data.contact[0].email || '' : '',
         [Validators.required]
       ),
-      emailTwo: new FormControl(
-        this.data.contact[1] ? this.data.contact[1].email || '' : ''
-      ),
+      // emailTwo: new FormControl(
+      //   this.data.contact[1] ? this.data.contact[1].email || '' : ''
+      // ),
       location: new FormControl(this.data.address || '', [Validators.required]),
       startTime: new FormControl(new Date(this.data.startTime) || startTime, [
         Validators.required
       ]),
       endTime: new FormControl(new Date(this.data.endTime) || endTime, [
         Validators.required
-      ])
+      ]),
+      delivery: new FormControl( this.data.doDelivery || false),
+      deliveryRange: new FormControl( this.data.deliveryRange || null)
     });
 
     this.mapsApiLoader.load().then(() => {
@@ -117,7 +124,10 @@ export class EditOverviewComponent implements OnInit {
     });
 
     this.googleMapService.currentAddress.subscribe(res => {
-      this.searchElementRef.nativeElement.value = res;
+      if (res) {
+        this.searchElementRef.nativeElement.value = res.address;
+        this.city = res.city;
+      }
     });
 
     if (!this.data.address) {
@@ -144,18 +154,20 @@ export class EditOverviewComponent implements OnInit {
         {
           email: this.overviewForm.get('emailOne').value,
           phone: this.overviewForm.get('phoneOne').value
-        },
-        {
-          email: this.overviewForm.get('emailTwo').value,
-          phone: this.overviewForm.get('phoneTwo').value
         }
+        // {
+        //   email: this.overviewForm.get('emailTwo').value,
+        //   phone: this.overviewForm.get('phoneTwo').value
+        // }
       ],
       start: this.overviewForm.get('startTime').value,
       end: this.overviewForm.get('endTime').value,
       address: this.currentAddress,
       longitude: this.currentPostion.longitude,
       latitude: this.currentPostion.latitude,
-      welcomeNote: this.overviewForm.get('welcomeParagraph').value
+      welcomeNote: this.overviewForm.get('welcomeParagraph').value,
+      delivery: this.overviewForm.get('delivery').value,
+      deliveryRange: this.overviewForm.get('deliveryRange').value,
     };
     const contacts: FranchiseContact[] = [];
     const contact1: FranchiseContact = {
@@ -169,22 +181,22 @@ export class EditOverviewComponent implements OnInit {
     };
     contacts.push(contact1);
 
-    if (
-      this.overviewForm.get('emailTwo').value ||
-      this.overviewForm.get('phoneTwo').value ||
-      this.overviewForm.get('contactTwo').value
-    ) {
-      const contact2: FranchiseContact = {
-        email: this.overviewForm.get('emailTwo').value,
-        franchiseContactPersonName: this.overviewForm.get('contactTwo').value,
-        franchiseContactPersonPhone: this.overviewForm.get('phoneTwo').value,
-        franchiseId: this.data.id,
-        franchiseContactId: this.data.contact[1]
-          ? this.data.contact[1].franchiseContactId
-          : null
-      };
-      contacts.push(contact2);
-    }
+    // if (
+    //   this.overviewForm.get('emailTwo').value ||
+    //   this.overviewForm.get('phoneTwo').value ||
+    //   this.overviewForm.get('contactTwo').value
+    // ) {
+    //   const contact2: FranchiseContact = {
+    //     email: this.overviewForm.get('emailTwo').value,
+    //     franchiseContactPersonName: this.overviewForm.get('contactTwo').value,
+    //     franchiseContactPersonPhone: this.overviewForm.get('phoneTwo').value,
+    //     franchiseId: this.data.id,
+    //     franchiseContactId: this.data.contact[1]
+    //       ? this.data.contact[1].franchiseContactId
+    //       : null
+    //   };
+    //   contacts.push(contact2);
+    // }
     this.data.address = this.searchElementRef.nativeElement.value;
     this.data.latitude = `${overviewData.latitude}`;
     this.data.longitude = `${overviewData.longitude}`;
@@ -192,6 +204,9 @@ export class EditOverviewComponent implements OnInit {
     this.data.startTime = new Date(overviewData.start);
     this.data.endTime = new Date(overviewData.end);
     this.data.contact = contacts;
+    this.data.city = this.city;
+    this.data.doDelivery = overviewData.delivery;
+    this.data.deliveryRange = overviewData.deliveryRange;
 
     this.franchiseServcie
       .updateFranchiseInfo(this.data.id, this.data)
@@ -296,5 +311,14 @@ export class EditOverviewComponent implements OnInit {
         this.googleMapService.getUserCurrentAddress(this.currentPostion);
       }
     });
+  }
+
+  onDeliverFlag(value: IsCheckboxChange) {
+    if (value.checked) {
+      this.setDeliveryRange = true;
+    } else {
+      this.setDeliveryRange = false;
+      this.overviewForm.controls.deliveryRange.setValue(null);
+    }
   }
 }

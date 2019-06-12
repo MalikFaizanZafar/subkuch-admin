@@ -13,11 +13,30 @@ export interface Order {
   status?: string;
   thresholdLimit?: string;
   total?: number;
-  userId?: number;
+  location?: string;
+  orderNumber?: string;
+  userId?: any;
 }
 
 export interface OrderDetail {
   quantity?: number;
   item: itemModel;
   deal: dealModel;
+}
+
+export interface OrderRequest {
+    acknowledged?: boolean;
+    deals?: OrderItems[];
+    delivery?: boolean;
+    franchiseId?: number;
+    items?: OrderItems[];
+    userId?: number;
+    location?: string;
+    orderTotal?: number;
+    orderNumber?: string;
+}
+
+export interface OrderItems {
+  id?: number;
+  quantity?: number;
 }

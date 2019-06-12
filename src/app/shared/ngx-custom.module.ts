@@ -1,5 +1,16 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
-import { IsButtonModule, IsRevealCarouselModule, IsCoreModule, IsCardModule, IsTimePickerModule, IsBadgeModule, IsDropdownModule, IsSlideToggleModule, IsTableModule } from '../lib';
+import { IsButtonModule, 
+  IsRevealCarouselModule, 
+  IsCoreModule, 
+  IsCardModule, 
+  IsTimePickerModule, 
+  IsBadgeModule, 
+  IsDropdownModule, 
+  IsSlideToggleModule, 
+  IsTableModule,
+  IsDatepickerModule
+} from '../lib';
+import { NgbDropdownModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { IsSidebarModule } from 'app/lib/sidebar';
 import { IsTopbarModule } from 'app/lib/topbar';
 import { IsInputModule } from '../lib/input';
@@ -27,7 +38,10 @@ const NGX_IS_MODULES: any[] = [
   IsDropdownModule,
   IsSlideToggleModule,
   IsUserProfileModule,
-  IsTableModule
+  IsTableModule,
+  IsCheckboxModule,
+  NgbModule,
+  IsDatepickerModule
 ];
 
 @NgModule({
@@ -49,7 +63,10 @@ const NGX_IS_MODULES: any[] = [
     IsDropdownModule.forRoot(),
     IsSlideToggleModule.forRoot(),
     IsUserProfileModule.forRoot(),
-    IsTableModule.forRoot()
+    IsTableModule.forRoot(),
+    IsCheckboxModule.forRoot(),
+    NgbModule.forRoot(),
+    IsDatepickerModule.forRoot()
   ],
   exports: NGX_IS_MODULES,
 })

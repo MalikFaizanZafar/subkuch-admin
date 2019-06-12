@@ -17,6 +17,7 @@ import { FranchiseOrdersService } from '../services/franchiseOrders.service';
 import { FranchiseInfoService } from '../services/franchiseInfo.service';
 import { FormGroup, FormControl } from '@angular/forms';
 import { DataService } from '@app/shared/services/data.service';
+import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'app-vendors-layout',
@@ -35,6 +36,7 @@ export class VendorsLayoutComponent implements OnInit {
   selectFranchiseForm: FormGroup;
   franchises: any = [];
   mainFranchise: any;
+  loading = false;
 
   @ViewChild('selectedFranchise') selectedFranchise: ElementRef;
 
@@ -79,8 +81,9 @@ export class VendorsLayoutComponent implements OnInit {
   }
 
   populateFranchise() {
+    this.loading = true;
     this.franchiseInfoService
-      .getFranchiseInfo()
+      .getFranchiseInfo().pipe(finalize(() => this.loading = false))
       .subscribe(franchiseInfoResponse => {
         this.mainFranchise = franchiseInfoResponse.data;
         if (this.mainFranchise.isAdmin) {
@@ -93,10 +96,8 @@ export class VendorsLayoutComponent implements OnInit {
 
   listenNotification() {
     this.notificationService.currentMessage.subscribe(messagePayload => {
-      debugger
       if (messagePayload) {
         this.notificationCount++;
-        console.log(messagePayload);
         this.toaster.popInfo(' You got new order', {
           position: IsToastPosition.BottomRight
         });

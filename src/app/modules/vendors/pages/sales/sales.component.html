@@ -3,33 +3,76 @@
     <h4>Sales Report</h4>
   </is-card-header>
   <is-card-content>
+    <div *ngIf="!loading; else loader" class="w-100">
+      <div class="d-flex justify-content-end">
+        <div class="d-flex align-items-center">
+          <p class="mb-0 mr-2">From Date:</p>
+          <is-datepicker [(ngModel)]="fromDate"></is-datepicker>
+        </div>
+        <div class="ml-2 d-flex align-items-center">
+          <p class="mb-0 mr-2">To Date Date:</p>
+          <is-datepicker [(ngModel)]="toDate"></is-datepicker>
+        </div>
+        <button class="ml-2" is-button type="button" (click)="onSearch()">Search</button>
+      </div>
       <is-grid [value]="sales">
-          <is-grid-column field="user" header="User" styleClass="text-dark">
-            <ng-template let-order="rowData" isGridTemplate="body">
-              <span>User</span>
-            </ng-template>
-          </is-grid-column>
-          <is-grid-column field="startTime" header="Date" styleClass="text-dark">
+        <is-grid-column field="user" header="Order No." styleClass="text-dark">
+          <ng-template let-sale="rowData" isGridTemplate="body">
+            <span>{{sale.orderNo}}</span>
+          </ng-template>
+        </is-grid-column>
+        <is-grid-column field="startTime" header="Order Date" styleClass="text-dark">
+          <ng-template let-sale="rowData" isGridTemplate="body">
+            <span>{{ sale.endTime | date }}</span>
+          </ng-template>
+        </is-grid-column>
+        <is-grid-column field="discount" header="Discount" styleClass="text-dark">
+          <ng-template let-sale="rowData" isGridTemplate="body">
+            <span>{{ sale.discount }}</span>
+          </ng-template>
+        </is-grid-column>
+        <is-grid-column field="total" header="Price" styleClass="text-dark">
+          <ng-template let-sale="rowData" isGridTemplate="body">
+            <span>{{ sale.total }}</span>
+          </ng-template>
+        </is-grid-column>
+        <is-grid-column field="total" header="Total" styleClass="text-dark">
             <ng-template let-sale="rowData" isGridTemplate="body">
-              <span>{{ sale.endTime | date }}</span>
+              <span>{{ sale.total - sale.discount }}</span>
             </ng-template>
           </is-grid-column>
-        
-          <is-grid-column field="startTime" header="Time" styleClass="text-dark">
-            <ng-template let-sale="rowData" isGridTemplate="body">
-              <span>{{ sale.endTime | date: "HH:mm:ss" }}</span>
-            </ng-template>
-          </is-grid-column>
-          <is-grid-column field="discount" header="Discount" styleClass="text-dark">
-            <ng-template let-sale="rowData" isGridTemplate="body">
-              <span>{{ sale.discount }}</span>
-            </ng-template>
-          </is-grid-column>
-          <is-grid-column field="total" header="Amount" styleClass="text-dark">
-            <ng-template let-sale="rowData" isGridTemplate="body">
-              <span>{{ sale.total }}</span>
-            </ng-template>
-          </is-grid-column>
-        </is-grid>
+      </is-grid>
+      <div class="p-3 w-100">
+        <div class="w-100 d-flex justify-content-end">
+          <div class=" text-right" style="width: 150px;"><strong>Total: </strong></div>
+          <div style="width: 150px;" class=" text-right" > {{total}}</div>
+        </div>
+        <div class="w-100 d-flex justify-content-end">
+          <div class=" text-right" style="width: 150px;"><strong>Discount: </strong></div>
+          <div style="width: 150px;" class=" text-right" > {{discount}}</div>
+        </div>
+        <div class="w-100 d-flex justify-content-end">
+          <div class=" text-right" style="width: 150px;"><strong>Net Total: </strong></div>
+          <div style="width: 150px;" class=" text-right" > {{netTotal}}</div>
+        </div>
+  
+        <div class="w-100 d-flex justify-content-end">
+          <div class=" text-right" style="width: 150px;"><strong>Commission: </strong></div>
+          <div style="width: 150px;" class=" text-right" > {{sales[0].commission}}</div>
+        </div>
+
+        <div class="w-100 d-flex justify-content-end">
+          <div class=" text-right" style="width: 150px;"><strong>Payable To SubQuch: </strong></div>
+          <div style="width: 150px;" class=" text-right" > {{netTotal * (sales[0].commission / 100)}}</div>
+        </div>
+      </div>
+    </div>
   </is-card-content>
 </is-card>
+
+
+<ng-template #loader>
+  <div class="col min-content-height d-flex justify-content-center align-items-center loader-container">
+    <div class="is-loader"></div>
+  </div>
+</ng-template>

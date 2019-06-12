@@ -5,6 +5,7 @@ import { UserAuthService } from "app/modules/auth/services/auth.service";
 import { AddFranchiseDialogComponent } from "../../components/add-franchise-dialog/add-franchise-dialog.component";
 import { ConfirmationModalComponent } from "../../components/confirmation-modal/confirmation-modal.component";
 import { IsToasterService, IsToastPosition } from "../../../../lib/toaster";
+import { NotificationsService } from "app/services/notifications.service";
 
 @Component({
   selector: "settings",
@@ -23,7 +24,8 @@ export class SettingsComponent implements OnInit {
     private franchiseInfoService: FranchiseInfoService,
     private isModal: IsModalService,
     private userAuthService: UserAuthService,
-    private toast: IsToasterService
+    private toast: IsToasterService,
+    private notificationService: NotificationsService
   ) {}
 
   ngOnInit() {
@@ -55,7 +57,7 @@ export class SettingsComponent implements OnInit {
     modalRef.onClose.subscribe(res => {
       if (res === 'ok') {
         this.franchiseInfoService.updateFranchiseInfo(row.id, row).subscribe(response => {
-          // this.notificationService.updateFranchise.next(true);
+          this.notificationService.updateFranchise.next(true);
           this.toast.popSuccess('Franchise activated successfull', {
             position: IsToastPosition.BottomRight
           });

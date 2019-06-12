@@ -1,0 +1,113 @@
+<div class="is-datepicker__input"
+     (click)="toggleActiveStatus()"
+     [class.is-datepicker__input--readonly]="readonly"
+     [class.is-datepicker__input--focused]="isDatepickerVisible"
+     [class.is-datepicker__input--error]="invalid"
+     [class.d-none]="multiple"
+     cdk-overlay-origin
+     #overlayOrigin="cdkOverlayOrigin">
+  <input #dateInput
+         [readonly]="readonly"
+         type="text"
+         [placeholder]="placeholder"
+         (keyup)="_onDayInputChange(dateInput.value)"
+         (blur)="onInputBlur($event)">
+  <i class="fa fa-calendar is-datepicker__icon"></i>
+</div>
+<ng-template cdk-connected-overlay
+             [cdkConnectedOverlayWidth]="170"
+             [cdkConnectedOverlayOpen]="isDatepickerVisible && !alwaysVisible"
+             [cdkConnectedOverlayOrigin]="overlayOrigin"
+             [cdkConnectedOverlayPositions]="connectedOverlayPositions"
+             [cdkConnectedOverlayHasBackdrop]="true"
+             backdropClass="is-datepicker__overlay"
+             [cdkConnectedOverlayScrollStrategy]="overlayScrollStrategy"
+             (backdropClick)="toggleActiveStatus()">
+  <div class="is-datepicker"
+       [@focusedState]>
+  <div class="is-datepicker__row is-datepicker__header">
+    <div class="is-datepicker__header-inner">
+      <h4>{{ getMonthHeader() }}</h4>
+      <button type="button"
+              class="is-datepicker__ctrl-btn is-datepicker__btn is-datepicker__ctrl-btn--previous"
+              (click)="showPreviousMonth()"></button>
+      <button type="button"
+              class="is-datepicker__ctrl-btn is-datepicker__btn is-datepicker__ctrl-btn--next"
+              (click)="showNextMonth()"></button>
+    </div>
+  </div>
+  <div class="is-datepicker__row is-datepicker__weekdays">
+    <div *ngFor="let day of weekdays"
+         class="is-datepicker__week-col is-datepicker__weekday">
+      {{day}}
+    </div>
+  </div>
+  <div class="is-datepicker__row">
+    <div *ngFor="let day of days"
+         class="is-datepicker__date-wrapper is-datepicker__week-col">
+      <button type="button"
+              class="is-datepicker__date is-datepicker__btn"
+              [class.is-datepicker__date--today]="day.isToday"
+              [class.is-datepicker__date--past]="day.isPast"
+              [class.is-datepicker__date--selected]="isDaySelected(day)"
+              [class.is-datepicker__date--disabled]="isDateDisabled(day)"
+              [class.is-datepicker__date--no-date]="day.day === 0"
+              (click)="_onDaySelected(day)">
+        <span class="is-datepicker__number">{{calculateDisplayDate(day)}}</span>
+      </button>
+    </div>
+  </div>
+  <div class="is-datepicker__row is-datepicker__today"
+       *ngIf="showToday"
+       (click)="setDateToday()">
+    <div class="is-datepicker__today_text">
+      Today
+    </div>
+  </div>
+</div>
+</ng-template>
+
+<div class="is-datepicker"
+     *ngIf="alwaysVisible"
+     [ngClass]="datepickerPlacementClass"
+     [@focusedState]>
+  <div class="is-datepicker__row is-datepicker__header">
+    <div class="is-datepicker__header-inner">
+      <h4>{{getMonthName(currentDate.getMonth())}} {{currentDate.getFullYear()}}</h4>
+      <button type="button"
+              class="is-datepicker__ctrl-btn is-datepicker__btn is-datepicker__ctrl-btn--previous"
+              (click)="showPreviousMonth()"></button>
+      <button type="button"
+              class="is-datepicker__ctrl-btn is-datepicker__btn is-datepicker__ctrl-btn--next"
+              (click)="showNextMonth()"></button>
+    </div>
+  </div>
+  <div class="is-datepicker__row is-datepicker__weekdays">
+    <div *ngFor="let day of weekdays"
+         class="is-datepicker__week-col is-datepicker__weekday">
+      {{day}}
+    </div>
+  </div>
+  <div class="is-datepicker__row">
+    <div *ngFor="let day of days"
+         class="is-datepicker__date-wrapper is-datepicker__week-col">
+      <button type="button"
+              class="is-datepicker__date is-datepicker__btn"
+              [class.is-datepicker__date--today]="day.isToday"
+              [class.is-datepicker__date--past]="day.isPast"
+              [class.is-datepicker__date--selected]="isDaySelected(day)"
+              [class.is-datepicker__date--disabled]="isDateDisabled(day)"
+              [class.is-datepicker__date--no-date]="day.day === 0"
+              (click)="_onDaySelected(day)">
+        <span class="is-datepicker__number">{{calculateDisplayDate(day)}}</span>
+      </button>
+    </div>
+  </div>
+  <div class="is-datepicker__row is-datepicker__today"
+       *ngIf="showToday"
+       (click)="setDateToday()">
+    <div class="is-datepicker__today_text">
+      Today
+    </div>
+  </div>
+</div>

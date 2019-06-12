@@ -1,8 +1,8 @@
-<div *ngIf="loading" class="col d-flex justify-content-center align-items-center loader-container">
+<div *ngIf="loading" class="col h-100 d-flex justify-content-center align-items-center loader-container">
   <div class="is-loader"></div>
 </div>
 
-<div *ngIf="franchiseInfo && !Loading">
+<div *ngIf="franchiseInfo && !loading">
 
   <is-card class="mb-2">
     <is-card-content>
@@ -44,7 +44,7 @@
           </div>
           <div class="d-flex align-items-center justify-content-end">
             <i
-              *ngIf="isEditingMode"
+              *ngIf="isEditingMode && franchiseInfo.isBannerEditable"
               class="fa fa-edit fa-2x text_blue franchise__banner__edit__icon mr-4"
               (click)="onEditBannerHandler()"
             ></i>
@@ -134,11 +134,17 @@
       </div>
       <div>{{ franchiseInfo.commission }} %</div>
     </div>
+    <div class="w-50 d-flex">
+    <div *ngIf="franchiseInfo.doDelivery" class="mr-3">
+      <strong>Delivery Range</strong>
+    </div>
+    <div>{{ franchiseInfo.deliveryRange }} KM</div>
+    </div>
   </is-card-content>
 </is-card>
 </div>
 <edit-overview
-  *ngIf="isEditingMode"
+  *ngIf="isEditingMode && !loading"
   [data]="franchiseInfo"
   (overviewEdited)="overviewEditedHandler()"
   (overviewEditedCancelled)="cancelEditing()"

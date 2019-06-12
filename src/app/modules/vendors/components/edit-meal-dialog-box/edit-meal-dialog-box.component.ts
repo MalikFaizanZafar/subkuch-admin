@@ -33,7 +33,7 @@ export class EditMealDialogBoxComponent implements OnInit {
     this.editMeal = this.isActiveModel.data.editMeal;
     this.categories = this.isActiveModel.data.categories;
     this.tempEditMealImageFile = this.isActiveModel.data.editMeal.image_url;
-    const dateObj = this.editMeal.endDate.split('T')[0];
+    const dateObj = this.editMeal.endDate ? this.editMeal.endDate.split('T')[0] : null;
     this.eMealForm = new FormGroup({
       title: new FormControl(this.editMeal.name, [Validators.required]),
       isAvailable: new FormControl(this.editMeal.isAvailable || false),
@@ -41,8 +41,8 @@ export class EditMealDialogBoxComponent implements OnInit {
       price: new FormControl(this.editMeal.price, [Validators.required]),
       isProduct: new FormControl(this.editMeal.isProduct || false),
       quantity: new FormControl(this.editMeal.quantity),
-      discount: new FormControl(this.editMeal.discount, [Validators.required]),
-      discountEnd: new FormControl(dateObj, [Validators.required]),
+      discount: new FormControl(this.editMeal.discount),
+      discountEnd: new FormControl(dateObj),
       description: new FormControl(this.editMeal.description),
       attachment: new FormControl(null)
     });
@@ -59,10 +59,13 @@ export class EditMealDialogBoxComponent implements OnInit {
     reader.readAsDataURL(fileInput.target.files[0]);
     this.mealImageFileChanged = true;
   }
+
   chooseFile() {
     this.editMealImageInput.nativeElement.click();
   }
+  
   onMealSubmit(btn: IsButton) {
+    debugger
     if (this.eMealForm.valid) {
       if (this.mealImageFileChanged) {
         btn.startLoading();
@@ -85,6 +88,7 @@ export class EditMealDialogBoxComponent implements OnInit {
               this.downloadURL = fileRef.getDownloadURL();
               this.downloadURL.subscribe(url => {
                 let item = this.eMealForm.value;
+                debugger
                 this.newMeal = {
                   name: item.title,
                   description: item.description,
@@ -109,6 +113,7 @@ export class EditMealDialogBoxComponent implements OnInit {
       } else {
         btn.startLoading();
         let item = this.eMealForm.value;
+debugger
         this.newMeal = {
           name: item.title,
           description: item.description,
