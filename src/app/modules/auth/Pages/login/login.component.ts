@@ -171,7 +171,7 @@ export class LoginComponent implements OnInit {
 
   }
   onSubmitNewPasswordForm(btn: IsButton) {
-    if (this.newPasswordForm.valid) {
+    if (this.newPasswordForm.valid && this.newPasswordForm.value.password === this.newPasswordForm.value.confirmPassword) {
       btn.startLoading();
       let temp = this.newPasswordForm.value;
       let data = {
