@@ -124,7 +124,7 @@
             </div>
             <div class=" d-flex justify-content-between mt-2">
               <a
-                (click)="emailPhase = true"
+                (click)="emailPhase = true; emailVerified = true"
                 class="sign__login__forgot__link"
                 routerLink="/"
                 >Forgot password?</a
@@ -176,6 +176,14 @@
                   formControlName="email"
                 />
               </is-input-container>
+              <div
+                *ngIf="
+                forgotPasswordForm.hasError('email', 'email') && forgotFormDir.submitted
+                "
+                class="sign__input_error"
+              >
+                Email id is NOT valid
+              </div>
             </div>
             <div
               *ngIf="
@@ -188,7 +196,7 @@
               Email is required
             </div>
             <div
-            *ngIf="unAuthorized"
+            *ngIf="!emailVerified"
             class="alert alert-danger mt-2"
             role="alert"
           >
