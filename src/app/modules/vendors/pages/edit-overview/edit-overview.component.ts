@@ -17,7 +17,7 @@ import { MapModalComponent } from '@app/shared/map-modal/components/map-modal/ma
 import { SearchService } from '../../services/search.service';
 import { FranchiseInfoService } from '../../services/franchiseInfo.service';
 import { IsToasterService, IsToastPosition } from '../../../../lib/toaster';
-import { IsCheckboxChange } from 'app/lib';
+import { IsCheckboxChange, IsButton } from 'app/lib';
 
 interface FranchiseContact {
   email?: string;
@@ -109,7 +109,7 @@ export class EditOverviewComponent implements OnInit {
         Validators.required
       ]),
       delivery: new FormControl( this.data.doDelivery || false),
-      deliveryRange: new FormControl( this.data.deliveryRange || null)
+      deliveryRange: new FormControl( this.data.deliveryRange || 1)
     });
 
     this.mapsApiLoader.load().then(() => {
@@ -141,7 +141,9 @@ export class EditOverviewComponent implements OnInit {
     }
   }
 
-  submitHandler(form: NgForm) {
+  submitHandler(form: NgForm, btn: IsButton) {
+    console.log("form valid ?", form.invalid)
+    btn.startLoading()
     this.overviewForm.controls['location'].setValue(
       this.searchElementRef.nativeElement.value
     );
@@ -212,6 +214,7 @@ export class EditOverviewComponent implements OnInit {
       .updateFranchiseInfo(this.data.id, this.data)
       .pipe()
       .subscribe(overview => {
+        btn.stopLoading()
         this.toast.popSuccess('Franchise info updated successfully', {
           position: IsToastPosition.BottomRight
         });

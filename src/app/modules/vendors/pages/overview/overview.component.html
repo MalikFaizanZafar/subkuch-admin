@@ -124,7 +124,7 @@
       <div class="mr-3">
         <strong>Closing Time</strong>
       </div>
-      <div>{{ endTime }}</div>
+      <div>{{ endTime}}</div>
     </div>
 
     <h3 class="mt-4">General Info</h3>
@@ -138,7 +138,7 @@
     <div *ngIf="franchiseInfo.doDelivery" class="mr-3">
       <strong>Delivery Range</strong>
     </div>
-    <div>{{ franchiseInfo.deliveryRange }} KM</div>
+    <div *ngIf="franchiseInfo.doDelivery">{{ franchiseInfo.deliveryRange }} {{franchiseInfo.deliveryRange?" KM ":" "}}</div>
     </div>
   </is-card-content>
 </is-card>

@@ -4,7 +4,7 @@
   <div class="row">
       <div class="col-md-12">
           <h5 class="mt-4">Welcome Note*</h5>
-        <form action="" class="d-flex" (ngSubmit)="submitHandler(formDir)" [formGroup]="overviewForm" #formDir="ngForm">
+        <form action="" class="d-flex" (keydown.enter)="$event.preventDefault()" (ngSubmit)="submitHandler(formDir, editOverviewSubmitBtn)" [formGroup]="overviewForm" #formDir="ngForm">
           <div class="w-100">
             <div class="form-group">
               <textarea class="form-control" rows="5" formControlName="welcomeParagraph"></textarea>
@@ -159,7 +159,9 @@
                 class="mr-2"
                 type="submit" 
                 theme="success"
-                is-button>Save
+                is-button
+                #editOverviewSubmitBtn
+                >Save
               </button>
               <button
                 type="button" 
