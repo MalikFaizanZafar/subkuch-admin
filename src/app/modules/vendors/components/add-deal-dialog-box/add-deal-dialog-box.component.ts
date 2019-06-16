@@ -48,6 +48,7 @@ export class AddDealDialogBoxComponent implements OnInit, OnDestroy {
   isSubmitted: boolean = false;
   deals: dealModel;
   dealImageChanged: boolean = false;
+  addOrEdit =  'Add'
   /**
    * Subscription to be triggered on destroy cycle of component.
    */
@@ -61,7 +62,9 @@ export class AddDealDialogBoxComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
+    console.log("data has : ", this.isActiveModal.data.deal)
     if (this.isActiveModal.data.mode === 'editing') {
+      this.addOrEdit = 'Edit'
       this.deals = this.isActiveModal.data.deal;
     }
 
@@ -72,8 +75,8 @@ export class AddDealDialogBoxComponent implements OnInit, OnDestroy {
       attachment: new FormControl(null,  this.setImageValidator()),
       subtitle: new FormControl(this.deals ? this.deals.subtitle :  null),
       description: new FormControl(this.deals ? this.deals.description : null),
-      startTime: new FormControl(this.deals ? new Date(this.deals.startTime) : startTime),
-      endTime: new FormControl(this.deals? new Date(this.deals.endTime) : startTime)
+      startTime: new FormControl(this.deals ? this.deals.startTime : startTime),
+      endTime: new FormControl(this.deals? this.deals.endTime : startTime)
     });
 
     this.populateItems();
@@ -114,7 +117,6 @@ export class AddDealDialogBoxComponent implements OnInit, OnDestroy {
   }
 
   setItemsList() {
-    debugger
     if (this.deals && this.deals.items.length) {
       this.itemsList = [];
       this.itemsList = this.deals.items;
@@ -123,7 +125,7 @@ export class AddDealDialogBoxComponent implements OnInit, OnDestroy {
   }
 
   onDealSubmit(btn: IsButton) {
-    debugger
+    btn.startLoading()
     this.mapDealItems();
     this.isSubmitted = true;
 
@@ -151,7 +153,7 @@ export class AddDealDialogBoxComponent implements OnInit, OnDestroy {
          
          return ;
       }
-      btn.startLoading();
+      // btn.startLoading();
       let randomString =
         Math.random()
           .toString(36)

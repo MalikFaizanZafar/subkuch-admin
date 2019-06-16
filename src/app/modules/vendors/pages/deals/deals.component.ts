@@ -91,6 +91,7 @@ export class DealsComponent implements OnInit, OnDestroy {
     .pipe(finalize(() => this.loading = false),takeUntil(this.destroy))
     .subscribe(responseData => {
       this.deals = responseData.data;
+      console.log("deals are : ", this.deals)
     });
   }
   
@@ -99,7 +100,6 @@ export class DealsComponent implements OnInit, OnDestroy {
     this.editDeal = filterdDeals[0];
     this.imageToBeDeleted = this.editDeal.deal_image;
     this.dealEditCancelled = false;
-
     const addDealDialog = this.isModal.open(AddDealDialogBoxComponent, {
       data: {
         mode: 'editing',
@@ -177,8 +177,9 @@ export class DealsComponent implements OnInit, OnDestroy {
 
 
   private saveDealData(deal: dealModel) {
+    console.log("new deal is : ", deal)
     this.franchiseDealsService.addDeal(deal).subscribe(addDealResponse => {
-          
+      console.log("saved deal is : ", addDealResponse)
       this.toaster.popSuccess('Deal Has Been Added Successfully', {
         position: IsToastPosition.BottomRight
       });
