@@ -62,7 +62,6 @@ export class AddDealDialogBoxComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    console.log("data has : ", this.isActiveModal.data.deal)
     if (this.isActiveModal.data.mode === 'editing') {
       this.addOrEdit = 'Edit'
       this.deals = this.isActiveModal.data.deal;

@@ -164,13 +164,17 @@ export class DealsComponent implements OnInit, OnDestroy {
     var dateobj2 = new Date(deal.startTime); 
     var start = dateobj2.toISOString();
     deal.startTime = start
+    console.log("this.editDeal is : ", this.editDeal)
     this.franchiseDealsService
           .editDeal(deal, this.editDeal.id)
           .subscribe(responseData => {
             this.newDeal = responseData.data;
+            console.log("edited Deal (saved) is : ", this.newDeal)
             this.showDeals = true;
-            const editDealIndex = this.deals.findIndex(deal => deal.id);
+            const editDealIndex = this.deals.findIndex(deal => deal.id === this.editDeal.id);
+            console.log("edited Deal editDealIndex is : ", editDealIndex)
             this.deals[editDealIndex] = this.newDeal;
+            console.log("this.deals[editDealIndex] is : ", this.deals[editDealIndex])
             console.log(this.deals);
             if (imageDeleted) {
               this.storage.storage.refFromURL(this.imageToBeDeleted).delete();
