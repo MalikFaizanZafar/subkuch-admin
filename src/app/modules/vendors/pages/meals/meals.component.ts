@@ -93,6 +93,9 @@ export class MealsComponent implements OnInit {
           .addCategory(newCategory)
           .subscribe(categoryResponse => {
             this.categories.push(categoryResponse.data);
+            this.toaster.popSuccess('Category Has Been Deleted Successfully', {
+              position: IsToastPosition.BottomRight
+            });
           });
       }
     });

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormControl, Validators } from "@angular/forms";
-import { IsActiveModal } from 'app/lib';
+import { IsActiveModal, IsButton } from 'app/lib';
 
 @Component({
   selector: 'add-category-dialog',
@@ -17,8 +17,9 @@ export class AddCategoryDialogComponent {
     });
    }
 
-  onAddCategory() {
+  onAddCategory(btn: IsButton) {
     if(this.categoryForm.valid) {
+      btn.startLoading()
       this.isActiveModal.close(this.categoryForm.value)
     }
   }
