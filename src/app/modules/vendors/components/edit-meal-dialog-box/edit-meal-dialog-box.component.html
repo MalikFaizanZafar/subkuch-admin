@@ -8,10 +8,10 @@
       <div class="col-sm-9">
         <input type="text" class="form-control" style="height:40px;" placeholder="Enter Title"
           formControlName="title" />
-      </div>
-      <div *ngIf="eMealForm.hasError('required', 'title') && formDir.submitted"
+        <div *ngIf="eMealForm.hasError('required', 'title') && formDir.submitted"
         class="item-form__input_error col-sm-3 d-flex justify-content-start align-items-center">
         <span class="text-danger">Title is required</span>
+      </div>
       </div>
     </div>
     <div class="form-check item-form_product_checkbox mb-2 d-flex justify-content-start">
@@ -30,10 +30,10 @@
           <option value="{{ category.id }}" [selected]="this.editMeal.category" *ngFor="let category of categories">
             {{ category.name }}</option>
         </select>
-      </div>
-      <div *ngIf="eMealForm.hasError('required', 'category') && formDir.submitted"
+        <div *ngIf="eMealForm.hasError('required', 'category') && formDir.submitted"
         class="item-form__input_error d-flex align-items-center">
         <span class="text-danger">Category is required</span>
+      </div>
       </div>
     </div>
     <div class="form-group d-flex justify-content-start">
@@ -41,10 +41,10 @@
       <div class="col-sm-9">
         <input type="number" class="form-control" style="height:40px;" placeholder="Enter Price"
           formControlName="price" />
-      </div>
-      <div *ngIf="eMealForm.hasError('required', 'price') && formDir.submitted"
+          <div *ngIf="eMealForm.hasError('required', 'price') && formDir.submitted"
         class="item-form__input_error col-sm-3 d-flex align-items-center">
         <span class="text-danger">Price is required</span>
+      </div>
       </div>
     </div>
     <div class="form-group d-flex justify-content-start">
@@ -52,23 +52,25 @@
       <div class="col-sm-9">
         <input type="number" class="form-control" style="height:40px;" placeholder="Enter Discount"
           formControlName="discount" />
-      </div>
-      <div *ngIf="eMealForm.hasError('required', 'discount') && formDir.submitted"
+          <div *ngIf="eMealForm.hasError('required', 'discount') && formDir.submitted"
         class="item-form__input_error col-sm-3 d-flex align-items-center">
         <span class="text-danger">Discount is required</span>
       </div>
+      </div>
+      
     </div>
     <div class="form-group d-flex justify-content-start">
       <label for="inputPassword3" class="col-sm-3 col-form-label">Dicount End</label>
       <div class="col-sm-9">
         <input type="date" class="form-control" style="height:40px;" placeholder="Enter Discount End Date"
           formControlName="discountEnd" />
-      </div>
-      <div *ngIf="
+          <div *ngIf="
           eMealForm.hasError('required', 'discountEnd') && formDir.submitted
         " class="item-form__input_error col-sm-3 d-flex align-items-center">
-        <span class="text-danger">Discount End is required</span>
+        <span class="text-danger">Discount End Date is required</span>
       </div>
+      </div>
+      
     </div>
     <div class="form-check item-form_product_checkbox mb-2 d-flex justify-content-start">
       <div class="col-sm-3 offset-sm-3">

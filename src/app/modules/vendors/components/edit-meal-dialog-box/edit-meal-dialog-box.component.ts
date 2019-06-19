@@ -41,8 +41,8 @@ export class EditMealDialogBoxComponent implements OnInit {
       price: new FormControl(this.editMeal.price, [Validators.required]),
       isProduct: new FormControl(this.editMeal.isProduct || false),
       quantity: new FormControl(this.editMeal.quantity),
-      discount: new FormControl(this.editMeal.discount),
-      discountEnd: new FormControl(dateObj),
+      discount: new FormControl(this.editMeal.discount, [Validators.required]),
+      discountEnd: new FormControl(dateObj, [Validators.required]),
       description: new FormControl(this.editMeal.description),
       attachment: new FormControl(null)
     });
