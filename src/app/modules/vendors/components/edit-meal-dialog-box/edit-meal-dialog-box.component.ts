@@ -65,10 +65,9 @@ export class EditMealDialogBoxComponent implements OnInit {
   }
   
   onMealSubmit(btn: IsButton) {
-    debugger
     if (this.eMealForm.valid) {
+      btn.startLoading();
       if (this.mealImageFileChanged) {
-        btn.startLoading();
         let randomString =
           Math.random()
             .toString(36)
@@ -88,7 +87,6 @@ export class EditMealDialogBoxComponent implements OnInit {
               this.downloadURL = fileRef.getDownloadURL();
               this.downloadURL.subscribe(url => {
                 let item = this.eMealForm.value;
-                debugger
                 this.newMeal = {
                   name: item.title,
                   description: item.description,
@@ -102,18 +100,16 @@ export class EditMealDialogBoxComponent implements OnInit {
                   category_id: Number(item.category),
                   franchise_id: this.dataService.franchiseId
                 };
-                btn.stopLoading();
                 let deleteImageUrl = this.editMeal.image_url;
                 this.storage.storage.refFromURL(deleteImageUrl).delete();
+                btn.stopLoading();
                 this.isActiveModel.close(this.newMeal);
               });
             })
           )
           .subscribe();
       } else {
-        btn.startLoading();
         let item = this.eMealForm.value;
-debugger
         this.newMeal = {
           name: item.title,
           description: item.description,
@@ -127,8 +123,8 @@ debugger
           category_id: Number(item.category),
           franchise_id: this.dataService.franchiseId
         };
-        this.isActiveModel.close(this.newMeal);
         btn.stopLoading();
+        this.isActiveModel.close(this.newMeal);
       }
     } else {
       return;
