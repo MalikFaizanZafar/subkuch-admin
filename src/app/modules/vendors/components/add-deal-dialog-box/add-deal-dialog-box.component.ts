@@ -75,8 +75,8 @@ export class AddDealDialogBoxComponent implements OnInit, OnDestroy {
       attachment: new FormControl(null,  this.setImageValidator()),
       subtitle: new FormControl(this.deals ? this.deals.subtitle :  null),
       description: new FormControl(this.deals ? this.deals.description : null),
-      startTime: new FormControl(this.deals ? this.deals.startTime : startTime),
-      endTime: new FormControl(this.deals? this.deals.endTime : startTime)
+      startTime: new FormControl(this.deals ? new Date(this.deals.startTime) : startTime),
+      endTime: new FormControl(this.deals? new Date(this.deals.endTime) : startTime)
     });
 
     this.populateItems();

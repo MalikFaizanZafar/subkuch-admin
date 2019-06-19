@@ -158,6 +158,12 @@ export class DealsComponent implements OnInit, OnDestroy {
   }
 
   private updateDeal(deal: dealModel, imageDeleted: boolean) {
+    var dateobj = new Date(deal.endTime); 
+    var end = dateobj.toISOString();
+    deal.endTime = end
+    var dateobj2 = new Date(deal.startTime); 
+    var start = dateobj2.toISOString();
+    deal.startTime = start
     this.franchiseDealsService
           .editDeal(deal, this.editDeal.id)
           .subscribe(responseData => {
@@ -177,6 +183,12 @@ export class DealsComponent implements OnInit, OnDestroy {
 
 
   private saveDealData(deal: dealModel) {
+    var dateobj = new Date(deal.endTime); 
+    var end = dateobj.toISOString();
+    deal.endTime = end
+    var dateobj2 = new Date(deal.startTime); 
+    var start = dateobj2.toISOString();
+    deal.startTime = start
     console.log("new deal is : ", deal)
     this.franchiseDealsService.addDeal(deal).subscribe(addDealResponse => {
       console.log("saved deal is : ", addDealResponse)

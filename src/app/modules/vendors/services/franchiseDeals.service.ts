@@ -41,7 +41,6 @@ export class FranchiseDealsService {
     let headers = new HttpHeaders().set("Content-Type", "application/json");
     const token = localStorage.getItem("Authorization");
     headers = headers.append("Authorization", token);
-    debugger
     return this.http.put<any>(`${this.baseURL}/deal/${id}`, deal, {
       headers
     });
