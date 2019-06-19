@@ -124,11 +124,11 @@ export class AddDealDialogBoxComponent implements OnInit, OnDestroy {
   }
 
   onDealSubmit(btn: IsButton) {
-    btn.startLoading()
     this.mapDealItems();
     this.isSubmitted = true;
 
     if (this.dealForm.valid) {
+      btn.startLoading()
       if (!this.dealImageChanged) {
         let deal = this.dealForm.value;
 
