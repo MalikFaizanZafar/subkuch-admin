@@ -34,7 +34,7 @@ export class FranchiseOrdersService {
     let headers = new HttpHeaders().set('Content-Type', 'application/json');
     const token = localStorage.getItem("Authorization");
     headers = headers.append("Authorization", token);
-    return this.http.get<any>(`${this.baseURL}/user?${type}=${value}`, {
+    return this.http.get<any>(`${this.baseURL}/auth/user?${type}=${value}`, {
       headers
     });
   }

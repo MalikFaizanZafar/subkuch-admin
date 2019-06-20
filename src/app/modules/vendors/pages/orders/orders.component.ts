@@ -161,8 +161,7 @@ export class OrdersComponent implements OnInit, OnDestroy {
 
   createOrder() {
     this.isModal.open(CreateOrderComponent, {
-      size: IsModalSize.Large,
-      backdrop: 'static'
+      size: IsModalSize.Large
     });
   }
 
