@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  // baseUrl: 'https://dev-backend.subquch.com/api-0.0.1',
-  baseUrl: 'http://localhost:8080',
+  baseUrl: 'https://dev-backend.subquch.com/api-0.0.1',
+  // baseUrl: 'http://localhost:8080',
 };
 
 /*
