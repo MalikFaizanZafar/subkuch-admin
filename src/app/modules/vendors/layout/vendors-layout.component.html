@@ -13,7 +13,7 @@
         </a>
       </div>
       <div *ngIf="franchises.length > 0 && mainFranchise.isAdmin" class="d-flex align-items-center justify-content-center">
-          <form autocomplete="off" class="d-flex" [formGroup]="selectFranchiseForm" (ngSubmit)="onFranchiseSubmit()">
+          <form autocomplete="off" class="d-flex" [formGroup]="selectFranchiseForm" (ngSubmit)="onFranchiseSubmit()" style="width: 400px">
               <select class="form-control"  formControlName="franchiseSelected">
                   <option *ngFor="let franchise of franchises" [value]="franchise.id">{{franchise.address}}</option>
               </select>
