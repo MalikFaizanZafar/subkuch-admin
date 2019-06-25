@@ -1,3 +1,9 @@
+<div *ngIf="loading" class="col h-100 d-flex justify-content-center align-items-center loader-container">
+  <div class="is-loader">
+  </div>
+  <h6 class="ml-2">Loading Deals</h6 >
+</div>
+<div *ngIf="!loading">
 <is-card *ngIf="showDeals">
   <is-card-header class="d-flex justify-content-between w-100 align-items-center">
     <div class="d-flex align-items-center w-25 justify-content-left">
@@ -80,3 +86,4 @@
   </div>
 </ng-template>
 <!-- Delete Dialog Box End -->
+</div>

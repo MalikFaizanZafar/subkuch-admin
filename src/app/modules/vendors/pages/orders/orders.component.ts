@@ -34,7 +34,7 @@ export class OrdersComponent implements OnInit, OnDestroy {
   orders: order[] = [];
   currentUrl: string;
   message;
-  loading: boolean = false;
+  loading: boolean = true;
   selectedItem2: Order;
   menuItems: MenuItem[] = [
     {
@@ -140,7 +140,6 @@ export class OrdersComponent implements OnInit, OnDestroy {
   }
 
   populateOrders() {
-    this.loading = true;
     this.franchiseOrdersService
       .getOrders(this.dataService.franchiseId)
       .pipe(finalize(() => this.loading = false),

@@ -1,3 +1,11 @@
+<div
+  *ngIf="loading"
+  class="col h-100 d-flex justify-content-center align-items-center loader-container"
+>
+  <div class="is-loader"></div>
+  <h6 class="ml-2">Loading Franchises</h6>
+</div>
+<div *ngIf="!loading">
 <is-card>
   <is-card-header>
     <div class="w-100 d-flex justify-content-between mb-2">
@@ -34,3 +42,4 @@
     </is-grid>
   </is-card-content>
 </is-card>
+</div>

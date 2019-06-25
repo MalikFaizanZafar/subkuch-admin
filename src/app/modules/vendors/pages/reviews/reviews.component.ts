@@ -1,11 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'reviews',
   templateUrl: './reviews.component.html',
   styleUrls: ['./reviews.component.scss']
 })
-export class ReviewsComponent {
+export class ReviewsComponent implements OnInit {
+  loading: boolean = true;
   reviews = [
     {
       name: 'Jafer Bin Shamshad',
@@ -58,4 +59,9 @@ export class ReviewsComponent {
       rating: 5
     }
   ];
+  ngOnInit() {
+    setTimeout(()=> {
+      this.loading = false  
+    }, 2000)
+  }
 }

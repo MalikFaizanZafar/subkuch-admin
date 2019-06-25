@@ -1,3 +1,11 @@
+<div
+  *ngIf="loading"
+  class="col h-100 d-flex justify-content-center align-items-center loader-container"
+>
+  <div class="is-loader"></div>
+  <h6 class="ml-2">Loading Sales</h6>
+</div>
+<div *ngIf="!loading">
 <is-card>
   <is-card-header>
     <h4>Sales Report</h4>
@@ -69,7 +77,7 @@
     </div>
   </is-card-content>
 </is-card>
-
+</div>
 
 <ng-template #loader>
   <div class="col min-content-height d-flex justify-content-center align-items-center loader-container">

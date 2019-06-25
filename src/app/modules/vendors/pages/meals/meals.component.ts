@@ -38,6 +38,7 @@ export class MealsComponent implements OnInit {
   editMealCancelled: boolean = false;
   selectedIndex: number = null;
   selectedCategory: number;
+  loading = true;
 
   get franchiseId() {
     return this.dataService.franchiseId;
@@ -68,6 +69,7 @@ export class MealsComponent implements OnInit {
     this.franchiseItemsService
       .getItems(this.franchiseId, this.selectedCategory)
       .subscribe(itemresponseData => {
+        this.loading = false;
         this.meals = itemresponseData.data;
       });
   }

@@ -19,6 +19,7 @@ export class SettingsComponent implements OnInit {
   serviceId: Number;
   brandName: String;
   dialogCancelled: boolean = false;
+  loading: boolean = true;
   
   constructor(
     private franchiseInfoService: FranchiseInfoService,
@@ -34,6 +35,7 @@ export class SettingsComponent implements OnInit {
 
   populateFranchises() {
     this.franchiseInfoService.getFranchiseInfo().subscribe(responseData => {
+      this.loading = false
       this.brandId = responseData.data.brandId;
       this.serviceId = responseData.data.serviceId;
       this.brandName = responseData.data.brandName

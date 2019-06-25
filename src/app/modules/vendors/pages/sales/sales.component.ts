@@ -15,7 +15,7 @@ lastMonth.setMonth(lastMonth.getMonth() - 1 );
 })
 export class SalesComponent implements OnInit {
   sales: any = [];
-  loading = false;
+  loading = true;
   fromDate: Date = lastMonth;
   toDate: Date = today;
 
@@ -44,11 +44,10 @@ export class SalesComponent implements OnInit {
   }
 
   private populateSalesInfo() {
-    this.loading = true;
     const fromDate = `${this.fromDate.getFullYear()}-${this.fromDate.getMonth() + 1}-${this.fromDate.getDate()}`;
     const toDate = `${this.toDate.getFullYear()}-${this.toDate.getMonth() + 1}-${this.toDate.getDate()}`;
     this.franchiseSalesService.getSales(this.dataService.franchiseId, fromDate, toDate)
-      .pipe(finalize(() => this.loading = false))
+      .pipe(finalize(() => this.loading = true))
       .subscribe(responseData => {
       this.sales = responseData.data;
     });

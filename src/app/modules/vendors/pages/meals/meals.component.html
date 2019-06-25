@@ -1,131 +1,205 @@
-<is-card>
-  <is-card-header class="d-flex justify-content-between w-100 align-items-center">
-    <div class="d-flex align-items-center w-25 justify-content-left">
-      <h4 class="">Offered Meals ( {{ meals.length }} )</h4>
-    </div>
-    <div class="w-25 d-flex justify-content-end">
-      <button type="button" (click)="onAddMealHandler()" *ngIf="showMeals" class="ml-5" is-button>
-        Add Meal
-      </button>
-    </div>
-  </is-card-header>
-  <is-card-content>
-  <div class="row px-3" *ngIf="showMeals">
-    <div class="col-md-3 pt-3 categories-container ">
-      <h6 class="font-weight-bold d-flex justify-content-between align-items-center">
-        CATEGORIES
-        <i class="fa fa-plus-circle fa-2x icon-color" (click)="addCategoryHandler()"></i>
-        <!-- <button is-button (click)="addCategoryHandler(addCategoryDialog)">
+<div
+  *ngIf="loading"
+  class="col h-100 d-flex justify-content-center align-items-center loader-container"
+>
+  <div class="is-loader"></div>
+  <h6 class="ml-2">Loading Meals</h6>
+</div>
+<div *ngIf="!loading">
+  <is-card>
+    <is-card-header
+      class="d-flex justify-content-between w-100 align-items-center"
+    >
+      <div class="d-flex align-items-center w-25 justify-content-left">
+        <h4 class="">Offered Meals ( {{ meals.length }} )</h4>
+      </div>
+      <div class="w-25 d-flex justify-content-end">
+        <button
+          type="button"
+          (click)="onAddMealHandler()"
+          *ngIf="showMeals"
+          class="ml-5"
+          is-button
+        >
+          Add Meal
+        </button>
+      </div>
+    </is-card-header>
+    <is-card-content>
+      <div class="row px-3" *ngIf="showMeals">
+        <div class="col-md-3 pt-3 categories-container ">
+          <h6
+            class="font-weight-bold d-flex justify-content-between align-items-center"
+          >
+            CATEGORIES
+            <i
+              class="fa fa-plus-circle fa-2x icon-color"
+              (click)="addCategoryHandler()"
+            ></i>
+            <!-- <button is-button (click)="addCategoryHandler(addCategoryDialog)">
           
         </button> -->
-      </h6>
-      <div class="empty-category__block" *ngIf="!categories">
-        <h5>Click + to add Categories</h5>
-      </div>
-      <ul class="list-group mt-2" *ngIf="categories && categories.length">
-        <li
-          class="p-0 mb-2 mt-0 list-group-item d-flex justify-content-start align-items-center text-muted bg-transparent  mt-1 category__list__item "
-          *ngFor="let category of categories; let i = index">
-          <!-- <i
+          </h6>
+          <div class="empty-category__block" *ngIf="!categories">
+            <h5>Click + to add Categories</h5>
+          </div>
+          <ul class="list-group mt-2" *ngIf="categories && categories.length">
+            <li
+              class="p-0 mb-2 mt-0 list-group-item d-flex justify-content-start align-items-center text-muted bg-transparent  mt-1 category__list__item "
+              *ngFor="let category of categories; let i = index"
+            >
+              <!-- <i
             class="fas fa-trash category__icons__delete mr-2"
             (click)="onDeleteCategoryHandler(category.id, deleteCategoryDialog)"
           ></i> -->
-          <span class="categories__item" [class.categories__item-active]="i === selectedIndex"
-            (click)="getCategoryItems(category.id, i)">{{ category.name }}
-          </span>
-        </li>
-      </ul>
-    </div>
-    <div class="col-md-9 pt-3 bg-white">
-      <div class="row">
-        <div class="col-md-12">
-          <div class="input-group">
-            <div class="input-group-prepend bg-light">
-              <span class="input-group-text" id="inputGroupPrepend">
-                <i class="fa fa-search-plus icon-color" aria-hidden="true"></i>
+              <span
+                class="categories__item"
+                [class.categories__item-active]="i === selectedIndex"
+                (click)="getCategoryItems(category.id, i)"
+                >{{ category.name }}
               </span>
-            </div>
-            <input type="text" class="form-control form-control-lg text-muted" id="validationCustomUsername"
-              placeholder="Search Meals" aria-describedby="inputGroupPrepend" required />
-          </div>
+            </li>
+          </ul>
         </div>
-      </div>
-      <div class="d-flex justify-content-center align-items-center w-100 h-100 my-5 py-5" *ngIf="meals.length === 0">
-        <h3>Click "Add Meal" to add Meal Items</h3>
-      </div>
-      <div class="row mt-2" *ngIf="meals">
-        <div class="col-md-6 mb-2" *ngFor="let meal of meals">
-          <div class="card rounded shadow  mb-3 meal__card">
-            <div class="row no-gutters">
-              <div class="col-md-5">
-                <img [src]="meal.image_url" class="card-img" style="width: 175px;height: 175px; object-fit: cover;" alt="..." />
+        <div class="col-md-9 pt-3 bg-white">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="input-group">
+                <div class="input-group-prepend bg-light">
+                  <span class="input-group-text" id="inputGroupPrepend">
+                    <i
+                      class="fa fa-search-plus icon-color"
+                      aria-hidden="true"
+                    ></i>
+                  </span>
+                </div>
+                <input
+                  type="text"
+                  class="form-control form-control-lg text-muted"
+                  id="validationCustomUsername"
+                  placeholder="Search Meals"
+                  aria-describedby="inputGroupPrepend"
+                  required
+                />
               </div>
-              <div class="col-md-7">
-                <div class="card-body pt-2">
-                  <div class="d-flex justify-content-between align-items-center w-100">
-                    <h3 class="card-title mb-0">{{ meal.name }}</h3>
-                    <div class="d-flex justify-content-around">
-                      <i class="fas fa-edit meal__icons icon-color mr-2" (click)="onEditItemHandler(meal.id)"></i>
-                      <i class="fas fa-trash meal__icons__delete "
-                        (click)="onDeleteItemHandler(meal.id, deleteDialog)"></i>
-                    </div>
+            </div>
+          </div>
+          <div
+            class="d-flex justify-content-center align-items-center w-100 h-100 my-5 py-5"
+            *ngIf="meals.length === 0"
+          >
+            <h3>Click "Add Meal" to add Meal Items</h3>
+          </div>
+          <div class="row mt-2" *ngIf="meals">
+            <div class="col-md-6 mb-2" *ngFor="let meal of meals">
+              <div class="card rounded shadow  mb-3 meal__card">
+                <div class="row no-gutters">
+                  <div class="col-md-5">
+                    <img
+                      [src]="meal.image_url"
+                      class="card-img"
+                      style="width: 175px;height: 175px; object-fit: cover;"
+                      alt="..."
+                    />
                   </div>
-                  <p class="card-text mb-0 mt-2 card-description">{{ meal.description }}</p>
-                  <p class="d-flex justify-content-end card-text mb-0 mt-2">
-                    Discount:<small class="ml-2 text-muted">
-                      {{ meal.discount }}/-
-                    </small>
-                  </p>
-                  <div class="d-flex justify-content-end w-100 align-items-center mt-2">
-                    <h4>
-                      Price
-                      <span class="badge bg_blue">{{ meal.price }}/-</span>
-                    </h4>
+                  <div class="col-md-7">
+                    <div class="card-body pt-2">
+                      <div
+                        class="d-flex justify-content-between align-items-center w-100"
+                      >
+                        <h3 class="card-title mb-0">{{ meal.name }}</h3>
+                        <div class="d-flex justify-content-around">
+                          <i
+                            class="fas fa-edit meal__icons icon-color mr-2"
+                            (click)="onEditItemHandler(meal.id)"
+                          ></i>
+                          <i
+                            class="fas fa-trash meal__icons__delete "
+                            (click)="onDeleteItemHandler(meal.id, deleteDialog)"
+                          ></i>
+                        </div>
+                      </div>
+                      <p class="card-text mb-0 mt-2 card-description">
+                        {{ meal.description }}
+                      </p>
+                      <p class="d-flex justify-content-end card-text mb-0 mt-2">
+                        Discount:<small class="ml-2 text-muted">
+                          {{ meal.discount }}/-
+                        </small>
+                      </p>
+                      <div
+                        class="d-flex justify-content-end w-100 align-items-center mt-2"
+                      >
+                        <h4>
+                          Price
+                          <span class="badge bg_blue">{{ meal.price }}/-</span>
+                        </h4>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
+          <!-- <hr /> -->
         </div>
       </div>
-      <!-- <hr /> -->
-    </div>
-  </div>
-</is-card-content>
+    </is-card-content>
 
-  <!-- Delete Dialog Box -->
-  <ng-template #deleteDialog let-close="close" let-data="data">
-    <div class="p-3">
-      <p>
-        <strong class="delete__message">{{ data }}</strong>
-      </p>
-      <div class="d-flex justify-content-center">
-        <button is-button theme="danger" class="close-btn delete__dialog__btn" (click)="close('ok')">
-          <span>Ok</span>
-        </button>
-        <button is-button theme="primary" class="close-btn delete__dialog__btn" (click)="close('Click on Close')">
-          <span>Cancel</span>
-        </button>
+    <!-- Delete Dialog Box -->
+    <ng-template #deleteDialog let-close="close" let-data="data">
+      <div class="p-3">
+        <p>
+          <strong class="delete__message">{{ data }}</strong>
+        </p>
+        <div class="d-flex justify-content-center">
+          <button
+            is-button
+            theme="danger"
+            class="close-btn delete__dialog__btn"
+            (click)="close('ok')"
+          >
+            <span>Ok</span>
+          </button>
+          <button
+            is-button
+            theme="primary"
+            class="close-btn delete__dialog__btn"
+            (click)="close('Click on Close')"
+          >
+            <span>Cancel</span>
+          </button>
+        </div>
       </div>
-    </div>
-  </ng-template>
-  <!-- Delete Dialog Box End -->
+    </ng-template>
+    <!-- Delete Dialog Box End -->
 
-  <!-- Delete Category Dialog Box -->
-  <ng-template #deleteCategoryDialog let-close="close" let-data="data">
-    <div class="p-3">
-      <p>
-        <strong class="delete__message">{{ data }}</strong>
-      </p>
-      <div class="d-flex justify-content-center">
-        <button is-button theme="danger" class="close-btn delete__dialog__btn" (click)="close('ok')">
-          <span>Ok</span>
-        </button>
-        <button is-button theme="primary" class="close-btn delete__dialog__btn" (click)="close('Click on Close')">
-          <span>Cancel</span>
-        </button>
+    <!-- Delete Category Dialog Box -->
+    <ng-template #deleteCategoryDialog let-close="close" let-data="data">
+      <div class="p-3">
+        <p>
+          <strong class="delete__message">{{ data }}</strong>
+        </p>
+        <div class="d-flex justify-content-center">
+          <button
+            is-button
+            theme="danger"
+            class="close-btn delete__dialog__btn"
+            (click)="close('ok')"
+          >
+            <span>Ok</span>
+          </button>
+          <button
+            is-button
+            theme="primary"
+            class="close-btn delete__dialog__btn"
+            (click)="close('Click on Close')"
+          >
+            <span>Cancel</span>
+          </button>
+        </div>
       </div>
-    </div>
-  </ng-template>
-  <!-- Delete Category Dialog Box End -->
-</is-card>
+    </ng-template>
+    <!-- Delete Category Dialog Box End -->
+  </is-card>
+</div>
