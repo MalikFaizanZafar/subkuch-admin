@@ -49,7 +49,7 @@ export class SalesComponent implements OnInit {
     const fromDate = `${this.fromDate.getFullYear()}-${this.fromDate.getMonth() + 1}-${this.fromDate.getDate()}`;
     const toDate = `${this.toDate.getFullYear()}-${this.toDate.getMonth() + 1}-${this.toDate.getDate()}`;
     this.franchiseSalesService.getSales(this.dataService.franchiseId, fromDate, toDate)
-      .pipe(finalize(() => this.loading = true))
+      .pipe(finalize(() => this.loading = false))
       .subscribe(responseData => {
       this.sales = responseData.data;
     }, error => {
