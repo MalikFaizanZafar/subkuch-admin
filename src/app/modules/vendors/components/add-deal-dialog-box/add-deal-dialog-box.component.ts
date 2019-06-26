@@ -49,6 +49,7 @@ export class AddDealDialogBoxComponent implements OnInit, OnDestroy {
   deals: dealModel;
   dealImageChanged: boolean = false;
   addOrEdit =  'Add'
+  noItems : boolean = false
   /**
    * Subscription to be triggered on destroy cycle of component.
    */
@@ -126,9 +127,16 @@ export class AddDealDialogBoxComponent implements OnInit, OnDestroy {
   onDealSubmit(btn: IsButton) {
     this.mapDealItems();
     this.isSubmitted = true;
+    this.noItems = false
 
     if (this.dealForm.valid) {
+
       btn.startLoading()
+      if(this.dealItemsList.length === 0){
+        this.noItems = true
+        btn.stopLoading()
+        return
+      }
       if (!this.dealImageChanged) {
         let deal = this.dealForm.value;
 

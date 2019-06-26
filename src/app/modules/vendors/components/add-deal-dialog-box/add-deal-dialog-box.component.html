@@ -1,169 +1,278 @@
 <div class="">
   <div class="card-header bg-dark text-white font-weight-bold rounded-0 ">
-    {{addOrEdit}} Deal
+    {{ addOrEdit }} Deal
   </div>
   <div *ngIf="!itemLoading; else loader">
-  <div class="deal__block">
-  <form class="pt-3 form-size" [formGroup]="dealForm"  #formDir="ngForm">
-    <div class="row">
-      <div class="col-sm-6">
-        <div class="d-flex align-items-center">
-          <label for="inputEmail3" class="col-sm-3 col-form-label text-dark">Title</label>
-          <div class="col-sm-9">
-            <input type="text" class="form-control" style="height:40px;" placeholder="Enter Title" formControlName="name" />
-            <div *ngIf="dealForm.hasError('required', 'name') && isSubmitted"
-                  class="item-form__input_error d-flex align-items-center">
-              <span class="text-danger">Name is required</span>
+    <div class="deal__block">
+      <form class="pt-3 form-size" [formGroup]="dealForm" #formDir="ngForm">
+        <div class="row">
+          <div class="col-sm-6">
+            <div class="d-flex align-items-center">
+              <label for="inputEmail3" class="col-sm-3 col-form-label text-dark"
+                >Title</label
+              >
+              <div class="col-sm-9">
+                <input
+                  type="text"
+                  class="form-control"
+                  style="height:40px;"
+                  placeholder="Enter Title"
+                  formControlName="name"
+                />
+                <div
+                  *ngIf="dealForm.hasError('required', 'name') && isSubmitted"
+                  class="item-form__input_error d-flex align-items-center"
+                >
+                  <span class="text-danger">Name is required</span>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
 
-      <div class="col-sm-6">
-          <div class="d-flex align-items-center">
-            <label for="inputPassword3" class="col-sm-3 col-form-label text-dark">Sub Title</label>
-            <div class="col-sm-9">
-              <input type="tesxt" class="form-control" style="height:40px;" placeholder="Enter Subtitle"
-                formControlName="subtitle" />
-            </div>
-          </div>
-      </div>
-    </div>
-  
-    <div class="row mt-3">
-      <div class="col-sm-6">
-        <div class="d-flex align-items-center">
-          <label for="exampleFormControlFile1" class="col-sm-3 text-dark col-form-label">Attachments</label>
-          <div class="col-sm-8">
-            <div>
-              <input type="file" class="form-control-file" style="display:none;" #dealImage accept=".jpeg,.png"
-                    formControlName="attachment" (change)="fileChangeEvent($event)" />
-              <button class="btn btn-secondary" (click)="chooseFile()" type="button">
-                Choose an Image
-              </button>
-              <!-- <p class="lead w-25 mt-3 ml-1" *ngIf="(imageFile && imageFile.name) || deals?.deal_image">
-                {{ imageFile?.name || deals?.deal_image }}
-              </p> -->
-              <div *ngIf="dealForm.hasError('required', 'attachment') && isSubmitted"
-                    class="item-form__input_error d-flex align-items-center ">
-                <span class="text-danger ml-3">Image is required</span>
+          <div class="col-sm-6">
+            <div class="d-flex align-items-center">
+              <label
+                for="inputPassword3"
+                class="col-sm-3 col-form-label text-dark"
+                >Sub Title</label
+              >
+              <div class="col-sm-9">
+                <input
+                  type="tesxt"
+                  class="form-control"
+                  style="height:40px;"
+                  placeholder="Enter Subtitle"
+                  formControlName="subtitle"
+                />
               </div>
             </div>
           </div>
         </div>
-      </div>
 
-      
-      <div class="col-sm-6">
-          <div class="d-flex align-items-center">
-            <label for="inputPassword3" class="col-sm-3 col-form-label text-dark">Price</label>
-            <div class="col-sm-9">
-              <input type="number" class="form-control" style="height:40px;" placeholder="Enter Price"
-                formControlName="price" />
-                <div *ngIf="dealForm.hasError('required', 'price') && isSubmitted"
-                    class="item-form__input_error d-flex align-items-center">
+        <div class="row mt-3">
+          <div class="col-sm-6">
+            <div class="d-flex align-items-center">
+              <label
+                for="exampleFormControlFile1"
+                class="col-sm-3 text-dark col-form-label"
+                >Attachments</label
+              >
+              <div class="col-sm-8">
+                <div>
+                  <input
+                    type="file"
+                    class="form-control-file"
+                    style="display:none;"
+                    #dealImage
+                    accept=".jpeg,.png"
+                    formControlName="attachment"
+                    (change)="fileChangeEvent($event)"
+                  />
+                  <button
+                    class="btn btn-secondary"
+                    (click)="chooseFile()"
+                    type="button"
+                  >
+                    Choose an Image
+                  </button>
+                  <!-- <p class="lead w-25 mt-3 ml-1" *ngIf="(imageFile && imageFile.name) || deals?.deal_image">
+                {{ imageFile?.name || deals?.deal_image }}
+              </p> -->
+                  <div
+                    *ngIf="
+                      dealForm.hasError('required', 'attachment') && isSubmitted
+                    "
+                    class="item-form__input_error d-flex align-items-center "
+                  >
+                    <span class="text-danger ml-3">Image is required</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-sm-6">
+            <div class="d-flex align-items-center">
+              <label
+                for="inputPassword3"
+                class="col-sm-3 col-form-label text-dark"
+                >Price</label
+              >
+              <div class="col-sm-9">
+                <input
+                  type="number"
+                  class="form-control"
+                  style="height:40px;"
+                  placeholder="Enter Price"
+                  formControlName="price"
+                />
+                <div
+                  *ngIf="dealForm.hasError('required', 'price') && isSubmitted"
+                  class="item-form__input_error d-flex align-items-center"
+                >
                   <span class="text-danger">Price is required</span>
                 </div>
+              </div>
             </div>
           </div>
         </div>
-  
-    </div>
 
-    <div class="row mt-3">
-        <div class="col-sm-6">
-          <div class="d-flex justify-content-between">
-            <label class="col-sm-3 col-form-label text-dark">Start Time</label>
-            <is-timepicker class="position-relative col-sm-9" formControlName="startTime" placement="top" ></is-timepicker>
+        <div class="row mt-3">
+          <div class="col-sm-6">
+            <div class="d-flex justify-content-between">
+              <label class="col-sm-3 col-form-label text-dark"
+                >Start Time</label
+              >
+              <is-timepicker
+                class="position-relative col-sm-9"
+                formControlName="startTime"
+                placement="top"
+              ></is-timepicker>
+            </div>
           </div>
-        </div>
 
-        <div class="col-sm-6">
+          <div class="col-sm-6">
             <div class="d-flex justify-content-between">
               <label class="col-sm-3 col-form-label text-dark">End Time</label>
-              <is-timepicker class="position-relative col-sm-9" formControlName="endTime" placement="top"></is-timepicker>
+              <is-timepicker
+                class="position-relative col-sm-9"
+                formControlName="endTime"
+                placement="top"
+              ></is-timepicker>
             </div>
           </div>
-      </div>
+        </div>
 
-    <div class="row mt-3">
-      <div class="col-sm-6">
-          <div class="d-flex align-items-center">
-            <label class="col-sm-3 col-form-label text-dark">Description</label>
-            <div class="col-sm-9">
-              <textarea type="number" class="form-control" rows="2" style="width: 100%" placeholder="Enter description"
-                formControlName="description"></textarea>
+        <div class="row mt-3">
+          <div class="col-sm-6">
+            <div class="d-flex align-items-center">
+              <label class="col-sm-3 col-form-label text-dark"
+                >Description</label
+              >
+              <div class="col-sm-9">
+                <textarea
+                  type="number"
+                  class="form-control"
+                  rows="2"
+                  style="width: 100%"
+                  placeholder="Enter description"
+                  formControlName="description"
+                ></textarea>
+              </div>
             </div>
           </div>
-      </div>
-    </div>
+        </div>
+      </form>
+      <div class="row mt-3 px-3">
+        <div class="col-sm-12">
+          <h5>Items</h5>
+          <div class="d-flex justify-content-center my-1" *ngIf="noItems">
+            <p class="text-danger">Deal must Contain alteast One Item</p>
+          </div>
+          <table is-table [data]="itemsList">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Quantity</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let obj of itemsList; let i = index">
+                <td class="col-size">
+                  <div *ngIf="!obj.editing" class="text-left">
+                    {{ obj.item.name }}
+                  </div>
+                  <ng-select
+                    *ngIf="obj.editing"
+                    [items]="items"
+                    class="select"
+                    bindLabel="name"
+                    dropdownPosition="top"
+                    [loading]="itemsLoading"
+                    [(ngModel)]="obj.item"
+                  >
+                  </ng-select>
+                  <div
+                    *ngIf="showItemError"
+                    class="item-form__input_error d-flex align-items-center justify-content-center"
+                  >
+                    <span class="text-danger ml-3">Item is required</span>
+                  </div>
+                </td>
+                <td class="col-size">
+                  <div *ngIf="!obj.editing" class="text-right">
+                    {{ obj.quantity }}
+                  </div>
+                  <is-input-container
+                    [showSpinners]="false"
+                    *ngIf="obj.editing"
+                  >
+                    <input
+                      type="number"
+                      class="quantity__input"
+                      [(ngModel)]="obj.quantity"
+                    />
+                  </is-input-container>
+                  <div
+                    *ngIf="showQuantityError"
+                    class="item-form__input_error d-flex align-items-center justify-content-center"
+                  >
+                    <span class="text-danger ml-3">Quantity is required</span>
+                  </div>
+                </td>
+                <td class="col-action">
+                  <i
+                    *ngIf="obj.editing"
+                    class="fa fa-floppy-o icon icon__save"
+                    aria-hidden="true"
+                    (click)="onSave(obj, i)"
+                  ></i>
+                  <i
+                    *ngIf="!obj.editing"
+                    class="fa fa-pencil-square-o icon icon__edit mr-2"
+                    aria-hidden="true"
+                    (click)="onEiditing(obj)"
+                  ></i>
+                  <i
+                    *ngIf="!obj.editing"
+                    class="fa fa-times icon icon__remove"
+                    aria-hidden="true"
+                    (click)="onRemove(i)"
+                  ></i>
+                </td>
+              </tr>
+            </tbody>
+          </table>
 
-
-  </form>
-    <div class="row mt-3 px-3">
-      <div class="col-sm-12">
-        <h5>Items</h5>
-        <table is-table
-              [data]="itemsList">
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Quantity</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let obj of itemsList; let i= index;">
-              <td class="col-size">
-                <div *ngIf="!obj.editing" class="text-left">{{obj.item.name}}</div>
-                <ng-select *ngIf="obj.editing"
-                           [items]="items"
-                           class="select"
-                           bindLabel="name"
-                           dropdownPosition="top"
-                           [loading]="itemsLoading"
-                           [(ngModel)]="obj.item">
-                </ng-select>
-                <div *ngIf="showItemError"
-                      class="item-form__input_error d-flex align-items-center justify-content-center">
-                  <span class="text-danger ml-3">Item is required</span>
-                </div>
-              </td>
-              <td class="col-size">
-                <div *ngIf="!obj.editing" class="text-right">{{obj.quantity}}</div>
-                <is-input-container [showSpinners]="false" *ngIf="obj.editing">
-                  <input type="number" class="quantity__input" [(ngModel)]="obj.quantity">
-                </is-input-container>
-                <div *ngIf="showQuantityError"
-                      class="item-form__input_error d-flex align-items-center justify-content-center">
-                  <span class="text-danger ml-3">Quantity is required</span>
-                </div>
-              </td>
-              <td class="col-action">
-                <i *ngIf="obj.editing" class="fa fa-floppy-o icon icon__save" aria-hidden="true" (click)="onSave(obj, i)"></i>
-                <i *ngIf="!obj.editing" class="fa fa-pencil-square-o icon icon__edit mr-2" aria-hidden="true" (click)="onEiditing(obj)"></i>
-                <i *ngIf="!obj.editing" class="fa fa-times icon icon__remove" aria-hidden="true" (click)="onRemove(i)"></i>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-
-        <div *ngIf="showItemsError"
-              class="item-form__input_error d-flex align-items-center justify-content-center">
-          <span class="text-danger ml-3">Items cannot be empty</span>
+          <div
+            *ngIf="showItemsError"
+            class="item-form__input_error d-flex align-items-center justify-content-center"
+          >
+            <span class="text-danger ml-3">Items cannot be empty</span>
+          </div>
         </div>
       </div>
     </div>
-</div>
     <div class="form-group d-flex justify-content-start mt-5">
       <div class="d-flex w-100 justify-content-end px-4">
-        <button type="submit" 
-                (click)="onDealSubmit(saveBtn)"        
-                theme="danger" class="btn btn-primary btn-lg" is-button #saveBtn>
+        <button
+          type="submit"
+          (click)="onDealSubmit(saveBtn)"
+          theme="danger"
+          class="btn btn-primary btn-lg"
+          is-button
+          #saveBtn
+        >
           Submit
         </button>
-        <button is-button theme="primary" type="button" (click)="isActiveModal.close('cancel')"
-          class="btn btn-alert btn-lg ml-3">
+        <button
+          is-button
+          theme="primary"
+          type="button"
+          (click)="isActiveModal.close('cancel')"
+          class="btn btn-alert btn-lg ml-3"
+        >
           Cancel
         </button>
       </div>
@@ -172,7 +281,9 @@
 </div>
 
 <ng-template #loader>
-    <div class="col min-content-height d-flex justify-content-center align-items-center loader-container">
-      <div class="is-loader"></div>
-    </div>  
-  </ng-template>
+  <div
+    class="col min-content-height d-flex justify-content-center align-items-center loader-container"
+  >
+    <div class="is-loader"></div>
+  </div>
+</ng-template>
