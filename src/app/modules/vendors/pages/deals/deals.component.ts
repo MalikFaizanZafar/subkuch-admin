@@ -91,7 +91,6 @@ export class DealsComponent implements OnInit, OnDestroy {
     .pipe(finalize(() => this.loading = false),takeUntil(this.destroy))
     .subscribe(responseData => {
       this.deals = responseData.data;
-      console.log("deals are : ", this.deals)
     });
   }
   

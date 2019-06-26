@@ -68,16 +68,30 @@
                     formControlName="attachment"
                     (change)="fileChangeEvent($event)"
                   />
-                  <button
-                    class="btn btn-secondary"
-                    (click)="chooseFile()"
-                    type="button"
+                  <div
+                    class="d-flex justify-content-start align-items-center"
+                    *ngIf="addOrEdit === 'Edit'"
                   >
-                    Choose an Image
-                  </button>
-                  <!-- <p class="lead w-25 mt-3 ml-1" *ngIf="(imageFile && imageFile.name) || deals?.deal_image">
-                {{ imageFile?.name || deals?.deal_image }}
-              </p> -->
+                    <img
+                      [src]="tempDealImage"
+                      alt=""
+                      style="height:100px; width:100px;"
+                    />
+                    <i
+                      class="fas fa-edit deal__icons ml-3"
+                      (click)="chooseFile()"
+                    ></i>
+                  </div>
+                  <div class="d-flex justify-content-start align-items-center" [class.py-4]="addOrEdit === 'Add'? true: false">
+                    <button
+                      class="btn btn-secondary"
+                      (click)="chooseFile()"
+                      type="button"
+                      *ngIf="addOrEdit === 'Add'"
+                    >
+                      Choose an Image
+                    </button>
+                  </div>
                   <div
                     *ngIf="
                       dealForm.hasError('required', 'attachment') && isSubmitted
@@ -90,31 +104,23 @@
               </div>
             </div>
           </div>
-
           <div class="col-sm-6">
-            <div class="d-flex align-items-center">
-              <label
-                for="inputPassword3"
-                class="col-sm-3 col-form-label text-dark"
-                >Price</label
-              >
-              <div class="col-sm-9">
-                <input
-                  type="number"
-                  class="form-control"
-                  style="height:40px;"
-                  placeholder="Enter Price"
-                  formControlName="price"
-                />
-                <div
-                  *ngIf="dealForm.hasError('required', 'price') && isSubmitted"
-                  class="item-form__input_error d-flex align-items-center"
+              <div class="d-flex align-items-center">
+                <label class="col-sm-3 col-form-label text-dark"
+                  >Description</label
                 >
-                  <span class="text-danger">Price is required</span>
+                <div class="col-sm-9">
+                  <textarea
+                    type="number"
+                    class="form-control"
+                    rows="4"
+                    style="width: 100%"
+                    placeholder="Enter description"
+                    formControlName="description"
+                  ></textarea>
                 </div>
               </div>
             </div>
-          </div>
         </div>
 
         <div class="row mt-3">
@@ -145,30 +151,34 @@
 
         <div class="row mt-3">
           <div class="col-sm-6">
-            <div class="d-flex align-items-center">
-              <label class="col-sm-3 col-form-label text-dark"
-                >Description</label
-              >
-              <div class="col-sm-9">
-                <textarea
-                  type="number"
-                  class="form-control"
-                  rows="2"
-                  style="width: 100%"
-                  placeholder="Enter description"
-                  formControlName="description"
-                ></textarea>
+              <div class="d-flex align-items-center">
+                <label
+                  for="inputPassword3"
+                  class="col-sm-3 col-form-label text-dark"
+                  >Price</label
+                >
+                <div class="col-sm-9">
+                  <input
+                    type="number"
+                    class="form-control"
+                    style="height:40px;"
+                    placeholder="Enter Price"
+                    formControlName="price"
+                  />
+                  <div
+                    *ngIf="dealForm.hasError('required', 'price') && isSubmitted"
+                    class="item-form__input_error d-flex align-items-center"
+                  >
+                    <span class="text-danger">Price is required</span>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
         </div>
       </form>
       <div class="row mt-3 px-3">
         <div class="col-sm-12">
           <h5>Items</h5>
-          <div class="d-flex justify-content-center my-1" *ngIf="noItems">
-            <p class="text-danger">Deal must Contain alteast One Item</p>
-          </div>
           <table is-table [data]="itemsList">
             <thead>
               <tr>
