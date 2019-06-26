@@ -28,4 +28,7 @@ export class FranchiseAccountService {
       }
     );
   }
+  signup(data: any) : Observable<any>{
+    return this.http.post<any>(`${this.baseURL}/signup`, data);
+  }
 }

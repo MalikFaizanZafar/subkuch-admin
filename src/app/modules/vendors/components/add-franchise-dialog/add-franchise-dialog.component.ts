@@ -4,6 +4,7 @@ import { GoogleMapService } from "@app/shared/services/google-map.service";
 import { MapsAPILoader } from "@agm/core";
 import { LocationCoordinates } from "@app/shared/models/coordinates";
 import { IsButton, IsActiveModal } from 'app/lib';
+import { FranchiseAccountService } from '../../services/franchiseAccount.service';
 
 declare var google: any;
 @Component({
@@ -20,10 +21,11 @@ export class AddFranchiseDialogComponent implements OnInit {
   brandId: Number;
   serviceId: Number;
   brandName: String;
+  emailExists: boolean = false;
   @ViewChild("search")
   public searchElementRef: ElementRef;
   constructor( private isActiveModal: IsActiveModal,private mapsApiLoader: MapsAPILoader,
-    private googleMapService: GoogleMapService) { }
+    private googleMapService: GoogleMapService, private franchiseAccountService: FranchiseAccountService) { }
 
   ngOnInit() {
     this.brandId = this.isActiveModal.data.brandId
@@ -39,9 +41,6 @@ export class AddFranchiseDialogComponent implements OnInit {
       confirmPassword: new FormControl(null, [
         Validators.required,
         Validators.minLength(8)
-      ]), 
-      username: new FormControl(null, [
-        Validators.required
       ]),
       contact: new FormControl(null, [
         Validators.required
@@ -104,21 +103,30 @@ export class AddFranchiseDialogComponent implements OnInit {
       let newFranchise = {
         service_id : this.serviceId,
         ntn: "123",
-        parentId: this.brandId,
+        parent_id: this.brandId,
         manager_name: user.name,
         contact : user.contact,
         email : user.email,
         name : this.brandName,
         password :  user.password,
-        username :  user.username,
+        username :  user.email,
         address : this.searchElementRef.nativeElement.value,
-        longitude: this.currentPostion.longitude,
-        latitude: this.currentPostion.latitude,
-      }  
-      if(newFranchise) {
-        this.isActiveModal.close(newFranchise)
-      }   
-      btn.stopLoading()
+        longitude: this.currentPostion.longitude? this.currentPostion.longitude : 72.22,
+        latitude: this.currentPostion.latitude? this.currentPostion.latitude : 33.32,
+      }
+      this.franchiseAccountService.signup(newFranchise).subscribe(createFranchiseResponse => {
+        console.log("Create Franchise Response is : ", createFranchiseResponse)
+        btn.stopLoading();
+        if(newFranchise) {
+          this.isActiveModal.close(newFranchise)
+        }   
+      }, error => {
+        console.log(error)
+        if(error){
+          this.emailExists = true;
+          btn.stopLoading();
+        }
+      }) 
     } else {
       return;
     }  

@@ -81,8 +81,6 @@ export class SettingsComponent implements OnInit {
     });
 
     addFranchiseDialog.onClose.subscribe(res => {
-      debugger
-      console.log("addFranchiseDialog res is : ", res);
       if (res === 0) {
         this.dialogCancelled = true;
       } else if (!this.dialogCancelled) {

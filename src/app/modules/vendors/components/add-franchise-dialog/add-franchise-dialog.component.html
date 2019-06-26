@@ -13,11 +13,6 @@
     >
       <div
         class="form-group"
-        [class.mb-1]="
-          signupForm.controls['username'].errors &&
-          signupForm.controls['username'].errors.required &&
-          formDir.submitted
-        "
       >
         <is-input-container>
           <input
@@ -37,37 +32,9 @@
         "
         class="sign__input_error"
       >
-       <span class="text-danger">Manager Name is required</span>
+        <span class="text-danger">Manager Name is required</span>
       </div>
 
-      <div
-        class="form-group"
-        [class.mb-1]="
-          signupForm.controls['username'].errors &&
-          signupForm.controls['username'].errors.required &&
-          formDir.submitted
-        "
-      >
-        <is-input-container>
-          <input
-            autocomplete="username"
-            class="sign__input"
-            type="text"
-            placeholder="Enter username"
-            formControlName="username"
-          />
-        </is-input-container>
-      </div>
-      <div
-        *ngIf="
-          signupForm.controls['username'].errors &&
-          signupForm.controls['username'].errors.required &&
-          formDir.submitted
-        "
-        class="sign__input_error"
-      >
-      <span class="text-danger">Username is required</span>
-      </div>
 
       <div
         class="form-group"
@@ -79,7 +46,7 @@
       >
         <is-input-container>
           <input
-            autocomplete="username"
+            autocomplete="Email"
             class="sign__input"
             type="email"
             placeholder="Enter Email id"
@@ -96,7 +63,7 @@
         "
         class="sign__input_error"
       >
-      <span class="text-danger">Email is required</span>
+        <span class="text-danger">Email is required</span>
       </div>
 
       <div
@@ -126,7 +93,7 @@
         "
         class="sign__input_error"
       >
-      <span class="text-danger">Contact Number is required</span>
+        <span class="text-danger">Contact Number is required</span>
       </div>
 
       <div
@@ -152,7 +119,7 @@
         "
         class="sign__input_error"
       >
-      <span class="text-danger">Password is required</span>
+        <span class="text-danger">Password is required</span>
       </div>
 
       <div
@@ -163,7 +130,9 @@
         "
         class="sign__input_error"
       >
-        <span class="text-danger"> Password must contain at least 8 charaters</span>
+        <span class="text-danger">
+          Password must contain at least 8 charaters</span
+        >
       </div>
 
       <div
@@ -205,7 +174,9 @@
         "
         class="sign__input_error"
       >
-        <span class="text-danger">  Password must contain at least 8 charaters </span>
+        <span class="text-danger">
+          Password must contain at least 8 charaters
+        </span>
       </div>
 
       <div
@@ -215,7 +186,9 @@
         "
         class="sign__input_error"
       >
-      <span class="text-danger">  Password and Confirm password should match </span>
+        <span class="text-danger">
+          Password and Confirm password should match
+        </span>
       </div>
       <div class="w-100 mb-3">
         <div
@@ -250,6 +223,9 @@
       >
         Register Now
       </button>
+      <div *ngIf="emailExists" class="alert alert-danger mt-2" role="alert">
+        Account on This Email Already Exists. Please Login 
+      </div>
     </form>
   </div>
 </div>
