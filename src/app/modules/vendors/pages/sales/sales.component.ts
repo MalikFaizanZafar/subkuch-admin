@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, TemplateRef } from '@angular/core';
 // import {NgbDateStruct, NgbCalendar} from '@ng-bootstrap/ng-bootstrap';
 import { finalize } from 'rxjs/operators';
 
 import { FranchiseSalesService } from '../../services/franchiseSales.service';
 import { DataService } from '@app/shared/services/data.service';
+import { IsModalService } from 'app/lib';
+import { Router } from '@angular/router';
 
 const today: Date = new Date();
 const lastMonth: Date = new Date();
@@ -18,7 +20,7 @@ export class SalesComponent implements OnInit {
   loading = true;
   fromDate: Date = lastMonth;
   toDate: Date = today;
-
+  @ViewChild('noSales') noSalesDialog : TemplateRef<any>;
   get total() {
     return this.sales.reduce((a, b) => a + b.total, 0);
    }
@@ -32,7 +34,7 @@ export class SalesComponent implements OnInit {
    }
 
   constructor(
-    private franchiseSalesService: FranchiseSalesService, 
+    private franchiseSalesService: FranchiseSalesService, private modalService: IsModalService, private router : Router,
     private dataService: DataService) {}
 
   ngOnInit() {
@@ -50,6 +52,12 @@ export class SalesComponent implements OnInit {
       .pipe(finalize(() => this.loading = true))
       .subscribe(responseData => {
       this.sales = responseData.data;
+    }, error => {
+      const noSalesDlg = this.modalService.open(this.noSalesDialog)
+      console.log("sales error is : ", error)
+      noSalesDlg.onClose.subscribe(res => {
+        this.router.navigate(['vendors','overview'])
+      })
     });
   }
 }

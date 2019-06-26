@@ -84,3 +84,12 @@
     <div class="is-loader"></div>
   </div>
 </ng-template>
+
+<ng-template #noSales let-close="close" class="py-5">
+  <div class="d-flex justify-content-center my-3">
+    <h6>No Sales for the Last 30 Days</h6>
+  </div>
+  <div class="d-flex justify-content-center my-3">
+      <button is-button (click)="close('ok')" style="width: 100px;">Ok</button>
+    </div>
+</ng-template>
