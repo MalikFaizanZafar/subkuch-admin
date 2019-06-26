@@ -17,10 +17,10 @@
         <button is-button (click)="createOrder()">Create Order</button>
       </div>
     </is-card-header>
-    <is-card-content>
+    <is-card-content class="pb-5">
       <div
         *ngIf="loading"
-        class="col min-content-height d-flex justify-content-center align-items-center loader-container"
+        class="col min-content-height d-flex justify-content-center align-items-center loader-container "
       >
         <div class="is-loader"></div>
       </div>
@@ -68,7 +68,7 @@
           [style]="{ width: '50px', height: '50px' }"
         >
           <ng-template let-order="rowData" isGridTemplate="body">
-            <div ngbDropdown class="d-inline-block">
+            <div ngbDropdown class="d-inline-block" placement="right-top">
               <button
                 is-button
                 [theme]="getTheme(order)"
