@@ -10,6 +10,7 @@ import { AddCategoryDialogComponent } from '../../components/add-category-dialog
 import { AddMealDialogBoxComponent } from '../../components/add-meal-dialog-box/add-meal-dialog-box.component';
 import { EditMealDialogBoxComponent } from '../../components/edit-meal-dialog-box/edit-meal-dialog-box.component';
 import { DataService } from '@app/shared/services/data.service';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'meals',
@@ -49,7 +50,9 @@ export class MealsComponent implements OnInit {
     private isModal: IsModalService,
     private toaster: IsToasterService,
     private storage: AngularFireStorage,
-    private dataService: DataService
+    private dataService: DataService,
+    private router: Router,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit() {
@@ -70,6 +73,10 @@ export class MealsComponent implements OnInit {
       .getItems(this.franchiseId, this.selectedCategory)
       .subscribe(itemresponseData => {
         this.loading = false;
+        this.router.navigate([], {
+          relativeTo: this.route,
+          queryParams: { franchiseId: this.dataService.franchiseId }
+        });
         this.meals = itemresponseData.data;
       });
   }

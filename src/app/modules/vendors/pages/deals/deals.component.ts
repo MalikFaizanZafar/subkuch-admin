@@ -91,7 +91,6 @@ export class DealsComponent implements OnInit, OnDestroy {
     .getDeals(this.dataService.franchiseId)
     .pipe(finalize(() => this.loading = false),takeUntil(this.destroy))
     .subscribe(responseData => {
-      console.log("franchiseId is : ", this.dataService.franchiseId);
       this.router.navigate([], {
         relativeTo: this.route,
         queryParams: { franchiseId: this.dataService.franchiseId }

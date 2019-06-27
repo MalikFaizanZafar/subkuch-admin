@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectorRef, OnDestroy } from "@angular/core";
 import { order } from "../../models/vendor-members";
-import { Router } from "@angular/router";
+import { Router, ActivatedRoute } from "@angular/router";
 import { FranchiseOrdersService } from "../../services/franchiseOrders.service";
 import { Subject } from "rxjs";
 import { takeUntil, finalize } from "rxjs/operators";
@@ -72,6 +72,7 @@ export class OrdersComponent implements OnInit, OnDestroy {
     private notificationsService: NotificationsService,
     private isModal: IsModalService,
     private toaster: IsToasterService,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit() {
@@ -145,6 +146,10 @@ export class OrdersComponent implements OnInit, OnDestroy {
       .pipe(finalize(() => this.loading = false),
         takeUntil(this.destroy))
       .subscribe(responseData => {
+        this.router.navigate([], {
+          relativeTo: this.route,
+          queryParams: { franchiseId: this.dataService.franchiseId }
+        });
         this.orders = responseData.data;
         this.cdRef.detectChanges();
       });
