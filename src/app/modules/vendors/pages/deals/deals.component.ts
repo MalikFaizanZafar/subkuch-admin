@@ -21,7 +21,7 @@ import { IsToasterService, IsToastPosition } from '../../../../lib/toaster';
 import { dealModel } from '../../models/dealModel';
 import { EditDealDialogBoxComponent } from '../../components/edit-deal-dialog-box/edit-deal-dialog-box.component';
 import { AddDealDialogBoxComponent } from '../../components/add-deal-dialog-box/add-deal-dialog-box.component';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DataService } from '@app/shared/services/data.service';
 
 @Component({
@@ -60,7 +60,8 @@ export class DealsComponent implements OnInit, OnDestroy {
     private toaster: IsToasterService,
     private storage: AngularFireStorage,
     private route: ActivatedRoute,
-    private dataService: DataService
+    private dataService: DataService,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -90,6 +91,11 @@ export class DealsComponent implements OnInit, OnDestroy {
     .getDeals(this.dataService.franchiseId)
     .pipe(finalize(() => this.loading = false),takeUntil(this.destroy))
     .subscribe(responseData => {
+      console.log("franchiseId is : ", this.dataService.franchiseId);
+      this.router.navigate([], {
+        relativeTo: this.route,
+        queryParams: { franchiseId: this.dataService.franchiseId }
+      });
       this.deals = responseData.data;
     });
   }

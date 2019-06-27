@@ -3,30 +3,30 @@ import { IsSidebarItemNodes } from "../../../lib/sidebar";
 export const SidebarLinks: IsSidebarItemNodes[] = [
   {
     label: 'Overview',
-    link: 'overview/'
+    link: 'overview'
   },
   {
     label: 'Deals',
-    link: 'deals/'
+    link: 'deals'
   },
   {
     label: 'Meals',
-    link: 'meals/'
+    link: 'meals'
   },
   {
     label: 'Orders',
-    link: 'orders/'
+    link: 'orders'
   },
   {
     label: 'Sales',
-    link: 'sales/'
+    link: 'sales'
   },
   {
     label: 'Reviews',
-    link: 'reviews/'
+    link: 'reviews'
   },
   {
     label: 'Settings',
-    link: 'settings/'
+    link: 'settings'
   }
 ];

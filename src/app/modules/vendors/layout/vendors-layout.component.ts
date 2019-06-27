@@ -132,10 +132,11 @@ export class VendorsLayoutComponent implements OnInit {
     this.franchiseInfoService
       .getFranchiseInfoById(Number(temp.franchiseSelected))
       .subscribe(franchiseSelected => {
-        btn.stopLoading();
+        // this.dataService.setFranchiseId(temp.franchiseSelected);
         this.router.navigate(['vendors'], {
           queryParams: { franchiseId: temp.franchiseSelected }
         });
+        btn.stopLoading();
       });
   }
 }

@@ -1,20 +1,20 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
-import { MemberDetails } from '../../models/vendor-members';
-import { EditMainService } from '../../services/editMain.service';
-import { FranchiseInfoService } from '../../services/franchiseInfo.service';
-import { IsButton, IsModalService, IsModalSize } from 'app/lib';
-import { EditLogoDialogBoxComponent } from '../../components/edit-logo-dialog-box/edit-logo-dialog-box.component';
-import { EditBannerDialogBoxComponent } from '../../components/edit-banner-dialog-box/edit-banner-dialog-box.component';
-import { ActivatedRoute, Router } from '@angular/router';
-import { ChangeDetectionStrategy } from '@angular/compiler/src/core';
-import { finalize } from 'rxjs/operators';
-import { DataService } from '@app/shared/services/data.service';
+import { Component, OnInit, ChangeDetectorRef } from "@angular/core";
+import { MemberDetails } from "../../models/vendor-members";
+import { EditMainService } from "../../services/editMain.service";
+import { FranchiseInfoService } from "../../services/franchiseInfo.service";
+import { IsButton, IsModalService, IsModalSize } from "app/lib";
+import { EditLogoDialogBoxComponent } from "../../components/edit-logo-dialog-box/edit-logo-dialog-box.component";
+import { EditBannerDialogBoxComponent } from "../../components/edit-banner-dialog-box/edit-banner-dialog-box.component";
+import { ActivatedRoute, Router } from "@angular/router";
+import { ChangeDetectionStrategy } from "@angular/compiler/src/core";
+import { finalize } from "rxjs/operators";
+import { DataService } from "@app/shared/services/data.service";
 declare const google: any;
 
 @Component({
-  selector: 'overview',
-  templateUrl: './overview.component.html',
-  styleUrls: ['./overview.component.scss']
+  selector: "overview",
+  templateUrl: "./overview.component.html",
+  styleUrls: ["./overview.component.scss"]
 })
 export class OverviewComponent implements OnInit {
   user: MemberDetails;
@@ -23,7 +23,7 @@ export class OverviewComponent implements OnInit {
   editBtnEnabled: boolean;
   logoEditCancelled: boolean = false;
   bannerEditCancelled: boolean = false;
-  ratingArray: string[] = ['1', '2', '3', '4', '5'];
+  ratingArray: string[] = ["1", "2", "3", "4", "5"];
   editLogoImageFile;
   tempEditLogoImage;
   editBannerImageFile;
@@ -44,32 +44,52 @@ export class OverviewComponent implements OnInit {
   ngOnInit() {
     this.route.queryParams.subscribe(params => {
       if (
-        params['franchiseId'] !== undefined &&
-        this.franchiseInfo.franchises !== null &&
-        this.franchiseInfo.franchises.find(
-          item => item.id === parseInt(params['franchiseId'], 10)
-        )
+        params["franchiseId"] !== undefined
       ) {
-        const franchise = this.franchiseInfo.franchises.find(
-          item => item.id === parseInt(params['franchiseId'], 10)
-        );
-        franchise.franchises = this.franchiseInfo.franchises;
-        this.franchiseInfo = franchise;
-        this.dataService.setFranchiseId(this.franchiseInfo.id);
+        console.log("if")
+        this.dataService.setFranchiseId(parseInt(params["franchiseId"], 10));
+          this.franchiseInfoService
+            .getFranchiseInfoById(parseInt(params["franchiseId"], 10))
+            .subscribe(res => {
+              this.franchiseInfo = res.data;
+              // this.cdRef.detectChanges();
+              // const franchise = this.franchiseInfo.franchises.find(
+              //   item => item.id === parseInt(params["franchiseId"], 10)
+              // );
+              // franchise.franchises = this.franchiseInfo.franchises;
+              // this.franchiseInfo = franchise;
+              this.dataService.setFranchiseId(this.franchiseInfo.id);
+              if (!this.franchiseInfo.address) {
+                this.setEditingMode();
+              }
+        });
       } else {
         this.loading = true;
-        this.franchiseInfoService
-          .getFranchiseInfo()
-          .pipe(finalize(() => (this.loading = false)))
-          .subscribe(res => {
-            this.franchiseInfo = res.data;
-            this.cdRef.detectChanges();
-            console.log("this.franchiseInfo : ", this.franchiseInfo);
-            this.dataService.setFranchiseId(this.franchiseInfo.id);
-            if (!this.franchiseInfo.address) {
-              this.setEditingMode();
-            }
-          });
+        if (Object.keys(this.franchiseInfo).length === 0) {
+          this.franchiseInfoService
+            .getFranchiseInfoById(this.dataService.franchiseId)
+            .pipe(finalize(() => (this.loading = false)))
+            .subscribe(res => {
+              this.franchiseInfo = res.data;
+              this.cdRef.detectChanges();
+              this.dataService.setFranchiseId(this.franchiseInfo.id);
+              if (!this.franchiseInfo.address) {
+                this.setEditingMode();
+              }
+            });
+        } else {
+          this.franchiseInfoService
+            .getFranchiseInfo()
+            .pipe(finalize(() => (this.loading = false)))
+            .subscribe(res => {
+              this.franchiseInfo = res.data;
+              this.cdRef.detectChanges();
+              this.dataService.setFranchiseId(this.franchiseInfo.id);
+              if (!this.franchiseInfo.address) {
+                this.setEditingMode();
+              }
+            });
+        }
       }
     });
   }
@@ -88,10 +108,10 @@ export class OverviewComponent implements OnInit {
         logo: this.franchiseInfo.logo,
         brandName: this.franchiseInfo.brandName
       },
-      backdrop: 'static'
+      backdrop: "static"
     });
     editLogoDlg.onClose.subscribe(res => {
-      if (res === 'cancel') {
+      if (res === "cancel") {
         this.logoEditCancelled = true;
       } else if (!this.logoEditCancelled) {
         this.franchiseInfoService
@@ -110,10 +130,10 @@ export class OverviewComponent implements OnInit {
         banner: this.franchiseInfo.welcomeImage,
         brandName: this.franchiseInfo.brandName
       },
-      backdrop: 'static'
+      backdrop: "static"
     });
     editBannerDlg.onClose.subscribe(res => {
-      if (res === 'cancel') {
+      if (res === "cancel") {
         this.bannerEditCancelled = true;
       } else if (!this.bannerEditCancelled) {
         this.franchiseInfoService
