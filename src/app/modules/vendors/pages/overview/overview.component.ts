@@ -43,28 +43,22 @@ export class OverviewComponent implements OnInit {
 
   ngOnInit() {
     this.route.queryParams.subscribe(params => {
+      this.loading = true;
       if (
         params["franchiseId"] !== undefined
       ) {
-        console.log("if")
         this.dataService.setFranchiseId(parseInt(params["franchiseId"], 10));
           this.franchiseInfoService
             .getFranchiseInfoById(parseInt(params["franchiseId"], 10))
+            .pipe(finalize(() => (this.loading = false)))
             .subscribe(res => {
               this.franchiseInfo = res.data;
-              // this.cdRef.detectChanges();
-              // const franchise = this.franchiseInfo.franchises.find(
-              //   item => item.id === parseInt(params["franchiseId"], 10)
-              // );
-              // franchise.franchises = this.franchiseInfo.franchises;
-              // this.franchiseInfo = franchise;
               this.dataService.setFranchiseId(this.franchiseInfo.id);
               if (!this.franchiseInfo.address) {
                 this.setEditingMode();
               }
         });
       } else {
-        this.loading = true;
         if (Object.keys(this.franchiseInfo).length === 0) {
           this.franchiseInfoService
             .getFranchiseInfoById(this.dataService.franchiseId)
