@@ -54,10 +54,6 @@ export class VendorsLayoutComponent implements OnInit {
 
   ngOnInit() {
   
-    this.selectFranchiseForm = new FormGroup({
-      franchiseSelected: new FormControl(null)
-    });
-
     this.populateFranchise();
     this.editMainService.editEnable.subscribe(val => {
       
@@ -86,6 +82,9 @@ export class VendorsLayoutComponent implements OnInit {
       .getFranchiseInfo().pipe(finalize(() => this.loading = false))
       .subscribe(franchiseInfoResponse => {
         this.mainFranchise = franchiseInfoResponse.data;
+        this.selectFranchiseForm = new FormGroup({
+          franchiseSelected: new FormControl(this.mainFranchise.id)
+        });
         if (this.mainFranchise.isAdmin) {
           this.franchises = franchiseInfoResponse.data.franchises.filter(
             item => item.isActive
