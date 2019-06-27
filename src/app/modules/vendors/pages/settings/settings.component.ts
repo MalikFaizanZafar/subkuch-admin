@@ -61,7 +61,7 @@ export class SettingsComponent implements OnInit {
       if (res === 'ok') {
         this.franchiseInfoService.updateFranchiseInfo(row.id, row).subscribe(response => {
           this.notificationService.updateFranchise.next(true);
-          this.toast.popSuccess('Franchise activated successfull', {
+          this.toast.popSuccess(`Franchise ${ row.isActive ? 'Activate': 'Deactivate'}d successfull`, {
             position: IsToastPosition.BottomRight
           });
         });
