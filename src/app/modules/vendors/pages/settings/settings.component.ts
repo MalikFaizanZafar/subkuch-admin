@@ -35,6 +35,7 @@ export class SettingsComponent implements OnInit {
 
   populateFranchises() {
     this.franchiseInfoService.getFranchiseInfo().subscribe(responseData => {
+      console.log("franchiseResponse : ", responseData);
       this.loading = false
       this.brandId = responseData.data.brandId;
       this.serviceId = responseData.data.serviceId;

@@ -8,7 +8,7 @@ import {
 import { Router, Route, ActivatedRoute } from '@angular/router';
 import { MemberDetails } from '../models/vendor-members';
 import { EditMainService } from '../services/editMain.service';
-import { IsModalService, IsModalSize } from '../../../lib';
+import { IsModalService, IsModalSize, IsButton } from '../../../lib';
 import { IsToasterService, IsToastPosition } from '../../../lib/toaster';
 import { SidebarLinks } from '../models/sidebar-links';
 import { NotificationsService } from 'app/services/notifications.service';
@@ -124,14 +124,15 @@ export class VendorsLayoutComponent implements OnInit {
     this.router.navigate(['auth']);
   }
 
-  onFranchiseSubmit() {
+  onFranchiseSubmit(btn : IsButton) {
     let temp = this.selectFranchiseForm.value;
     // console.log('selectedFranchise is ', temp.franchiseSelected)
+    btn.startLoading();
     this.dataService.setFranchiseId(temp.franchiseSelected);
     this.franchiseInfoService
       .getFranchiseInfoById(Number(temp.franchiseSelected))
       .subscribe(franchiseSelected => {
-        // console.log('franchiseSelected is : ', franchiseSelected.data)
+        btn.stopLoading();
         this.router.navigate(['vendors'], {
           queryParams: { franchiseId: temp.franchiseSelected }
         });

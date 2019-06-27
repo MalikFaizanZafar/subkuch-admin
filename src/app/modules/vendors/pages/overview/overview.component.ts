@@ -45,15 +45,16 @@ export class OverviewComponent implements OnInit {
     this.route.queryParams.subscribe(params => {
       if (
         params['franchiseId'] !== undefined &&
-        this.franchiseInfo.isAdmin &&
         this.franchiseInfo.franchises !== null &&
         this.franchiseInfo.franchises.find(
           item => item.id === parseInt(params['franchiseId'], 10)
         )
       ) {
-        this.franchiseInfo = this.franchiseInfo.franchises.find(
+        const franchise = this.franchiseInfo.franchises.find(
           item => item.id === parseInt(params['franchiseId'], 10)
         );
+        franchise.franchises = this.franchiseInfo.franchises;
+        this.franchiseInfo = franchise;
         this.dataService.setFranchiseId(this.franchiseInfo.id);
       } else {
         this.loading = true;
@@ -62,6 +63,8 @@ export class OverviewComponent implements OnInit {
           .pipe(finalize(() => (this.loading = false)))
           .subscribe(res => {
             this.franchiseInfo = res.data;
+            this.cdRef.detectChanges();
+            console.log("this.franchiseInfo : ", this.franchiseInfo);
             this.dataService.setFranchiseId(this.franchiseInfo.id);
             if (!this.franchiseInfo.address) {
               this.setEditingMode();

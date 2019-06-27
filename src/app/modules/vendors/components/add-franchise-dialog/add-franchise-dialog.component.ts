@@ -103,7 +103,7 @@ export class AddFranchiseDialogComponent implements OnInit {
       let newFranchise = {
         service_id : this.serviceId,
         ntn: "123",
-        parent_id: this.brandId,
+        parentId: this.brandId,
         manager_name: user.name,
         contact : user.contact,
         email : user.email,
@@ -114,6 +114,7 @@ export class AddFranchiseDialogComponent implements OnInit {
         longitude: this.currentPostion.longitude? this.currentPostion.longitude : 72.22,
         latitude: this.currentPostion.latitude? this.currentPostion.latitude : 33.32,
       }
+      console.log("newFranchise is : ", newFranchise)
       this.franchiseAccountService.signup(newFranchise).subscribe(createFranchiseResponse => {
         console.log("Create Franchise Response is : ", createFranchiseResponse)
         btn.stopLoading();
@@ -122,10 +123,10 @@ export class AddFranchiseDialogComponent implements OnInit {
         }   
       }, error => {
         console.log(error)
-        if(error){
-          this.emailExists = true;
-          btn.stopLoading();
-        }
+        // if(error){
+        //   this.emailExists = true;
+        //   btn.stopLoading();
+        // }
       }) 
     } else {
       return;
