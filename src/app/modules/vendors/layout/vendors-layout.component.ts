@@ -82,6 +82,7 @@ export class VendorsLayoutComponent implements OnInit {
       .getFranchiseInfo().pipe(finalize(() => this.loading = false))
       .subscribe(franchiseInfoResponse => {
         this.mainFranchise = franchiseInfoResponse.data;
+        this.dataService.setFranchiseId(this.mainFranchise.id);
         this.selectFranchiseForm = new FormGroup({
           franchiseSelected: new FormControl(this.mainFranchise.id)
         });
