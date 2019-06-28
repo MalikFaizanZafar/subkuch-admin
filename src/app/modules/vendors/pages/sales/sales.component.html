@@ -66,12 +66,12 @@
   
         <div class="w-100 d-flex justify-content-end">
           <div class=" text-right" style="width: 150px;"><strong>Commission: </strong></div>
-          <div style="width: 150px;" class=" text-right" > {{sales[0].commission}}</div>
+          <div style="width: 150px;" class=" text-right" *ngIf="sales[0]"> {{sales[0].commission}}</div>
         </div>
 
         <div class="w-100 d-flex justify-content-end">
           <div class=" text-right" style="width: 150px;"><strong>Payable To SubQuch: </strong></div>
-          <div style="width: 150px;" class=" text-right" > {{netTotal * (sales[0].commission / 100)}}</div>
+          <div style="width: 150px;" class=" text-right" *ngIf="sales[0]"> {{netTotal * (sales[0].commission / 100)}}</div>
         </div>
       </div>
     </div>
