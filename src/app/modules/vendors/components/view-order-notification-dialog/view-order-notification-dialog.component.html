@@ -1,17 +1,31 @@
-<ul class="list-group">
-  <button type="button" class="list-group-item list-group-item-action active">
+<div class="container">
+  <div class="card-header bg-dark text-white font-weight-bold rounded-0 ">
     Notifications
-  </button>
-  <li class="list-group-item d-flex justify-content-center align-items-center mt-3" *ngIf="newOrders.length === 0">
-    No new Notifications as Of YET
-  </li>
-  <li class="list-group-item d-flex justify-content-between align-items-center mt-3" *ngFor="let order of newOrders">
-    <span>Total </span> <span class="badge badge-primary badge-pill">{{order.total}}</span>
-    <span>Discount </span> <span class="badge badge-success badge-pill">{{order.discount}}</span>
-    <span>isDelivery </span> <span class="badge badge-secondary badge-pill">{{order.isDelivery}}</span>
-    <span>isAcknowledged </span> <span class="badge badge-secondary badge-pill">{{order.isAcknowledged}}</span>
-  </li>
-  <div class="list-group-item d-flex justify-content-center align-items-center mt-3">
-      <button is-button (click)="onOkHandler()" class="btn btn-lg">Ok</button>
   </div>
-</ul>
+  <div
+    class="d-flex justify-content-center py-5"
+    *ngIf="notifications && notifications.length == 0"
+  >
+    <h3>No New Notifications as of YET</h3>
+  </div>
+  <table class="table mt-2" *ngIf="notifications && notifications.length != 0">
+    <thead class="thead-light">
+      <tr>
+        <th scope="col">Id</th>
+        <th scope="col">Type</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let notification of notifications; let i = index">
+        <td>{{ notification.id }}</td>
+        <td>{{ notification.type }}</td>
+      </tr>
+    </tbody>
+  </table>
+  <div
+    class="d-flex justify-content-center py-2"
+    *ngIf="notifications && notifications.length > 0"
+  >
+    <button is-button (click)="onOkHandler()">OK</button>
+  </div>
+</div>

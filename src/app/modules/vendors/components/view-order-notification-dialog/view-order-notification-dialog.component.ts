@@ -9,18 +9,15 @@ import { IsModalSize, IsActiveModal } from 'app/lib';
 })
 export class ViewOrderNotificationDialogComponent implements OnInit {
 
-  newOrders = []
-  constructor(private franchiseOrdersService : FranchiseOrdersService, private isActiveModal : IsActiveModal) {}
+  notifications = []
+  constructor(private isActiveModal : IsActiveModal) {}
 
   ngOnInit() {
-    this.franchiseOrdersService.getNewOrders().forEach(order => {
-      this.newOrders.push(JSON.parse(order))
-    })
+    this.notifications = this.isActiveModal.data
   }
   onOkHandler(){
-    this.newOrders = []
-    this.franchiseOrdersService.newOrders = []
     this.isActiveModal.close('ok')
+    this.notifications = []
   }
 
 }

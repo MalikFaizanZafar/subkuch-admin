@@ -37,6 +37,7 @@ export class VendorsLayoutComponent implements OnInit {
   franchises: any = [];
   mainFranchise: any;
   loading = false;
+  notifications = []
 
   @ViewChild('selectedFranchise') selectedFranchise: ElementRef;
 
@@ -96,17 +97,17 @@ export class VendorsLayoutComponent implements OnInit {
 
   listenNotification() {
     this.notificationService.currentMessage.subscribe(messagePayload => {
-      console.log("messagePayload is : ", messagePayload)
-      if (messagePayload) {
-        if(typeof(messagePayload) == 'string'){
-          this.toaster.popInfo(messagePayload, {
+      if(messagePayload != null){
+        this.notifications.push(messagePayload)
+        this.notificationCount++;
+        if(messagePayload.type === 'order'){
+          this.toaster.popInfo('A New Order Has Been Received ', {
             position: IsToastPosition.BottomRight
           });
         }else{
-          this.notificationCount++;
-          this.toaster.popInfo('A New Order Has been Received', {
-          position: IsToastPosition.BottomRight
-        });
+          this.toaster.popInfo('A User Has Just Checked In', {
+            position: IsToastPosition.BottomRight
+          });
         }
       }
     });
@@ -116,10 +117,11 @@ export class VendorsLayoutComponent implements OnInit {
     this.notificationCount = 0;
     const viewNotificationsDialog = this.isModal.open(
       ViewOrderNotificationDialogComponent,
-      { size: IsModalSize.Large }
+      { size: IsModalSize.Large, data: this.notifications }
     );
     viewNotificationsDialog.onClose.subscribe(res => {
       if (res === 'ok') {
+        this.notifications = []
         this.franchiseOrdersService.removeNewOrders();
       }
     });

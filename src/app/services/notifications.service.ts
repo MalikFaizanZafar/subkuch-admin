@@ -67,8 +67,9 @@ export class NotificationsService {
     receiveMessage() {
        this.messaging.onMessage((payload) => {
          let notif = JSON.parse(payload.data.notification)
-
-         this.currentMessage.next({id: notif.id, type: notif.type});
+        if(notif != null){
+          this.currentMessage.next({id: notif.id, type: notif.type});
+        }
         //  console.log("notif : ", notif);
         // if(notif.type === 'order'){
         //   this.franchiseOrdersService.addNewOrder(payload.data.order);
