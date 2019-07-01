@@ -66,9 +66,14 @@ export class NotificationsService {
 
     receiveMessage() {
        this.messaging.onMessage((payload) => {
-        console.log('Notification payload : ', payload.data);
-        this.franchiseOrdersService.addNewOrder(payload.data.order);
-        this.currentMessage.next(payload);
+        if(payload.data.order){
+          this.franchiseOrdersService.addNewOrder(payload.data.order);
+          this.currentMessage.next(payload);
+        }else {
+          let notif = JSON.parse(payload.data.notification)
+          console.log('notif : ', notif.body);
+          this.currentMessage.next(notif.body);
+        }
       });
     }
 }

@@ -97,10 +97,16 @@ export class VendorsLayoutComponent implements OnInit {
   listenNotification() {
     this.notificationService.currentMessage.subscribe(messagePayload => {
       if (messagePayload) {
-        this.notificationCount++;
-        this.toaster.popInfo(' You got new order', {
+        if(typeof(messagePayload) == 'string'){
+          this.toaster.popInfo(messagePayload, {
+            position: IsToastPosition.BottomRight
+          });
+        }else{
+          this.notificationCount++;
+          this.toaster.popInfo(messagePayload, {
           position: IsToastPosition.BottomRight
         });
+        }
       }
     });
   }
