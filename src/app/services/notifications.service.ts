@@ -66,14 +66,16 @@ export class NotificationsService {
 
     receiveMessage() {
        this.messaging.onMessage((payload) => {
-        if(payload.data.order){
-          this.franchiseOrdersService.addNewOrder(payload.data.order);
-          this.currentMessage.next(payload);
-        }else {
-          let notif = JSON.parse(payload.data.notification)
-          console.log('notif : ', notif.body);
-          this.currentMessage.next(notif.body);
-        }
+         let notif = JSON.parse(payload.data.notification)
+
+         this.currentMessage.next({id: notif.id, type: notif.type});
+        //  console.log("notif : ", notif);
+        // if(notif.type === 'order'){
+        //   this.franchiseOrdersService.addNewOrder(payload.data.order);
+        //   this.currentMessage.next(payload);
+        // }else {
+        //   this.currentMessage.next(notif.body);
+        // }
       });
     }
 }
