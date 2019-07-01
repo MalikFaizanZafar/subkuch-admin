@@ -117,7 +117,7 @@ export class VendorsLayoutComponent implements OnInit {
     this.notificationCount = 0;
     const viewNotificationsDialog = this.isModal.open(
       ViewOrderNotificationDialogComponent,
-      { size: IsModalSize.Large, data: this.notifications }
+      { size: IsModalSize.Small, data: this.notifications }
     );
     viewNotificationsDialog.onClose.subscribe(res => {
       if (res === 'ok') {

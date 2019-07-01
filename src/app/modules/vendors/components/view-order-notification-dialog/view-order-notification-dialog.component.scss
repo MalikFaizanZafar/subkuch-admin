@@ -2,3 +2,11 @@
 // .list-group {
 //   background-color: $is-blue !important;
 // }
+
+.notif__list-item {
+  font-size: 0.95rem;
+}
+
+.notif__list-item:hover {
+  cursor: pointer;
+}
