@@ -35,8 +35,16 @@ export class NotificationsService {
   }
 
   updateToken(token) {
-    const data = { ['53']: token }
-    this.db.object('fcmTokens/').update(data)
+    let deviceId = localStorage.getItem("subquch-deviceId");
+    if(deviceId == null){
+      let tokenId = Math.floor(Math.random()*10000000)
+      localStorage.setItem("subquch-deviceId", `${tokenId}`);
+      const data = { [`${tokenId}`]: token }
+      this.db.object('fcmTokens/').update(data)
+    }else{
+      const data = { [`${deviceId}`]: token }
+      this.db.object('fcmTokens/').update(data)
+    }
   }
 
   getPermission() {
@@ -48,7 +56,7 @@ export class NotificationsService {
       .then(token => {
         this.updateToken(token)
         this.franchiseAccountService.setDeviceToken({token}).subscribe(resp => {
-          
+          console.log('set Device Token : ', resp);
         })
       })
       .catch((err) => {
@@ -58,7 +66,7 @@ export class NotificationsService {
 
     receiveMessage() {
        this.messaging.onMessage((payload) => {
-         debugger
+        console.log('Notification payload : ', payload.data);
         this.franchiseOrdersService.addNewOrder(payload.data.order);
         this.currentMessage.next(payload);
       });
