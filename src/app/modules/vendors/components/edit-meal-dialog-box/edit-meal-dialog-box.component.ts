@@ -101,7 +101,19 @@ export class EditMealDialogBoxComponent implements OnInit {
                   franchise_id: this.dataService.franchiseId
                 };
                 let deleteImageUrl = this.editMeal.image_url;
-                this.storage.storage.refFromURL(deleteImageUrl).delete();
+                // this.storage.storage.refFromURL(deleteImageUrl).delete();
+                if (deleteImageUrl.includes("firebasestorage")) {
+                  console.log("Image is from Firestorage");
+                  this.storage.storage
+                    .refFromURL(deleteImageUrl)
+                    .getDownloadURL()
+                    .then(image => {
+                      this.storage.storage.refFromURL(deleteImageUrl).delete();
+                    })
+                    .catch(error => console.log("error is : ", error));
+                } else {
+                  console.log("Image is NOT from Firestorage");
+                }
                 btn.stopLoading();
                 this.isActiveModel.close(this.newMeal);
               });

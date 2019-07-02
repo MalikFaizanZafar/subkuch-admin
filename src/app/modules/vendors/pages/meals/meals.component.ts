@@ -167,17 +167,24 @@ export class MealsComponent implements OnInit {
       if (res === 'ok') {
         let delMeal = this.meals.filter(deal => deal.id == id);
         this.deleteMeal = delMeal[0];
-        const delFile = this.storage.storage.refFromURL(
-          this.deleteMeal.image_url
-        );
-        delFile.delete().then(deletedFile => {
           this.franchiseItemsService.deleteItem(id).subscribe(response => {
+            if (this.deleteMeal.image_url.includes("firebasestorage")) {
+              console.log("Image is from Firestorage");
+              this.storage.storage
+                .refFromURL(this.deleteMeal.image_url)
+                .getDownloadURL()
+                .then(image => {
+                  this.storage.storage.refFromURL(this.deleteMeal.image_url).delete();
+                })
+                .catch(error => console.log("error is : ", error));
+            } else {
+              console.log("Image is NOT from Firestorage");
+            }
             this.toaster.popSuccess('Meal Has Been Deleted Successfully', {
               position: IsToastPosition.BottomRight
             });
             this.meals = this.meals.filter(deal => deal.id != id);
           });
-        });
       }
     });
   }
