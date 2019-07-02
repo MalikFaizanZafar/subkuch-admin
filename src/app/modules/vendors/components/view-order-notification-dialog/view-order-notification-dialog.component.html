@@ -8,11 +8,18 @@
   >
     <h4>No New Notifications as of YET</h4>
   </div>
-  <ul class="list-group list-group-flush" *ngIf="notifications && notifications.length != 0">
-    <li class="list-group-item list-group-item-action notif__list-item text-left d-flex align-items-center" *ngFor="let notification of notifications; let i = index" >
-     <span *ngIf="notification.type === 'order'">
+  <ul
+    class="list-group list-group-flush"
+    *ngIf="notifications && notifications.length != 0"
+  >
+    <li
+      class="list-group-item list-group-item-action notif__list-item text-left d-flex align-items-center"
+      *ngFor="let notification of notifications; let i = index"
+      (click)="onNotificationClicked(notification)"
+    >
+      <span *ngIf="notification.type === 'order'">
         An Order Has Been Received. Click to see the Details
-     </span> 
+      </span>
       <span *ngIf="notification.type === 'checkin'">
         A User Has Just Checked In. Click to see the Details
       </span>
