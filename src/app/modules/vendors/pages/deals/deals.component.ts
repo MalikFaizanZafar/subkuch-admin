@@ -220,24 +220,4 @@ export class DealsComponent implements OnInit, OnDestroy {
       this.populateDeals();
     });
   }
-
-  imageDeleteTest() {
-    console.log("imageDeleteTest");
-    let tempImage =
-      "https://images.pexels.com/photos/2519374/pexels-photo-2519374.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500";
-    if (tempImage.includes("firebasestorage")) {
-      console.log("Image is from Firestorage");
-    } else {
-      console.log("Image is NOT from Firestorage");
-    }
-    this.storage.storage
-      .refFromURL(
-        "https://firebasestorage.googleapis.com/v0/b/subquch-d4369.appspot.com/o/deals%2FCap.PNG?alt=media&token=7a8cd798-d725-4eb1-b864-b7349ce83003"
-      )
-      .getDownloadURL()
-      .then(image => {
-        console.log("image is : ", image);
-      })
-      .catch(error => console.log("error is : ", error));
-  }
 }
