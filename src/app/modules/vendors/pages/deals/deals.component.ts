@@ -211,13 +211,11 @@ export class DealsComponent implements OnInit, OnDestroy {
     var dateobj2 = new Date(deal.startTime);
     var start = dateobj2.toISOString();
     deal.startTime = start;
-    console.log("new deal is : ", deal);
     this.franchiseDealsService.addDeal(deal).subscribe(addDealResponse => {
-      console.log("saved deal is : ", addDealResponse);
+      this.deals.push(addDealResponse.data);
       this.toaster.popSuccess("Deal Has Been Added Successfully", {
         position: IsToastPosition.BottomRight
       });
-      this.populateDeals();
     });
   }
 }
