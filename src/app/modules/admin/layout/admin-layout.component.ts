@@ -20,11 +20,11 @@ import { DataService } from '@app/shared/services/data.service';
 import { finalize } from 'rxjs/operators';
 
 @Component({
-  selector: 'app-vendors-layout',
-  templateUrl: './vendors-layout.component.html',
-  styleUrls: ['./vendors-layout.component.scss']
+  selector: 'app-admin-layout',
+  templateUrl: './admin-layout.component.html',
+  styleUrls: ['./admin-layout.component.scss']
 })
-export class VendorsLayoutComponent implements OnInit {
+export class AdminLayoutComponent implements OnInit {
   @HostBinding() class: string =
     'd-flex flex-column col p-0 overflow-y-auto overflow-x-hidden';
   user: MemberDetails;

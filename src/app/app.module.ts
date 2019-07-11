@@ -27,7 +27,6 @@ import { UserAuthService } from "./modules/auth/services/auth.service";
 import { EditLogoDialogBoxComponent } from "./modules/admin/components/edit-logo-dialog-box/edit-logo-dialog-box.component";
 import { EditBannerDialogBoxComponent } from "./modules/admin/components/edit-banner-dialog-box/edit-banner-dialog-box.component";
 import { FranchiseOrdersService } from "./modules/admin/services/franchiseOrders.service";
-import { AddFranchiseDialogComponent } from "./modules/admin/components/add-franchise-dialog/add-franchise-dialog.component";
 import { NgbDropdown, NgbDropdownModule } from "@ng-bootstrap/ng-bootstrap";
 import { ConfirmationModalComponent } from "./modules/admin/components/confirmation-modal/confirmation-modal.component";
 import { EditOrderStatusDialogComponent } from "./modules/admin/components/edit-order-status-dialog/edit-order-status-dialog.component";
@@ -46,7 +45,6 @@ import { DataService } from "./shared/services/data.service";
     AddDealDialogBoxComponent,
     AddMealDialogBoxComponent,
     EditMealDialogBoxComponent,
-    AddFranchiseDialogComponent,
     ConfirmationModalComponent,
     EditOrderStatusDialogComponent,
     CreateOrderComponent
@@ -101,7 +99,6 @@ import { DataService } from "./shared/services/data.service";
     AddDealDialogBoxComponent,
     AddMealDialogBoxComponent,
     EditMealDialogBoxComponent,
-    AddFranchiseDialogComponent,
     ConfirmationModalComponent,
     EditOrderStatusDialogComponent,
     CreateOrderComponent

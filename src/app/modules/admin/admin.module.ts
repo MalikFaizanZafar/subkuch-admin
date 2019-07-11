@@ -8,7 +8,7 @@ import { AuthService } from './services/auth.service';
 import { UserDetailsService } from './services/userDetails.service';
 import { DealsComponent } from './pages/deals/deals.component';
 import { MealsComponent } from './pages/meals/meals.component';
-import { VendorsLayoutComponent } from './layout/vendors-layout.component';
+import { AdminLayoutComponent } from './layout/admin-layout.component';
 import { EditMainService } from './services/editMain.service';
 import { OrdersComponent } from './pages/orders/orders.component';
 import { OrdersService } from './services/orders.service';
@@ -21,6 +21,7 @@ import { SearchService } from './services/search.service';
 import { GoogleMapService } from '@app/shared/services/google-map.service';
 import { environment } from 'environments/environment';
 import { UserAuthService } from '../auth/services/auth.service';
+import { VendorsComponent } from './pages/vendors/vendors.component'
 
 
 @NgModule({
@@ -50,8 +51,9 @@ import { UserAuthService } from '../auth/services/auth.service';
   declarations: [
     DealsComponent, 
     MealsComponent, 
-    VendorsLayoutComponent,
-    OrdersComponent
+    AdminLayoutComponent,
+    OrdersComponent,
+    VendorsComponent
   ],
 })
 export class AdminModule { }

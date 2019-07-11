@@ -1,0 +1,59 @@
+<div
+  *ngIf="loading"
+  class="col h-100 d-flex justify-content-center align-items-center loader-container"
+>
+  <div class="is-loader"></div>
+  <h6 class="ml-2">Loading Franchises</h6>
+</div>
+<div *ngIf="!loading">
+  <is-card>
+    <is-card-header
+      class="d-flex justify-content-between w-100 align-items-center"
+    >
+      <div class="d-flex align-items-center w-25 justify-content-left">
+        <h4 class="text-dark">Franchises ( {{ franchises.length }} )</h4>
+      </div>
+      <div class="w-25 d-flex justify-content-end">
+        <button is-button (click)="addFranchiseHandler()">
+          Create Franchise
+        </button>
+      </div>
+    </is-card-header>
+
+    <is-card-content>
+      <is-grid #grid class="d-block col p-0" [value]="franchises">
+        <is-grid-column
+          field="address"
+          header="Location"
+          styleClass="grid__location"
+        ></is-grid-column>
+        <is-grid-column field="managerName" header="Manager"></is-grid-column>
+        <is-grid-column header="Contact #">
+          <ng-template let-row="rowData" isGridTemplate="body">
+            {{ row.contact[0]?.franchiseContactPersonPhone }}
+          </ng-template>
+        </is-grid-column>
+        <is-grid-column header="Email">
+          <ng-template let-row="rowData" isGridTemplate="body">
+            {{ row.contact[0]?.email }}
+          </ng-template>
+        </is-grid-column>
+        <is-grid-column
+          field="isActive"
+          header="active"
+          styleClass="grid__active"
+        >
+          <ng-template let-row="rowData" isGridTemplate="body">
+            <is-slide-toggle
+              container="body"
+              placement="left"
+              [(ngModel)]="row.isActive"
+              (change)="onActivateClick(row)"
+            >
+            </is-slide-toggle>
+          </ng-template>
+        </is-grid-column>
+      </is-grid>
+    </is-card-content>
+  </is-card>
+</div>
