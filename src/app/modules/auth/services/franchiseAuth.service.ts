@@ -8,7 +8,7 @@ const baseUrl = environment.baseUrl;
 
 @Injectable()
 export class FranchiseAuthService {
-  baseURL : string = `${baseUrl}/api/auth/login`
+  baseURL : string = `${baseUrl}/api/auth/login/admin`
 
   constructor( private http : HttpClient){}
   

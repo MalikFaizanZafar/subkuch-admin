@@ -80,7 +80,7 @@ export class LoginComponent implements OnInit {
             position: IsToastPosition.BottomRight
           });
           btn.stopLoading();
-          this.router.navigate(["/vendors"]);
+          this.router.navigate(["/vendors", "deals"]);
         },
         err => {
           if (err.status === 401) {
