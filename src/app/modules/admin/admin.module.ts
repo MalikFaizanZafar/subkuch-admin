@@ -2,14 +2,13 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AgmCoreModule } from '@agm/core';
 
-import { VendorsRoutingModule } from './vendors-routing.module';
+import { AdminRoutingModule } from './admin-routing.module';
 import { SharedModule } from '@app/shared/shared.module';
 import { AuthService } from './services/auth.service';
 import { UserDetailsService } from './services/userDetails.service';
 import { DealsComponent } from './pages/deals/deals.component';
 import { MealsComponent } from './pages/meals/meals.component';
 import { VendorsLayoutComponent } from './layout/vendors-layout.component';
-import { EditOverviewComponent } from './pages/edit-overview/edit-overview.component';
 import { EditMainService } from './services/editMain.service';
 import { OrdersComponent } from './pages/orders/orders.component';
 import { OrdersService } from './services/orders.service';
@@ -22,14 +21,12 @@ import { SearchService } from './services/search.service';
 import { GoogleMapService } from '@app/shared/services/google-map.service';
 import { environment } from 'environments/environment';
 import { UserAuthService } from '../auth/services/auth.service';
-import { AddDealDialogBoxComponent } from './components/add-deal-dialog-box/add-deal-dialog-box.component';
-import { CreateOrderComponent } from './components/create-order/create-order.component';
 
 
 @NgModule({
   imports: [
     CommonModule,
-    VendorsRoutingModule,
+    AdminRoutingModule,
     SharedModule,
     AgmCoreModule.forRoot({
       apiKey: "AIzaSyB-EsaismaaJDTBDg0F2l-28Z-7zsVCTWU ",
@@ -53,9 +50,8 @@ import { CreateOrderComponent } from './components/create-order/create-order.com
   declarations: [
     DealsComponent, 
     MealsComponent, 
-    VendorsLayoutComponent, 
-    EditOverviewComponent, 
+    VendorsLayoutComponent,
     OrdersComponent
   ],
 })
-export class VendorsModule { }
+export class AdminModule { }

@@ -1,0 +1,59 @@
+@import "palette";
+
+.deal__block {
+  max-height: 380px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+.icon {
+  cursor: pointer;
+  &__save {
+    color: $is-green;
+  }
+
+  &__remove {
+    color: $is-red;
+  }
+
+  &__edit {
+    color: $is-blue;
+  }
+}
+:host {
+  .min-content-height {
+    height: calc(100vh - 215px);
+  }
+  &::ng-deep {
+    .is-timepicker__ui--top {
+      top: -100px;
+    }
+  }
+  .col-size {
+    width: 45%;
+  }
+
+  .quantity__input {
+    height: 36px;
+  }
+
+  .col-action {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    cursor: pointer;
+  }
+
+  .form-size {
+    overflow: hidden;
+    overflow-y: auto;
+    max-height: 400px;
+  }
+  .col-form-label {
+    text-align: right;
+  }
+}
+
+.deal__icons:hover {
+  cursor: pointer;
+}

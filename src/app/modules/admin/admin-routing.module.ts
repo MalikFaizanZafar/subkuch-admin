@@ -20,4 +20,4 @@ const routes: Routes = [
   ],
   exports: [RouterModule]
 })
-export class VendorsRoutingModule { }
+export class AdminRoutingModule { }

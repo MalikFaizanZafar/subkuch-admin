@@ -9,8 +9,8 @@ const routes: Routes = [
     loadChildren: 'app/modules/auth/auth.module#AuthModule',
   },
   {
-    path: 'vendors',
-    loadChildren: 'app/modules/vendors/vendors.module#VendorsModule',
+    path: 'admin',
+    loadChildren: 'app/modules/admin/admin.module#AdminModule',
     canActivate: [CanActivateHome]
   },
   {

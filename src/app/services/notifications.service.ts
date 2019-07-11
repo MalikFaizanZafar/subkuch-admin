@@ -5,8 +5,8 @@ import * as firebase from 'firebase';
 
 import 'rxjs/add/operator/take';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject'
-import { FranchiseAccountService } from 'app/modules/vendors/services/franchiseAccount.service';
-import { FranchiseOrdersService } from 'app/modules/vendors/services/franchiseOrders.service';
+import { FranchiseAccountService } from 'app/modules/admin/services/franchiseAccount.service';
+import { FranchiseOrdersService } from 'app/modules/admin/services/franchiseOrders.service';
 
 @Injectable()
 export class NotificationsService {
